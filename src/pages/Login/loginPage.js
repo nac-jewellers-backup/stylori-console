@@ -21,36 +21,39 @@ class Loginpage extends React.Component {
   loginSubmit = async (evt, alert) => {
     evt.preventDefault();
     const { username, password } = this.state;
-    let data = {
-      type: config.loginType,
-      [config.loginType]: username,
-      password
-    };
-    try {
-      const userData = await request(config.apiURL, "POST", data);
-      console.log(userData);
-    } catch (err) {
-      console.log(err);
-      alert.error("Can't connect to server. Please contact the admin");
+    if(username === null || password === null || username.length <5 || password.length < 8) {
+      alert.error("Please fill the form");
+    } else {
+      let data = {
+        type: config.loginType,
+        [config.loginType]: username,
+        password
+      };
+      try {
+        const userData = await request(config.apiURL, "POST", data);
+      } catch (err) {
+        console.log(err);
+        alert.error("Can't connect to server. Please contact the admin");
+      }
     }
   };
   render() {
-    const { email, password } = this.state;
+    const { username, password } = this.state;
     return (
       <div>
         <div className="login">
           <div>
-            <h2>Login</h2>
+            <h2>NAC Admin login</h2>
           </div>
           <form onSubmit={e => this.loginSubmit(e, this.props.alert)}>
             <Inputfield
-              name="Username"
+              name="Username:"
               type="text"
-              defaultValue={email}
+              defaultValue={username}
               onChange={e => this.commonStateChange(e, "username")}
             />
             <Inputfield
-              name="Password"
+              name="Password:"
               type="password"
               defaultValue={password}
               onChange={e => this.commonStateChange(e, "password")}
