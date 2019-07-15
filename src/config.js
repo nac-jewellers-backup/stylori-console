@@ -1,6 +1,6 @@
 const config = {
     apiURL:'http://localhost:3000',
-    loginType:'username'
+    loginType:'email'
 }
 
 export default config; 

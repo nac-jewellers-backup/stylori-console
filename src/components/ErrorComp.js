@@ -3,7 +3,7 @@ import React from "react";
 class testing extends React.Component {
   componentDidMount() {
     setTimeout(() => {
-      window.location.replace("/login");
+      window.location.replace("/listing");
     }, 3000);
   }
   render() {

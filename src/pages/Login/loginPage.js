@@ -1,11 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
 import "./stylesheet/stylesheet.css";
+import { withRouter } from "react-router-dom";
 import Inputfield from "../../components/inputField/inputField";
 import { Button } from "reactstrap";
-import request from "../../utils/request";
 import defaultState from "../../defaultState/login";
 import { withAlert } from "react-alert";
 import config from "../../config";
+import { logMeIn } from "../../actions/authentication";
 class Loginpage extends React.Component {
   constructor(props) {
     super(props);
@@ -18,26 +20,29 @@ class Loginpage extends React.Component {
       [value]: e.target.value
     });
   };
-  loginSubmit = async (evt, alert) => {
+  loginSubmit = async (evt) => {
     evt.preventDefault();
     const { username, password } = this.state;
-    if(username === null || password === null || username.length <5 || password.length < 8) {
-      alert.error("Please fill the form");
-    } else {
-      let data = {
-        type: config.loginType,
-        [config.loginType]: username,
-        password
-      };
-      try {
-        const userData = await request(config.apiURL, "POST", data);
-      } catch (err) {
-        console.log(err);
-        alert.error("Can't connect to server. Please contact the admin");
-      }
-    }
+    let data = {
+      type: config.loginType,
+      [config.loginType]: username,
+      password
+    };
+    this.props.logMeIn(data);
   };
+  componentDidMount() {
+    const { user } = this.props;
+    if (user && user.user_id) {
+      this.props.history.push("/listing");
+    }
+  }
+  componentWillReceiveProps({ user }) {
+    if (user && user.user_id) {
+      this.props.history.push("/listing");
+    }
+  }
   render() {
+    const { errors } = this.props;
     const { username, password } = this.state;
     return (
       <div>
@@ -45,19 +50,28 @@ class Loginpage extends React.Component {
           <div>
             <h2>NAC Admin login</h2>
           </div>
-          <form onSubmit={e => this.loginSubmit(e, this.props.alert)}>
+          <form onSubmit={e => this.loginSubmit(e)}>
             <Inputfield
               name="Username:"
               type="text"
               defaultValue={username}
               onChange={e => this.commonStateChange(e, "username")}
             />
+            {errors.email}
             <Inputfield
               name="Password:"
               type="password"
               defaultValue={password}
               onChange={e => this.commonStateChange(e, "password")}
             />
+            <span
+              style={{
+                color: "red"
+              }}
+            >
+              {errors.password}
+            </span>
+
             <div style={{ paddingTop: "32px" }}>
               <Button className="loginButton" type="submit">
                 Log in
@@ -69,5 +83,11 @@ class Loginpage extends React.Component {
     );
   }
 }
-
-export default withAlert()(Loginpage);
+const mapStateToProps = state => ({
+  user: state.user,
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  { logMeIn }
+)(withRouter(withAlert()(Loginpage)));

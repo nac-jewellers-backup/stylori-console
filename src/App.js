@@ -5,11 +5,12 @@ import Login from "./pages/Login";
 import Listing from "./pages/Listing";
 import ErrorComp from "./components/ErrorComp";
 import AlertTemplate from "react-alert-template-basic";
-import PrivateRoute from './utils/PrivateRoute';
+import { Provider } from "react-redux";
+import PrivateRoute from "./utils/PrivateRoute";
+import ReduxStore from "./reduxStore";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 
 const options = {
-  // you can also just use 'bottom center'
   position: positions.BOTTOM_CENTER,
   timeout: 1500,
   offset: "30px",
@@ -18,15 +19,17 @@ const options = {
 
 function App() {
   return (
-    <AlertProvider template={AlertTemplate} {...options}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/login" exact={true} component={Login} />
-          <PrivateRoute path="/listing" exact={true} component={Listing} />
-          <Route path="*" exact={true} component={ErrorComp} />
-        </Switch>
-      </BrowserRouter>
-    </AlertProvider>
+    <Provider store={ReduxStore}>
+      <AlertProvider template={AlertTemplate} {...options}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login" exact={true} component={Login} />
+            <PrivateRoute path="/listing" exact={true} component={Listing} />
+            <Route path="*" exact={true} component={ErrorComp} />
+          </Switch>
+        </BrowserRouter>
+      </AlertProvider>
+    </Provider>
   );
 }
 export default App;
