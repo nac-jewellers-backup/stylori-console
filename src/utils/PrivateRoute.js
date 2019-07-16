@@ -1,24 +1,27 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const PrivateRoute = ({
-  component: Component,
-  pageType,
-  type,
-  auth,
-  ...rest
-}) => (
-    // use redux and verify here.
+const PrivateRoute = ({ component: Component, pageType,type, user, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem("token") ? (
-        <Component {...props} pageType={pageType} type={type} />
+      (Object.keys(user) && Object.keys(user).length > 0) ? (
+        <Component {...props}/>
       ) : (
-        <Redirect to="/login" />
-      )
+          <Redirect to="/login" />
+        )
     }
   />
-);
+)
 
-export default PrivateRoute;
+PrivateRoute.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(PrivateRoute);

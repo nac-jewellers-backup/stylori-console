@@ -1,5 +1,5 @@
 const config = {
-    apiURL:'http://localhost:3000',
+    apiURL:'localhost:7080',
     loginType:'email'
 }
 

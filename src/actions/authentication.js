@@ -37,3 +37,11 @@ export const setCurrentUser = decoded => {
     payload: decoded
   };
 };
+
+
+export const logoutUser = decoded => {
+  return {
+    type:SET_CURRENT_USER,
+    payload:{}
+  }
+}
