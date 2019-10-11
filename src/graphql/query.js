@@ -135,7 +135,7 @@ const PRODUCTCATEGORY = gql`query {
     
     }
   }
-  allProductLists(orderBy: PRODUCT_SERIES_DESC, last: 1) {
+  allProductLists(orderBy: PRODUCT_SERIES_DESC, first: 1) {
     nodes {
       productSeries
       id
