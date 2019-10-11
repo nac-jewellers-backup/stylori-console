@@ -105,7 +105,6 @@ export default function Review() {
                           allowMultiple={true}
                           maxFiles={5}                           
                           onupdatefiles={fileItems => {
-                              // Set currently active file objects to this.state
                             
                           }}>
                 </FilePond>
