@@ -1,6 +1,2 @@
-const config = {
-    apiURL:'localhost:7080',
-    loginType:'email'
-}
-
-export default config; 
+export const GRAPHQL_DEV_CLIENT = "http://auth-dev.ap-south-1.elasticbeanstalk.com/graphql"
+export const API_URL = "http://auth-dev.ap-south-1.elasticbeanstalk.com"

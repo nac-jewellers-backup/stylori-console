@@ -1,0 +1,43 @@
+/* .mainlayout
+{
+    display: flex;
+    width: 100%;
+    background : #fafafa;
+    margin-top: 80px;
+
+} */
+.loaderdiv
+{
+    display: flex;
+    height: 100vh;
+    background: '#ff0000';
+    z-index: 1000
+}
+.selectionoverlay
+{
+    z-index: 100;
+}
+
+.hidden { display:none; }
+
+.masteroverlay
+{
+    z-index: 11;
+}
+.suboverlay
+{
+    z-index: 3;
+}
+.wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+.selectmargin
+{
+    margin-top: 8px;
+    z-index: 2;
+
+}

@@ -1,0 +1,38 @@
+.root
+{
+    height: 100vh;
+    background : #ffffff
+
+}
+.loginlayout
+{
+    flex-direction: row;
+    width : 50%
+
+}
+.paper {
+    margin: 8px;
+    flex-direction: column;
+    align-items: center
+  }
+.image
+ {
+    background-image: url(https://source.unsplash.com/random);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .avatar {
+    margin: 8px;
+    background-color: blue !important
+    
+  }
+  .form {
+      width: 100%;
+  }
+  .submitbtn {
+    margin: 24px 0px 24px 0px !important;
+
+  }
+  
