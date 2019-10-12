@@ -236,6 +236,12 @@ export default function Review() {
           />
           </Box>
     </Grid>
+     <Grid container item xs={12} justify="flex-end">
+    <Button variant="contained" onClick={handleClick}  size="small" color="primary" className={classes.button}>
+        Add Diamond
+      </Button>
+
+    </Grid>
     </Grid>
     </Grid>
     <Grid  container xs={12} spacing={2}>
@@ -244,7 +250,7 @@ export default function Review() {
     <FormLabel component="legend" labelPlacement="start">Gemstone Type</FormLabel>
     <Box mt={1}>
                 <Select
-                    className="selectionoverlay"
+                    className="gemselectionoverlay"
                     placeholder="Gemstone Type"
                     value={productCtx.gemstonetype}
                     onChange={handleChange('gemstonetype')}
@@ -252,6 +258,7 @@ export default function Review() {
                   />
              </Box>   
     </Grid>
+   
     <Grid item xs={4} >
     <FormLabel component="legend" labelPlacement="start">Gemstone Shape</FormLabel>
     <Box mt={1}>
@@ -269,7 +276,7 @@ export default function Review() {
     <FormLabel component="legend" labelPlacement="start">Gemstone Settings</FormLabel>
     <Box mt={1}>
         <Select 
-                    className="selectionoverlay"
+                    className="gemselectionoverlay"
                     placeholder="Gemstone Setting"
                     value={productCtx.gemstonesettings}
                     onChange={handleChange('gemstonesettings')}
@@ -331,7 +338,7 @@ export default function Review() {
 
     <Grid container item xs={12} justify="flex-end">
     <Button variant="contained" onClick={handleClick}  size="small" color="primary" className={classes.button}>
-        Add
+        Add Gemstone
       </Button>
 
     </Grid>

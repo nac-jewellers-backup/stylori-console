@@ -17,6 +17,11 @@
 {
     z-index: 100;
 }
+.gemselectionoverlay
+{
+    z-index: 20;
+}
+
 
 .hidden { display:none; }
 
@@ -38,6 +43,6 @@
 .selectmargin
 {
     margin-top: 8px;
-    z-index: 2;
+    z-index:99;
 
 }

@@ -138,7 +138,7 @@ export default function Productupload() {
         defaultmetalsize: productCtx.default_metal_size
 
      }
-      sendNetworkRequest('/productupload', {}, formdata)
+     sendNetworkRequest('/productupload', {}, formdata)
      }
     
      

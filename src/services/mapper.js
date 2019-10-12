@@ -113,6 +113,11 @@ export const productCategory = {
             value: _.alias,
             label:_.name
         }))
+        const earringbacking = response.allMasterEarringBackings.nodes.map(_ => ({
+            ..._,
+            value: _.alias,
+            label:_.name
+        }))
         
         const metals = apidata.metals
         
@@ -137,7 +142,8 @@ export const productCategory = {
             productseries,
             gemstontypes,
             gemstonshapes,
-            gemstonesettings
+            gemstonesettings,
+            earringbacking
         }
     }
 }

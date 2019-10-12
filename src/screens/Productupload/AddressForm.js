@@ -143,21 +143,34 @@ export default function AddressForm() {
       }
 
 
-    const materialChange = type => e => {
-        let material = { ...productCtx.material, [type]: e }
+    const materialChange = type => selectedOption => {
+      //   let material = { ...productCtx.material, [type]: selectedOption }
         var steps = ['Step1', 'Step2','Step4','Step5','Step6']
-        if(material.material)
-        {
-        material.material.forEach(element => {
-          if(element.name === 'Diamond' || element.name === 'Gemstone' )
+      //   if(material.material)
+      //   {
+      //   material.material.forEach(element => {
+
+          if(selectedOption)
           {
-            steps = ['Step1', 'Step2','Step3','Step4','Step5','Step6']
+
+            selectedOption.forEach(element => {
+              if(element.name === 'Diamond' || element.name === 'Gemstone' )
+            {
+            
+            if(steps.indexOf('Step3') === -1)
+            {
+              steps = ['Step1', 'Step2','Step3','Step4','Step5','Step6']
+
+            }
 
           }
-        });
-      }
+            });
+            
+        }
+      //   });
+      // }
 
-        setProductCtx({ ...productCtx, material, steps })
+        setProductCtx({ ...productCtx, [type]:selectedOption, steps })
 
     }
     
@@ -183,9 +196,10 @@ export default function AddressForm() {
           
           <Grid item xs={12} sm={6} spacing={1}>
             <Box mt={1} >
-            <SelectPlaceholder
+            <Select
                     className="masteroverlay"
                     placeholder="Select Product Type"
+                    value={productCtx.product_type}
                     onChange={handlechange('product_type')}
                     options={productCtx.masterData.product_type}
                     placeholderUp={productCtx.product_type ? true : false}
@@ -196,6 +210,7 @@ export default function AddressForm() {
             <Grid item xs={12} sm={6}>
                   <Select
                   className="masteroverlay"
+                  value={productCtx.product_categoy}
                     placeholderUp={productCtx.product_categoy ? true : false}
                     placeholder="Select Product Category"
                     options={productCtx.masterData.category}
@@ -210,6 +225,7 @@ export default function AddressForm() {
                 <SelectPlaceholder
                     placeholder="Select Product Materials"
                     isMulti
+                    value={productCtx.material}
                     onChange={materialChange('material')}
                     options={productCtx.masterData.material}
                     placeholderUp={productCtx.material ? true : false}
@@ -251,7 +267,8 @@ export default function AddressForm() {
             <Select
            
                     placeholder="Earring Backing"
-                    options={productCtx.masterData.gender}
+                    value={productCtx.earringbacking}
+                    options={productCtx.masterData.earringbacking}
                     onChange={handleInputChange('earringbacking')}
                     placeholderUp={productCtx.earringbacking ? true : false}
                   />
@@ -262,6 +279,8 @@ export default function AddressForm() {
                 <Box mt={1} >
             <Select
                     placeholder="Select Gender"
+                    value={productCtx.selectedgender}
+
                     options={productCtx.masterData.gender}
                     onChange={handleInputChange('selectedgender')}
                     placeholderUp={productCtx.selectedgender ? true : false}

@@ -157,6 +157,16 @@ const PRODUCTCATEGORY = gql`query {
       name
     }
   },
+  allMasterEarringBackings {
+    nodes {
+      name
+      createdAt
+      alias
+      id
+      nodeId
+      updatedAt
+    }
+  }
   allMasterGemstonesSettings {
     nodes {
       alias

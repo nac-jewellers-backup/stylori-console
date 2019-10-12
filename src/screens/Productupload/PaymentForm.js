@@ -57,6 +57,7 @@ export default function PaymentForm() {
            <Box mt={1} >         
           <Select
                     isMulti
+                    value = {productCtx.metalpurity}
                     className="masteroverlay"
                     placeholder="Metal Purity"
                     onChange={purityChange('metalpurity')}
@@ -74,6 +75,8 @@ export default function PaymentForm() {
        <Box mt={1} >         
       <Select
                 isMulti
+                value = {productCtx.metalcolour}
+
                 className="masteroverlay"
                 placeholder="Metal Colour"
                 onChange={purityChange('metalcolour')}
