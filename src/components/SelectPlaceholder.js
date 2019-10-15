@@ -4,35 +4,35 @@ import Select from 'react-select';
 import { View, Text} from "react-primitives";
 import "../screens/Productupload/Productupload.css"
 
-const PlaceholderText = styled(Text)(({ placeholderUp }) => ({
+const PlaceholderText = styled(Text)(({ placeholderUp, placeholderzindex, isDisabled }) => ({
   position: 'absolute',
   transition: 'all .25s',
   pointerEvents: 'none',
   top: placeholderUp ? -8 : 10,
   left: 8,
-  zIndex: 10,
+  zIndex: placeholderzindex,
   paddingLeft: 8,
   paddingRight: 8,
-  backgroundColor: '#FFFFFF',
+  backgroundColor: isDisabled ? 'transparent' : '#FFFFFF',
   fontSize: placeholderUp ? 12 : 15,
   color: placeholderUp ? '#3F51B5' : '#cccccc',
 }));
 
-const SelectContainer = styled(View)({
+const SelectContainer = styled(View)(({ selectzindex }) => ({
   position: 'relative',
   height: 55,
   display: 'flex',
-  zIndex: 4
-});
+  zIndex: selectzindex
+}));
 
 const SelectView = props => {
-  const { placeholder, placeholderUp } = props;
+  const { placeholder, placeholderUp, placeholderzindex, selectzindex, isDisabled } = props;
   return (
-    <SelectContainer>
+    <SelectContainer selectzindex={selectzindex}>
       <Select 
         fullWidth
       {...props} placeholder="" />
-      <PlaceholderText placeholderUp={placeholderUp}>{placeholder}</PlaceholderText>
+      <PlaceholderText placeholderUp={placeholderUp} isDisabled={isDisabled} placeholderzindex={placeholderzindex}>{placeholder}</PlaceholderText>
     </SelectContainer>
   );
 };
@@ -42,6 +42,7 @@ class SelectPlaceholder extends React.Component {
     super(props);
     this.state = {
       placeholderUp: false,
+      placeholderzindex : 1
     };
   }
 

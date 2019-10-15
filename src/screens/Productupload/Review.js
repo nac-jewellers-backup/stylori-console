@@ -15,13 +15,25 @@ import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import FormLabel from '@material-ui/core/FormLabel';
 import EditIcon from '@material-ui/icons/Edit';
+import Paper from '@material-ui/core/Paper';
+import SelectPlaceholder from '../../components/SelectPlaceholder.js'
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import "./Productupload.css"
 import { func } from 'prop-types';
 
   const useStyles = makeStyles(theme => ({
     button: {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0),
+    },
+    paper: {
+      padding: theme.spacing(2),
+      width: '100%'
+    },
+    gempapper: {
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(2),
+      width: '100%'
     },
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -143,205 +155,204 @@ export default function Review() {
   return (
     <React.Fragment>
     <Grid container xs={12} spacing={2}>
-    
-    <Grid container xs={12} spacing={2}>
+      {!productCtx.material_names.includes("Diamond") ? null : <Paper className={classes.paper} >
+        <Grid container xs={12} spacing={1}>
 
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Diamond Type/Clarity</FormLabel>
+        <Grid item xs={4} >
+                        <SelectPlaceholder
+                        fullWidth
+                        placeholder="Diamond Type/Clarity"
+                        onChange={handleChange("diamondclarity")}
+                        value={productCtx.diamondclarity}
+                        options={productCtx.masterData.diamondclarities  }
+                        placeholderzindex="9"
+                        selectzindex="9"
+                        placeholderUp={productCtx.diamondclarity ? true : false}
 
-    <Box mt={1}>
+                      />
+              
+          
+        </Grid>
 
-                <Select
-                    className="selectionoverlay"
-                    placeholder="Diamond Type/Clarity"
-                    onChange={handleChange("diamondclarity")}
-                    value={productCtx.diamondclarity}
-                    options={productCtx.masterData.diamondclarities  }
-                  />
-             </Box>
-       
-    </Grid>
+        <Grid item xs={4} >
+        
+                      <SelectPlaceholder
+                      fullWidth
+                        placeholder="Diamond Colour"
+                        onChange={handleChange('diamondcolor')}
+                        value={productCtx.diamondcolor}
+                        options={productCtx.masterData.diamondcolors}
+                        placeholderzindex="8"
+                        selectzindex="8"
+                        placeholderUp={productCtx.diamondcolor ? true : false}
+                      />
 
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Diamond Colour</FormLabel>
-                <Box mt={1}>
+        
+        </Grid>
+        <Grid item xs={4} >
+        
+            <SelectPlaceholder
+            fullWidth
+                        placeholder="Diamond Setting"
+                        onChange={handleChange('diamondsettings')}
+                        value={productCtx.diamondsettings}
+                        options={productCtx.masterData.diamondsettings}
+                        placeholderzindex="7"
+                        selectzindex="7"
+                        placeholderUp={productCtx.diamondsettings ? true : false}
+                      />
+        </Grid>
+        <Grid item xs={4} >
+      
+        <SelectPlaceholder
+
+                        placeholder="Diamond Shape"
+                        value={productCtx.diamondshape}
+                        onChange={handleChange('diamondshape')}
+                        options={productCtx.masterData.diamondshapes}
+                        placeholderzindex="6"
+                        selectzindex="6"
+                        placeholderUp={productCtx.diamondshape ? true : false}
+                      />
+        
+        </Grid>
+        <Grid item xs={4} >
+        
+          <Input
+              variant="outlined"
+              fullWidth
+              id="size"
+              margin="dense"
+              label="#of Stones"
+              name="size"
+              type="number"
+              autoComplete="size"
+              onChange={handleInputChange('diamondcount')}
+              value={productCtx.diamondcount}
+              />
+        </Grid>
+        <Grid item xs={4} >
+      
+          <Input
+              variant="outlined"
+              fullWidth
+              id="size"
+              margin="dense"
+              label="Weight"
+              name="size"
+              autoComplete="size"
+              onChange={handleInputChange('diamondweight')}
+              value={productCtx.diamondweight}
+              />
+        </Grid>
+        <Grid container item xs={12} justify="flex-end">
+        <Button variant="contained" onClick={handleClick}  size="small" color="primary" className={classes.button}>
+            Add Diamond
+          </Button>
+
+        </Grid>
+        </Grid>
+      
+      
+        </Paper>
+      }
+
+      {!productCtx.material_names.includes("Gemstone") ? null : <Paper className={classes.gempapper} >
+
+          <Grid  container xs={12} spacing={1}>
+
+      <Grid item xs={4} >
+      
                   <Select
-                    className="selectionoverlay"
-                    placeholder="Diamond Colour"
-                    onChange={handleChange('diamondcolor')}
-                    value={productCtx.diamondcolor}
-                    options={productCtx.masterData.diamondcolors}
-                  />
-                  </Box>
-
+                      placeholder="Gemstone Type"
+                      value={productCtx.gemstonetype}
+                      onChange={handleChange('gemstonetype')}
+                      options={productCtx.masterData.gemstontypes}
+                      placeholderzindex="5"
+                      selectzindex="5"
+                      placeholderUp={productCtx.gemstonetype ? true : false}
+                    />
+              
+      </Grid>
     
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Diamond Setting</FormLabel>
-                <Box mt={1}>
-        <Select 
-                    className="selectionoverlay"
-                    placeholder="Diamond Setting"
-                    onChange={handleChange('diamondsettings')}
-                    value={productCtx.diamondsettings}
-                    options={productCtx.masterData.diamondsettings}
-                  />
-                  </Box>
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Diamond Shape</FormLabel>
-
-    <Box mt={1}>
-    <Select
-
-                    className="selectmargin"
-                    placeholder="Diamond Shape"
-                    value={productCtx.diamondshape}
-                    onChange={handleChange('diamondshape')}
-                    options={productCtx.masterData.diamondshapes}
-                  />
-                  </Box>
+      <Grid item xs={4} >
     
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">#of Stones</FormLabel>
-    <Box mt={1}>
+      <SelectPlaceholder
+                      placeholder="Gemstone Shape"
+                      value={productCtx.gemstoneshape}
+                      onChange={handleChange('gemstoneshape')}
+                      options={productCtx.masterData.gemstonshapes}
+                      placeholderzindex="4"
+                      selectzindex="4"
+                      placeholderUp={productCtx.gemstoneshape ? true : false}
+                    />
+      
+      </Grid>
+      <Grid item xs={4} >
+      
+          <SelectPlaceholder
+                      placeholder="Gemstone Setting"
+                      value={productCtx.gemstonesettings}
+                      onChange={handleChange('gemstonesettings')}
+                      options={productCtx.masterData.gemstonesettings}
+                      placeholderzindex="3"
+                      selectzindex="3"
+                      placeholderUp={productCtx.gemstonesettings ? true : false}
+                    />
+      </Grid>
+      <Grid item xs={4} >
+    
       <Input
-          variant="outlined"
-          fullWidth
-          id="size"
-          margin="dense"
-          label="#of Stones"
-          name="size"
-          type="number"
-          autoComplete="size"
-          onChange={handleInputChange('diamondcount')}
-          value={productCtx.diamondcount}
-          />
-          </Box>
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Weight</FormLabel>
-    <Box mt={1}>
-      <Input
-          variant="outlined"
-          fullWidth
-          id="size"
-          margin="dense"
-          label="Weight"
-          name="size"
-          autoComplete="size"
-          onChange={handleInputChange('diamondweight')}
-          value={productCtx.diamondweight}
-          />
-          </Box>
-    </Grid>
-     <Grid container item xs={12} justify="flex-end">
-    <Button variant="contained" onClick={handleClick}  size="small" color="primary" className={classes.button}>
-        Add Diamond
-      </Button>
+            variant="outlined"
+            fullWidth
+            id="size"
+            margin="dense"
+            label="Gemstone Size"
+            name="size"
+            onChange={handleInputChange('gemstonesize')}
+            autoComplete="size"
+            value={productCtx.gemstonesize}
+            />
+      
+      
+      </Grid>
+      <Grid item xs={4} >
+      
+        <Input
+            variant="outlined"
+            fullWidth
+            id="size"
+            margin="dense"
+            label="#of Stones"
+            name="size"
+            autoComplete="size"
+            onChange={handleInputChange('gemstonecount')}
+            value={productCtx.gemstonecount}
+            />
+      </Grid>
+      <Grid item xs={4} >
+        
+        <Input
+            variant="outlined"
+            fullWidth
+            id="size"
+            margin="dense"
+            label="Weight"
+            name="size"
+            autoComplete="size"
+            onChange={handleInputChange('gemstoneweight')}
+            value={productCtx.gemstoneweight}
+            />
+      </Grid>
+      <Grid container item xs={12} justify="flex-end">
+      <Button variant="contained" onClick={handleClick}  size="small" color="primary" >
+          Add Gemstone
+        </Button>
 
-    </Grid>
-    </Grid>
-    </Grid>
-    <Grid  container xs={12} spacing={2}>
-
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Gemstone Type</FormLabel>
-    <Box mt={1}>
-                <Select
-                    className="gemselectionoverlay"
-                    placeholder="Gemstone Type"
-                    value={productCtx.gemstonetype}
-                    onChange={handleChange('gemstonetype')}
-                    options={productCtx.masterData.gemstontypes}
-                  />
-             </Box>   
-    </Grid>
-   
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Gemstone Shape</FormLabel>
-    <Box mt={1}>
-     <Select
-                    className="selectionoverlay"
-                    placeholder="Gemstone Shape"
-                    value={productCtx.gemstoneshape}
-                    onChange={handleChange('gemstoneshape')}
-                    options={productCtx.masterData.gemstonshapes}
-                  />
-                  </Box>
-    
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Gemstone Settings</FormLabel>
-    <Box mt={1}>
-        <Select 
-                    className="gemselectionoverlay"
-                    placeholder="Gemstone Setting"
-                    value={productCtx.gemstonesettings}
-                    onChange={handleChange('gemstonesettings')}
-                    options={productCtx.masterData.gemstonesettings}
-                  />
-                  </Box>
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Gemstone Shape</FormLabel>
-    <Box mt={1}>
-    <Input
-          variant="outlined"
-          fullWidth
-          id="size"
-          margin="dense"
-          label="Gemstone Size"
-          name="size"
-          onChange={handleInputChange('gemstonesize')}
-          autoComplete="size"
-          value={productCtx.gemstonesize}
-          />
-    
-    </Box>
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">#of Stones</FormLabel>
-    <Box mt={1}>
-      <Input
-          variant="outlined"
-          fullWidth
-          id="size"
-          margin="dense"
-          label="#of Stones"
-          name="size"
-          autoComplete="size"
-          onChange={handleInputChange('gemstonecount')}
-          value={productCtx.gemstonecount}
-          />
-         </Box> 
-    </Grid>
-    <Grid item xs={4} >
-    <FormLabel component="legend" labelPlacement="start">Weight</FormLabel>
-    <Box mt={1}>    
-      <Input
-          variant="outlined"
-          fullWidth
-          id="size"
-          margin="dense"
-          label="Weight"
-          name="size"
-          autoComplete="size"
-          onChange={handleInputChange('gemstoneweight')}
-          value={productCtx.gemstoneweight}
-          />
-         </Box> 
-    </Grid>
-    
-    </Grid>
-
-    <Grid container item xs={12} justify="flex-end">
-    <Button variant="contained" onClick={handleClick}  size="small" color="primary" className={classes.button}>
-        Add Gemstone
-      </Button>
-
-    </Grid>
+      </Grid>
+      </Grid>
+            </Paper>
+      }
     <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -378,6 +389,7 @@ export default function Review() {
       </Table>
         <Grid item xs={6} >
         </Grid> 
+        </Grid>
  </React.Fragment>
   );
 }

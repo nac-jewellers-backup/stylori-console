@@ -4,13 +4,7 @@ import { makeStyles,useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import {Input} from '../../components/Input.js'
 import FormControl from '@material-ui/core/FormControl';
@@ -29,6 +23,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import SelectPlaceholder from '../../components/SelectPlaceholder.js';
 
   const useStyles = makeStyles(theme => ({
     button: {
@@ -88,7 +83,7 @@ export default function Review() {
   }
   return (
     <React.Fragment>
-    <Grid container xs={12} spacing={2}>
+    <Grid container xs={12} alignItems="center" spacing={2}>
     
     <Grid item xs={12} sm={4} >
     <TextField fullWidth
@@ -108,20 +103,20 @@ export default function Review() {
         id="simple-start-adornment"
         variant="outlined"
         margin="dense"
-        value={productCtx.vendorcode.vendorDelivaryDays}
-        className={clsx(classes.margin, classes.textField)}
-        InputProps={{
-          endAdornment: <InputAdornment position="start">In Days</InputAdornment>,
-        }}
+        value={productCtx.vendorcode.vendorDelivaryDays+" days"}
+        
       />
     </Grid>
     <Grid item xs={12} sm={4} >
-                  <Select
+                  <SelectPlaceholder
                     value={productCtx.isreorder}
                     placeholder="Re Orderable"
                     onChange={handleChange('isreorder')}
                     options={[{value:'Yes',label:'Yes'},{value:'No',label:'No'}]}
-                  />
+                    placeholderzindex="5"
+                    selectzindex="5"
+                     placeholderUp={productCtx.isreorder ? true : false}
+                 />
     </Grid>
     <Grid item xs={12} >
     <Typography component="h6" variant="h6" align="left">
@@ -131,28 +126,39 @@ export default function Review() {
     <Grid item xs={4} >
 
                   
-                  <Select
+                  <SelectPlaceholder
                     value={productCtx.default_metal_colour}
                     placeholder="Metal Colour"
                     onChange={handleChange('default_metal_colour')}
                     options={productCtx.metalcolour}
+                    placeholderzindex="4"
+                    selectzindex="4"
+                     placeholderUp={productCtx.default_metal_colour ? true : false}
                   />
     </Grid>
     <Grid item xs={4} >
-              <Select
+              <SelectPlaceholder
                     value={productCtx.default_metal_purity}
                     placeholder="Metal Purity"
                     onChange={handleChange('default_metal_purity')}
                     options={productCtx.metalpurity}
+                    placeholderzindex="3"
+                    selectzindex="3"
+                     placeholderUp={productCtx.default_metal_purity ? true : false}
                   />
    
     </Grid>
     <Grid item xs={4} >
-              <Select
+              <SelectPlaceholder
                     value={productCtx.default_metal_size}
+                    isDisabled = {!['BA','R','BR'].includes(productCtx.product_type_shortcode)}
                     placeholder="Size"
                     onChange={handleChange('default_metal_size')}
-                    options={productCtx.selected_sizes}
+                    options={productCtx.default_metal_size}
+                    placeholderzindex="3"
+                    selectzindex="3"
+                     placeholderUp={productCtx.default_metal_size ? true : false}
+
                   />
    
     </Grid>

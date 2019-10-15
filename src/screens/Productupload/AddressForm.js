@@ -149,11 +149,12 @@ export default function AddressForm() {
       //   if(material.material)
       //   {
       //   material.material.forEach(element => {
-
+        let material_names = []
           if(selectedOption)
           {
 
             selectedOption.forEach(element => {
+              material_names.push(element.name)
               if(element.name === 'Diamond' || element.name === 'Gemstone' )
             {
             
@@ -170,7 +171,7 @@ export default function AddressForm() {
       //   });
       // }
 
-        setProductCtx({ ...productCtx, [type]:selectedOption, steps })
+        setProductCtx({ ...productCtx, [type]:selectedOption, steps,material_names })
 
     }
     
@@ -196,26 +197,29 @@ export default function AddressForm() {
           
           <Grid item xs={12} sm={6} spacing={1}>
             <Box mt={1} >
-            <Select
-                    className="masteroverlay"
+            <SelectPlaceholder
                     placeholder="Select Product Type"
                     value={productCtx.product_type}
+                    placeholderzindex="6"
+                    selectzindex="6"
+                    placeholderUp={productCtx.product_type ? true : false}
+
                     onChange={handlechange('product_type')}
                     options={productCtx.masterData.product_type}
-                    placeholderUp={productCtx.product_type ? true : false}
                   />
             </Box>      
             </Grid>
 
             <Grid item xs={12} sm={6}>
-                  <Select
-                  className="masteroverlay"
+                  <SelectPlaceholder
                   value={productCtx.product_categoy}
-                    placeholderUp={productCtx.product_categoy ? true : false}
                     placeholder="Select Product Category"
+                    placeholderzindex="6"
+                    selectzindex="6"
                     options={productCtx.masterData.category}
                     onChange={handlechange('product_categoy')}
-                    
+                    placeholderUp={productCtx.product_categoy ? true : false}
+
                   />
             </Grid>
 
@@ -225,7 +229,10 @@ export default function AddressForm() {
                 <SelectPlaceholder
                     placeholder="Select Product Materials"
                     isMulti
+                    style={{zIndex: 500}}
                     value={productCtx.material}
+                    placeholderzindex="5"
+                    selectzindex="5"
                     onChange={materialChange('material')}
                     options={productCtx.masterData.material}
                     placeholderUp={productCtx.material ? true : false}
@@ -238,12 +245,14 @@ export default function AddressForm() {
             
             <Grid item xs={12} sm={6}>
                 <Box mt={1} >
-            <Select
+            <SelectPlaceholder
                     className="suboverlay"
                     fullWidth
                     value={productCtx.vendorcode}
                     placeholder="Select Vendor Code"
                     onChange={handlevendorChange}
+                    placeholderzindex="5"
+                    selectzindex="5"
                     placeholderUp={productCtx.vendorcode ? true : false}
                     options={productCtx.masterData.vendorcode}
                   />
@@ -264,12 +273,14 @@ export default function AddressForm() {
           <Grid item xs={12} sm={6}>
             
                 <Box mt={1} >
-            <Select
+            <SelectPlaceholder
            
                     placeholder="Earring Backing"
                     value={productCtx.earringbacking}
                     options={productCtx.masterData.earringbacking}
                     onChange={handleInputChange('earringbacking')}
+                    placeholderzindex="4"
+                    selectzindex="4"
                     placeholderUp={productCtx.earringbacking ? true : false}
                   />
                 </Box>
@@ -277,10 +288,11 @@ export default function AddressForm() {
             <Grid item xs={12} sm={6}>
             
                 <Box mt={1} >
-            <Select
+            <SelectPlaceholder
                     placeholder="Select Gender"
                     value={productCtx.selectedgender}
-
+                    placeholderzindex="3"
+                    selectzindex="3"
                     options={productCtx.masterData.gender}
                     onChange={handleInputChange('selectedgender')}
                     placeholderUp={productCtx.selectedgender ? true : false}
@@ -290,11 +302,13 @@ export default function AddressForm() {
 
             <Grid item xs={12} sm={6} spacing={1}>
                 <Box mt={1} >
-                <Select
+                <SelectPlaceholder
                         isMulti
                         isDisabled = {!['BA','R','BR'].includes(productCtx.product_type_shortcode)}
                         placeholder="Select Product Size"
                         onChange={handlesizeChange}
+                        placeholderzindex="2"
+                       selectzindex="2"
                         placeholderUp={productCtx.selected_sizes.length ? true : false}
                         value={productCtx.selected_sizes}
                         options={productCtx.sizes}

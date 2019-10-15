@@ -10,6 +10,7 @@ import {Input} from '../../components/Input.js'
 import FormGroup from '@material-ui/core/FormGroup';
 import { ProductContext } from '../../context';
 import Box from '@material-ui/core/Box';
+import SelectPlaceholder from '../../components/SelectPlaceholder.js'
 
 import "./Productupload.css"
 
@@ -55,13 +56,15 @@ export default function PaymentForm() {
      <Grid item xs={6} sm={3}>      
           {/* <FormLabel component="legend" >Material Purity</FormLabel> */}
            <Box mt={1} >         
-          <Select
+          <SelectPlaceholder
                     isMulti
                     value = {productCtx.metalpurity}
-                    className="masteroverlay"
                     placeholder="Metal Purity"
                     onChange={purityChange('metalpurity')}
                     options={productCtx.masterData.metalpurity}
+                    placeholderzindex="4"
+                selectzindex="4"
+                 placeholderUp={productCtx.metalpurity.length ? true : false}
                   />
           </Box>          
           
@@ -73,14 +76,15 @@ export default function PaymentForm() {
       
       {/* <FormLabel component="legend" >Metal Colour</FormLabel> */}
        <Box mt={1} >         
-      <Select
+      <SelectPlaceholder
                 isMulti
                 value = {productCtx.metalcolour}
-
-                className="masteroverlay"
                 placeholder="Metal Colour"
                 onChange={purityChange('metalcolour')}
                 options={productCtx.masterData.metalcolour}
+                placeholderzindex="3"
+                selectzindex="3"
+                 placeholderUp={productCtx.metalcolour.length ? true : false}
               />
       </Box>          
       
