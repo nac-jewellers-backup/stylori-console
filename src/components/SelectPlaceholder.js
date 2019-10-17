@@ -15,7 +15,7 @@ const PlaceholderText = styled(Text)(({ placeholderUp, placeholderzindex, isDisa
   paddingRight: 8,
   backgroundColor: isDisabled ? 'transparent' : '#FFFFFF',
   fontSize: placeholderUp ? 12 : 15,
-  color: placeholderUp ? '#3F51B5' : '#cccccc',
+  color: placeholderUp ? '#3F51B5' : '#263238',
 }));
 
 const SelectContainer = styled(View)(({ selectzindex }) => ({
@@ -31,6 +31,7 @@ const SelectView = props => {
     <SelectContainer selectzindex={selectzindex}>
       <Select 
         fullWidth
+        isClearable
       {...props} placeholder="" />
       <PlaceholderText placeholderUp={placeholderUp} isDisabled={isDisabled} placeholderzindex={placeholderzindex}>{placeholder}</PlaceholderText>
     </SelectContainer>

@@ -92,7 +92,6 @@ export default function Review() {
         variant="outlined"
         margin="dense"
         value={productCtx.vendorcode.shortCode}
-        className={clsx(classes.margin, classes.textField)}
         
       />
     </Grid>
@@ -110,7 +109,7 @@ export default function Review() {
     <Grid item xs={12} sm={4} >
                   <SelectPlaceholder
                     value={productCtx.isreorder}
-                    placeholder="Re Orderable"
+                    placeholder="Reorderable"
                     onChange={handleChange('isreorder')}
                     options={[{value:'Yes',label:'Yes'},{value:'No',label:'No'}]}
                     placeholderzindex="5"

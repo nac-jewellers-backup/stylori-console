@@ -78,9 +78,39 @@ export default function Review() {
     })
     setMetalcolour(metalcolour)
 }, []);
-  async function uploadimagetoserver(bodaydata)
+  async function uploadimagetoserver(bodaydata, imageposition, imagecolor)
   {
-  
+ 
+  let prodimages = productCtx.product_images;
+
+  if(prodimages)
+  {
+    let imagecolourobj = productCtx.product_images[imagecolor];
+    if(imagecolourobj)
+    {
+      const imageobj = {
+        "name": ("S"+productCtx.product_type_shortcode+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
+        "position":imageposition,
+        "url":"https://source.unsplash.com/random"
+      }
+      imagecolourobj.push(imageobj)
+
+    }else
+    {
+      const imageobj = {
+        "name": ("S"+productCtx.product_type_shortcode+"_1"+imagecolor.charAt(0)),
+        "position":imageposition,
+        "color":imagecolor,
+        "url":"https://source.unsplash.com/random"
+      }
+      imagecolourobj = [];
+      imagecolourobj.push(imageobj)
+    }
+    prodimages[imagecolor] = imagecolourobj;
+    setProductCtx({ ...productCtx, product_images: prodimages })
+    setFiles([])
+  }
+
   //  let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension})
   //  var returnData = responsedata.data.returnData;
   //  var signedRequest = returnData.signedRequest;
@@ -100,11 +130,33 @@ export default function Review() {
   //      .catch(error => {
   //      })
   }
+
+  function removefiles(imageposition, imagecolor)
+  {
+    let prodimages = productCtx.product_images;
+
+  if(prodimages)
+  {
+    let imagecolourobj = prodimages[imagecolor];
+    if(imagecolourobj)
+    {
+      if(imagecolourobj.length > imageposition)
+      {
+        let removedfile = imagecolourobj[imageposition]
+      imagecolourobj[imageposition] = {...removedfile, url: ""}
+      }
+
+    }
+    prodimages[imagecolor] = imagecolourobj;
+    setProductCtx({ ...productCtx, product_images: prodimages })
+    alert(JSON.stringify(prodimages))
+  }
+  }
   
  const handleInit = () =>
-  {
-    console.log("FilePond instance has initialised");
-  }
+    {
+      alert("initialized")
+    }
   return (
     <React.Fragment>
          <Grid container className={classes.root} spacing={2}>
@@ -112,7 +164,7 @@ export default function Review() {
      <Grid item direction="row" xs={12}>
        <Grid container  justify="left" spacing={2}>
 
-          {metalcolour === undefined ? null : metalcolour.map(value => ( 
+          {metalcolour === undefined ? null : metalcolour.map((value,index) => ( 
             <Grid xs={12} container spacing={1} item>
             <Grid  xs={12}  item>
 
@@ -120,21 +172,19 @@ export default function Review() {
             {value.name}
              </Typography> 
              </Grid>
-             {[0].map(row => (
+             {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
 
             <Grid  xs={3} alignItems="center" item>
-                <FilePond 
+                
+              <FilePond 
                           labelIdle="Image For"
-                          allowMultiple={true}
                           files={[{
-                            source: 'https://d3mzho7p59hbyf.cloudfront.net/base_images/10dfff90-ee5f-11e9-943a-a7323a37c1c2.png',
+                            source: row.url,
                             options: {
                                 type: 'local'
                             }
                         }]}
-                          maxFiles={1}  
                           server={{
-                          
                             load: (source, load) => {
                                 // simulates loading a file from the server
                                 fetch(source).then(res => 
@@ -150,31 +200,31 @@ export default function Review() {
                             
                           }}
                           onremovefile={(error, fileItem)=>{
-
+                            removefiles(imageindex, row.color)
                           }}>
                 </FilePond>
+               
+                
             </Grid>
              ))}
             <Grid xs={3} item>
               <FilePond 
                           labelIdle="Image For"
                           allowMultiple={true}
-                          
                           maxFiles={1}  
-                          
-                          onupdatefiles={fileItems => {
+                          files = {files}
+                          onupdatefiles={fileItem => {
                               // Set currently active file objects to this.state
                             
                           }}
-                          onaddfile={(error, fileItems)=> {
-                            
+                          onaddfile={(error, fileItem)=> {
+                            uploadimagetoserver(fileItem, index, value.name)
                           }}
                           onremovefile={(error, fileItem)=>{
-                            alert(fileItem.fileExtension)
 
                           }}>
                 </FilePond>
-                <Grid container xs={12} alignItems="center" spacing={1} item>
+                {/* <Grid container xs={12} alignItems="center" spacing={1} item>
                 <Grid  xs={8} item>
 
                 <TextField
@@ -198,7 +248,7 @@ export default function Review() {
                   >Upload</Button> 
                                     </Grid>          
   
-                  </Grid>          
+                  </Grid>           */}
             </Grid>
             
             </Grid>

@@ -30,6 +30,8 @@ export default function AddressForm() {
     const handlechange = type =>  selectedOption => {
       if(type === 'product_type')
       {
+        if(selectedOption)
+        {
           var size = "";
       var minvalue = 0;
       var maxvalue = 0;
@@ -58,7 +60,11 @@ export default function AddressForm() {
       }
       
       setProductCtx({ ...productCtx, product_type_shortcode: selectedOption.shortCode,product_type:selectedOption, size,selected_sizes })
-      }else{
+        }else{
+          setProductCtx({ ...productCtx, product_type_shortcode: "",product_type:"", size,selected_sizes: "" })
+
+        }  
+    }else{
         setProductCtx({ ...productCtx, [type]: selectedOption})
 
       }
@@ -189,7 +195,7 @@ export default function AddressForm() {
                       value={productCtx.productname}
                       id="productname"
                       name="productname"
-                      label="Productname"
+                      label="Product Name"
                       onChange={handleTextChange('productname')}
                       />
        
@@ -262,7 +268,7 @@ export default function AddressForm() {
                     <Input
                       variant="outlined"
                       margin="dense"
-                      label="productvendorcode"
+                      label="Product Vendor Code"
                       fullWidth
                       value={productCtx.productvendorcode}
                       id="productvendorcode"
@@ -281,6 +287,7 @@ export default function AddressForm() {
                     onChange={handleInputChange('earringbacking')}
                     placeholderzindex="4"
                     selectzindex="4"
+                    
                     placeholderUp={productCtx.earringbacking ? true : false}
                   />
                 </Box>

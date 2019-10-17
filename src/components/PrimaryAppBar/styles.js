@@ -11,6 +11,7 @@ export const useStyles = makeStyles(theme => ({
     },
     title: {
       display: 'none',
+      color: 'red',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },

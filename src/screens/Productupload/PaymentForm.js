@@ -96,7 +96,7 @@ export default function PaymentForm() {
     margin="dense"
     fullWidth
     id="size"
-    label="Default Size For Price"
+    label="Default Size for Price"
     name="size"
     autoComplete="size"
     onChange = {handleInputChange('default_size')}
@@ -112,11 +112,11 @@ export default function PaymentForm() {
           margin="dense"
           fullWidth
           id="size"
-          label="Weight For Default Size"
+          label="Weight for Default Size"
           name="size"
           autoComplete="size"
           onChange = {handleInputChange('metal_weight')}
-          value={productCtx.metal_weight}
+          value={productCtx.metal_weight === 0 ? "" : productCtx.metal_weight}
           
           />
     </Grid>
@@ -131,7 +131,7 @@ export default function PaymentForm() {
           name="size"
           autoComplete="size"
           onChange = {handleInputChange('metal_height')}
-          value={productCtx.metal_height}
+          value={productCtx.metal_height === 0 ? "" : productCtx.metal_height}
           
           />
     </Grid>
@@ -146,7 +146,8 @@ export default function PaymentForm() {
           label="Width"
           name="size"
           onChange = {handleInputChange('metal_width')}
-          value={productCtx.metal_width}
+          value={productCtx.metal_width === 0 ? "" : productCtx.metal_width}
+
           autoComplete="size"
           
           />
@@ -162,8 +163,8 @@ export default function PaymentForm() {
           name="size"
           autoComplete="size"
           onChange = {handleInputChange('metal_length')}
-          value={productCtx.metal_length}
-          
+          value={productCtx.metal_length === 0 ? "" : productCtx.metal_length}
+
           />
     </Grid>
            

@@ -47,7 +47,7 @@ export default function Review() {
     <Grid item xs={12} sm={4}>
       
     <SelectPlaceholder
-        placeholder="Occassions"
+        placeholder="Occasions"
         isMulti
         value={productCtx.occassions}
         onChange={handleChange('occassions')}
@@ -73,7 +73,7 @@ export default function Review() {
     <Grid item xs={12} sm={4} >
     
     <SelectPlaceholder
-        placeholder="# of Stones"
+        placeholder="Number of stones"
         value={productCtx.stonecount}
         onChange={handleChange('stonecount')}
         options={productCtx.masterData.stones}

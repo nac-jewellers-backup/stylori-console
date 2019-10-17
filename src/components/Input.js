@@ -25,7 +25,21 @@ export const Input = props => {
   } = props;
   const defaultStyle = {
     margin: "dense",
-    variant: "outlined"
+    variant: "outlined",
+    'input-label': {
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      width: '100%',
+      color: 'red'
+    },
+  
+    'input': {
+      '&::placeholder': {
+        textOverflow: 'ellipsis !important',
+        color: 'red'
+      }
+    }
   };
 
   // INTEGRATE THEME HERE
@@ -39,7 +53,8 @@ export const Input = props => {
   return (
     <Grid item xs={12}>
       <TextField
-        inputProps={{ pattern, maxLength, minLength }}
+                inputProps={{ pattern, maxLength, minLength  }}
+
         style={{ width: "100%" }}
         helperText={<b>{helperText}</b>}
         onKeyPress={handleKeyPress}

@@ -159,9 +159,9 @@ export default function Productupload() {
             Product Upload
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
-            {productCtx.steps.map(label => (
+            {productCtx.steps.map((label, index) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel></StepLabel>
               </Step>
             ))}
                       </Stepper>

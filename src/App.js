@@ -4,17 +4,19 @@ import './App.css';
 import MainApp from './routes';
 import { GlobalProvider } from './context';
 import { CssBaseline } from '@material-ui/core';
+import theme from './theme';
+
 import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: [
+// const theme = createMuiTheme({
+//   typography: {
+//     fontFamily: [
    
-      'Roboto'
+//       'Roboto'
   
-    ].join(','),
-  },
-});
+//     ].join(','),
+//   },
+// });
 function App() {
   
   return (
