@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { MaterialContext } from '../../context';
+import { VoucherContext } from '../../context';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
@@ -22,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function Voucherdiscountcontent() {
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
-  const { materialCtx, setMaterialCtx ,materialMaster} = React.useContext(MaterialContext);
+  const { voucherCtx, setVoucherCtx ,materialMaster} = React.useContext(VoucherContext);
 
   useEffect(() => {
     let mounted = true;
@@ -45,7 +47,6 @@ export default function Voucherdiscountcontent() {
           status: 'inactive'
         }])
     };
-
     fetchOrders();
 
     return () => {
@@ -54,6 +55,8 @@ export default function Voucherdiscountcontent() {
   }, []);
 
   return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
     <Page
     className={classes.root}
     title="Orders Management List"
@@ -62,5 +65,6 @@ export default function Voucherdiscountcontent() {
     <VoucherComponent className={classes.aboutvoucher} />
     
   </Page>
+  </MuiPickersUtilsProvider>
   );
 }

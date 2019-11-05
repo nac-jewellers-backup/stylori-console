@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { MaterialProvider } from '../../context';
+import { VoucherProvider } from '../../context';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useQuery } from 'react-apollo';
@@ -24,10 +24,10 @@ export const Voucherdiscount = withRouter(props => {
     if(error) return <div>error</div>
     return (
         
-        <MaterialProvider value={{ data, mapper: materialMaster.mapper, mappertype:  "materialMaster" }} >
+    <VoucherProvider value={{ data, mapper: materialMaster.mapper, mappertype:  "voucherMaster" }} >
             
     <Component {...props} />
-    </MaterialProvider>
+    </VoucherProvider>
 
 )});
 export default Voucherdiscount;

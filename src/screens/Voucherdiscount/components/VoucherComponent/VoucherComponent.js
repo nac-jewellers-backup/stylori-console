@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
+import {CategoryComponents} from './../../components'
+import { DateTimePicker } from "@material-ui/pickers";
 
 import {
   Card,
@@ -11,6 +13,7 @@ import {
   Divider,
   colors
 } from '@material-ui/core';
+import { VoucherContext } from '../../../../context';
 const tabs = [
   { value: 'Category', label: 'Category' },
   { value: 'Material', label: 'Material' },
@@ -50,6 +53,11 @@ const useStyles = makeStyles(theme => ({
   optionRadio: {
     margin: -10
   },
+  content: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(1)
+
+  },
   optionDetails: {
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(2)
@@ -60,9 +68,11 @@ const VoucherComponent = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+  const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
 
   const [selected, setSelected] = useState(1);
-  const [selectedtab, setSelectedtab] = useState("overview");
+  const [selectedtab, setSelectedtab] = useState("Category");
+  const [selectedDate, handleDateChange] = useState(new Date());
 
   const handleChange = (event, option) => {
     setSelected(option);
@@ -71,14 +81,14 @@ const VoucherComponent = props => {
   const handleTabsChange = (event, value) => {
     setSelectedtab(value);
   };
-  
+  useEffect(() => {
+  }, []);
   return (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
   
-      <CardContent className={classes.cardcontent}>
       <Tabs
         className={classes.tabs}
         scrollButtons="auto"
@@ -96,7 +106,11 @@ const VoucherComponent = props => {
         ))}
       </Tabs>
       <Divider />
-     </CardContent>
+      <div className={classes.content}>
+    
+     <CategoryComponents  tabname={selectedtab}  categories={["Gold"]} />
+        
+        </div>
     </Card>
   );
 };
