@@ -78,9 +78,8 @@ export default function Review() {
     })
     setMetalcolour(metalcolour)
 }, []);
-  async function uploadimagetoserver(bodaydata, imageposition, imagecolor)
+  async function uploadimagetoserver(bodaydata, imageposition, imagecolor, uploadtype)
   {
- 
   let prodimages = productCtx.product_images;
 
   if(prodimages)
@@ -93,7 +92,15 @@ export default function Review() {
         "position":imageposition,
         "url":"https://source.unsplash.com/random"
       }
-      imagecolourobj.push(imageobj)
+      if(uploadtype === 'edit')
+      {
+        imagecolourobj[imageposition] = imageobj;
+
+      }else
+      {
+        imagecolourobj.push(imageobj)
+
+      }
 
     }else
     {
@@ -133,23 +140,28 @@ export default function Review() {
 
   function removefiles(imageposition, imagecolor)
   {
+  
+
     let prodimages = productCtx.product_images;
 
   if(prodimages)
   {
     let imagecolourobj = prodimages[imagecolor];
+
     if(imagecolourobj)
     {
       if(imagecolourobj.length > imageposition)
       {
         let removedfile = imagecolourobj[imageposition]
+
       imagecolourobj[imageposition] = {...removedfile, url: ""}
+
       }
 
     }
     prodimages[imagecolor] = imagecolourobj;
     setProductCtx({ ...productCtx, product_images: prodimages })
-    alert(JSON.stringify(prodimages))
+//alert(JSON.stringify(productCtx.product_images))
   }
   }
   
@@ -175,8 +187,25 @@ export default function Review() {
              {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
 
             <Grid  xs={3} alignItems="center" item>
-                
-              <FilePond 
+                 <Typography component="h6" variant="h6" align="left">
+            {row.url}
+             </Typography> 
+           {row.url.length === 0 ? <FilePond 
+                          labelIdle="Image For"
+                          allowMultiple={true}
+                          maxFiles={1}  
+                          files = {files}
+                          onupdatefiles={fileItem => {
+                              // Set currently active file objects to this.state
+                            
+                          }}
+                          onaddfile={(error, fileItem)=> {
+                            uploadimagetoserver(fileItem, imageindex, value.name, "edit")
+                          }}
+                          onremovefile={(error, fileItem)=>{
+
+                          }}>
+                </FilePond> :  <FilePond 
                           labelIdle="Image For"
                           files={[{
                             source: row.url,
@@ -200,12 +229,12 @@ export default function Review() {
                             
                           }}
                           onremovefile={(error, fileItem)=>{
-                            removefiles(imageindex, row.color)
+                            removefiles(imageindex, value.name)
                           }}>
                 </FilePond>
                
                 
-            </Grid>
+                         } </Grid>
              ))}
             <Grid xs={3} item>
               <FilePond 
@@ -218,7 +247,7 @@ export default function Review() {
                             
                           }}
                           onaddfile={(error, fileItem)=> {
-                            uploadimagetoserver(fileItem, index, value.name)
+                            uploadimagetoserver(fileItem, index, value.name, "add")
                           }}
                           onremovefile={(error, fileItem)=>{
 

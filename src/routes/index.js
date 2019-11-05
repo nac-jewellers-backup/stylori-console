@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 
 import route from './route';
-import { Dashboard, Login, Productupload, Configuration, Vendorlist, Productlist, Materiallist } from '../screens';
+import { Dashboard, Login, Productupload, Configuration, Vendorlist, Productlist, Materiallist, CategoryList, ProducttypeList, Voucherdiscount } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -26,7 +26,9 @@ const MainApp = () => {
                     <PrivateRoute  path={route.configuration} component={Configuration} />
                     <PrivateRoute  path={route.vendor} component={Vendorlist} />
                     <PrivateRoute  path={route.productlist} component={Productlist} />
-                    <PrivateRoute  path={route.materiallist} component={Materiallist} />
+                    <PrivateRoute  path={route.materiallist} component={CategoryList} />
+                    <PrivateRoute  path={route.producttypes} component={ProducttypeList} />
+                    <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
 
           </Switch>
             </NetworkProvider>

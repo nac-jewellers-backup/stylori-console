@@ -14,8 +14,9 @@ import "./Configuration.css"
 
 
 export const Configuration = withRouter(props => {
+  const master_options = ['Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities']
+  const master_options_url = ['material','producttypes', 'Materials','Metal Colours','Metal Purities']
 
-   
   const [raised, setRaised] = React.useState(false);
   const [cardindex, setCardindex] = React.useState(-1);
 
@@ -40,16 +41,17 @@ export const Configuration = withRouter(props => {
           </Typography>
     </Grid>
     
-   
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/material'}>
+    {master_options.map((text, index) => (
+    <Grid  item xs={6} sm={4} lg={3}  >
+    <Link underline='none' component={RouterLink} to={master_options_url[index]}>
      <Card fullwidth
      className="card2">
         <CardContent >
-          <Typography component="h6" variant="h6">
-            Manage Material
+          <Typography style={{textAlign: "center"}} component="h6" variant="h5">
+            {text}
           </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
+          
+          <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
             Lorem Ipsum
           </Typography>
         </CardContent>
@@ -58,92 +60,9 @@ export const Configuration = withRouter(props => {
     </Card>
     </Link>
     </Grid>
+    ))}
 
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/dashboard'}>
-     <Card fullwidth
-     className="card2">
-        <CardContent >
-          <Typography component="h6" variant="h6">
-            Material Purity
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-          Lorem Ipsum
-          </Typography>
-        </CardContent>
-        
-     
-    </Card>
-    </Link>
-    </Grid>
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/dashboard'}>
-     <Card fullwidth
-     className="card2">
-        <CardContent >
-          <Typography component="h6" variant="h6">
-            Gemstone Types
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-          Lorem Ipsum
-          </Typography>
-        </CardContent>
-        
-     
-    </Card>
-    </Link>
-    </Grid>
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/dashboard'}>
-     <Card fullwidth
-     className="card2">
-        <CardContent >
-          <Typography component="h6" variant="h6">
-            Diamond Colours
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-          Lorem Ipsum
-          </Typography>
-        </CardContent>
-        
-     
-    </Card>
-    </Link>
-    </Grid>
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/dashboard'}>
-     <Card fullwidth
-     className="card2">
-        <CardContent >
-          <Typography component="h6" variant="h6">
-            Diamond Clarity
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-          Lorem Ipsum
-          </Typography>
-        </CardContent>
-        
-     
-    </Card>
-    </Link>
-    </Grid>
-    <Grid  item xs={6} sm={6} >
-    <Link underline='none' component={RouterLink} to={'/dashboard'}>
-     <Card fullwidth
-     className="card2">
-        <CardContent >
-          <Typography component="h6" variant="h6">
-            Making Charge Types
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-          Lorem Ipsum
-          </Typography>
-        </CardContent>
-        
-     
-    </Card>
-    </Link>
-    </Grid>
+    
     </Grid>
   )
 });

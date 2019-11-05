@@ -6,7 +6,10 @@ const route = {
     configuration: '/Configuration',
     vendor: '/vendorlist',
     productlist: '/productlist',
-    materiallist: '/material'
+    materiallist: '/material',
+    producttypes: '/producttypes',
+    voucherdiscount: '/voucherdiscount'
+
 }
 
 export default route;

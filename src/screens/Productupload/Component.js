@@ -87,8 +87,7 @@ function getStepContent(step) {
       return <Step4 />;  
     case "Step6":
       return <Step6 />;
-    case "Step1":
-      return <Step8 />; 
+  
     case "Step7":
       return <Step7 />;    
     default:

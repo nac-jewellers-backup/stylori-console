@@ -263,7 +263,7 @@ export default function Review() {
 
       <Grid item xs={4} >
       
-                  <Select
+                  <SelectPlaceholder
                       placeholder="Gemstone Type"
                       value={productCtx.gemstonetype}
                       onChange={handleChange('gemstonetype')}

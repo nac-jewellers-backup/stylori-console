@@ -4,5 +4,7 @@ export * from "./Productupload"
 export * from "./Configuration"
 export * from "./Vendorlist"
 export * from "./Productlist"
-export * from "./MaterialList"
+export * from "./CategoryList"
+export * from "./ProducttypeList"
+export * from "./Voucherdiscount"
 

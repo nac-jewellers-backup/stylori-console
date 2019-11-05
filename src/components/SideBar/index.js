@@ -22,6 +22,7 @@ import { ProductContext } from '../../context';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { GlobalContext } from '../../context';
+import {  Paper, Avatar, Typography } from '@material-ui/core';
 
 
 function SideBar() {
@@ -67,6 +68,7 @@ function SideBar() {
           </IconButton>
         </div>
         <Divider />
+       
         <List>
           
           <Link underline='none' component={RouterLink} to={'/productlist'}>

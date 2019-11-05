@@ -63,4 +63,20 @@ export const useStyles = makeStyles(theme => ({
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    profile: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      minHeight: 'fit-content'
+    },
+    avatar: {
+      width: 60,
+      height: 60
+    },
+    name: {
+      marginTop: theme.spacing(1)
+    },
+    divider: {
+      marginTop: theme.spacing(2)
+    },
   }));
