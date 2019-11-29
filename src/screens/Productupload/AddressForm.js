@@ -656,7 +656,7 @@ export default function AddressForm(props) {
           <FormLabel component="legend">IsReorderable</FormLabel>
           <RadioGroup aria-label="position" name="position" value={productCtx.isreorderable} onChange={handleChange} row>
             <FormControlLabel
-              value={true}
+              value="Yes"
               
               control={<Radio color="primary" 
                />}
@@ -664,7 +664,7 @@ export default function AddressForm(props) {
               labelPlacement="right"
             />
             <FormControlLabel
-              value={false}
+              value="No"
               control={<Radio  color="primary" />}
               label="No"
               labelPlacement="right"
