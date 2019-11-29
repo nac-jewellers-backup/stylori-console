@@ -105,11 +105,11 @@ export default function Productupload() {
   const handleNext = () => {
     var isvalid = true;
     var  error_content = {}
-    if(productCtx.error_message)
-    {
-      error_content = productCtx.error_message
+    // if(productCtx.error_message)
+    // {
+    //   error_content = productCtx.error_message
 
-    }
+    // }
     if(activeStep === 0)
     {
     if(!productCtx.product_type)
@@ -259,9 +259,7 @@ export default function Productupload() {
 
 
 
-if(!isvalid)
-{
-}
+
 
       if(isvalid)
     {
