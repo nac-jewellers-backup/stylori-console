@@ -20,7 +20,6 @@ const PlaceholderText = styled(Text)(({ placeholderUp, placeholderzindex, isDisa
 
 const SelectContainer = styled(View)(({ selectzindex }) => ({
   position: 'relative',
-  height: 55,
   display: 'flex',
   zIndex: selectzindex
 }));
@@ -61,6 +60,7 @@ class SelectPlaceholder extends React.Component {
   render() {
     return (
       <SelectView
+      className={'dropdownlayout'}
         fullWidth
         {...this.props}
         onBlur={this.onBlur}

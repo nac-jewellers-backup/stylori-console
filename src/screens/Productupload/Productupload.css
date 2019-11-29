@@ -17,6 +17,15 @@
 {
     z-index: 100;
 }
+.productselectionoverlay
+{
+    z-index: 101;
+}
+.dropdownlayout * .menu {
+    position: relative !important;
+
+  }
+
 .gemselectionoverlay
 {
     z-index: 20;

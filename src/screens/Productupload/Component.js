@@ -27,6 +27,7 @@ import Step8 from './Step8';
 
 import { ProductContext } from '../../context';
 import { NetworkContext } from '../../context/NetworkContext';
+import { element } from 'prop-types';
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     background: "#fff"
   },
   stepper: {
-    padding: theme.spacing(4, 0, 5),
+    padding: theme.spacing(1, 0, 1),
     background: "#fff"
 
   },
@@ -76,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 function getStepContent(step) {
   switch (step) {
     case "Step1":
-      return <AddressForm />;
+    return <AddressForm />;
     case "Step2":
       return <PaymentForm />;
     case "Step3":
@@ -98,50 +99,179 @@ function getStepContent(step) {
 export default function Productupload() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const { productCtx} = React.useContext(ProductContext);
+  const { productCtx,setProductCtx} = React.useContext(ProductContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const handleNext = () => {
+    var isvalid = true;
+    var  error_content = {}
+    if(productCtx.error_message)
+    {
+      error_content = productCtx.error_message
+
+    }
+    if(activeStep === 0)
+    {
+    if(!productCtx.product_type)
+    {
+      isvalid = false
+      error_content['product_type'] = "Error messsage";
+     
+    }
+    if(!productCtx.productname)
+    {
+      isvalid = false
+      error_content['productname'] = "Error messsage" 
+    }
+    if(!productCtx.product_categoy)
+    {
+      isvalid = false
+      error_content['product_categoy'] = "Error messsage" 
+    }
+
+    if(!productCtx.metalcolour)
+    {
+      isvalid = false
+      error_content['metalcolour'] = "Error messsage" 
+    }
+    if(!productCtx.material)
+    {
+      isvalid = false
+      error_content['material_names'] = "Error messsage" 
+    }
+    if(!productCtx.metalpurity || productCtx.metalpurity.length === 0)
+    {
+      isvalid = false
+
+      error_content['metalpurity'] = "Error messsage" 
+    }
+    if(!productCtx.metalcolour || productCtx.metalcolour.length === 0)
+    {
+      isvalid = false
+
+      error_content['metalcolour'] = "Error messsage" 
+    }
+    
+    if(!productCtx.vendorcode)
+    {
+      isvalid = false
+      error_content['vendorcode'] = "Error messsage" 
+    }
+    if(!productCtx.vendorleadtime)
+    {
+      isvalid = false
+      error_content['vendorleadtime'] = "Error messsage" 
+    }
+
+    if(!productCtx.default_metal_colour)
+    {
+      isvalid = false
+      error_content['default_metal_colour'] = "Error messsage" 
+    }
+    if(!productCtx.default_metal_purity)
+    {
+      isvalid = false
+      error_content['default_metal_purity'] = "Error messsage" 
+    }
+    if(!productCtx.productvendorcode)
+    {
+      isvalid = false
+      error_content['productvendorcode'] = "Error messsage" 
+    }
+    if(!productCtx.earringbacking && productCtx.product_type === 'Earrings' )
+    {
+      isvalid = false
+      error_content['earringbacking'] = "Error messsage" 
+    }
+    if(!productCtx.selectedgender)
+    {
+      isvalid = false
+      error_content['selectedgender'] = "Error messsage" 
+    }
+    if((!productCtx.selected_sizes || productCtx.selected_sizes.length === 0 )  && productCtx.product_type === 'Rings')
+    {
+
+      isvalid = false
+      error_content['selected_sizes'] = "Error messsage" 
+    }
+
+    if((!productCtx.default_size || productCtx.default_size.length === 0 )  && productCtx.product_type === 'Rings')
+    {
+
+      isvalid = false
+      error_content['default_size'] = "Error messsage" 
+    }
+   // isvalid = true;
+  }
+
+  if(activeStep === 1)
+  {
+    productCtx.metalpurity.forEach( element => {
+      const keyvalue = element+'_metal_weight'
+      if((!productCtx[keyvalue] || productCtx[keyvalue].length === 0 ))
+    {
+      isvalid = false
+
+      error_content[keyvalue] = "Error messsage" 
+
+    }
+    
+    })
+    if((!productCtx.themes || productCtx.themes.length === 0 ))
+    {
+      isvalid = false
+      error_content['themes'] = "Error messsage" 
+    }
+    if((!productCtx.prod_styles || productCtx.prod_styles.length === 0 ))
+    {
+      alert("prod_styles")
+      isvalid = false
+      error_content['prod_styles'] = "Error messsage" 
+    }
+    if((!productCtx.occassions || productCtx.occassions.length === 0 ))
+    {
+      isvalid = false
+      error_content['occassions'] = "Error messsage" 
+    }
+    if((!productCtx.collections || productCtx.collections.length === 0 ))
+    {
+      isvalid = false
+      error_content['collections'] = "Error messsage" 
+    }
+
+  //  isvalid = true;
+
+
+  }
+    
+
+
+    setProductCtx({...productCtx,error_message:error_content})
      if(activeStep === productCtx.steps.length - 1){
       console.info('HANDLE',sendNetworkRequest);
-      var formdata = {
-        productname: productCtx.productname,
-        product_categoy:productCtx.product_categoy,
-        product_type:productCtx.product_type,
-        materials:productCtx.material,
-        metals:productCtx.metals,
-        gender: productCtx.selectedgender,
-        size: productCtx.selected_sizes,
-        vendor: productCtx.vendorcode,
-        product_code:productCtx.product_code,
-        purity:productCtx.metalpurity,
-        metal_color:productCtx.metalcolour,
-        default_metal_color:productCtx.default_metal_colour,
-        default_metal_purity:productCtx.default_metal_purity,
-        diamond:productCtx.diamondlist,
-        gemstone:productCtx.gemstonelist,
-        metal_height: productCtx.metal_height,
-        metal_weight: productCtx.metal_weight,
-        metal_length: productCtx.metal_length,
-        metal_width: productCtx.metal_width,
-        themes: productCtx.themes,
-        style: productCtx.prod_styles,
-        product_vendor_code: productCtx.productvendorcode,
-        earringbacking: productCtx.earringbacking,
-        occassions: productCtx.occassions,
-        collections: productCtx.collections,
-        stonecount: productCtx.stonecount,
-        stonecolours: productCtx.stonecolour,
-        isreorder : productCtx.isreorder,
-        defaultsize: productCtx.default_size,
-        defaultmetalsize: productCtx.default_metal_size
-
-     }
-     sendNetworkRequest('/productupload', {}, formdata)
+      delete productCtx['masterData'];
+      var formdata = productCtx
+     console.log("><><><><><")
+     console.log(JSON.stringify(formdata))
+    //  sendNetworkRequest('/productupload', {}, formdata)
      }
     
-     
+
+
+
+if(!isvalid)
+{
+}
+
+      if(isvalid)
+    {
       setActiveStep(activeStep + 1);
+
+    
+      }
+      //else
+    //  {
+    //  }
 
   };
 
@@ -154,16 +284,14 @@ export default function Productupload() {
     <Grid item xs={12} sm={12}  >
 
         <Paper className={classes.paper}>
-          <Typography component="h6" variant="h6" align="center">
-            Product Upload
-          </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {productCtx.steps.map((label, index) => (
               <Step key={label}>
                 <StepLabel></StepLabel>
               </Step>
             ))}
-                      </Stepper>
+          </Stepper>
+          </Paper>
 
     
           <React.Fragment>
@@ -198,7 +326,6 @@ export default function Productupload() {
               </React.Fragment>
             )}
           </React.Fragment>
-        </Paper>
         </Grid>
   );
 }

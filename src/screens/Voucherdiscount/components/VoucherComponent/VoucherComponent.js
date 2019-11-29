@@ -71,9 +71,8 @@ const VoucherComponent = props => {
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
 
   const [selected, setSelected] = useState(1);
-  const [selectedtab, setSelectedtab] = useState("Category");
+  const [selectedtab, setSelectedtab] = useState("");
   const [selectedDate, handleDateChange] = useState(new Date());
-
   const handleChange = (event, option) => {
     setSelected(option);
 
@@ -108,7 +107,7 @@ const VoucherComponent = props => {
       <Divider />
       <div className={classes.content}>
     
-     <CategoryComponents  tabname={selectedtab}  categories={["Gold"]} />
+     <CategoryComponents  tabname={selectedtab}  materials={['Gold', 'Diamond']} />
         
         </div>
     </Card>

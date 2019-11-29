@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { VoucherContext } from '../../../../context';
 import { DateTimePicker } from "@material-ui/pickers";
+import { makeid } from '../../../../utils/commonmethod';
 
 import {
   Card,
@@ -30,8 +31,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'flex-center',
     padding: theme.spacing(1),
-    maxWidth: '100%',
-    minWidth: '100%',
+   
+    cursor: 'pointer',
+    '& + &': {
+      marginLeft: theme.spacing(2)
+    }
+  
+  },
+  metaloption: {
+    border: `1px solid ${theme.palette.divider}`,
+    display: 'flex',
+    alignItems: 'flex-center',
+    padding: theme.spacing(1),
     cursor: 'pointer',
     '& + &': {
       marginLeft: theme.spacing(2)
@@ -62,6 +73,13 @@ const useStyles = makeStyles(theme => ({
   optionDetails: {
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(2),
+    
+  },
+  optionmaterialDetails: {
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+
   },
   selectedtext: {
     color: theme.palette.common.white
@@ -87,15 +105,7 @@ const AboutVoucher = props => {
     setSelected(option);
 
   };
-  function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result.toUpperCase();
- }
+  
  
   const handleClick = (event, option) => {
     setDiscounttype(option);
@@ -104,6 +114,9 @@ const AboutVoucher = props => {
     setUsagelimit(option);
 
   };
+  const handleInputChange = type => e => {
+    setVouchercode(e.target.value.toUpperCase())
+  }
   const handleminreq = (event, option) => {
     setMinreq(option);
   };
@@ -112,7 +125,7 @@ const AboutVoucher = props => {
   };
   const generateCoupon = (event) => {
    // alert(JSON.stringify(voucherCtx))
-   setVouchercode(makeid(6))
+   setVouchercode(makeid(10))
   };
   
   
@@ -132,6 +145,8 @@ const AboutVoucher = props => {
             variant="outlined"
             margin="dense"
             fullWidth
+            
+            onChange={handleInputChange('vouchercode')}
             id="vouchercode"
             name="vouchercode"
             value={vouchercode}
@@ -151,6 +166,52 @@ const AboutVoucher = props => {
 
         </Grid>
         
+       
+       
+        <Grid container item xs={12} sm={12} spacing={1}>
+        <Grid  item xs={12} sm={12} spacing={1}>
+
+      <Typography
+        gutterBottom
+        variant="h5"
+      >
+       Voucher Applicable For
+        </Typography>
+      </Grid>
+      <Grid container  item xs={12} sm={12} spacing={1}>
+
+        {['All','Material','Diamond','Gemstone','Making Charge'].map(option => (
+          
+          
+          <div
+            className={clsx(classes.metaloption, {
+              [classes.selectedOption]: minreq === option
+            })}
+            onClick={event => handleminreq(event, option)}
+
+            key={option}
+          >
+            {/* <Radio
+              checked={selected === option}
+              className={classes.optionRadio}
+              color="primary"
+              onClick={event => handleChange(event, option)}
+            /> */}
+            <div className={classes.optionmaterialDetails}>
+              <Typography
+                gutterBottom
+                className={minreq === option ? classes.selectedtext : null}
+                variant="h6"
+              >
+                {option}
+              </Typography>
+              </div>
+            
+          </div>
+          
+        ))}
+        </Grid>
+        </Grid>
         <Grid container item xs={12} sm={12} spacing={1}>
         <Grid  item xs={12} sm={12} spacing={1}>
 
@@ -282,6 +343,13 @@ const AboutVoucher = props => {
           </Grid>
         ))}
         </Grid>
+
+
+
+        
+
+
+
         <Grid item xs={12} sm={12} spacing={1}>
         {minreq === 'None' ? null :
         <TextField

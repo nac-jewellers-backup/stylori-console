@@ -3,7 +3,7 @@ import React from 'react';
 const productuploadCtxInitial = {
     productCtx: {
         product_categoy: "",
-        steps: ['Step1', 'Step2','Step4','Step5','Step6'],
+        steps: ['Step1', 'Step2','Step6'],
         product_type:"",
         productname:"",
         material:"",
@@ -85,7 +85,8 @@ const productuploadCtxInitial = {
         metal_length:0,
         metal_object:0,
         diamondtype:0,
-        metals:[]
+        metals:[],
+        error_message:{ }
     },
     masterData: {},
     setProductCtx: () => null

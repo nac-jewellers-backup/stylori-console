@@ -1,8 +1,18 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/styles';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
   import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import {Checkbox,
+  Card,
+  CardHeader,
+  TextField,
+  Divider,
+  Chip,
+CardContent} from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Select from 'react-select';
@@ -15,13 +25,20 @@ import SelectPlaceholder from '../../components/SelectPlaceholder.js'
 import "./Productupload.css"
 
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(2)
+  },
+}));
 
 
-
-export default function PaymentForm() {
+export default function PaymentForm(props) {
+  const classes = useStyles();
+  const { className, ...rest } = props;
 
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
   const handleInputChange = type => e => {
+    alert(e.target.value )
     setProductCtx({ ...productCtx, [type]: e.target.value  })
   }
   const materialChange = type => e => {
@@ -32,18 +49,31 @@ export default function PaymentForm() {
     setProductCtx({ ...productCtx, [type]:selectedOption })
 
   }
+  const handleoptionChange = type => (event, value) => {
+  
+      setProductCtx({ ...productCtx, [type]: value})
+
+  }
 
   return (
     <React.Fragment>
-      
-
+<Grid container  spacing={1}> 
+    <Grid item xs={12} sm={6}>
+      <Card
+  {...rest}
+  className={clsx(classes.root, className)}
+>
+  <CardHeader title="Type of Fit" />
+  <Divider />
+  <CardContent className={classes.cardcontent}>
       <Grid container spacing={1}>
+      <Grid item container xs={12} sm={12}>
       <Grid item xs={6} sm={3}>
+
       {/* <FormLabel component="legend" >Product Code</FormLabel> */}
                   <Input
                       variant="outlined"
                       margin="dense"
-                      fullWidth
                       disabled
                       id="size"
                       onChange={handleInputChange('product_code')}
@@ -51,76 +81,11 @@ export default function PaymentForm() {
                       value={"S"+productCtx.product_type_shortcode+(productCtx.masterData.productseries[0].value+1)}
                       
                       />
-      </Grid>
-      
-     <Grid item xs={6} sm={3}>      
-          {/* <FormLabel component="legend" >Material Purity</FormLabel> */}
-           <Box mt={1} >         
-          <SelectPlaceholder
-                    isMulti
-                    value = {productCtx.metalpurity}
-                    placeholder="Metal Purity"
-                    onChange={purityChange('metalpurity')}
-                    options={productCtx.masterData.metalpurity}
-                    placeholderzindex="4"
-                selectzindex="4"
-                 placeholderUp={productCtx.metalpurity.length ? true : false}
-                  />
-          </Box>          
-          
-    </Grid>
-    
-
-    <Grid item xs={6} sm={3}>
-      
-      
-      {/* <FormLabel component="legend" >Metal Colour</FormLabel> */}
-       <Box mt={1} >         
-      <SelectPlaceholder
-                isMulti
-                value = {productCtx.metalcolour}
-                placeholder="Metal Colour"
-                onChange={purityChange('metalcolour')}
-                options={productCtx.masterData.metalcolour}
-                placeholderzindex="3"
-                selectzindex="3"
-                 placeholderUp={productCtx.metalcolour.length ? true : false}
-              />
-      </Box>          
-      
-</Grid>
-<Grid item xs={3} >
-
-<Input
-    variant="outlined"
-    margin="dense"
-    fullWidth
-    id="size"
-    label="Default Size for Price"
-    name="size"
-    autoComplete="size"
-    onChange = {handleInputChange('default_size')}
-    value={productCtx.default_size}
-    
-    />
-</Grid>
-      
-     <Grid item xs={3} >
-
-      <Input
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          id="size"
-          label="Weight for Default Size"
-          name="size"
-          autoComplete="size"
-          onChange = {handleInputChange('metal_weight')}
-          value={productCtx.metal_weight === 0 ? "" : productCtx.metal_weight}
-          
-          />
-    </Grid>
-    <Grid item xs={3} >
+                      </Grid>
+     </Grid>
+     {['Rings','Bangles'].includes(productCtx.product_type) ? null :
+      <>
+     <Grid item xs={4} >
 
       <Input
           variant="outlined"
@@ -134,9 +99,9 @@ export default function PaymentForm() {
           value={productCtx.metal_height === 0 ? "" : productCtx.metal_height}
           
           />
-    </Grid>
+     </Grid> 
 
-    <Grid item xs={3} >
+    <Grid item xs={4} >
 
       <Input
           variant="outlined"
@@ -152,7 +117,11 @@ export default function PaymentForm() {
           
           />
     </Grid>
-    <Grid item xs={3} >
+    </>
+     }
+      
+   
+   {productCtx.product_type  === 'Bracelets' ? <Grid item xs={6} >
 
       <Input
           variant="outlined"
@@ -166,10 +135,259 @@ export default function PaymentForm() {
           value={productCtx.metal_length === 0 ? "" : productCtx.metal_length}
 
           />
+    </Grid> : null }
+  
+</Grid>
+</CardContent>
+</Card>
+<Card
+  {...rest}
+  className={clsx(classes.root, className)}
+>
+  <CardHeader title="Enter weights for different Purity
+" />
+  <Divider />
+  <CardContent className={classes.cardcontent}>
+    <Grid container spacing={1}>
+
+    <Grid item xs={12}>
+
     </Grid>
-           
-        
+    {productCtx.metalpurity.map(row => (
+  
+  <Grid item container xs={12} spacing={2} >
+    
+    <Grid item xs={6} >
+
+      <Input
+    variant="outlined"
+    disabled
+    margin="dense"
+    fullWidth
+    id="size"
+    label="Purity"
+    name="size"
+    autoComplete="size"
+    value={row}
+    />
+</Grid>
+    <Grid item xs={6} >
+
+<Input
+    variant="outlined"
+    margin="dense"
+    fullWidth
+    id="size"
+    label={`${row}_metal_weight`}
+    name="size"
+    error = {productCtx.error_message[`${row}_metal_weight`]}
+    autoComplete="size"
+    onChange = {handleInputChange(`${row}_metal_weight`)}
+    value={productCtx[(`${row}_metal_weight`)] === 0 ? "" : productCtx[(`${row}_metal_weight`)]}
+    />
+</Grid>
+    </Grid> ))}
+
       </Grid>
+      </CardContent>
+</Card>
+</Grid>
+<Grid item xs={12} sm={6}>
+<Card
+  {...rest}
+  className={clsx(classes.root, className)}
+>
+  <CardHeader title="Type of Fit" />
+  <Divider />
+  <CardContent className={classes.cardcontent}>
+    <Grid container xs={12} sm={12} spacing={2}>
+    <Grid item xs={6} sm={6} >
+                   
+                      
+           <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.themes}
+                      onChange={handleoptionChange('themes')}
+                      options={productCtx.masterData.themes.map(option => option.label)}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Select Themes"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        error = {productCtx.error_message.themes}
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+           
+           
+            </Grid>
+   
+    <Grid item xs={12} sm={6}>
+                     
+    
+
+              <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.prod_styles}
+                      onChange={handleoptionChange('prod_styles')}
+                      options={productCtx.masterData.styles.map(option => option.label)}
+
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Style"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        error = {productCtx.error_message.prod_styles}
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    <Grid item xs={12} sm={6}>
+      
+    
+          <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.occassions}
+                      onChange={handleoptionChange('occassions')}
+                      options={productCtx.masterData.occasions.map(option => option.label)}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Occasions"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        error = {productCtx.error_message.occassions}
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    <Grid item xs={12} sm={6}>
+  
+   
+
+                  <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.collections}
+                      onChange={handleoptionChange('collections')}
+                      options={productCtx.masterData.collections.map(option => option.label)}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Collections"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        error = {productCtx.error_message.collections}
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    <Grid item xs={12} sm={6} >
+    
+                  <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.stonecount}
+                      onChange={handleoptionChange('stonecount')}
+                      options={productCtx.masterData.stones.map(option => option.label)}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="No of Stones"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    <Grid item xs={12} sm={6}>
+    
+  
+
+<Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.stonecolour}
+                      onChange={handleoptionChange('stonecolour')}
+                      options={productCtx.masterData.gemstonecolor.map(option => option.label)}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Stone Colour"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    
+    
+    </Grid>
+    
+        <Grid item xs={6} >
+        </Grid>
+        </CardContent>
+        </Card>
+
+</Grid>
+</Grid>
     </React.Fragment>
   );
 }

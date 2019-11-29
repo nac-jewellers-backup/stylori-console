@@ -24,8 +24,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import SelectPlaceholder from '../../components/SelectPlaceholder.js';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import {
+  Card,
+  CardHeader,
+  Divider,
+CardContent} from '@material-ui/core';
   const useStyles = makeStyles(theme => ({
+    root: {
+      marginTop: theme.spacing(2)
+    },
+    fixedTag: {
+      padding: 0,
+      '& .MuiOutlinedInput-root':{
+        padding: 0,
+      }
+    },
     button: {
       margin: theme.spacing(1),
     },
@@ -50,8 +65,10 @@ import SelectPlaceholder from '../../components/SelectPlaceholder.js';
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9),
   ];
-export default function Review() {
+export default function Review(props) {
   const classes = useStyles();
+  const { className, ...rest } = props;
+
   const theme = useTheme();
   const inputLabel = React.useRef(null);
 
@@ -83,84 +100,108 @@ export default function Review() {
   }
   return (
     <React.Fragment>
+<Card
+  {...rest}
+  className={clsx(classes.root, className)}
+>
+  <CardHeader title="Default SKU For Display
+" />
+  <Divider />
+  <CardContent className={classes.cardcontent}>
     <Grid container xs={12} alignItems="center" spacing={2}>
     
-    <Grid item xs={12} sm={4} >
-    <TextField fullWidth
-        label="Vendor Code"
-        id="simple-start-adornment"
-        variant="outlined"
-        margin="dense"
-        value={productCtx.vendorcode.shortCode}
-        
-      />
-    </Grid>
     
-    <Grid item xs={12} sm={4}>
-    <TextField fullWidth
-        label="Vendor Lead Time"
-        id="simple-start-adornment"
-        variant="outlined"
-        margin="dense"
-        value={productCtx.vendorcode.vendorDelivaryDays+" days"}
-        
-      />
-    </Grid>
-    <Grid item xs={12} sm={4} >
-                  <SelectPlaceholder
-                    value={productCtx.isreorder}
-                    placeholder="Reorderable"
-                    onChange={handleChange('isreorder')}
-                    options={[{value:'Yes',label:'Yes'},{value:'No',label:'No'}]}
-                    placeholderzindex="5"
-                    selectzindex="5"
-                     placeholderUp={productCtx.isreorder ? true : false}
-                 />
-    </Grid>
-    <Grid item xs={12} >
-    <Typography component="h6" variant="h6" align="left">
-            Default SKU For Display
-          </Typography> 
-    </Grid>
+    
+    
     <Grid item xs={4} >
 
                   
-                  <SelectPlaceholder
-                    value={productCtx.default_metal_colour}
-                    placeholder="Metal Colour"
-                    onChange={handleChange('default_metal_colour')}
-                    options={productCtx.metalcolour}
-                    placeholderzindex="4"
-                    selectzindex="4"
-                     placeholderUp={productCtx.default_metal_colour ? true : false}
-                  />
-    </Grid>
-    <Grid item xs={4} >
-              <SelectPlaceholder
-                    value={productCtx.default_metal_purity}
-                    placeholder="Metal Purity"
-                    onChange={handleChange('default_metal_purity')}
-                    options={productCtx.metalpurity}
-                    placeholderzindex="3"
-                    selectzindex="3"
-                     placeholderUp={productCtx.default_metal_purity ? true : false}
-                  />
-   
-    </Grid>
-    <Grid item xs={4} >
-              <SelectPlaceholder
-                    value={productCtx.default_metal_size}
-                    isDisabled = {!['BA','R','BR'].includes(productCtx.product_type_shortcode)}
-                    placeholder="Size"
-                    onChange={handleChange('default_metal_size')}
-                    options={productCtx.default_metal_size}
-                    placeholderzindex="3"
-                    selectzindex="3"
-                     placeholderUp={productCtx.default_metal_size ? true : false}
+                
 
+                  <Autocomplete
+                      id="product_category"
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.default_metal_colour}
+                      onChange={handleChange('default_metal_colour')}
+                      options={productCtx.metalcolour}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Metal Colour"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+    </Grid>
+    <Grid item xs={4} >
+           
+
+                <Autocomplete
+                      id="product_category"
+                      multiple
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.default_metal_purity}
+                      onChange={handleChange('default_metal_purity')}
+                      options={productCtx.metalpurity}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Metal Purity"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
                   />
    
     </Grid>
+    {['BA','R','BR'].includes(productCtx.product_type_shortcode) ? 
+    <Grid item xs={4} >
+           
+
+                  <Autocomplete
+                      id="product_category"
+                      multiple
+                      isDisabled 
+                      className={classes.fixedTag}
+                      defaultValue={productCtx.default_metal_size}
+                      onChange={handleChange('default_metal_size')}
+                      options={productCtx.selected_sizes}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Default Size"
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+
+                        InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                    )}
+                  />
+   
+    </Grid> : null}
     {/* <Grid item xs={3} >
                 <Select
                     value={productCtx.diamond_colour}
@@ -186,6 +227,8 @@ export default function Review() {
     
         <Grid item xs={6} >
         </Grid>
+        </CardContent>
+        </Card>
  </React.Fragment>
   );
 }

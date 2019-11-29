@@ -15,7 +15,7 @@ const initialNetworkCtx = {
     sendNetworkRequest: () => null
 }
 
-const sendNetworkRequest = async (url, params, data, auth = false) => {
+const sendNetworkRequest = async (url, params, data, auth = true) => {
     url = API_URL+url;
     console.info('URL', url, data)
     const method = data ? 'POST' : 'GET', 

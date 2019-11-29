@@ -17,12 +17,36 @@ import FormLabel from '@material-ui/core/FormLabel';
 import EditIcon from '@material-ui/icons/Edit';
 import Paper from '@material-ui/core/Paper';
 import SelectPlaceholder from '../../components/SelectPlaceholder.js'
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import {
+  Card,
+  CardHeader,
+  Chip,
+  CardContent,
+  TextField,
+  Divider,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  Checkbox
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import "./Productupload.css"
 import { func } from 'prop-types';
 
   const useStyles = makeStyles(theme => ({
+    fixedTag: {
+      padding: 0,
+      '& .MuiOutlinedInput-root':{
+        padding: 0,
+      }
+    },
+    root:{
+      marginTop: theme.spacing(2)
+    },
+    table:{
+      marginTop: theme.spacing(2)
+    },
     button: {
       margin: theme.spacing(0),
     },
@@ -46,11 +70,11 @@ import { func } from 'prop-types';
     },
   }));
   
-export default function Review() {
+export default function Review(props) {
   const classes = useStyles();
   const theme = useTheme();
   const inputLabel = React.useRef(null);
-
+  const { className, ...rest } = props;
 
   const { productCtx, setProductCtx, masterData } = React.useContext(ProductContext);
   const handleInputChange = type => e => {
@@ -68,6 +92,12 @@ export default function Review() {
     var metalsarr  = productCtx.metals;
     metalsarr.splice(name,1)
     setProductCtx({ ...productCtx, metals: metalsarr })
+
+  }
+
+  const handleoptionChange = type => (event, value) => {
+    
+      setProductCtx({ ...productCtx, [type]: value})
 
   }
   function clearmetalvalue()
@@ -152,68 +182,137 @@ export default function Review() {
     setProductCtx({ ...productCtx, metals: metalsarr })
     clearmetalvalue()
   }
+
   return (
     <React.Fragment>
-    <Grid container xs={12} spacing={2}>
-      {!productCtx.material_names.includes("Diamond") ? null : <Paper className={classes.paper} >
+   {!productCtx.material_names.includes("Diamond") ? null : 
+
+      <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+      fullWidth
+    >
+      <CardHeader title="General Information" />
+      <Divider />
+      <CardContent className={classes.cardcontent}>
+      <Grid container xs={12} spacing={1}>
+
         <Grid container xs={12} spacing={1}>
 
         <Grid item xs={4} >
-                        <SelectPlaceholder
-                        fullWidth
-                        placeholder="Diamond Type/Clarity"
-                        onChange={handleChange("diamondclarity")}
-                        value={productCtx.diamondclarity}
-                        options={productCtx.masterData.diamondclarities  }
-                        placeholderzindex="9"
-                        selectzindex="9"
-                        placeholderUp={productCtx.diamondclarity ? true : false}
+                   
 
-                      />
+                <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.diamondclarity}
+                    options={productCtx.masterData.diamondclarities}
+                    onChange={handleoptionChange('diamondclarity')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Type/Clarity"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
               
           
         </Grid>
 
         <Grid item xs={4} >
         
-                      <SelectPlaceholder
-                      fullWidth
-                        placeholder="Diamond Colour"
-                        onChange={handleChange('diamondcolor')}
-                        value={productCtx.diamondcolor}
-                        options={productCtx.masterData.diamondcolors}
-                        placeholderzindex="8"
-                        selectzindex="8"
-                        placeholderUp={productCtx.diamondcolor ? true : false}
-                      />
+                      
+
+            <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.diamondcolor}
+                    options={productCtx.masterData.diamondcolors}
+                    onChange={handleoptionChange('diamondcolor')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Colour"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
 
         
         </Grid>
         <Grid item xs={4} >
         
-            <SelectPlaceholder
-            fullWidth
-                        placeholder="Diamond Setting"
-                        onChange={handleChange('diamondsettings')}
-                        value={productCtx.diamondsettings}
-                        options={productCtx.masterData.diamondsettings}
-                        placeholderzindex="7"
-                        selectzindex="7"
-                        placeholderUp={productCtx.diamondsettings ? true : false}
-                      />
+          
+
+            <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.diamondsettings}
+                    options={productCtx.masterData.diamondsettings}
+                    onChange={handleoptionChange('diamondsettings')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Setting"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
         </Grid>
         <Grid item xs={4} >
       
-        <SelectPlaceholder
-
-                        placeholder="Diamond Shape"
-                        value={productCtx.diamondshape}
-                        onChange={handleChange('diamondshape')}
-                        options={productCtx.masterData.diamondshapes}
-                        placeholderzindex="6"
-                        selectzindex="6"
-                        placeholderUp={productCtx.diamondshape ? true : false}
-                      />
+       
+                      <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.diamondshape}
+                    options={productCtx.masterData.diamondshapes}
+                    onChange={handleoptionChange('diamondshape')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Shape"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
         
         </Grid>
         <Grid item xs={4} >
@@ -252,52 +351,109 @@ export default function Review() {
 
         </Grid>
         </Grid>
+      </Grid>
       
-      
-        </Paper>
-      }
+        </CardContent>
+        </Card>
+   }
 
-      {!productCtx.material_names.includes("Gemstone") ? null : <Paper className={classes.gempapper} >
+ {!productCtx.material_names.includes("Gemstone") ? null : 
+
+  
+       <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardHeader title="General Information" />
+      <Divider />
+      <CardContent className={classes.cardcontent}>
 
           <Grid  container xs={12} spacing={1}>
 
       <Grid item xs={4} >
       
-                  <SelectPlaceholder
-                      placeholder="Gemstone Type"
-                      value={productCtx.gemstonetype}
-                      onChange={handleChange('gemstonetype')}
-                      options={productCtx.masterData.gemstontypes}
-                      placeholderzindex="5"
-                      selectzindex="5"
-                      placeholderUp={productCtx.gemstonetype ? true : false}
+                 
+                       <Autocomplete
+                    
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.gemstonetype}
+                    options={productCtx.masterData.gemstontypes}
+                    onChange={handleoptionChange('gemstonetype')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Gemstone Type"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
                     />
               
       </Grid>
     
       <Grid item xs={4} >
     
-      <SelectPlaceholder
-                      placeholder="Gemstone Shape"
-                      value={productCtx.gemstoneshape}
-                      onChange={handleChange('gemstoneshape')}
-                      options={productCtx.masterData.gemstonshapes}
-                      placeholderzindex="4"
-                      selectzindex="4"
-                      placeholderUp={productCtx.gemstoneshape ? true : false}
+          
+
+<Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.gemstoneshape}
+                    options={productCtx.masterData.gemstonshapes}
+                    onChange={handleoptionChange('gemstoneshape')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Gemstone Shape"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
                     />
       
       </Grid>
       <Grid item xs={4} >
       
-          <SelectPlaceholder
-                      placeholder="Gemstone Setting"
-                      value={productCtx.gemstonesettings}
-                      onChange={handleChange('gemstonesettings')}
-                      options={productCtx.masterData.gemstonesettings}
-                      placeholderzindex="3"
-                      selectzindex="3"
-                      placeholderUp={productCtx.gemstonesettings ? true : false}
+          
+                    <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    defaultValue={productCtx.gemstonesettings}
+                    options={productCtx.masterData.gemstonesettings}
+                    onChange={handleoptionChange('gemstonesettings')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Gemstone Setting"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
                     />
       </Grid>
       <Grid item xs={4} >
@@ -351,8 +507,16 @@ export default function Review() {
 
       </Grid>
       </Grid>
-            </Paper>
-      }
+            </CardContent>
+            </Card>}
+
+            <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardHeader title="General Information" />
+      <Divider />
+      <CardContent className={classes.cardcontent}>
     <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -387,9 +551,9 @@ export default function Review() {
           ))}
         </TableBody>
       </Table>
-        <Grid item xs={6} >
-        </Grid> 
-        </Grid>
+      </CardContent>
+      </Card>
+         
  </React.Fragment>
   );
 }

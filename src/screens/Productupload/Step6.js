@@ -60,9 +60,9 @@ export default function Review() {
     let metalcolour = []
     let product_images = [];
     productCtx.metalcolour.forEach(element => {
-      if(element.name === productCtx.default_metal_colour.name)
+      if(element === productCtx.default_metal_colour)
       {
-        product_images[element.name] = [] 
+        product_images[element] = [] 
         if(metalcolour.length > 0)
         {
           metalcolour.unshift(element);
@@ -72,7 +72,7 @@ export default function Review() {
 
       }else{
         metalcolour.push(element)
-        product_images[element.name] = []
+        product_images[element] = []
       }
 
     })
@@ -172,7 +172,6 @@ export default function Review() {
   return (
     <React.Fragment>
          <Grid container className={classes.root} spacing={2}>
-
      <Grid item direction="row" xs={12}>
        <Grid container  justify="left" spacing={2}>
 
@@ -181,10 +180,10 @@ export default function Review() {
             <Grid  xs={12}  item>
 
              <Typography component="h6" variant="h6" align="left">
-            {value.name}
+            {value}
              </Typography> 
              </Grid>
-             {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
+             {productCtx.product_images[value] === undefined ? null : productCtx.product_images[value].map((row,imageindex) => (
 
             <Grid  xs={3} alignItems="center" item>
                  <Typography component="h6" variant="h6" align="left">
@@ -200,7 +199,7 @@ export default function Review() {
                             
                           }}
                           onaddfile={(error, fileItem)=> {
-                            uploadimagetoserver(fileItem, imageindex, value.name, "edit")
+                            uploadimagetoserver(fileItem, imageindex, value, "edit")
                           }}
                           onremovefile={(error, fileItem)=>{
 
@@ -229,7 +228,7 @@ export default function Review() {
                             
                           }}
                           onremovefile={(error, fileItem)=>{
-                            removefiles(imageindex, value.name)
+                            removefiles(imageindex, value)
                           }}>
                 </FilePond>
                
@@ -247,7 +246,7 @@ export default function Review() {
                             
                           }}
                           onaddfile={(error, fileItem)=> {
-                            uploadimagetoserver(fileItem, index, value.name, "add")
+                            uploadimagetoserver(fileItem, index, value, "add")
                           }}
                           onremovefile={(error, fileItem)=>{
 

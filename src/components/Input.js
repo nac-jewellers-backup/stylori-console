@@ -56,7 +56,7 @@ export const Input = props => {
                 inputProps={{ pattern, maxLength, minLength  }}
 
         style={{ width: "100%" }}
-        helperText={<b>{helperText}</b>}
+        helperText={helperText}
         onKeyPress={handleKeyPress}
         {...defaultStyle}
         {...rest}

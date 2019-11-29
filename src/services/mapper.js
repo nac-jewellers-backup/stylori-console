@@ -13,7 +13,8 @@ export const productCategory = {
         const product_type = response.allMasterProductTypes.nodes.map(_ => ({
             ..._,
             value: _.shortCode,
-            label: _.name
+            label: _.name,
+            title: _.name
         }))
         const material = response.allMasterMaterials.nodes.map(_ => ({
             ..._,

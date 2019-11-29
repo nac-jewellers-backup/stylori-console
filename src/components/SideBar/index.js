@@ -95,30 +95,36 @@ function SideBar() {
             </ListItem>
             </Link>
 
-      {/* <ListItem button onClick={handleClick}>
+       <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Inbox" />
+        <ListItemText primary="Discounts" />
         {globalCtx.isExpand ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={globalCtx.isExpand} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+        <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>
+
           <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 1} onClick={event => handleListItemClick(event, 1)}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
-            <ListItemText primary="Starred" />
+            <ListItemText primary="Sales Discount" />
           </ListItem>
+          </Link>
+          <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>
+
           <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 2} onClick={event => handleListItemClick(event, 2)}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
-            <ListItemText primary="Starred" />
+            <ListItemText primary="Voucher Discount" />
           </ListItem>
+          </Link>
         </List>
       </Collapse>
- */}
+
 
         </List>
       </Drawer>

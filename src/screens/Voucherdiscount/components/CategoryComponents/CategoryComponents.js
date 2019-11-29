@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -88,10 +88,10 @@ const CategoryComponents = props => {
    setVouchercode("1234343")
   };
   
-  
   return (
         <Grid container item xs={12} sm={12} spacing={1}>
-        {props.categories.map(option => (
+        
+        {props.materials.map(option => (
           
           <Grid justify="center" item xs={3} sm={3} spacing={1}>
           <CardActionArea>
@@ -115,7 +115,7 @@ const CategoryComponents = props => {
           </div>
           </CardActionArea>
           </Grid>
-        ))}
+        ))}  
         </Grid>
        
         
@@ -123,7 +123,6 @@ const CategoryComponents = props => {
 };
 
 CategoryComponents.propTypes = {
-  className: PropTypes.string
 };
 
 export default CategoryComponents;
