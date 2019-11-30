@@ -105,7 +105,7 @@ export default function Review(props) {
     setProductCtx({ ...productCtx, 
       diamondsettings: "",
       diamondcolor:"",
-      diamondclarity:"",
+      diamondclarity:null,
       diamondshape:"",
       diamondcount:"",
       diamondweight:"",
@@ -147,17 +147,31 @@ export default function Review(props) {
     var metalsarr  = productCtx.metals;
     var stonedetails = {};
     stonedetails['metalname'] = productCtx.metal.label;
+    var isvalid = true
     if(productCtx.diamondclarity)
     {
-      stonedetails['metalname'] = "Diamond"
+    if(productCtx.diamondsettings && productCtx.diamondcolor && productCtx.diamondclarity && productCtx.diamondshape && productCtx.diamondcount &&
+      productCtx.diamondweight)
+      {      stonedetails['metalname'] = "Diamond"
     stonedetails['settings'] = productCtx.diamondsettings;
     stonedetails['color'] = productCtx.diamondcolor;
     stonedetails['clarity'] = productCtx.diamondclarity;
     stonedetails['shape'] = productCtx.diamondshape;
     stonedetails['count'] = productCtx.diamondcount;
     stonedetails['weight'] = productCtx.diamondweight;
+      }else
+      {
+        isvalid = false
+        alert("Fill all fields")
+      }
 
     }else{
+      if(productCtx.gemstonetype && 
+        productCtx.gemstoneshape && 
+        productCtx.gemstonesettings && 
+        productCtx.gemstonesize && productCtx.gemstonecount &&
+        productCtx.gemstoneweight)
+        { 
       stonedetails['metalname'] = "Gemstone"
       stonedetails['clarity'] = productCtx.gemstonetype;
       stonedetails['color'] = productCtx.gemstoneshape;
@@ -165,8 +179,15 @@ export default function Review(props) {
       stonedetails['shape'] = productCtx.gemstonesize;
       stonedetails['count'] = productCtx.gemstonecount;
       stonedetails['weight'] = productCtx.gemstoneweight;
+    }else
+    {
+      isvalid = false
+      alert("Fill all fields")
+    }
     }
 
+    if(isvalid)
+    {
     if(productCtx.metalindex === -1)
     {
       stonedetails['id'] = metalsarr.length;
@@ -181,6 +202,7 @@ export default function Review(props) {
     }
     setProductCtx({ ...productCtx, metals: metalsarr })
     clearmetalvalue()
+  }
   }
 
   return (

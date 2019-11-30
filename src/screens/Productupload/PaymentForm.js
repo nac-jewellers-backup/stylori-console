@@ -38,7 +38,6 @@ export default function PaymentForm(props) {
 
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
   const handleInputChange = type => e => {
-    alert(e.target.value )
     setProductCtx({ ...productCtx, [type]: e.target.value  })
   }
   const materialChange = type => e => {
@@ -78,7 +77,7 @@ export default function PaymentForm(props) {
                       id="size"
                       onChange={handleInputChange('product_code')}
                       name="size"
-                      value={"S"+productCtx.product_type_shortcode+(productCtx.masterData.productseries[0].value+1)}
+                      value={"S"+productCtx.product_type.shortCode+(productCtx.masterData.productseries[0].value+1)}
                       
                       />
                       </Grid>
@@ -168,7 +167,7 @@ export default function PaymentForm(props) {
     label="Purity"
     name="size"
     autoComplete="size"
-    value={row}
+    value={row.name}
     />
 </Grid>
     <Grid item xs={6} >
@@ -178,12 +177,12 @@ export default function PaymentForm(props) {
     margin="dense"
     fullWidth
     id="size"
-    label={`${row}_metal_weight`}
+    label="Weight"
     name="size"
-    error = {productCtx.error_message[`${row}_metal_weight`]}
+    error = {productCtx.error_message[`${row.name}_metal_weight`]}
     autoComplete="size"
     onChange = {handleInputChange(`${row}_metal_weight`)}
-    value={productCtx[(`${row}_metal_weight`)] === 0 ? "" : productCtx[(`${row}_metal_weight`)]}
+    value={productCtx[(`${row.name}_metal_weight`)] === 0 ? "" : productCtx[(`${row.name}_metal_weight`)]}
     />
 </Grid>
     </Grid> ))}

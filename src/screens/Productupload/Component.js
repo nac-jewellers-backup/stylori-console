@@ -110,6 +110,7 @@ export default function Productupload() {
     //   error_content = productCtx.error_message
 
     // }
+
     if(activeStep === 0)
     {
     if(!productCtx.product_type)
@@ -134,7 +135,7 @@ export default function Productupload() {
       isvalid = false
       error_content['metalcolour'] = "Error messsage" 
     }
-    if(!productCtx.material)
+    if(!productCtx.material_names)
     {
       isvalid = false
       error_content['material_names'] = "Error messsage" 
@@ -224,7 +225,6 @@ export default function Productupload() {
     }
     if((!productCtx.prod_styles || productCtx.prod_styles.length === 0 ))
     {
-      alert("prod_styles")
       isvalid = false
       error_content['prod_styles'] = "Error messsage" 
     }
@@ -249,11 +249,22 @@ export default function Productupload() {
     setProductCtx({...productCtx,error_message:error_content})
      if(activeStep === productCtx.steps.length - 1){
       console.info('HANDLE',sendNetworkRequest);
+     const productseries = productCtx.masterData.productseries[0].productSeries
+
       delete productCtx['masterData'];
+
       var formdata = productCtx
+      formdata['productseries'] = productseries
      console.log("><><><><><")
      console.log(JSON.stringify(formdata))
-    //  sendNetworkRequest('/productupload', {}, formdata)
+      sendNetworkRequest('/productupload', {}, formdata)
+     }else{
+       if(isvalid)
+       {
+        setActiveStep(activeStep + 1);
+  
+      
+        }
      }
     
 
@@ -261,12 +272,7 @@ export default function Productupload() {
 
 
 
-      if(isvalid)
-    {
-      setActiveStep(activeStep + 1);
-
     
-      }
       //else
     //  {
     //  }
@@ -296,11 +302,9 @@ export default function Productupload() {
             {activeStep === productCtx.steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
+Product Added Successfully                </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  
                 </Typography>
               </React.Fragment>
             ) : (

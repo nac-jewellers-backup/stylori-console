@@ -60,9 +60,9 @@ export default function Review() {
     let metalcolour = []
     let product_images = [];
     productCtx.metalcolour.forEach(element => {
-      if(element === productCtx.default_metal_colour)
+      if(element.name === productCtx.default_metal_colour.name)
       {
-        product_images[element] = [] 
+        product_images[element.name] = [] 
         if(metalcolour.length > 0)
         {
           metalcolour.unshift(element);
@@ -72,7 +72,7 @@ export default function Review() {
 
       }else{
         metalcolour.push(element)
-        product_images[element] = []
+        product_images[element.name] = []
       }
 
     })
@@ -81,16 +81,39 @@ export default function Review() {
   async function uploadimagetoserver(bodaydata, imageposition, imagecolor, uploadtype)
   {
   let prodimages = productCtx.product_images;
-
+   
   if(prodimages)
   {
+    var prodid = "S"+productCtx.product_type.shortCode+(productCtx.masterData.productseries[0].value+1)
     let imagecolourobj = productCtx.product_images[imagecolor];
+    var imagecount  = 1;
+    if(imagecolourobj)
+    {
+      imagecount = imagecolourobj.length + 1;
+    }
+    let imagename = (prodid+"_"+(imagecount)+imagecolor.charAt(0));
+    let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename })
+    var returnData = responsedata.data.returnData;
+    var signedRequest = returnData.signedRequest;
+    var url = returnData.url;
+    console.log("responseurl"+url);
+    var filepathname = returnData.filepath
+    // Put the fileType in the headers for the upload
+    var options = {
+        headers: {
+            'Content-Type': bodaydata.fileExtension,
+            'Access-Control-Allow-Origin':'*'
+        }
+    };
+    await axios.put(signedRequest, bodaydata.file, options)
     if(imagecolourobj)
     {
       const imageobj = {
-        "name": ("S"+productCtx.product_type_shortcode+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
+        "name": (prodid+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
         "position":imageposition,
-        "url":"https://source.unsplash.com/random"
+        
+        "image_url":filepathname,
+        "url":'https://s3.ap-south-1.amazonaws.com/staging-assets.stylori.com/'+filepathname
       }
       if(uploadtype === 'edit')
       {
@@ -105,10 +128,11 @@ export default function Review() {
     }else
     {
       const imageobj = {
-        "name": ("S"+productCtx.product_type_shortcode+"_1"+imagecolor.charAt(0)),
+        "name": (prodid+"_1"+imagecolor.charAt(0)),
         "position":imageposition,
         "color":imagecolor,
-        "url":"https://source.unsplash.com/random"
+        "image_url":filepathname,
+        "url":'https://s3.ap-south-1.amazonaws.com/staging-assets.stylori.com/'+filepathname
       }
       imagecolourobj = [];
       imagecolourobj.push(imageobj)
@@ -118,24 +142,7 @@ export default function Review() {
     setFiles([])
   }
 
-  //  let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension})
-  //  var returnData = responsedata.data.returnData;
-  //  var signedRequest = returnData.signedRequest;
-  //  var url = returnData.url;
-  //  console.log("responseurl"+url);
-  //  // Put the fileType in the headers for the upload
-  //  var options = {
-  //      headers: {
-  //          'Content-Type': bodaydata.fileExtension,
-  //          'Access-Control-Allow-Origin':'*'
-  //      }
-  //  };
-  //  axios.put(signedRequest, bodaydata.file, options)
-  //      .then(result => {
-  //         alert(url);
-  //      })
-  //      .catch(error => {
-  //      })
+  
   }
 
   function removefiles(imageposition, imagecolor)
@@ -167,11 +174,12 @@ export default function Review() {
   
  const handleInit = () =>
     {
-      alert("initialized")
+     // alert("initialized")
     }
   return (
     <React.Fragment>
          <Grid container className={classes.root} spacing={2}>
+
      <Grid item direction="row" xs={12}>
        <Grid container  justify="left" spacing={2}>
 
@@ -180,10 +188,10 @@ export default function Review() {
             <Grid  xs={12}  item>
 
              <Typography component="h6" variant="h6" align="left">
-            {value}
+            {value.name}
              </Typography> 
              </Grid>
-             {productCtx.product_images[value] === undefined ? null : productCtx.product_images[value].map((row,imageindex) => (
+             {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
 
             <Grid  xs={3} alignItems="center" item>
                  <Typography component="h6" variant="h6" align="left">
@@ -199,7 +207,7 @@ export default function Review() {
                             
                           }}
                           onaddfile={(error, fileItem)=> {
-                            uploadimagetoserver(fileItem, imageindex, value, "edit")
+                            uploadimagetoserver(fileItem, imageindex, value.name, "edit")
                           }}
                           onremovefile={(error, fileItem)=>{
 
@@ -228,7 +236,7 @@ export default function Review() {
                             
                           }}
                           onremovefile={(error, fileItem)=>{
-                            removefiles(imageindex, value)
+                            removefiles(imageindex, value.name)
                           }}>
                 </FilePond>
                
@@ -246,7 +254,7 @@ export default function Review() {
                             
                           }}
                           onaddfile={(error, fileItem)=> {
-                            uploadimagetoserver(fileItem, index, value, "add")
+                            uploadimagetoserver(fileItem, index, value.name, "add")
                           }}
                           onremovefile={(error, fileItem)=>{
 

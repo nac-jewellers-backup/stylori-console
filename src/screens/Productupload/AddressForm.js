@@ -156,6 +156,7 @@ export default function AddressForm(props) {
 
     }
     const handleoptionChange = type => (event, value) => {
+     
       if(type === 'vendorcode')
       {
         setProductCtx({ ...productCtx, [type]: value,'vendorleadtime':value.vendorDelivaryDays})
@@ -190,14 +191,13 @@ export default function AddressForm(props) {
       var selected_sizes=[]
       var sizes = [];
       var default_size = 0
-      var selected_sizes = productCtx.selected_sizes;
-    if(productCtx.product_type === 'Rings' && value === 'Male')
+    if(productCtx.product_type.shortCode === 'R' && value === 'Male')
     {
       minvalue = 13
       maxvalue = 25
       default_size = ''+15
     }
-    if(productCtx.product_type === 'Rings' && value === 'Female')
+    if(productCtx.product_type.shortCode === 'R' && value === 'Female')
     {
      minvalue = 8
       maxvalue = 23
@@ -214,10 +214,11 @@ export default function AddressForm(props) {
         ''+i
       )
     }
-    alert(default_size)
     setProductCtx({ ...productCtx,  [type]: value,sizes, selected_sizes,default_size })
 
     }
+
+    
 
 
 
@@ -411,8 +412,9 @@ export default function AddressForm(props) {
                   <Autocomplete
                     id="product_type"
                     className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
                     defaultValue={productCtx.product_type}
-                    options={productCtx.masterData.product_type.map(option => option.label)}
+                    options={productCtx.masterData.product_type}
                     onChange={handleoptionChange('product_type')}
                     
                     renderTags={(value, getTagProps) =>
@@ -523,12 +525,13 @@ export default function AddressForm(props) {
                     multiple
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
+                    getOptionLabel = {option => option.label}
                     defaultValue={productCtx.metalpurity}
-                    options={productCtx.masterData.metalpurity.map(option => option.label)}
+                    options={productCtx.masterData.metalpurity}
                     onChange={handleoptionChange('metalpurity')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                     ))
                     }
                     renderInput={params => (
@@ -552,12 +555,13 @@ export default function AddressForm(props) {
                     multiple
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
                     defaultValue={productCtx.metalcolour}
-                    options={productCtx.masterData.metalcolour.map(option => option.label)}
+                    options={productCtx.masterData.metalcolour}
                     onChange={handleoptionChange('metalcolour')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                     ))
                     }
                     renderInput={params => (
@@ -708,10 +712,10 @@ export default function AddressForm(props) {
                         className={classes.fixedTag}
                         defaultValue={productCtx.default_metal_colour}
                         onChange={handleoptionChange('default_metal_colour')}
-                        options={productCtx.metalcolour}
+                        options={productCtx.metalcolour.map(option => option.label)}
                         renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
-                          <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                          <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                         ))
                       }
                       renderInput={params => (
@@ -733,14 +737,13 @@ export default function AddressForm(props) {
   
                   <Autocomplete
                         id="product_category"
-                        multiple
                         className={classes.fixedTag}
                         defaultValue={productCtx.default_metal_purity}
                         onChange={handleoptionChange('default_metal_purity')}
-                        options={productCtx.metalpurity}
+                        options={productCtx.metalpurity.map(option => option.label)}
                         renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
-                          <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                          <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                         ))
                       }
                       renderInput={params => (
@@ -766,7 +769,7 @@ export default function AddressForm(props) {
     </Grid> 
     <Grid item xs={12} sm={12}>
 
-    {(productCtx.product_type && productCtx.product_type  === 'Rings') ? <>
+    {(productCtx.product_type && productCtx.product_type.shortCode  === 'R' && productCtx.sizes.length > 0 ) ? <>
   <Card
   {...rest}
   className={clsx(classes.root, className)}
