@@ -195,7 +195,7 @@ export default function Review() {
 
             <Grid  xs={3} alignItems="center" item>
                  <Typography component="h6" variant="h6" align="left">
-            {row.url}
+            {/* {row.url} */}
              </Typography> 
            {row.url.length === 0 ? <FilePond 
                           labelIdle="Image For"
