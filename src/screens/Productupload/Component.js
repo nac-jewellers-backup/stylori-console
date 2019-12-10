@@ -77,13 +77,11 @@ const useStyles = makeStyles(theme => ({
 function getStepContent(step) {
   switch (step) {
     case "Step1":
-    return <Review />;
-
+    return <AddressForm />;
     case "Step2":
       return <PaymentForm />;
     case "Step3":
-    return <AddressForm />;
-
+      return <Review />;
     case "Step4":
       return <Step5 />;
     case "Step5":
