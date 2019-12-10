@@ -704,9 +704,6 @@ export default function AddressForm(props) {
       
       <Grid item xs={6} >
   
-                    
-                  
-  
                     <Autocomplete
                         id="product_category"
                         className={classes.fixedTag}
@@ -844,7 +841,7 @@ export default function AddressForm(props) {
       </Card> </>: null}
     </Grid>
     <Grid item xs={12} sm={12}>
-{ (productCtx.product_type && productCtx.product_type  === 'Earrings') ? <>
+{ (productCtx.product_type && productCtx.product_type.alias  === 'Earrings') ? <>
   <Card
   {...rest}
   className={clsx(classes.root, className)}

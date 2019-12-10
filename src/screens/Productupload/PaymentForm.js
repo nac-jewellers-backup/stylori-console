@@ -181,7 +181,7 @@ export default function PaymentForm(props) {
     name="size"
     error = {productCtx.error_message[`${row.name}_metal_weight`]}
     autoComplete="size"
-    onChange = {handleInputChange(`${row}_metal_weight`)}
+    onChange = {handleInputChange(`${row.name}_metal_weight`)}
     value={productCtx[(`${row.name}_metal_weight`)] === 0 ? "" : productCtx[(`${row.name}_metal_weight`)]}
     />
 </Grid>

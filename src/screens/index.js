@@ -7,4 +7,5 @@ export * from "./Productlist"
 export * from "./CategoryList"
 export * from "./ProducttypeList"
 export * from "./Voucherdiscount"
+export * from "./Priceupdate"
 

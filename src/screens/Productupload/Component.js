@@ -77,11 +77,13 @@ const useStyles = makeStyles(theme => ({
 function getStepContent(step) {
   switch (step) {
     case "Step1":
-    return <AddressForm />;
+    return <Review />;
+
     case "Step2":
       return <PaymentForm />;
     case "Step3":
-      return <Review />;
+    return <AddressForm />;
+
     case "Step4":
       return <Step5 />;
     case "Step5":
@@ -179,7 +181,7 @@ export default function Productupload() {
       isvalid = false
       error_content['productvendorcode'] = "Error messsage" 
     }
-    if(!productCtx.earringbacking && productCtx.product_type === 'Earrings' )
+    if(!productCtx.earringbacking && productCtx.product_type.alias === 'Earrings' )
     {
       isvalid = false
       error_content['earringbacking'] = "Error messsage" 
@@ -208,7 +210,8 @@ export default function Productupload() {
   if(activeStep === 1)
   {
     productCtx.metalpurity.forEach( element => {
-      const keyvalue = element+'_metal_weight'
+      const keyvalue = (element.name)+'_metal_weight'
+
       if((!productCtx[keyvalue] || productCtx[keyvalue].length === 0 ))
     {
       isvalid = false
@@ -302,7 +305,8 @@ export default function Productupload() {
             {activeStep === productCtx.steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-Product Added Successfully                </Typography>
+                  Product Added Successfully
+                  </Typography>
                 <Typography variant="subtitle1">
                   
                 </Typography>

@@ -8,7 +8,8 @@ const route = {
     productlist: '/productlist',
     materiallist: '/material',
     producttypes: '/producttypes',
-    voucherdiscount: '/voucherdiscount'
+    voucherdiscount: '/voucherdiscount',
+    priceupdate: '/priceupdate'
 
 }
 

@@ -22,12 +22,19 @@ const PRODUCTCATEGORY = gql`query {
       id
       name
     }
-  }
+  },
   allMasterGenders {
     nodes {
       alias
       id
       name
+    }
+  },
+  allMasterDiamondTypes {
+    nodes {
+      diamondClarity
+      diamondColor
+      id
     }
   }
   allMasterMetalsColors {

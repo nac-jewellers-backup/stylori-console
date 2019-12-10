@@ -119,6 +119,14 @@ export const productCategory = {
             value: _.alias,
             label:_.name
         }))
+
+        const diamondtypes = response.allMasterDiamondTypes.nodes.map(_ => ({
+            ..._,
+            value: _.diamondColor+_.diamondClarity,
+            label:_.diamondColor+_.diamondClarity
+        }))
+
+        
         
         const metals = apidata.metals
         
@@ -139,6 +147,7 @@ export const productCategory = {
             stones,
             metalpurity,
             diamondcolors,
+            diamondtypes,
             diamondclarities,
             productseries,
             gemstontypes,
@@ -156,7 +165,21 @@ export const materialMaster = {
         const materials = response.allMasterMaterials.nodes.map(_ => ({
             ..._
                 }))
+        const vendors = response.allMasterVendors.nodes.map(_ => ({
+                    ..._
+        }))
+
+        const product_categories = response.allMasterProductCategories.nodes.map(_ => ({
+            ..._
+        }))
+        const product_types = response.allMasterProductTypes.nodes.map(_ => ({
+            ..._
+        }))
+        
         return {
+            vendors,
+            product_categories,
+            product_types,
             materials
         }
     }

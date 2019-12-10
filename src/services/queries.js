@@ -35,6 +35,30 @@ export const PRODUCTCATEGORY = gql`query {
 
 
 export const MATERIALMASTER = gql`query {
+        allMasterVendors {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterProductCategories {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      id
+    }
+  },
    allMasterMaterials {
     nodes {
       alias
