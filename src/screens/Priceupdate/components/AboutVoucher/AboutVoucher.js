@@ -255,7 +255,7 @@ const AboutVoucher = props => {
         <Autocomplete
               multiple
               id="combo-box-demo"
-              options={['Diamond','Gemstone','Gold','Making Charge']}
+              options={['Diamond','Gemstone','Gold','Making Charge','price update']}
               onChange={hangeoptionchange('pricingcomponent')}
 
               fullWidth
@@ -280,14 +280,19 @@ const AboutVoucher = props => {
         color="primary">
         Update Status
       </Button>
-
-      </Grid>
-      <Grid item xs={6} sm={3} >
-
-        <Typography variant="subtitle1">
+      <Typography variant="subtitle1">
                 {updatestatus}
       </Typography>
+
       </Grid>
+      {/* <Grid item xs={6} sm={3} >
+      <Button variant="contained" 
+          onClick={handleuploadstatus}
+        color="primary">
+        Price Update
+      </Button>
+       
+      </Grid> */}
         </Grid>
 
       </CardContent>
