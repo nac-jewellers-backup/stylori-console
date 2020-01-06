@@ -224,6 +224,16 @@ export default function Productupload() {
       isvalid = false
       error_content['themes'] = "Error messsage" 
     }
+    if(!productCtx.metal_height)
+    {
+      isvalid = false
+      error_content['metal_height'] = "Error messsage" 
+    }
+    if((!productCtx.themes || productCtx.themes.length === 0 ))
+    {
+      isvalid = false
+      error_content['themes'] = "Error messsage" 
+    }
     if((!productCtx.prod_styles || productCtx.prod_styles.length === 0 ))
     {
       isvalid = false

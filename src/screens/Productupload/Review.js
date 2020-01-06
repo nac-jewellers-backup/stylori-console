@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import clsx from 'clsx';
 import { makeStyles,useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -17,7 +17,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import EditIcon from '@material-ui/icons/Edit';
 import Paper from '@material-ui/core/Paper';
 import SelectPlaceholder from '../../components/SelectPlaceholder.js'
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete'; 
 import {
   Card,
   CardHeader,
@@ -75,8 +75,7 @@ export default function Review(props) {
   const theme = useTheme();
   const inputLabel = React.useRef(null);
   const { className, ...rest } = props;
-
-  const { productCtx, setProductCtx, masterData } = React.useContext(ProductContext);
+  const { productCtx, setProductCtx} = React.useContext(ProductContext);
   const handleInputChange = type => e => {
     setProductCtx({ ...productCtx, [type]: e.target.value  })
   }
@@ -91,7 +90,7 @@ export default function Review(props) {
     clearmetalvalue();
     var metalsarr  = productCtx.metals;
     metalsarr.splice(name,1)
-    setProductCtx({ ...productCtx, metals: metalsarr })
+    setProductCtx({ ...productCtx, metals: metalsarr }) 
 
   }
 
@@ -102,10 +101,17 @@ export default function Review(props) {
   }
   function clearmetalvalue()
   {
-    setProductCtx({ ...productCtx, 
+    // for(let value in initialState){
+    //   if(value!=="diamondclarity" || "diamondshape" || "diamondsettings"){
+    //     setProductCtx({  
+    //       [value]:initialState[value]
+    //     })
+    //   }
+    // }
+    setProductCtx({...productCtx,
       diamondsettings: "",
       diamondcolor:"",
-      diamondclarity:null,
+      diamondclarity:"",
       diamondshape:"",
       diamondcount:"",
       diamondweight:"",
@@ -116,6 +122,9 @@ export default function Review(props) {
       gemstonecount:"",
       gemstoneweight:""
     })
+    // alert(productCtx)
+    // console.log(productCtx)
+    
 
   }
   function assignvalue(metalobj, indexval)
@@ -228,7 +237,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.diamondclarity}
+                    value={productCtx.diamondclarity}
                     options={productCtx.masterData.diamondclarities}
                     onChange={handleoptionChange('diamondclarity')}
                     renderTags={(value, getTagProps) =>
@@ -248,7 +257,6 @@ export default function Review(props) {
                     )}
                     />
               
-          
         </Grid>
 
         <Grid item xs={4} >
@@ -259,7 +267,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.diamondcolor}
+                    value={productCtx.diamondcolor}
                     options={productCtx.masterData.diamondcolors}
                     onChange={handleoptionChange('diamondcolor')}
                     renderTags={(value, getTagProps) =>
@@ -289,7 +297,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.diamondsettings}
+                    value={productCtx.diamondsettings}
                     options={productCtx.masterData.diamondsettings}
                     onChange={handleoptionChange('diamondsettings')}
                     renderTags={(value, getTagProps) =>
@@ -316,7 +324,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.diamondshape}
+                    value={productCtx.diamondshape}
                     options={productCtx.masterData.diamondshapes}
                     onChange={handleoptionChange('diamondshape')}
                     renderTags={(value, getTagProps) =>
@@ -400,7 +408,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.gemstonetype}
+                    value={productCtx.gemstonetype}
                     options={productCtx.masterData.gemstontypes}
                     onChange={handleoptionChange('gemstonetype')}
                     renderTags={(value, getTagProps) =>
@@ -430,7 +438,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.gemstoneshape}
+                    value={productCtx.gemstoneshape}
                     options={productCtx.masterData.gemstonshapes}
                     onChange={handleoptionChange('gemstoneshape')}
                     renderTags={(value, getTagProps) =>
@@ -458,7 +466,7 @@ export default function Review(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
-                    defaultValue={productCtx.gemstonesettings}
+                    value={productCtx.gemstonesettings}
                     options={productCtx.masterData.gemstonesettings}
                     onChange={handleoptionChange('gemstonesettings')}
                     renderTags={(value, getTagProps) =>

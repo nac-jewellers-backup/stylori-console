@@ -348,7 +348,13 @@ export default function AddressForm(props) {
         setProductCtx({ ...productCtx, [type]:selectedOption, steps,material_names })
 
     }
-    
+    const keyPress =type => e => {
+      const re = /^[a-zA-Z\b]+$/;
+      if (e.target.value === '' || re.test(e.target.value)) {
+        setProductCtx({ ...productCtx, [type]: e.target.value})
+      }
+      
+   }
     
   return (
     <>
@@ -376,7 +382,7 @@ export default function AddressForm(props) {
                          // helperText={productCtx.error_message.productname ? productCtx.error_message.productname : "" }
                           name="productname"
                           label="Product Name"
-                          onChange={handleTextChange('productname')}
+                          onChange={keyPress('productname')}
                           />
           
       </Grid> 
