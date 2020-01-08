@@ -349,7 +349,7 @@ export default function AddressForm(props) {
 
     }
     const keyPress =type => e => {
-      const re = /^[a-zA-Z\b]+$/;
+      const re = /^[a-zA-Z \b]+$/;
       if (e.target.value === '' || re.test(e.target.value)) {
         setProductCtx({ ...productCtx, [type]: e.target.value})
       }
