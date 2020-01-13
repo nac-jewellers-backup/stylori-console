@@ -131,6 +131,8 @@ export default function Review() {
         imagecolourobj.push(imageobj)
 
       }
+      prodimages[imagecolor] = imagecolourobj;
+    setProductCtx({ ...productCtx, product_images: prodimages })
 
     }else
     {

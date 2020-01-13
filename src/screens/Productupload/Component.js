@@ -224,11 +224,20 @@ export default function Productupload() {
       isvalid = false
       error_content['themes'] = "Error messsage" 
     }
-    if(!productCtx.metal_height)
+    if(productCtx.product_type_shortcode === 'R')
     {
-      isvalid = false
-      error_content['metal_height'] = "Error messsage" 
+      if(!productCtx.metal_height)
+      {
+        isvalid = false
+        error_content['metal_height'] = "Error messsage" 
+      }
+      if(!productCtx.metal_width)
+      {
+        isvalid = false
+        error_content['metal_width'] = "Error messsage" 
+      }
     }
+    
     if((!productCtx.themes || productCtx.themes.length === 0 ))
     {
       isvalid = false
@@ -244,11 +253,11 @@ export default function Productupload() {
       isvalid = false
       error_content['occassions'] = "Error messsage" 
     }
-    if((!productCtx.collections || productCtx.collections.length === 0 ))
-    {
-      isvalid = false
-      error_content['collections'] = "Error messsage" 
-    }
+    // if((!productCtx.collections || productCtx.collections.length === 0 ))
+    // {
+    //   isvalid = false
+    //   error_content['collections'] = "Error messsage" 
+    // }
 
   //  isvalid = true;
 

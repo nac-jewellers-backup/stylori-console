@@ -194,13 +194,13 @@ export default function AddressForm(props) {
     if(productCtx.product_type.shortCode === 'R' && value === 'Male')
     {
       minvalue = 13
-      maxvalue = 25
+      maxvalue = 26
       default_size = ''+15
     }
     if(productCtx.product_type.shortCode === 'R' && value === 'Female')
     {
      minvalue = 8
-      maxvalue = 23
+      maxvalue = 24
       default_size = ''+12
 
     }
