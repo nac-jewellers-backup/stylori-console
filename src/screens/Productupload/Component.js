@@ -268,7 +268,7 @@ export default function Productupload() {
       formdata['productseries'] = productseries
      console.log("><><><><><")
      console.log(JSON.stringify(formdata))
-     // sendNetworkRequest('/productupload', {}, formdata)
+      sendNetworkRequest('/productupload', {}, formdata)
      }else{
        if(isvalid)
        {

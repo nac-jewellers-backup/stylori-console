@@ -55,3 +55,19 @@
     z-index:99;
 
 }
+
+.filepond--item {
+    width: calc(25% - 0.25em);
+}
+.filepond--root .filepond--drop-label {
+    cursor: pointer;
+    background: #e2dbdb;
+}
+.filepond--drop-label.filepond--drop-label label {
+    cursor: pointer;
+}
+@media only screen and (max-width: 425px) {
+    .filepond--item {
+        width: calc(100% - 0.25em);
+    }
+}

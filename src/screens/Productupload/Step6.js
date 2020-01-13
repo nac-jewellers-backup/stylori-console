@@ -16,6 +16,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size';
+import FilePondPluginFileRename from 'filepond-plugin-file-rename';
 
 // Register the plugins
  
@@ -23,7 +25,7 @@ import { ProductContext } from '../../context';
 import { NetworkContext } from '../../context/NetworkContext';
 import { file } from '@babel/types';
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview,FilePondPluginImageValidateSize,FilePondPluginFileRename);
 
 
   const useStyles = makeStyles(theme => ({
@@ -50,12 +52,13 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
   
   
 export default function Review() {
+  let count= 0;
   const classes = useStyles();
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [metalcolour, setMetalcolour] = React.useState([]);
   const [files, setFiles] = React.useState([]);
-
+  const [images,setImages] = React.useState({});
   React.useEffect(() => {
     let metalcolour = []
     let product_images = [];
@@ -80,8 +83,11 @@ export default function Review() {
 }, []);
   async function uploadimagetoserver(bodaydata, imageposition, imagecolor, uploadtype)
   {
+      
+      debugger;
+//alert(JSON.stringify(bodaydata))
+
   let prodimages = productCtx.product_images;
-   
   if(prodimages)
   {
     var prodid = "S"+productCtx.product_type.shortCode+(productCtx.masterData.productseries[0].value+1)
@@ -91,29 +97,30 @@ export default function Review() {
     {
       imagecount = imagecolourobj.length + 1;
     }
+
     let imagename = (prodid+"_"+(imagecount)+imagecolor.charAt(0));
-    let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename }, false)
+    let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename, product_id: prodid },false)
     var returnData = responsedata.data.returnData;
     var signedRequest = returnData.signedRequest;
     var url = returnData.url;
+    debugger;
     console.log("responseurl"+url);
     var filepathname = returnData.filepath
-    // Put the fileType in the headers for the upload
     var options = {
         headers: {
             'Content-Type': bodaydata.fileExtension,
             'Access-Control-Allow-Origin':'*'
         }
     };
-    await axios.put(signedRequest, bodaydata.file, options)
+    
+     await axios.put(signedRequest, bodaydata.file, options)
     if(imagecolourobj)
     {
       const imageobj = {
         "name": (prodid+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
         "position":imageposition,
-        
         "image_url":filepathname,
-        "url":'https://s3.ap-south-1.amazonaws.com/staging-assets.stylori.com/'+filepathname
+        "url":'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname
       }
       if(uploadtype === 'edit')
       {
@@ -132,17 +139,19 @@ export default function Review() {
         "position":imageposition,
         "color":imagecolor,
         "image_url":filepathname,
-        "url":'https://s3.ap-south-1.amazonaws.com/staging-assets.stylori.com/'+filepathname
+        "url":'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname
       }
       imagecolourobj = [];
       imagecolourobj.push(imageobj)
     }
     prodimages[imagecolor] = imagecolourobj;
+    debugger;
     setProductCtx({ ...productCtx, product_images: prodimages })
-    setFiles([])
+    // setFiles([])
   }
 
   
+
   }
 
   function removefiles(imageposition, imagecolor)
@@ -191,16 +200,16 @@ export default function Review() {
             {value.name}
              </Typography> 
              </Grid>
-             {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
+             {/* {productCtx.product_images[value.name] === undefined ? null : productCtx.product_images[value.name].map((row,imageindex) => (
 
             <Grid  xs={3} alignItems="center" item>
                  <Typography component="h6" variant="h6" align="left">
-            {/* {row.url} */}
+            {row.url}
              </Typography> 
            {row.url.length === 0 ? <FilePond 
                           labelIdle="Image For"
                           allowMultiple={true}
-                          maxFiles={1}  
+                          maxFiles={3}  
                           files = {files}
                           onupdatefiles={fileItem => {
                               // Set currently active file objects to this.state
@@ -242,15 +251,22 @@ export default function Review() {
                
                 
                          } </Grid>
-             ))}
-            <Grid xs={3} item>
-              <FilePond 
-                          labelIdle="Image For"
-                          allowMultiple={true}
-                          maxFiles={1}  
+             ))} */}
+            <Grid xs={12} sm={12} md={12} item>
+              <FilePond  
+                          allowImageValidateSize
+                          imageValidateSizeMinWidth="2400"
+                          imageValidateSizeMinHeight="2400"
+                          imageValidateSizeMeasure={(file)=>new Promise((resolve,reject)=>{
+                            console.log(file);
+                            console.log('filepond property');
+                            debugger;
+                          })}
+                          labelIdle="Upload Image" 
+                          allowMultiple={true}  
                           files = {files}
                           onupdatefiles={fileItem => {
-                              // Set currently active file objects to this.state
+                              // Set currently active file objectsfiles to this.state
                             
                           }}
                           onaddfile={(error, fileItem)=> {
@@ -258,7 +274,22 @@ export default function Review() {
                           }}
                           onremovefile={(error, fileItem)=>{
 
-                          }}>
+                          }}
+                          fileRenameFunction={
+                            (file) => new Promise(resolve => {
+                              var prodid = "S"+productCtx.product_type.shortCode+(productCtx.masterData.productseries[0].value+1)
+                              let imagecolourobj = productCtx.product_images[value.name];
+                              var imagecount  = 1;
+                              if(imagecolourobj)
+                              {
+                                imagecount = imagecolourobj.length + 1;
+                              }
+                              let imagename = (prodid+"_"+(imagecount)+value.name.charAt(0))+file.extension;
+                              resolve(imagename)
+                              
+                          })
+                           } 
+                          >
                 </FilePond>
                 {/* <Grid container xs={12} alignItems="center" spacing={1} item>
                 <Grid  xs={8} item>
