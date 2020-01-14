@@ -343,7 +343,7 @@ export default function Productupload() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === productCtx.steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === productCtx.steps.length - 1 ? 'Product Upload' : 'Next'}
                   </Button>
                 </div>
               </React.Fragment>

@@ -147,7 +147,7 @@ export default function Review() {
     setProductCtx({ ...productCtx, product_images: prodimages })
     // setFiles([])
   }
- // await axios.put(signedRequest, bodaydata.file, options)
+  await axios.put(signedRequest, bodaydata.file, options)
 
   
 
@@ -263,7 +263,7 @@ export default function Review() {
                           })}
                           labelIdle="Upload Image" 
                           allowMultiple={true}  
-                          files = {files}
+                          //files = {files}
                           onupdatefiles={fileItem => {
                               // Set currently active file objectsfiles to this.state
                             
