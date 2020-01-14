@@ -84,7 +84,6 @@ export default function Review() {
   async function uploadimagetoserver(bodaydata, imageposition, imagecolor, uploadtype)
   {
       
-      debugger;
 //alert(JSON.stringify(bodaydata))
 
   let prodimages = productCtx.product_images;
@@ -103,7 +102,6 @@ export default function Review() {
     var returnData = responsedata.data.returnData;
     var signedRequest = returnData.signedRequest;
     var url = returnData.url;
-    debugger;
     console.log("responseurl"+url);
     var filepathname = returnData.filepath
     var options = {
@@ -113,12 +111,12 @@ export default function Review() {
         }
     };
     
-     await axios.put(signedRequest, bodaydata.file, options)
     if(imagecolourobj)
     {
       const imageobj = {
         "name": (prodid+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
         "position":imageposition,
+        "color":imagecolor,
         "image_url":filepathname,
         "url":'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname
       }
@@ -132,7 +130,6 @@ export default function Review() {
 
       }
       prodimages[imagecolor] = imagecolourobj;
-    setProductCtx({ ...productCtx, product_images: prodimages })
 
     }else
     {
@@ -147,10 +144,10 @@ export default function Review() {
       imagecolourobj.push(imageobj)
     }
     prodimages[imagecolor] = imagecolourobj;
-    debugger;
     setProductCtx({ ...productCtx, product_images: prodimages })
     // setFiles([])
   }
+ // await axios.put(signedRequest, bodaydata.file, options)
 
   
 
