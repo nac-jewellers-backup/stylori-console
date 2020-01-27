@@ -1,0 +1,13 @@
+.root
+{
+    margin: 0 !important;
+    height: 100vh ;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center
+
+    
+}
+
+  

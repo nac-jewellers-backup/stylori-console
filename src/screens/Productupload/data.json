@@ -1,0 +1,137 @@
+{
+    "category" : [
+        {
+            "name":"Gold Jewellery",
+            "value":"Gold"
+        },
+        {
+            "name":"Platinum Jewellery",
+            "value":"Platinum"
+        },
+        {
+            "name":"Gold Coin",
+            "value":"Gold Coin"
+        },
+        {
+            "name":"Silver Jewellery",
+            "value":"Silver"
+        }
+
+    ],
+    "product_type":[
+
+        {
+            "name": "Ear Rings",
+            "value": "Ear Rings" 
+        },
+        {
+            "name": "Pendants",
+            "value": "Pentants" 
+        },
+        {
+            "name": "Rings",
+            "value": "Rings" 
+        }
+
+    ],
+    "material":[
+        {
+            "name":"Gold",
+            "value":"gold"
+        },
+        {
+            "name":"Diamond",
+            "value":"diamond"
+        },
+        {
+            "name":"Gemstone",
+            "value":"gemstone"
+        }
+    ],
+    "gender":[
+        {
+        "name":"Male",
+        "value":"Male"
+        },
+        {
+            "name":"FeMale",
+            "value":"FeMale"
+        },
+        {
+                "name":"Unisex",
+                "value":"Unisex"
+        }
+    ],
+    "vendorcode":[
+        {
+            "name": "NAC",
+            "value": "S23093",
+            "label":"NAC"
+        }
+    ],
+    "metalcolour":[
+      
+        {
+            "name": "No Colour",
+            "value": "1"
+        },
+        {
+            "name": "Yellow",
+            "value": "2"
+        },
+        {
+            "name": "White",
+            "value": "3"
+        },
+        {
+            "name": "Rose",
+            "value": "4"
+        },
+        {
+            "name": "Yellow + White Two Tone",
+            "value": "5"
+        },
+        {
+            "name": "Rose + White Two Tone",
+            "value": "6"
+        },
+        {
+            "name": "Yellow + Rose + White Three Tone",
+            "value": "7"
+        }
+    ],
+    "metals":[
+        {
+            "label":"Diamond",
+            "value":1
+        },
+        {
+            "label":"Gem Stone",
+            "value":2
+        }
+    ],
+
+    "diamondtype":[
+        {
+            "name":"Diamond",
+            "value":1
+        },
+        {
+            "name":"Diamond2",
+            "value":2
+        }
+    ],
+    "multiselec":[
+        {
+            "label":"Diamond"
+        },
+        {
+            "label":"Diamond2"
+        }
+    ],
+    "selectdata":[
+        "stone1",
+        "stone2",
+        "stone3"
+    ]
+}
