@@ -30,16 +30,18 @@ export function Component(props) {
   const [state,setstate] = useState({
     create_variant:false
   })
-  let prod_id = localStorage.getItem('productEditId');
-  // alert(productCtx.productname)
+  let prod_id = props.location.pathname.split('/')[2];
   const classes = useStyle();
-  const keyPress = type => e => {
-    console.log(e.target.value,'keypress')
-    console.log('product', productCtx, e)
-    const re = /^[a-zA-Z\b]+$/;
-    if (e.target.value === '' || re.test(e.target.value)) {
-      setProductCtx({ ...productCtx, [type]: e.target.value })
-    }
+  function keyPress(evt) {
+    const productname = (evt.target.validity.valid) ? evt.target.value : productCtx.productname;
+    setProductCtx({ ...productCtx, productname })
+    // console.log(e.target.value,'keypress')
+    // console.log('product', productCtx, e)
+    // const re = /^[a-zA-Z\b]+$/;
+    // if (e.target.value === '' || re.test(e.keyCode)) {
+    //   alert(e.target.value)
+    //   // setProductCtx({ ...productCtx, productname: e.target.value })
+    // }
 
   }
   function changeVariant() {
@@ -78,9 +80,22 @@ export function Component(props) {
       productName:productCtx.productname,
       productDiamondsByProductSku:productCtx.diamondlist,
       productGemstonesByProductSku:productCtx.gemstonelist,
-      transSkuListsByProductId:productCtx.variants,
+      transSkuListsByProductId:productCtx.editVariants,
       createVariants:productCtx.createVariantList
     }
+    // const opts = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(productEditItem)
+    // }
+    // fetch(GRAPHQL_DEV_CLIENT,opts)
+    // .then(res=>res.json())
+    // .then(fetchValue=>{
+
+    // })
+    // .catch(console.error)
+    console.log(JSON.stringify(productEditItem))
+    // props.history.push('/productlist')
   }
   useEffect(() => {
     const url = GRAPHQL_DEV_CLIENT;
@@ -113,7 +128,7 @@ export function Component(props) {
       .catch(console.error)
   }, [])
   return (
-    state.create_variant? <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant}/>:
+    state.create_variant? <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id}/>:
     <Grid container>
       <Grid item>
       <Grid container spacing={1} >
@@ -124,12 +139,14 @@ export function Component(props) {
           variant="outlined"
           margin="dense"
           fullWidth
+          pattern="[a-zA-Z]*"
           value={productCtx.productname}
           id="productname"
           error={productCtx && productCtx.error_message && productCtx.error_message.productname}
           name="productname"
           label="Product Name"
-          onChange={keyPress('productname')}
+          onInput={keyPress.bind(this)}
+          // onChange={(e)=>keyPress(e,'productname')}
         />
       </Grid>
       <Grid style={{fontSize:".9rem",    padding: "8px"}}>Diamond Table</Grid>

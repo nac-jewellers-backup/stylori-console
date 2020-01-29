@@ -16,10 +16,11 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Query } from 'react-apollo';
-import {PRODUCTLIST} from '../../graphql/query';
+import { Query, withApollo } from 'react-apollo';
+import {PRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { Button, Switch } from '@material-ui/core';
+import { useMutation,useQuery } from '@apollo/react-hooks';
 const columns = [
   { id: 'name', label: 'Name', minWidth: 200 },
   { id: 'SKU', label: 'SKU', minWidth: 100 },
@@ -33,7 +34,7 @@ const columns = [
   },
   {
     id: 'delete',
-    label: 'delete',
+    label: 'Action',
     minWidth: 120,
     align: 'center',
     format: value => value.toFixed(2),
@@ -126,7 +127,7 @@ const useStyles2 = makeStyles(theme => ({
   },
 }));
 
-export default function AddContact(props) {
+const   AddContact=(props)=> {
   let history = useHistory();
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
@@ -145,12 +146,29 @@ export default function AddContact(props) {
     setPage(0);
   }
   function ProductEdit(id){
-    localStorage.setItem('productEditId',id);
-    history.push(`product_attributes`)
+    // localStorage.setItem('productEditId',id);
+    history.push(`product_attributes/${id}`)
   }
-  function ProductDelete(id){
+  // function productItemStatusChange(id,isactive){
+    // let variable = {
+    //   "productId": id
+    // };
+    // let status = isactive ? variable.isActive = false :variable.isActive = true;
+    async function productItemStatusChange(id,isactive,refetch){
+      let variables ={
+        productId:id,
+        isActive:isactive ?false:true
+      }
+      await props.client.mutate({mutation:PRODUCTLISTSTATUSEDIT,variables}).then(res=>{
+
+        if(res!==null){
+          refetch();
+        }
+      }).catch(console.error)
     
-  }
+    }
+    // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
+  // }
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
@@ -198,9 +216,14 @@ export default function AddContact(props) {
                                   </Button>
                                   </TableCell>
                                   <TableCell align="center">
-                                  <Button onClick={(e) => ProductDelete(row.productId)}>
-                                    <DeleteIcon />
-                                  </Button>
+                                  <Switch
+                                    checked={row.isactive}
+                                    onChange={()=>{
+                                      productItemStatusChange(row.productId,row.isactive,refetch );
+                                    }}
+                                    value="checkedA"
+                                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                  />
                                   </TableCell>
                                 </TableRow>
                               ))}
@@ -240,3 +263,4 @@ export default function AddContact(props) {
     </Paper>
   );
 }
+export default withApollo(AddContact);

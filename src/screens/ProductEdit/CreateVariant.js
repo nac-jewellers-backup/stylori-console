@@ -32,9 +32,8 @@ const useStyle = makeStyles(theme => ({
     
 }))
 export function CreateVariant(props) {
-    // const { sendNetworkRequest } = React.useContext(NetworkContext);
     const classes = useStyle();
-    let prod_id = localStorage.getItem('productEditId');
+    let prod_id = props.productId;
     const TOKEN = 'token'
     const { productCtx, setProductCtx } = React.useContext(ProductContext);
     const [variant, setVariant] = useState({
@@ -45,7 +44,7 @@ export function CreateVariant(props) {
         product_images: {},
         size: []
 
-    })
+    });
     console.log(productCtx, 'createvariants')
     function handleMetalColor(status_data) {
         let color = variant.metal_color;
@@ -94,7 +93,7 @@ export function CreateVariant(props) {
         diamondColor.some(diamond_color_data => diamond_color_data.id === status_data.id) ? diamondColor = diamondColor.filter(diamond_color_fil => diamond_color_fil.id !== status_data.id) : diamondColor.push(status_data)
         setVariant({
             ...variant,
-            metal_purity: diamondColor
+            diamond_color: diamondColor
         })
     }
     function diamondClarityChange(status_data) {
@@ -102,7 +101,7 @@ export function CreateVariant(props) {
         diamondClarity.some(diamond_clarity_data => diamond_clarity_data.id === status_data.id) ? diamondClarity = diamondClarity.filter(diamond_clarity_fil => diamond_clarity_fil.id !== status_data.id) : diamondClarity.push(status_data)
         setVariant({
             ...variant,
-            metal_purity: diamondClarity
+            diamond_clarity: diamondClarity
         })
 
     }
@@ -299,7 +298,8 @@ export function CreateVariant(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid container className={classes.variantMarginTop}>
+                {
+                    productCtx.diamondlist && productCtx.diamondlist.length>0 ?<Grid container className={classes.variantMarginTop}>
                     <Grid item>
                         <Grid item className={classes.variantFontSize} >
                             Diamond Color
@@ -329,8 +329,10 @@ export function CreateVariant(props) {
                             </FormGroup>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid container className={classes.variantMarginTop}>
+                </Grid> : ''
+                }
+                 {
+                    productCtx.diamondlist && productCtx.diamondlist.length>0 ? <Grid container className={classes.variantMarginTop}>
                     <Grid item>
                         <Grid item className={classes.variantFontSize} >
                             Diamond Clarity
@@ -360,7 +362,10 @@ export function CreateVariant(props) {
                             </FormGroup>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Grid>: ''
+                }
+                
+                
                 <Grid container className={classes.variantMarginTop}>
                     <Grid item>
                         <Grid item className={classes.variantFontSize} >

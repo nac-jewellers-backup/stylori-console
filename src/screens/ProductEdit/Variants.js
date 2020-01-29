@@ -180,16 +180,24 @@ export default function Variants(props) {
       }
       return variant;
     })
+    let filterVariant = variantslist&& variantslist.filter((filter_data,index)=>filter_data.id===variantId)[0];
+    let editVaraint = {
+      id:filterVariant.id,
+      isActive:filterVariant.isActive
+    }
+    let editVariants = productCtx.editVariants;
+    let editStatus = editVariants && editVariants.some((check_variant,index)=>check_variant.id===variantId) ?editVariants= editVariants && editVariants.filter((edit_variant_filter,index)=>edit_variant_filter.id!==variantId):editVariants.push(editVaraint);
     setProductCtx({
       ...productCtx,
-      variants:variantslist
+      variants:variantslist,
+      editVariants
     })
   };
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.variants&&props.variants.length - page * rowsPerPage);
-  function VariantEdit(id) {
-    alert(id)
-    setBtnEdit({ ...btnEdit, id, action: true })
-  }
+  // function VariantEdit(id) {
+  //   alert(id)
+  //   setBtnEdit({ ...btnEdit, id, action: true })
+  // }
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
@@ -198,14 +206,14 @@ export default function Variants(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
-  const handleoptionChange = type => (event, value) => {
+//   const handleoptionChange = type => (event, value) => {
     
-    setProductCtx({ ...productCtx, [type]: value})
+//     setProductCtx({ ...productCtx, [type]: value})
 
-}
-const handleInputChange = type => e => {
-  setProductCtx({ ...productCtx, [type]: e.target.value  })
-}
+// }
+// const handleInputChange = type => e => {
+//   setProductCtx({ ...productCtx, [type]: e.target.value  })
+// }
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>

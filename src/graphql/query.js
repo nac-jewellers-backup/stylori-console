@@ -191,8 +191,20 @@ query MyQuery($Veiw: Int!, $Offset: Int!) {
       productName
       productType
       productId
+      isactive
     }
     totalCount
+  }
+}
+`;
+const PRODUCTLISTSTATUSEDIT = gql`
+mutation MyMutation($productId:String!,$isActive:Boolean!) {
+  __typename
+  updateProductListByProductId(input: {productId: $productId, productListPatch: {isactive: $isActive}}) {
+    clientMutationId
+    productList {
+      isactive
+    }
   }
 }
 `;
@@ -266,5 +278,6 @@ query MyQuery($productId: String!) {
   export {
     PRODUCTCATEGORY,
     PRODUCTLIST,
-    PRODUCTEDIT
+    PRODUCTEDIT,
+    PRODUCTLISTSTATUSEDIT
   }
