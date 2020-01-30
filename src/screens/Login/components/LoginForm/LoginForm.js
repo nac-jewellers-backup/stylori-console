@@ -153,10 +153,10 @@ const LoginForm = props => {
           gutterBottom
           variant="h3"
         >
-        Sign in
+        Log in
         </Typography>
         <Typography variant="subtitle2">
-        Sign in on the internal platform
+        Log in on the internal platform
         </Typography>
         <form
           {...rest}
