@@ -117,7 +117,37 @@ export default function AddressForm(props) {
       var maxvalue = 0;
       var selected_sizes = [];
       var default_size = 0;
+      if(selectedOption.shortCode === 'K')
+      {
 
+        selected_sizes.push(
+          {
+            value:"XS",
+            label:"XS"
+          }
+        )
+        selected_sizes.push(
+          {
+            value:"S",
+            label:"S"
+          }
+        )
+        selected_sizes.push(
+          {
+            value:"M",
+            label:"M"
+          }
+        )
+        selected_sizes.push(
+          {
+            value:"L",
+            label:"L"
+          }
+        )
+      }  else
+      {
+
+      
       if(selectedOption.shortCode === 'R' && productCtx.selectedgender.name === 'Male')
       {
         minvalue = 13
@@ -140,6 +170,7 @@ export default function AddressForm(props) {
           }
         )
       }
+    }
       
       setProductCtx({ ...productCtx, product_type_shortcode: selectedOption.shortCode,product_type:selectedOption, size,default_size,selected_sizes })
         }else{
@@ -191,6 +222,15 @@ export default function AddressForm(props) {
       var selected_sizes=[]
       var sizes = [];
       var default_size = 0
+      if(productCtx.product_type.shortCode === 'K')
+      {
+
+       
+        default_size = "XS"
+        selected_sizes.push("XS","S","M","L")
+        sizes.push("XS","S","M","L")
+      }  else
+      {
     if(productCtx.product_type.shortCode === 'R' && value === 'Male')
     {
       minvalue = 13
@@ -214,6 +254,7 @@ export default function AddressForm(props) {
         ''+i
       )
     }
+  }
     setProductCtx({ ...productCtx,  [type]: value,sizes, selected_sizes,default_size })
 
     }
@@ -223,7 +264,7 @@ export default function AddressForm(props) {
 
 
     const handleMaterialChange = type => (event, value)  => {
-      var steps = ['Step1', 'Step2','Step4','Step5','Step6']
+      var steps = ['Step1', 'Step2','Step6']
       if(value)
       {
       if(value.indexOf('Diamond' ) > -1 || value.indexOf('Gemstone' ) > -1 )
@@ -772,7 +813,7 @@ export default function AddressForm(props) {
     </Grid> 
     <Grid item xs={12} sm={12}>
 
-    {(productCtx.product_type && productCtx.product_type.shortCode  === 'R' && productCtx.sizes.length > 0 ) ? <>
+    {(productCtx.product_type && (productCtx.product_type.shortCode  === 'K' || productCtx.product_type.shortCode  === 'R') && productCtx.sizes.length > 0 ) ? <>
   <Card
   {...rest}
   className={clsx(classes.root, className)}
