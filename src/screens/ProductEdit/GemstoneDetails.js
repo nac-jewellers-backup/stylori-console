@@ -20,6 +20,13 @@ import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const columns = [
   { id: 'Gemstone Type', label: 'Gemstone Type', minWidth: 100 },
   { id: 'Shape', label: 'Shape', minWidth: 200 },
@@ -157,6 +164,22 @@ const useStyles2 = makeStyles(theme => ({
 }));
 
 export default function GemstoneDetails(props) {
+  const [open, setOpen] = React.useState(false);
+  const [snackMessage,setSnackMessage] = React.useState({
+    message:"",
+    severity:""
+  });
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -165,30 +188,15 @@ export default function GemstoneDetails(props) {
     action: false,
     id: ''
   })
-  const contactlist = [
-    {
-      "id": 1,
-      "diamont": "NAC",
-      "color": 'RL',
-      "clarity": "LL",
-      "setting": "full",
-      "shape": "round",
-      "weight": 2,
-      "number": 4
-    },
-    {
-      "id": 2,
-      "diamont": "GRT",
-      "color": 'PO',
-      "clarity": "LL",
-      "setting": "full",
-      "shape": "round",
-      "weight": 2,
-      "number": 4
-    }
-  ];
+  let [gemstoneEditObject,setGemstoneEditObject ] = React.useState({
+    edit:''
+  }) ;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.gemstone && props.gemstone.length - page * rowsPerPage);
   function GemstoneEdit(gemstoneData) {
+    setGemstoneEditObject({
+      ...gemstoneEditObject,
+      edit:JSON.parse(JSON.stringify(gemstoneData))
+    })
     setProductCtx({
       ...productCtx,
       gemstonesettings: productCtx.masterData.gemstonesettings.filter((settingData, index) => settingData.name === gemstoneData.gemstoneSetting)[0],
@@ -213,9 +221,29 @@ export default function GemstoneDetails(props) {
         }
         return gemstoneListData;
       });
+      let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
+      let editGemstoneLists = productCtx.editGemstoneLists;
+      if(JSON.stringify(editGemstoneList)!==JSON.stringify(gemstoneEditObject.edit)){
+        let status = editGemstoneLists&& editGemstoneLists.some((check_edit,index)=>check_edit.id===editGemstoneList.id) ? 
+        editGemstoneLists = editGemstoneLists && editGemstoneLists
+        .map((gemstone_list,index)=>{
+          if(gemstone_list.id === editGemstoneList.id){
+            return editGemstoneList;
+          }
+          return gemstone_list;
+        }) 
+        : editGemstoneLists.push(editGemstoneList); 
+      }
+      setSnackMessage({
+        ...snackMessage,
+        message:"This is successfully saved",
+        severity:"success"
+      })
+      handleClick();
       setProductCtx({
         ...productCtx,
         gemstonelist: gemstoneChangeData,
+        editGemstoneLists,
         gemstonesettings: "",
         gemstoneshape: "",
         gemstonecount: "",
@@ -224,7 +252,12 @@ export default function GemstoneDetails(props) {
       })
       setBtnEdit({ ...btnEdit, id: "", action: false })
     } else {
-      alert("fill all fields")
+      setSnackMessage({
+        ...snackMessage,
+        message:"You are not fill all item",
+        severity:"info"
+      })
+      handleClick();
     }
   }
   function handleChangePage(event, newPage) {
@@ -245,6 +278,13 @@ export default function GemstoneDetails(props) {
   }
   return (
     <Paper className={classes.root}>
+          <React.Fragment>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={snackMessage.severity}>
+          {snackMessage.message}
+        </Alert>
+      </Snackbar>
+        </React.Fragment>
       <div className={classes.tableWrapper}>
         <Table className={classes.table} stickyHeader>
           <TableHead>

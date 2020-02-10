@@ -41,6 +41,7 @@ export function CreateVariant(props) {
         metal_purity: [],
         diamond_color: [],
         diamond_clarity: [],
+        variant_diamond_type:[],
         product_images: {},
         size: []
 
@@ -79,8 +80,9 @@ export function CreateVariant(props) {
         return resdata;
     }
     function handleMetalPurity(status_data) {
-        status_data.metal_weight = ""
-        alert(JSON.stringify(status_data));
+        status_data.metal_weight = "";
+        status_data.error_message = false;
+        // alert(JSON.stringify(status_data));
         let purity = variant.metal_purity;
         purity.some(purity_data => purity_data.id === status_data.id) ? purity = purity.filter(purity_fil => purity_fil.id !== status_data.id) : purity.push(status_data)
         setVariant({
@@ -88,22 +90,13 @@ export function CreateVariant(props) {
             metal_purity: purity
         })
     }
-    function diamondColorChange(status_data) {
-        let diamondColor = variant.diamond_color;
-        diamondColor.some(diamond_color_data => diamond_color_data.id === status_data.id) ? diamondColor = diamondColor.filter(diamond_color_fil => diamond_color_fil.id !== status_data.id) : diamondColor.push(status_data)
+    function diamondTypeChange(status_data){
+        let diamond__type = variant.variant_diamond_type;
+        diamond__type.some(diamond_type_data => diamond_type_data.id === status_data.id) ? diamond__type = diamond__type.filter(diamond_type_fil => diamond_type_fil.id !== status_data.id) : diamond__type.push(status_data)
         setVariant({
             ...variant,
-            diamond_color: diamondColor
+            variant_diamond_type: diamond__type
         })
-    }
-    function diamondClarityChange(status_data) {
-        let diamondClarity = variant.diamond_clarity;
-        diamondClarity.some(diamond_clarity_data => diamond_clarity_data.id === status_data.id) ? diamondClarity = diamondClarity.filter(diamond_clarity_fil => diamond_clarity_fil.id !== status_data.id) : diamondClarity.push(status_data)
-        setVariant({
-            ...variant,
-            diamond_clarity: diamondClarity
-        })
-
     }
     function sizeChange(status_data) {
         let variantSize = variant.size;
@@ -132,27 +125,62 @@ export function CreateVariant(props) {
         let createVariant={
             productMetalcoloursByProductId:variant.metal_color,
             productPuritiesByProductId:variant.metal_purity,
-            productDiamondColor:variant.diamond_color,
-            productDiamondClarity:variant.diamond_clarity,
+            productDiamondTypes:variant.variant_diamond_type,
             productSize:variant.size,
             productImage:variant.product_images
         }
-        let createVariants = productCtx.createVariantList;
-        createVariants.push(createVariant);
-        setProductCtx({
-            ...productCtx,
-            createVariantList:createVariants
-        })
+        let metal_color_image_length = Object.entries(variant.product_images);
+        let metal_purity_weight = false;
+        let metal_purity = variant.metal_purity && variant.metal_purity.map((metal_weight_check)=>{
+            if(metal_weight_check.metal_weight === ""){
+                metal_weight_check.error_message = true;
+                metal_purity_weight = true;
+            }
+            return metal_weight_check;
+        });
+        variant['metal_purity'] = metal_purity
         setVariant({
             ...variant,
-            metal_color: [],
-            metal_purity: [],
-            diamond_color: [],
-            diamond_clarity: [],
-            product_images: {},
-            size: []
+            variant
         })
-        props.changeVariant();
+        if(metal_color_image_length.length !== variant.metal_color.length){
+            alert('Select Metal Color Images');
+        }
+        if(variant.metal_color.length>0 && variant.metal_color.length === metal_color_image_length.length || variant.metal_purity.length>0 && metal_purity_weight===false || variant.size.length>0 || variant.variant_diamond_type.length>0 ){
+            // let createVariants = productCtx.createVariantList;
+            let editVariants = productCtx.editVariants;
+            let variants = productCtx.variants;
+            // createVariants.push(createVariant);
+            // axios.post('/user', createVariant)
+            //   .then(function (response) {
+            //     console.log(response);
+            //     // createVariants = [...createVariants,...response];
+            //     editVariants = [...editVariants,...response];
+            //     variants = [...variants,...response];
+            //     setProductCtx({
+            //         ...productCtx,
+            //         editVariants,
+            //         variants
+            //         // createVariantList:createVariants
+            //     })
+            //     setVariant({
+            //         ...variant,
+            //         metal_color: [],
+            //         metal_purity: [],
+            //         variant_diamond_type:[],
+            //         product_images: {},
+            //         size: []
+            //     })
+            //     props.changeVariant();
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //   });
+          
+            
+        }else{
+            alert('please fill the Create variant');
+        }
     }
     function backToProductAttribute(){
         props.changeVariant();
@@ -288,7 +316,7 @@ export function CreateVariant(props) {
                                         type="number"
                                         value={metal_purity.metal_weight}
                                         id="metal_weight"
-                                        error={productCtx && productCtx.error_message && productCtx.error_message.product_type}
+                                        error={metal_purity && metal_purity.error_message }
                                         name="metal_weight"
                                         label={`Metal Weight${metal_purity.name}`}
                                         onChange={(e) => setMetalWeightInput(e, metal_purity.id)}
@@ -302,26 +330,26 @@ export function CreateVariant(props) {
                     productCtx.diamondlist && productCtx.diamondlist.length>0 ?<Grid container className={classes.variantMarginTop}>
                     <Grid item>
                         <Grid item className={classes.variantFontSize} >
-                            Diamond Color
+                            Diamond Types
                         </Grid>
                         <Grid item>
                             <FormGroup row>
                                 {
-                                    productCtx.masterData && productCtx.masterData.diamondcolors.map((data, index) => (
+                                    productCtx.productDiamondTypes && productCtx.productDiamondTypes.map((data, index) => (
 
-                                        productCtx.productDiamondColor && productCtx.productDiamondColor.some((prod_diamon_color) => prod_diamon_color.diamondColour === data.name) ?
+                                        productCtx.productDiamondTypesArray && productCtx.productDiamondTypesArray.some((prod_diamon_color) => prod_diamon_color.diamondType === data.diamondColor+data.diamondClarity) ?
                                             <FormControlLabel
                                                 disabled
                                                 control={
                                                     <Checkbox checked={true} value="checkedA" />
                                                 }
-                                                label={data.name}
+                                                label={`${data.diamondColor}-${data.diamondClarity}`}
                                             /> :
                                             <FormControlLabel
                                                 control={
-                                                    <Checkbox checked={variant.diamond_color && variant.diamond_color.some(diamond_color => diamond_color.id == data.id) ? true : false} onChange={() => diamondColorChange(data)} value="checkedA" />
+                                                    <Checkbox checked={variant.variant_diamond_type && variant.variant_diamond_type.some(diamond__type => diamond__type.id == data.id) ? true : false} onChange={() => diamondTypeChange(data)} value="checkedA" />
                                                 }
-                                                label={data.name}
+                                                label={`${data.diamondColor}-${data.diamondClarity}`}
                                             />
 
                                     ))
@@ -331,41 +359,6 @@ export function CreateVariant(props) {
                     </Grid>
                 </Grid> : ''
                 }
-                 {
-                    productCtx.diamondlist && productCtx.diamondlist.length>0 ? <Grid container className={classes.variantMarginTop}>
-                    <Grid item>
-                        <Grid item className={classes.variantFontSize} >
-                            Diamond Clarity
-                        </Grid>
-                        <Grid item>
-                            <FormGroup row>
-                                {
-                                    productCtx.masterData && productCtx.masterData.diamondclarities.map((data, index) => (
-
-                                        productCtx.productDiamondClarity && productCtx.productDiamondClarity.some((prod_diamond_clarity) => prod_diamond_clarity.diamondClarity === data.name) ?
-                                            <FormControlLabel
-                                                disabled
-                                                control={
-                                                    <Checkbox checked={true} value="checkedA" />
-                                                }
-                                                label={data.name}
-                                            /> :
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox checked={variant.diamond_clarity && variant.diamond_clarity.some(prod_diamond_clarity => prod_diamond_clarity.id == data.id) ? true : false} onChange={() => diamondClarityChange(data)} value="checkedA" />
-                                                }
-                                                label={data.name}
-                                            />
-
-                                    ))
-                                }
-                            </FormGroup>
-                        </Grid>
-                    </Grid>
-                </Grid>: ''
-                }
-                
-                
                 <Grid container className={classes.variantMarginTop}>
                     <Grid item>
                         <Grid item className={classes.variantFontSize} >

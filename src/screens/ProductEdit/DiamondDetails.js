@@ -20,14 +20,21 @@ import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const columns = [
-  { id: 'Diamond', label: 'Diamond', minWidth: 100 },
-  { id: 'Colour', label: 'Colour', minWidth: 100 },
-  { id: 'Clarity', label: 'Clarity', minWidth: 100 },
+  { id: 'Diamond', label: 'Diamond', minWidth: 50 },
+  { id: 'Colour', label: 'Colour', minWidth: 50 },
+  { id: 'Clarity', label: 'Clarity', minWidth: 50 },
   { id: 'Setting', label: 'Setting', minWidth: 200 },
   { id: 'Shape', label: 'Shape', minWidth: 200 },
-  { id: 'Weight', label: 'Weight', minWidth: 200 },
-  { id: 'Number', label: 'Number', minWidth: 200 },
+  { id: 'Weight', label: 'Weight', minWidth: 50 },
+  { id: 'Number', label: 'Number', minWidth: 50 },
   {
     id: 'Edit',
     label: 'Edit',
@@ -158,6 +165,22 @@ const useStyles2 = makeStyles(theme => ({
 }));
 
 export default function DiamondDetails(props) {
+  const [open, setOpen] = React.useState(false);
+  const [snackMessage,setSnackMessage] = React.useState({
+    message:"",
+    severity:""
+  });
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -165,9 +188,16 @@ export default function DiamondDetails(props) {
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
-  })
+  });
+  let [diamondEditObject,setDiamondEditObject ] = React.useState({
+    edit:''
+  }) ;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.diamond&&props.diamond.length - page * rowsPerPage);
   function DiamondEdit(diamondData) {
+    setDiamondEditObject({
+      ...diamondEditObject,
+      edit:JSON.parse(JSON.stringify(diamondData))
+    })
     setProductCtx({
       ...productCtx,
       diamondsettings:productCtx.masterData.diamondsettings.filter((settingData,index)=>settingData.name===diamondData.diamondSettings)[0],
@@ -190,9 +220,30 @@ export default function DiamondDetails(props) {
         }
         return diamondListData;
       });
+      let editDiamondList = DiamondChangeData && DiamondChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
+      let editDiamondLists = productCtx.editDiamondLists;
+      if(JSON.stringify(editDiamondList)!==JSON.stringify(diamondEditObject.edit)){
+        let status = editDiamondLists&& editDiamondLists.some((check_edit,index)=>check_edit.id===editDiamondList.id) ? 
+        editDiamondLists = editDiamondLists && editDiamondLists
+        .map((diamond_list,index)=>{
+          if(diamond_list.id === editDiamondList.id){
+            return editDiamondList;
+          }
+          return diamond_list;
+        }) 
+        : editDiamondLists.push(editDiamondList); 
+      }
+      // console.log(editDiamondLists,'editDiamondList')
+      setSnackMessage({
+        ...snackMessage,
+        message:"This is successfully saved",
+        severity:"success"
+      })
+      handleClick();
       setProductCtx({
         ...productCtx,
         diamondlist:DiamondChangeData,
+        editDiamondLists,
         diamondsettings:"",
         diamondshape: "",
         diamondcount:"",
@@ -200,7 +251,12 @@ export default function DiamondDetails(props) {
       })
       setBtnEdit({ ...btnEdit, id:"", action: false })
     }else{
-      alert("fill all fields")
+      setSnackMessage({
+        ...snackMessage,
+        message:"You are not fill all item",
+        severity:"info"
+      })
+      handleClick();
     }
   }
   function handleChangePage(event, newPage) {
@@ -221,6 +277,13 @@ const handleInputChange = type => e => {
 }
   return (
     <Paper className={classes.root}>
+             <React.Fragment>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={snackMessage.severity}>
+          {snackMessage.message}
+        </Alert>
+      </Snackbar>
+        </React.Fragment>
       <div className={classes.tableWrapper}>
         <Table className={classes.table} stickyHeader>
           <TableHead>

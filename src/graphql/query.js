@@ -208,6 +208,17 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
   }
 }
 `;
+const PRODUCTDIAMONDTYPES = `
+query MyQuery {
+  allMasterDiamondTypes {
+    nodes {
+      diamondClarity
+      diamondColor
+      id
+    }
+  }
+}
+`;
 const PRODUCTEDIT = `
 query MyQuery($productId: String!) {
   productListByProductId(productId: $productId) {
@@ -279,5 +290,6 @@ query MyQuery($productId: String!) {
     PRODUCTCATEGORY,
     PRODUCTLIST,
     PRODUCTEDIT,
-    PRODUCTLISTSTATUSEDIT
+    PRODUCTLISTSTATUSEDIT,
+    PRODUCTDIAMONDTYPES
   }
