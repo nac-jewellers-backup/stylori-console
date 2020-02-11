@@ -10,6 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 import { ProductAttributes } from '../screens/ProductEdit/ProductAttributes';
 import { CreateVariant } from '../screens/ProductEdit/CreateVariant';
 import { ProductContext,ProductProvider } from '../context/ProductuploadContext';
+import newmaterial from '../screens/CategoryList/components/newmaterial/newmaterial';
 
 const MainApp = () => {
 
@@ -30,6 +31,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.vendor} component={Vendorlist} />
                     <PrivateRoute  path={route.productlist} component={Productlist} />
                     <PrivateRoute  path={route.materiallist} component={CategoryList} />
+                    <PrivateRoute  path={route.materiallistpage} component={newmaterial}/>
                     <PrivateRoute  path={route.producttypes} component={ProducttypeList} />
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute  path={route.priceupdate} component={Priceupdate} />

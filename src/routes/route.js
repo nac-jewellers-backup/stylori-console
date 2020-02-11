@@ -15,7 +15,8 @@ const route = {
     gemstoneDetails:'/gemstone-details',
     variants:'/variants',
     images:'/images',
-    createVariant:'/create_variant'
+    createVariant:'/create_variant',
+    materiallistpage:'/newmaterial'
 
 }
 
