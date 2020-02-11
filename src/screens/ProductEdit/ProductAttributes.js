@@ -104,7 +104,8 @@ export function Component(props) {
       productDiamondsByProductSku: productCtx.editDiamondLists,
       productGemstonesByProductSku: productCtx.editGemstoneLists,
       transSkuListsByProductId: productCtx.editVariants,
-      // createVariants: productCtx.createVariantList
+      productImages:productCtx.productImages,
+      createVariants: productCtx.createVariantList
     }
     if (productCtx.editDiamondLists.length > 0 && productCtx.name !== "" || productCtx.editGemstoneLists.length > 0 && productCtx.name !== "" || productCtx.editVariants.length > 0 && productCtx.name !== "" || productCtx.createVariantList.length > 0 && productCtx.name !== "" || state.duplicate_productName !== productCtx.productname) {
       setSnackMessage({
@@ -113,6 +114,7 @@ export function Component(props) {
         severity:"success"
       })
       handleClick();
+      console.log(JSON.stringify(productEditItem))
       // setTimeout(()=>{  window.location='/productlist'},1000)
     } else {
       setSnackMessage({

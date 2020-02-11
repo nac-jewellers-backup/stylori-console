@@ -32,7 +32,7 @@ export default function Review(props) {
 
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
   const { className, ...rest } = props;
-
+  console.log(productCtx,'step5 value')
   const handleChange = type => (event, value) => {
     setProductCtx({ ...productCtx, [type]: value  })
 

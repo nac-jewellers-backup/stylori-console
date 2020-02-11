@@ -123,11 +123,12 @@ export function CreateVariant(props) {
     }
     function saveCreateVariant(){
         let createVariant={
+            productId: prod_id,
             productMetalcoloursByProductId:variant.metal_color,
             productPuritiesByProductId:variant.metal_purity,
             productDiamondTypes:variant.variant_diamond_type,
-            productSize:variant.size,
-            productImage:variant.product_images
+            productSize:variant.size
+            // productImage:variant.product_images
         }
         let metal_color_image_length = Object.entries(variant.product_images);
         let metal_purity_weight = false;
@@ -147,35 +148,48 @@ export function CreateVariant(props) {
             alert('Select Metal Color Images');
         }
         if(variant.metal_color.length>0 && variant.metal_color.length === metal_color_image_length.length || variant.metal_purity.length>0 && metal_purity_weight===false || variant.size.length>0 || variant.variant_diamond_type.length>0 ){
-            // let createVariants = productCtx.createVariantList;
+            let createVariants = productCtx.createVariantList;
             let editVariants = productCtx.editVariants;
             let variants = productCtx.variants;
-            // createVariants.push(createVariant);
-            // axios.post('/user', createVariant)
-            //   .then(function (response) {
-            //     console.log(response);
-            //     // createVariants = [...createVariants,...response];
-            //     editVariants = [...editVariants,...response];
-            //     variants = [...variants,...response];
-            //     setProductCtx({
-            //         ...productCtx,
-            //         editVariants,
-            //         variants
-            //         // createVariantList:createVariants
-            //     })
-            //     setVariant({
-            //         ...variant,
-            //         metal_color: [],
-            //         metal_purity: [],
-            //         variant_diamond_type:[],
-            //         product_images: {},
-            //         size: []
-            //     })
-            //     props.changeVariant();
-            //   })
-            //   .catch(function (error) {
-            //     console.log(error);
-            //   });
+            let productImages = productCtx.productImages;
+            productImages = [...productImages,variant.product_images];
+            createVariants.push(createVariant);
+            let params = {
+                method:'POST',
+                headers: { 
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(createVariant)
+            }
+            console.log(JSON.stringify(createVariant))
+            fetch(`${API_URL}/getproductvarient`, params)
+            .then(res=>res.json())
+              .then(function (response) {
+                  alert('kfjslkdjs')
+                console.log(response,'saveCreateVariant');
+                // createVariants = [...createVariants,...response];
+                editVariants = [...editVariants,...response.newskus];
+                variants = [...variants,...response.newskus];
+                setProductCtx({
+                    ...productCtx,
+                    editVariants,
+                    variants,
+                    productImages,
+                    createVariantList:createVariants
+                })
+                setVariant({
+                    ...variant,
+                    metal_color: [],
+                    metal_purity: [],
+                    variant_diamond_type:[],
+                    product_images: {},
+                    size: []
+                })
+                props.changeVariant();
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           
             
         }else{

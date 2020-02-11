@@ -51,7 +51,7 @@ export default function Columns(props) {
                     value="secondary"
                     color="primary"
                     inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    value="checked"
+                    value="checked "
                 
                 />
                     <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head}</h3>

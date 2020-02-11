@@ -43,6 +43,7 @@ const productuploadCtxInitial = {
         productDiamondColor:[],
         productDiamondClarity:[],
         productDiamondTypes:[],
+        productImages:[],
         productDiamondTypesArray:[],
         createVariantList:[],
         editVariants:[],
