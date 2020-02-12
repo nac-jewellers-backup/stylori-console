@@ -16,7 +16,8 @@ const route = {
     variants:'/variants',
     images:'/images',
     createVariant:'/create_variant',
-    materiallistpage:'/newmaterial'
+    materiallistpage:'/newmaterial',
+    editCategory:'/editcategory'
 
 }
 

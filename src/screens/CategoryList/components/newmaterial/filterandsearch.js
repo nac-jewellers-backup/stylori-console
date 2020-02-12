@@ -68,8 +68,8 @@ export default function FormPropsTextFields() {
 
   return (
     <div className="search" style={{ display: "flex", justifyContent: "space-around", background: "white", borderTop: "1px solid #e4e4e4", borderBottom: "1px solid #e4e4e4" }}>
-      <Grid style={{ width: "12%" }}>
-        <Button onClick={handleClick} variant="outlined" className={classess.button} size="large" color="primary" style={{ fontSize: "15px", width: "95%", marginLeft: "15px", marginTop: "18px", marginBottom: "10px", padding: "6px 0px" }}>
+      <Grid lg={2} md={2} sm={3}>
+        <Button onClick={handleClick} variant="outlined" color="primary" backgroundColor="secondary" size="large"  style={{ fontSize: "15px", width: "95%", marginLeft: "15px", marginTop: "18px", marginBottom: "10px", padding: "6px 0px" }}>
           ADD FILTER<ArrowDownwardIcon fontSize="inherit" />
 
         </Button>
@@ -132,7 +132,7 @@ export default function FormPropsTextFields() {
         </Popover>
 
       </Grid>
-      <Grid style={{ width: "90%" }}>
+      <Grid lg={10} md={10} sm={9}>
         <form noValidate autoComplete="off" style={{ width: "97%", margin: "auto", marginTop: "10px", marginBottom: "10px" }}>
           <TextField fullWidth margin="dense" id="outlined-basic" variant="outlined"  />
         </form>

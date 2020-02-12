@@ -28,38 +28,128 @@ export default function Columns(props) {
     const classes = useStyles();
 
     const checkboxrow = [
-        "Published",
-        "AVB",
-        "Price",
-        "Type",
-        "Flavour",
-        "Flavour",
-        "Material",
-        "Medium",
-        "Shoe size",
-        "Color",
-        "Size",
-        "Material",
-        "Size",
-        "Size",
-        "Size",
+        {
+            id:1,
+            name:"Published",
+            isActive: false,       
+        },
+        {
+            id:2,
+            name:"AVB",
+            isActive:false,      
+        },
+        {
+            id:3,
+            name:"Price",
+            isActive: false,       
+        },
+        {
+            id:4,
+            name:"Type",
+            isActive:  false,      
+        },
+        {
+            id:5,
+            name:"Flavour",
+            isActive: false ,     
+        },
+        {
+            id:6,
+            name:"Flavour",
+            isActive:false,        
+        },
+        {
+            id:7,
+            name: "Material",
+            isActive:false,        
+        },
+        {
+            id:8,
+            name:"Medium",
+            isActive:false,        
+        },
+        {
+            id:9,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:10,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:11,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:12,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:13,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:14,
+            name:"Shoe size",
+            isActive:false,        
+        },
+        {
+            id:15,
+            name:"Shoe size",
+            isActive:false,        
+        }
+        
+        
+        
+        
+        
     ]
-    const lists = checkboxrow.map((head) =>
-        (
-            <Grid conatiner>
-                <Grid item xs={4}><Checkbox
-                    value="secondary"
-                    color="primary"
-                    inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    value="checked "
+    const [columns,setColumns ] = React.useState({
+        listOfValue:checkboxrow
+    })
+    function stateChange(id){
+        let listOfValue = columns.listOfValue.map((data,index)=>{
+            if(id===data.id){
+                data.isActive = data.isActive?false:true;
+            }
+            return data;
+        })
+        setColumns({
+            listOfValue
+        })
+    }
+    function resetButton(){
+        let listOfValue = columns.listOfValue.map((data,index)=>{
+                data.isActive = false;
+            
+            return data;
+        })
+        setColumns({
+            listOfValue
+        })
+    }
+    // const lists = columns.listOfValue.map((head) =>
+    //     (
+    //         <Grid conatiner>
+    //             <Grid item xs={4}><Checkbox
+    //                 value="secondary"
+    //                 color="primary"
+    //                 inputProps={{ 'aria-label': 'secondary checkbox' }}
+    //                 checked = {head.isActive}
+    //                 onChange = {()=>stateChange(head.id)}
                 
-                />
-                    <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head}</h3>
-                </Grid>
-            </Grid>
-        )
+    //             />
+    //                 <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head}</h3>
+    //             </Grid>
+    //         </Grid>
+    //     )
 
-    );
+    // );
 
    
 
@@ -72,24 +162,25 @@ export default function Columns(props) {
             <Grid style={{ height: "270px", borderBottom: "1px solid #6f6f6f", borderTop: "1px solid #6f6f6f", width: "95%", margin: "auto", paddingTop: "5px", paddingBottom: "10px" }}>
                 <Grid conatiner>
               <Grid item   className={classes.conatainerRow}>
-                   {checkboxrow.map((head) =><Grid container>
+                   {columns.listOfValue.map((head) =><Grid container>
                         <Checkbox
-                            value="secondary"
                             color="primary"
                             inputProps={{ 'aria-label': 'secondary checkbox' }}
+                               checked = {head.isActive}
+                    onChange = {()=>stateChange(head.id)}
                             
                         />
-                   <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head}</h3></Grid>)}
+                   <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head.name}</h3></Grid>)}
                     </Grid>
                 </Grid>
             </Grid>
             <Grid style={{ display: "flex", justifyContent: "space-between", margin: "10px auto", width: "90%" }}>
                 <Grid>
-                    <Button size="large" onClick={()=>{}}>RESET</Button>
+                    <Button size="large" onClick={()=>resetButton()}>RESET</Button>
                 </Grid>
                 <Grid style={{ display: "flex", justifyContent: "space-between" }}>
                     <Button size="large" onClick={()=>props.columnclose()}>cancel</Button>
-                    <Button style={{ backgroundColor: "#06847b", color: "white", marginLeft: "10px" }} size="large" variant="contained" className={classes.margin}>
+                    <Button color="primary" backgroundColor="secondary" size="large" variant="contained" className={classes.margin}>
                         SAVE
                     </Button>
                 </Grid>

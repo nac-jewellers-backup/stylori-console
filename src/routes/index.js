@@ -11,6 +11,7 @@ import { ProductAttributes } from '../screens/ProductEdit/ProductAttributes';
 import { CreateVariant } from '../screens/ProductEdit/CreateVariant';
 import { ProductContext,ProductProvider } from '../context/ProductuploadContext';
 import newmaterial from '../screens/CategoryList/components/newmaterial/newmaterial';
+import Editcategory from '../screens/CategoryList/components/editpage/editcategory';
 
 const MainApp = () => {
 
@@ -31,6 +32,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.vendor} component={Vendorlist} />
                     <PrivateRoute  path={route.productlist} component={Productlist} />
                     <PrivateRoute  path={route.materiallist} component={CategoryList} />
+                    <PrivateRoute  path={route.editCategory} component={Editcategory} />
                     <PrivateRoute  path={route.materiallistpage} component={newmaterial}/>
                     <PrivateRoute  path={route.producttypes} component={ProducttypeList} />
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
