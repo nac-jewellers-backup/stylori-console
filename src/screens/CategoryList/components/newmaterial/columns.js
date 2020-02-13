@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import './table.css'
 
 
 
@@ -11,14 +12,30 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
     },
     conatainerRow:{
+        width:"300px",
         color:"#6f6f6f",
         display: "grid",
     padding: "16px 24px",
     maxHeight:" 256px",
+    fontSize:"9px",
     overflowX: "visible",
     overflowY: "scroll",
     gridColumnGap: "24px",
+    gridTemplateColumns: "repeat(2, 1fr)",
+
+    [theme.breakpoints.up("sm")]: {
+        width:"500px",
+        color:"#6f6f6f",
+        display: "grid",
+    padding: "16px 24px",
+    maxHeight:" 270px",
+    fontSize:"14px",
+    overflowX: "visible",
+    overflowY: "scroll",
+    gridColumnGap: "20px",
     gridTemplateColumns: "repeat(3, 1fr)"
+    }
+
     }
 }));
 
@@ -157,7 +174,8 @@ export default function Columns(props) {
 
 
     return (
-        <div style={{ width: "550px", height: "400px"}}>
+        
+         <div style={{ maxHeight: "420px"}}>
             <Typography style={{ fontWeight: "400", color: "#6f6f6f", width: "90%", margin: "6px auto" }} className={classes.typography} variant="h5">(number) columns selected out of (total number)</Typography>
             <Grid style={{ height: "270px", borderBottom: "1px solid #6f6f6f", borderTop: "1px solid #6f6f6f", width: "95%", margin: "auto", paddingTop: "5px", paddingBottom: "10px" }}>
                 <Grid conatiner>
@@ -170,7 +188,7 @@ export default function Columns(props) {
                     onChange = {()=>stateChange(head.id)}
                             
                         />
-                   <h3 style={{ display: "inline-block", fontWeight: "500" }}>{head.name}</h3></Grid>)}
+                   <h3 style={{fontWeight: "500" }}>{head.name}</h3></Grid>)}
                     </Grid>
                 </Grid>
             </Grid>
@@ -186,5 +204,6 @@ export default function Columns(props) {
                 </Grid>
             </Grid>
         </div>
+        
     );
 }

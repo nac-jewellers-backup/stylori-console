@@ -14,7 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton'; 
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -22,7 +22,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Filterandsearch from './filterandsearch';
 import SortHeader from './SortHeader';
-import './table.css'
+import './table.css';
 
 
 function createData(name, calories, fat, carbs, protein, protein1, protein2) {
@@ -209,7 +209,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0),
   },
   table: {
     // minWidth: 750,
@@ -303,9 +303,9 @@ export default function EnhancedTable() {
         </div>    */}
 
 
-        <SortHeader />
+        <SortHeader lg={12} md={12} sm={12}  />
 
-<Grid container lg={12} md={12} sm={11} xs={11} style={{overflowX:'auto'}}>
+<Grid container lg={12} md={12} sm={12} xs={12} style={{overflowX:'auto'}}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>

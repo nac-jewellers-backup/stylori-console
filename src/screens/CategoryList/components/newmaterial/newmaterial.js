@@ -1,9 +1,10 @@
 import React from 'react';
-import ProductTable from './ProductTable'
-function newmaterial1 (){
-    return(
-        <div>
-            <ProductTable/>
+import ProductTable from './ProductTable';
+import './table.css'
+function newmaterial1() {
+    return (
+        <div style={{ width: "100%" }}>
+            <ProductTable />
         </div>
     )
 }

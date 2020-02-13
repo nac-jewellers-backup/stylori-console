@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Columns from './columns';
 import Popover from '@material-ui/core/Popover';
+import './table.css';
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,13 +37,13 @@ function SortHeader(){
     
      
         return(
-            <Grid lg={12} md={12} sm={11} xs={12} style={{display:"flex",justifyContent:"space-between",marginBottom:"17px",marginTop:"25px"}}>
-                <Grid xl={8} lg={9} md={8} sm={7} xs={6}>
-                     <h2 style={{fontSize:"24px",fontWeight:"400"}}>Products</h2>   
+            <Grid container lg={12} md={12} sm={12} xs={12} style={{display:"flex",justifyContent:"space-between",marginBottom:"17px",marginTop:"25px"}}>
+                <Grid xl={8} lg={9} md={8} sm={7} xs={12}>
+                     <h2 className="products" style={{fontSize:"24px",fontWeight:"400"}}>Products</h2>   
                 </Grid>
-                <Grid xl={4} lg={3} md={4} sm={5} xs={6} lassName="column" style={{display:"flex",justifyContent:"space-between"}}>
-                    <Grid lg={5} md={4} sm={5} xs={4}>
-                        <Button color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined" size="large" color="primary" style={{fontSize:"15px",padding:"6px 6px"}}>
+                <Grid container xl={4} lg={3} md={4} sm={5} xs={12} lassName="column" style={{display:"flex",justifyContent:"space-between"}}>
+                    <Grid className="column-btn" lg={5} md={5} sm={5} xs={5}>
+                        <Button className="product" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined" size="large" color="primary" style={{fontSize:"15px",padding:"6px 6px"}}>
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button>
                         <Popover
@@ -65,8 +66,8 @@ function SortHeader(){
 
 
                     </Grid>
-                    <Grid lg={7} md={7} sm={7} xs={8}>
-                        <Button  className="product" variant="contained" size="large" color="primary" backgroundColor="secondary">
+                    <Grid className="column-btn" lg={7} md={7} sm={7} xs={7}>
+                        <Button id="create"  className="product" variant="contained" size="large" color="primary" backgroundColor="secondary">
                         CREATE PRODUCT
                         </Button>
                     </Grid>

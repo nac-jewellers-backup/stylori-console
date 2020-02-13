@@ -25,6 +25,7 @@ import { GlobalContext } from '../../context';
 import {  Paper, Avatar, Typography } from '@material-ui/core';
 
 
+
 function SideBar() {
   const classes = useStyles();
   const theme = useTheme();
