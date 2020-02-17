@@ -309,7 +309,7 @@ export default function EnhancedTable() {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-        {/* <Filterandsearch/> */}
+        <Filterandsearch/>
 
           <Table
             className={classes.table}
