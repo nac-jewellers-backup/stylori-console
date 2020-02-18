@@ -1,7 +1,7 @@
 import React from 'react';
 
 const productuploadCtxInitial = {
-    productCtx: {
+    productCtx: {  
         product_categoy: "",
         steps: ['Step1', 'Step2','Step6'],
         product_type:"",
@@ -37,10 +37,24 @@ const productuploadCtxInitial = {
         product_code: "",
         gemstonelist:[],
         diamondlist:[],
-
+        variants:[],
+        productMetalColor:[],
+        productMetalPurity:[],
+        productDiamondColor:[],
+        productDiamondClarity:[],
+        productDiamondTypes:[],
+        productImages:[],
+        productDiamondTypesArray:[],
+        createVariantList:[],
+        editVariants:[],
+        editDiamondLists:[],
+        editGemstoneLists:[],
+        productVariantSize:[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25   
+        ],
+        variant_size:[],
         gemstonetype:"",
         gemstoneshape:"",
-        gemstonesetings:"",
+        gemstonesettings:"",
         gemstonesize:"",
         gemstonecount:"",
         gemstoneweight:"",
@@ -53,7 +67,6 @@ const productuploadCtxInitial = {
         diamondcount:"",
         diamondweight:"",
         metalindex: -1,
-
         themes:"",
         prod_styles:"",
         occassions:"",

@@ -80,6 +80,10 @@ export const useStyles = makeStyles(theme => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      [theme.breakpoints.down('md')]: {
+        marginLeft: "0px",
+        width:"100%"
+      },
     },
  
     hide: {
@@ -117,6 +121,8 @@ export const useStyles = makeStyles(theme => ({
     },
     content: {
       flexGrow: 1,
+      width:"100%",
+      overflow:"auto",
       padding: theme.spacing(3),
     },
   }));

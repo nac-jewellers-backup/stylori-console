@@ -1,0 +1,15 @@
+@media only screen and (max-width: 500px) {
+  .filter-head{
+    
+    font-size: 18px !important;
+  }
+  
+  }
+  @media only screen and (max-width: 500px) {
+    .margin{
+      margin-bottom: 10px !important;
+      margin-top: 10px !important;
+    }
+    
+    }
+ 

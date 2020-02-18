@@ -36,11 +36,7 @@ export const Productlist = withRouter(props => {
         </Link>
         </Grid>
     </Grid>
-    <Product contactlist={[
-        {
-            "name":"NAC"
-        }
-    ]} />
+    <Product />
    
     </Grid>
   )

@@ -16,28 +16,28 @@ const initialNetworkCtx = {
 }
 
 const sendNetworkRequest = async (url, params, data, auth = true) => {
-    url = API_URL+url;
-    console.info('URL', url, data)
-    const method = data ? 'POST' : 'GET', 
-        headers = {
-            'Content-Type': 'application/json'
-        };
-    let resdata = null;
-    if(auth){
-        const token = localStorage.getItem(TOKEN)
-        if(token) headers["auth"] = token
-        else window.location = '/'
-    }
-    const response = await fetch(url, {
-        method, body: isString(data) ? data : JSON.stringify(data), headers
-    })
+    // url = API_URL+url;
+    // console.info('URL', url, data)
+    // const method = data ? 'POST' : 'GET', 
+    //     headers = {
+    //         'Content-Type': 'application/json'
+    //     };
+    // let resdata = null;
+    // if(auth){
+    //     const token = localStorage.getItem(TOKEN)
+    //     if(token) headers["auth"] = token
+    //     else window.location = '/'
+    // }
+    // const response = await fetch(url, {
+    //     method, body: isString(data) ? data : JSON.stringify(data), headers
+    // })
 
-    if(response.status < 400){
-        resdata = await response.json();
-    } else {
-        alert(`${response.status}:${response.statusText} - Unable to complete your request to \n${url}`)
-    }
-    return resdata;
+    // if(response.status < 400){
+    //     resdata = await response.json();
+    // } else {
+    //     alert(`${response.status}:${response.statusText} - Unable to complete your request to \n${url}`)
+    // }
+    // return resdata;
 }
 
 export const NetworkContext = React.createContext(initialNetworkCtx);

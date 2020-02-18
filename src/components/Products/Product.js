@@ -16,6 +16,11 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Query, withApollo } from 'react-apollo';
+import {PRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
+import { useHistory } from "react-router-dom";
+import { Button, Switch } from '@material-ui/core';
+import { useMutation,useQuery } from '@apollo/react-hooks';
 const columns = [
   { id: 'name', label: 'Name', minWidth: 200 },
   { id: 'SKU', label: 'SKU', minWidth: 100 },
@@ -29,7 +34,7 @@ const columns = [
   },
   {
     id: 'delete',
-    label: 'delete',
+    label: 'Action',
     minWidth: 120,
     align: 'center',
     format: value => value.toFixed(2),
@@ -122,22 +127,48 @@ const useStyles2 = makeStyles(theme => ({
   },
 }));
 
-export default function AddContact(props) {
+const   AddContact=(props)=> {
+  let history = useHistory();
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
+  const [pageCount,setPageCount] = React.useState(0);
+  const [offsetValue,setOffsetValue] = React.useState(0)
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
+    setOffsetValue(newPage*rowsPerPage)
   }
 
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
+  function ProductEdit(id){
+    // localStorage.setItem('productEditId',id);
+    history.push(`product_attributes/${id}`)
+  }
+  // function productItemStatusChange(id,isactive){
+    // let variable = {
+    //   "productId": id
+    // };
+    // let status = isactive ? variable.isActive = false :variable.isActive = true;
+    async function productItemStatusChange(id,isactive,refetch){
+      let variables ={
+        productId:id,
+        isActive:isactive ?false:true
+      }
+      await props.client.mutate({mutation:PRODUCTLISTSTATUSEDIT,variables}).then(res=>{
 
+        if(res!==null){
+          refetch();
+        }
+      }).catch(console.error)
+    
+    }
+    // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
+  // }
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
@@ -157,31 +188,64 @@ export default function AddContact(props) {
           </TableHead>
  
           <TableBody>
-            {props.contactlist.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left">{row.alias}</TableCell>
-                <TableCell align="center"><EditIcon />
-                </TableCell>
-                <TableCell align="center"><DeleteIcon />
-                </TableCell>
-              </TableRow>
-            ))}
-
-            {emptyRows > 0 && (
+          <Query
+              query={PRODUCTLIST}
+              onCompleted={data => setPageCount( data.allProductLists.totalCount )}
+              variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
+              {
+                  ({ data, loading, error, refetch }) => {
+                    debugger
+                      if (loading) {
+                          // return <Loader />
+                      }
+                      if (error) {
+                        return <div>{error}</div>
+                          // return false
+                      }
+                      if (data) {
+                          return <>
+                              {data.allProductLists.nodes.map((row, index) => (
+                                  <TableRow key={row.name}>
+                                  <TableCell component="th" scope="row">
+                                    {row.productName}
+                                  </TableCell>
+                                  <TableCell align="left">{row.productType}</TableCell>
+                                  <TableCell align="center">
+                                  <Button onClick={(e) => ProductEdit(row.productId)}>
+                                    <EditIcon />
+                                  </Button>
+                                  </TableCell>
+                                  <TableCell align="center">
+                                  <Switch
+                                    checked={row.isactive}
+                                    onChange={()=>{
+                                      productItemStatusChange(row.productId,row.isactive,refetch );
+                                    }}
+                                    value="checkedA"
+                                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                  />
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                          </>
+                      }
+                      else{
+                      return <div>data:{data}</div>
+                      }
+                  }}
+          </Query>
+            {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
-            )}
+            )} */}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 colSpan={5}
-                count={props.contactlist.length}
+                count={pageCount}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
@@ -190,7 +254,7 @@ export default function AddContact(props) {
                 }}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
+                // ActionsComponent={TablePaginationActions}
               />
             </TableRow>
           </TableFooter>
@@ -199,3 +263,4 @@ export default function AddContact(props) {
     </Paper>
   );
 }
+export default withApollo(AddContact);

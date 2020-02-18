@@ -77,7 +77,6 @@ export default function Review() {
         metalcolour.push(element)
         product_images[element.name] = []
       }
-
     })
     setMetalcolour(metalcolour)
 }, []);

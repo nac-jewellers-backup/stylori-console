@@ -9,7 +9,15 @@ const route = {
     materiallist: '/material',
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
-    priceupdate: '/priceupdate'
+    priceupdate: '/priceupdate',
+    productAttributes: '/product_attributes',
+    diamondDetails: '/diamond_details',
+    gemstoneDetails:'/gemstone-details',
+    variants:'/variants',
+    images:'/images',
+    createVariant:'/create_variant',
+    materiallistpage:'/newmaterial',
+    editCategory:'/editcategory'
 
 }
 

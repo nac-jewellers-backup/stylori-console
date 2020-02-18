@@ -182,7 +182,114 @@ const PRODUCTCATEGORY = gql`query {
     }
   }
   }`
+const PRODUCTLIST = gql`
+query MyQuery($Veiw: Int!, $Offset: Int!) {
+  allProductLists(first: $Veiw, offset: $Offset) {
+    nodes {
+      id
+      nodeId
+      productName
+      productType
+      productId
+      isactive
+    }
+    totalCount
+  }
+}
+`;
+const PRODUCTLISTSTATUSEDIT = gql`
+mutation MyMutation($productId:String!,$isActive:Boolean!) {
+  __typename
+  updateProductListByProductId(input: {productId: $productId, productListPatch: {isactive: $isActive}}) {
+    clientMutationId
+    productList {
+      isactive
+    }
+  }
+}
+`;
+const PRODUCTDIAMONDTYPES = `
+query MyQuery {
+  allMasterDiamondTypes {
+    nodes {
+      diamondClarity
+      diamondColor
+      id
+    }
+  }
+}
+`;
+const PRODUCTEDIT = `
+query MyQuery($productId: String!) {
+  productListByProductId(productId: $productId) {
+    productMetalcoloursByProductId {
+      nodes {
+        productColor
+        id
+      }
+    }
+    productName
+    productType
+    productDiamondsByProductSku {
+      nodes {
+        diamondClarity
+        diamondColour
+        diamondSettings
+        diamondShape
+        diamondType
+        id
+        stoneCount
+        stoneWeight
+      }
+    }
+    productGemstonesByProductSku {
+      nodes {
+        gemstoneSetting
+        gemstoneShape
+        gemstoneSize
+        gemstoneType
+        gemstonsSize
+        id
+        stoneCount
+        stoneWeight
+      }
+    }
+    productImagesByProductId {
+      nodes {
+        id
+        imagePosition
+        imageUrl
+        productColor
+      }
+    }
+    productPuritiesByProductId {
+      nodes {
+        purity
+        id
+      }
+    }
+    transSkuListsByProductId {
+      nodes {
+        skuSize
+        diamondType
+        metalColor
+        purity
+        skuWeight
+        generatedSku
+        id
+        isActive
+      }
+    }
+    productCategory
+    sizeVarient
+  }
+}
 
+`;
   export {
-    PRODUCTCATEGORY
+    PRODUCTCATEGORY,
+    PRODUCTLIST,
+    PRODUCTEDIT,
+    PRODUCTLISTSTATUSEDIT,
+    PRODUCTDIAMONDTYPES
   }
