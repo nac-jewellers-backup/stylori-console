@@ -16,6 +16,14 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size';
 import FilePondPluginFileRename from 'filepond-plugin-file-rename';
 // import { NetworkContext } from '../../context/NetworkContext';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+import {
+  
+  Chip
+  
+} from '@material-ui/core';
+
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageValidateSize, FilePondPluginFileRename);
 const useStyle = makeStyles(theme => ({
     helperinput: {
@@ -46,7 +54,7 @@ export function CreateVariant(props) {
         size: []
 
     });
-    console.log(productCtx, 'createvariants')
+   
     function handleMetalColor(status_data) {
         let color = variant.metal_color;
         color.some(color_data => color_data.id === status_data.id) ? color = color.filter(color_fil => color_fil.id !== status_data.id) : color.push(status_data)
@@ -55,6 +63,22 @@ export function CreateVariant(props) {
             metal_color: color
         })
     }
+    const handleoptionChange = type => (event, value) => {
+        let color_arr = []
+        value.map((color, index) => {
+          if(productCtx.productMetalColor.some(item => item.productColor === color.productColor)){
+           }else{ let color_obj = {
+                ...color,
+                metal_color: color.productColor
+            }
+            color_arr.push(color_obj)
+          }
+        })
+        setVariant({
+            ...variant,
+            metal_color: color_arr
+        })
+      }
     const sendNetworkRequest = async (url, params, data, auth = false) => {
         url = API_URL + url;
         console.info('URL', url, data)
@@ -79,34 +103,88 @@ export function CreateVariant(props) {
         }
         return resdata;
     }
-    function handleMetalPurity(status_data) {
-        status_data.metal_weight = "";
-        status_data.error_message = false;
-        // alert(JSON.stringify(status_data));
-        let purity = variant.metal_purity;
-        purity.some(purity_data => purity_data.id === status_data.id) ? purity = purity.filter(purity_fil => purity_fil.id !== status_data.id) : purity.push(status_data)
-        setVariant({
-            ...variant,
-            metal_purity: purity
-        })
-    }
-    function diamondTypeChange(status_data){
-        let diamond__type = variant.variant_diamond_type;
-        diamond__type.some(diamond_type_data => diamond_type_data.id === status_data.id) ? diamond__type = diamond__type.filter(diamond_type_fil => diamond_type_fil.id !== status_data.id) : diamond__type.push(status_data)
-        setVariant({
-            ...variant,
-            variant_diamond_type: diamond__type
-        })
-    }
-    function sizeChange(status_data) {
-        let variantSize = variant.size;
-        variantSize.some(variant_size_data => variant_size_data === status_data) ? variantSize = variantSize.filter(variant_size_fil => variant_size_fil !== status_data) : variantSize.push(status_data)
-        setVariant({
-            ...variant,
-            size: variantSize
-        })
 
+    const handleMetalPurity = type => (event, value) => {        
+
+        let purity_arr = []
+        value.map((color, index) => {
+          if(productCtx.productMetalPurity.some(item => item.purity === color.purity)){
+           }else{ let color_obj = {
+                ...color,
+                metal_color: color.purity
+            }
+            purity_arr.push(color_obj)
+          }
+        })
+        setVariant({
+            ...variant,
+            metal_purity: purity_arr
+        })
     }
+    // function handleMetalPurity(status_data) {
+    //     status_data.metal_weight = "";
+    //     status_data.error_message = false;
+    //     // alert(JSON.stringify(status_data));
+    //     let purity = variant.metal_purity;
+    //     purity.some(purity_data => purity_data.id === status_data.id) ? purity = purity.filter(purity_fil => purity_fil.id !== status_data.id) : purity.push(status_data)
+    //     setVariant({
+    //         ...variant,
+    //         metal_purity: purity
+    //     })
+    // }
+    const diamondTypeChange = type => (event, value) => {        
+
+        let diamondtype_arr = []
+        value.map((color, index) => {
+          if(productCtx.productDiamondTypes.some(item => item.label === color.label)){
+           }else{ let color_obj = {
+                ...color,
+                metal_color: color.label
+            }
+            diamondtype_arr.push(color_obj)
+          }
+        })
+        setVariant({
+            ...variant,
+            variant_diamond_type: diamondtype_arr
+        })
+    }
+
+   
+    // function diamondTypeChange(status_data){
+    //     let diamond__type = variant.variant_diamond_type;
+    //     diamond__type.some(diamond_type_data => diamond_type_data.id === status_data.id) ? diamond__type = diamond__type.filter(diamond_type_fil => diamond_type_fil.id !== status_data.id) : diamond__type.push(status_data)
+    //     setVariant({
+    //         ...variant,
+    //         variant_diamond_type: diamond__type
+    //     })
+    // }
+
+    const sizeChange = type => (event, value) => {   
+        let size_arr = []
+        value.map((color, index) => {
+          if(productCtx.productDiamondTypes.some(item => item === color)){
+           }else{ let color_obj = {
+                ...color,
+                label: color
+            }
+            size_arr.push(color_obj)
+          }
+        })
+        setVariant({
+            ...variant,
+            size: size_arr
+        })
+    }
+    // function sizeChange(status_data) {
+    //     let variantSize = variant.size;
+    //     variantSize.some(variant_size_data => variant_size_data === status_data) ? variantSize = variantSize.filter(variant_size_fil => variant_size_fil !== status_data) : variantSize.push(status_data)
+    //     setVariant({
+    //         ...variant,
+    //         size: variantSize
+    //     })
+
+    // }
     function setMetalWeightInput(e, metalPurityId) {
         // alert(e.target.value)
         let metalWeight = variant.metal_purity;
@@ -165,7 +243,6 @@ export function CreateVariant(props) {
             fetch(`${API_URL}/getproductvarient`, params)
             .then(res=>res.json())
               .then(function (response) {
-                  alert('kfjslkdjs')
                 console.log(response,'saveCreateVariant');
                 // createVariants = [...createVariants,...response];
                 editVariants = [...editVariants,...response.newskus];
@@ -209,7 +286,8 @@ export function CreateVariant(props) {
         if (imagecolourobj) {
             imagecount = imagecolourobj.length + 1;
         }
-
+        
+  
         let imagename = (prodid + "_" + (imagecount) + imagecolor.charAt(0));
         let responsedata = await sendNetworkRequest('/uploadimage', {}, { image: bodaydata.fileExtension, filename: imagename, product_id: prodid }, false)
         var returnData = responsedata && responsedata.data && responsedata.data.returnData;
@@ -260,43 +338,40 @@ export function CreateVariant(props) {
         await axios.put(signedRequest, bodaydata.file, options)
     }
     return (
-        <Grid container>
-            <Grid item>
-                <Grid container >
-                    <Grid item>
-                        <Grid item className={classes.variantFontSize} >Metal Color</Grid>
-                        <Grid item >
-                            <FormGroup row>
-                                {
-                                    productCtx.masterData && productCtx.masterData.metalcolour.map((data, index) => (
-
-                                        productCtx.productMetalColor && productCtx.productMetalColor.some((prod_metal_color) => prod_metal_color.productColor === data.name) ?
-                                            <FormControlLabel
-                                                disabled
-                                                control={
-                                                    <Checkbox checked={true} value="checkedA" />
-                                                }
-                                                label={data.name}
-                                            /> :
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox checked={variant.metal_color && variant.metal_color.some(met_colr => met_colr.id == data.id) ? true : false} onChange={() => handleMetalColor(data)} value="checkedA" />
-                                                }
-                                                label={data.name}
-                                            />
-
-                                    ))
-                                }
-                            </FormGroup>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid container className={classes.variantMarginTop}>
-                    <Grid item>
-                        <Grid item className={classes.variantFontSize} >
-                            Metal Purity
-                        </Grid>
-                        <Grid item>
+        <Grid container  spacing={2} >
+            <Grid xs={6} sm={6} md={6} lg={6} >
+            <Autocomplete
+                    multiple
+                    id="free-solo-2-demo"
+                    fullWidth
+                    margin="dense"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.productColor}
+                    options={productCtx.masterData.metalcolour}
+                    defaultValue={productCtx.productMetalColor}
+                    onChange={handleoptionChange('productMetalColor')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.productColor} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Metal Colours"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
+            </Grid>
+                
+            <Grid item xs={6} sm={6} md={6} lg={6}>
+                    
+                      
+                        {/* <Grid item>
                             <FormGroup row>
                                 {
                                     productCtx.masterData && productCtx.masterData.metalpurity.map((data, index) => (
@@ -338,81 +413,138 @@ export function CreateVariant(props) {
                                 ))
                             }
                         </Grid>
-                    </Grid>
+                     */}
+
+                    <Autocomplete
+                    multiple
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.name}
+                    options={productCtx.masterData.metalpurity}
+                    defaultValue={productCtx.productMetalPurity}
+                    onChange={handleMetalPurity('productMetalColor')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.purity} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Metal Purity"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
                 </Grid>
-                {
+
+            <Grid item  xs={6} sm={6} md={6} lg={6}>
+                            <Autocomplete
+                    multiple
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    options={productCtx.masterData.diamondtypes}
+                    defaultValue={productCtx.productDiamondTypes}
+                    onChange={diamondTypeChange('productDiamondType')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Types"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
+
+                              
+                           
+                </Grid>
+
+                <Grid item  xs={6} sm={6} md={6} lg={6}>
+                <Autocomplete
+                    multiple
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    fullWidth
+                    getOptionLabel={option => option}
+                    options={productCtx.productVariantSize}
+                    defaultValue={productCtx.productDiamondTypes}
+                    onChange={sizeChange('productSizes')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Sizes"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
+                </Grid>
+
+
+                {/* {
                     productCtx.diamondlist && productCtx.diamondlist.length>0 ?<Grid container className={classes.variantMarginTop}>
                     <Grid item>
-                        <Grid item className={classes.variantFontSize} >
-                            Diamond Types
-                        </Grid>
+                       
                         <Grid item>
                             <FormGroup row>
-                                {
-                                    productCtx.productDiamondTypes && productCtx.productDiamondTypes.map((data, index) => (
+                            <Autocomplete
+                    multiple
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    getOptionLabel={option => option.label}
+                    options={productCtx.masterData.diamondtypes}
+                    defaultValue={productCtx.productDiamondTypes}
+                    onChange={handleoptionChange('productMetalColor')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Diamond Types"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
 
-                                        productCtx.productDiamondTypesArray && productCtx.productDiamondTypesArray.some((prod_diamon_color) => prod_diamon_color.diamondType === data.diamondColor+data.diamondClarity) ?
-                                            <FormControlLabel
-                                                disabled
-                                                control={
-                                                    <Checkbox checked={true} value="checkedA" />
-                                                }
-                                                label={`${data.diamondColor}-${data.diamondClarity}`}
-                                            /> :
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox checked={variant.variant_diamond_type && variant.variant_diamond_type.some(diamond__type => diamond__type.id == data.id) ? true : false} onChange={() => diamondTypeChange(data)} value="checkedA" />
-                                                }
-                                                label={`${data.diamondColor}-${data.diamondClarity}`}
-                                            />
-
-                                    ))
-                                }
+                              
                             </FormGroup>
                         </Grid>
                     </Grid>
                 </Grid> : ''
-                }
-                <Grid container className={classes.variantMarginTop}>
-                    <Grid item>
-                        <Grid item className={classes.variantFontSize} >
-                            Size
-                        </Grid>
-                        <Grid item>
-                            <FormGroup row>
-                                {
-                                    productCtx.productVariantSize && productCtx.productVariantSize.map((data, index) => (
-
-                                        productCtx.variant_size && productCtx.variant_size.some((variantSize) => variantSize === data) ?
-                                            <FormControlLabel
-                                                disabled
-                                                control={
-                                                    <Checkbox checked={true} value="checkedA" />
-                                                }
-                                                label={data}
-                                            /> :
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox checked={variant.size && variant.size.some(var_size => var_size == data) ? true : false} onChange={() => sizeChange(data)} value="checkedA" />
-                                                }
-                                                label={data}
-                                            />
-
-                                    ))
-                                }
-                            </FormGroup>
-                        </Grid>
-                    </Grid>
-
-                </Grid>
-            </Grid>
+                } */}
+                
             <Grid container>
                 {variant.metal_color === undefined ? null : variant.metal_color.map((value, index) => (
                     <Grid xs={12} container spacing={1} item>
                         <Grid xs={12} item>
 
                             <Typography component="h6" variant="h6" align="left">
-                                {value.name}
+                                {value.productColor}
                             </Typography>
                         </Grid>
                         <Grid xs={12} sm={12} md={12} item>
@@ -456,14 +588,14 @@ export function CreateVariant(props) {
                     </Grid>
                 ))}
             </Grid>
-            <Grid container style={{display:"flex",justifyContent:"flex-end"}}>
+            <Grid container style={{display:"flex",justifyContent:"center"}}>
                     <Grid item >
                 <Button color="primary" variant="contained" onClick={(e) => saveCreateVariant()}>
                 Save
                 </Button>
                 </Grid>
                 <Grid item >
-                <Button  style={{background: "#b5b6b8"}} variant="contained" onClick={(e) => backToProductAttribute()}>
+                <Button  style={{background: "#ffffff",marginLeft:"16px"}} variant="contained" onClick={(e) => backToProductAttribute()}>
                 Back
                 </Button>
                 </Grid>

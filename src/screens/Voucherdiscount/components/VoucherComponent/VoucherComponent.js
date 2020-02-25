@@ -108,7 +108,8 @@ const VoucherComponent = props => {
       <div className={classes.content}>
     
      <CategoryComponents  tabname={selectedtab}  materials={['Gold', 'Diamond']} />
-        
+     {/* <CategoryComponents  tabname={selectedtab}  materials={['Rings', 'Bracelets']} /> */}
+    
         </div>
     </Card>
   );

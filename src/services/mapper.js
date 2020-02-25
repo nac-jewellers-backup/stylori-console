@@ -45,43 +45,51 @@ export const productCategory = {
         const themes = response.allMasterThemes.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            themeName:_.name
         }))
         const styles = response.allMasterStyles.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            styleName: _.name
         }))
         
         const occasions = response.allMasterOccasions.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            occassionName: _.name
         }))
         const collections = response.allMasterCollections.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            collectionName: _.name
         }))
         const gemstonecolor = response.allMasterStonesColors.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            stonecolor:_.name
         }))
         const stones = response.allMasterStones.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            stonecount:_.name
         }))
         const metalcolour = response.allMasterMetalsColors.nodes.map(_ => ({
             ..._,
+            productColor: _.name,
             value: _.id,
             label: _.name
         }))
         const metalpurity = response.allMasterMetalsPurities.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            purity: _.name
         }))
         const diamondcolors = response.allMasterDiamondsColors.nodes.map(_ => ({
             ..._,

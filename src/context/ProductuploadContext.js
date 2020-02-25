@@ -15,6 +15,7 @@ const productuploadCtxInitial = {
         selectedgender:"",
         selected_metal_colour:{},
         gender: {},
+        product_gender:"",
         vendorcode: "",
         productseries:[],
         size:0,

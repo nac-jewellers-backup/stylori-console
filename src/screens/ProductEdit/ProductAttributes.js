@@ -7,6 +7,8 @@ import { withRouter } from "react-router-dom";
 import DiamondDetails from './DiamondDetails';
 import GemstoneDetails from './GemstoneDetails';
 import Variants from './Variants';
+import Skupricing from './Skupricing';
+
 import { productCategory } from '../../services/mapper';
 import { useQuery } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -17,7 +19,20 @@ import CreateVariant from './CreateVariant';
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import {
+  Card,
+  CardHeader,
+  Chip,
+  CardContent,
+  Divider,
+  RadioGroup,
+  Radio,
+  FormLabel,
+  FormControlLabel,
+  Checkbox
+} from '@material-ui/core';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -63,6 +78,9 @@ export function Component(props) {
   function changeVariant() {
     setstate({ ...state, create_variant: false })
   }
+  const handleoptionChange = type => (event, value) => {
+      setProductCtx({ ...productCtx, [type]: value})
+}
   function createVariant() {
     let diamondTypesArray = [];
     // let diamondClaritySku = [];
@@ -152,6 +170,7 @@ export function Component(props) {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
+        let gender_arr = fatchvalue.data.productListByProductId.gender
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -163,8 +182,15 @@ export function Component(props) {
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
           productMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
-          variant_size: fatchvalue.data.productListByProductId.sizeVarient
-          // productDiamondColor:diamondTypesArray,
+          variant_size: fatchvalue.data.productListByProductId.sizeVarient,
+          vendorcode:fatchvalue.data.productListByProductId.vendorCode,
+          product_gender:gender_arr.split(','),
+          themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,
+          prod_styles: fatchvalue.data.productListByProductId.productStylesByProductId.nodes,// productDiamondColor:diamondTypesArray,
+          occassions:fatchvalue.data.productListByProductId.productOccassionsByProductId.nodes,
+          collections:fatchvalue.data.productListByProductId.productCollectionsByProductId.nodes,
+          stonecount:fatchvalue.data.productListByProductId.productStonecountsByProductId.nodes,
+          stonecolour:fatchvalue.data.productListByProductId.productStonecolorsByProductId.nodes
           // productDiamondClarity:diamondClaritySku,
         })
         setstate({
@@ -185,29 +211,345 @@ export function Component(props) {
         </Alert>
       </Snackbar>
         </React.Fragment>
-        <Grid item>
-          <Grid container spacing={1} >
-            <Grid item xs={12} sm={12} md={9} spacing={2} style={{ padding: "15px" }}>
-              <Grid container item md={6}>
+          <Grid item container spacing={1} >
+          <Grid item xs={12} sm={12} md={3} lg={3} spacing={2} style={{padding:"15px",  backgroundColor: "#FFFFFF" }}>
+              
+              
+              <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    pattern="[a-zA-Z]*"
+                    value={productCtx.productname}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Product Name"
+                    onInput={keyPress.bind(this)}
+                  // onChange={(e)=>keyPress(e,'productname')}
+                  />
                 <TextField
                   className={classes.helperinput}
                   variant="outlined"
                   margin="dense"
                   fullWidth
-                  pattern="[a-zA-Z]*"
-                  value={productCtx.productname}
-                  id="productname"
-                  error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                  name="productname"
-                  label="Product Name"
-                  onInput={keyPress.bind(this)}
-                // onChange={(e)=>keyPress(e,'productname')}
+                  value={productCtx.product_categoy}
+                  id="product_category"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  error={productCtx && productCtx.error_message && productCtx.error_message.product_categoy}
+                  name="product_category"
+                  label="Product Category"
+  
                 />
+                <TextField
+                  className={classes.helperinput}
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  value={productCtx.product_type}
+                  id="product_type"
+                  error={productCtx && productCtx.error_message && productCtx.error_message.product_type}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  name="product_type"
+                  label="Product Type"
+  
+                />
+                  <Input
+                        variant="outlined"
+                        margin="dense"
+                        label="Vendor Name"
+                        fullWidth
+                        className={classes.helperinput}
+                        value={productCtx.vendorcode}
+                        id="productvendorcode"
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        name="Vendor Name"
+                        />
+  
+                 <TextField
+                  className={classes.helperinput}
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  defaultValue={productCtx.productname}
+                  id="seo_text"
+                  error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                  
+                  name="seo_text"
+                  label="Minimum Order Quantity"
+  
+                /> 
+               <TextField
+                  className={classes.helperinput}
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  defaultValue={productCtx.productname}
+                  id="url"
+                  error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                  
+                  name="url"
+                  label="Maximum Order Quantity"
+                /> 
+                    <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      disabled
+                      className={classes.fixedTag}
+                      value={[{label: "Silver",name:"Silver"},{label: "Gold",name:"Gold"}]}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Product Materials"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+                      />
+                      )}
+                      />
+                 <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      disabled
+                      className={classes.fixedTag}
+                      value={productCtx.productMetalColor}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.productColor} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Metal Colour"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+                      <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      disabled
+                      className={classes.fixedTag}
+                      value={productCtx.productMetalPurity}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.purity} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Metal Purity"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+  
+                    <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      disabled
+                      className={classes.fixedTag}
+                      value={productCtx.product_gender}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Gender"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+  
+                <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.themes}
+                      options={productCtx.masterData.themes}
+                      value={productCtx.themes}
+                      onChange={handleoptionChange('themes')}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.themeName} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Themes"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+                      <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.prod_styles}
+                      options={productCtx.masterData.styles}
+                      onChange={handleoptionChange('prod_styles')}
+                      value={productCtx.prod_styles}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.styleName} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Styles"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+  
+                    <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      value={productCtx.occassions}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.occassions}
+                      options={productCtx.masterData.occasions}
+                      onChange={handleoptionChange('occassions')}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.occassionName} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Occasions"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+              <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      value={productCtx.collections}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.collections}
+                      options={productCtx.masterData.collections}
+                      onChange={handleoptionChange('collections')}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.collectionName} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Collections"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+                  <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      value={productCtx.stonecount}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.stonecount}
+                      options={productCtx.masterData.stones}
+                      onChange={handleoptionChange('stonecount')}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.stonecount} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="No of Stones"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+  
+                  <Autocomplete
+                      multiple
+                      id="free-solo-2-demo"
+                      className={classes.fixedTag}
+                      value={productCtx.stonecolour}
+                      getOptionLabel={option => option.label}
+                      defaultValue={productCtx.stonecolour}
+                      options={productCtx.masterData.gemstonecolor}
+                      onChange={handleoptionChange('stonecolour')}
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.stonecolor} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Stone Colour"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, type: 'search' }}
+                      />
+                      )}
+                      />
+              </Grid>
+             
+            <Grid item xs={12} sm={12} md={9} lg={9}  spacing={2} style={{ padding: "15px" }}>
+              <Grid container item md={6}>
+                
               </Grid>
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Diamond Table</Grid>
               <DiamondDetails diamond={productCtx.diamondlist} />
-              <Grid style={{ fontSize: ".9rem", padding: "8px", marginTop: "28px" }}>Gemstone Table</Grid>
-              <GemstoneDetails gemstone={productCtx.gemstonelist} />
+              {productCtx.gemstonelist.length > 0 ? <> <Grid style={{ fontSize: ".9rem", padding: "8px", marginTop: "28px" }}>Gemstone Table</Grid>
+              <GemstoneDetails gemstone={productCtx.gemstonelist} /> </> : null }
               <Grid style={{
                 display: "flex",
                 justifyContent: "flex-end",
@@ -221,103 +563,24 @@ export function Component(props) {
                 </Button></Grid>
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Variant Table</Grid>
               <Variants variants={productCtx.variants} />
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} spacing={2} style={{ padding: "15px", backgroundColor: "#FFFFFF" }}>
-              <TextField
-                className={classes.helperinput}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                defaultValue={productCtx.productname}
-                InputProps={{
-                  readOnly: true,
-                }}
-                id="short_description"
-                error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                InputProps={{
-                  readOnly: true,
-                }}
-                name="short_description"
-                label="Short Description"
-
-              />
-              <TextField
-                className={classes.helperinput}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                defaultValue={productCtx.productname}
-                id="seo_text"
-                error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                InputProps={{
-                  readOnly: true,
-                }}
-                name="seo_text"
-                label="SEO Text"
-
-              />
-              <TextField
-                className={classes.helperinput}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                defaultValue={productCtx.productname}
-                id="url"
-                error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                InputProps={{
-                  readOnly: true,
-                }}
-                name="url"
-                label="URL"
-              />
-              <TextField
-                className={classes.helperinput}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                value={productCtx.product_categoy}
-                id="product_category"
-                InputProps={{
-                  readOnly: true,
-                }}
-                error={productCtx && productCtx.error_message && productCtx.error_message.product_categoy}
-                name="product_category"
-                label="Product Category"
-
-              />
-              <TextField
-                className={classes.helperinput}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                value={productCtx.product_type}
-                id="product_type"
-                error={productCtx && productCtx.error_message && productCtx.error_message.product_type}
-                InputProps={{
-                  readOnly: true,
-                }}
-                name="product_type"
-                label="Product Type"
-
-              />
+              <Skupricing variants={productCtx.variants} />
 
             </Grid>
-            <Grid container style={{
+             <Grid container style={{
               display: "flex",
-              justifyContent: "flex-end"
+              justifyContent: "center"
             }}>
-              <Grid item >
+              <Grid item>
                 <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
                   Save
         </Button>
-                <Button color="default" style={{ background: "#b5b6b8" }} variant="contained" onClick={(e) => backProductList()}>
+                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
                   Back
         </Button>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
   )
 }

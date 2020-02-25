@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { VoucherContext } from '../../../../context';
 import { DateTimePicker } from "@material-ui/pickers";
 import { makeid } from '../../../../utils/commonmethod';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
   Card,
@@ -13,11 +14,13 @@ import {
   Typography,
   TextField,
   Popper,
+  
   CardActionArea,
   CardActions,
   Radio,
   Button,
   Grid,
+  Chip,
   Checkbox,
   FormControlLabel,
   Divider,
@@ -89,7 +92,11 @@ const useStyles = makeStyles(theme => ({
 const AboutVoucher = props => {
   const { className, ...rest } = props;
   const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
-  const [vouchercode, setVouchercode] = useState("");
+  const [vouchercode, setVouchercode] = useState([]);
+  const [vouchername, setVouchername] = useState("");
+  const [vouchercount, setVouchercount] = useState("");
+  const [voucherprefix, setVoucherprefix] = useState("");
+
   const [discounttype, setDiscounttype] = useState("");
   const [minreq, setMinreq] = useState("None");
   const [usagelimit, setUsagelimit] = useState("once");
@@ -117,6 +124,13 @@ const AboutVoucher = props => {
   const handleInputChange = type => e => {
     setVouchercode(e.target.value.toUpperCase())
   }
+
+  const handleCountChange = type => e => {
+    setVouchercount(e.target.value.toUpperCase())
+  }
+  const handlePrefixChange = type => e => {
+    setVoucherprefix(e.target.value.toUpperCase())
+  }
   const handleminreq = (event, option) => {
     setMinreq(option);
   };
@@ -125,7 +139,7 @@ const AboutVoucher = props => {
   };
   const generateCoupon = (event) => {
    // alert(JSON.stringify(voucherCtx))
-   setVouchercode(makeid(10))
+   setVouchercode(makeid(10,voucherprefix,vouchercount))
   };
   
   
@@ -139,9 +153,46 @@ const AboutVoucher = props => {
       <CardContent className={classes.cardcontent}>
       <Grid container  spacing={2}>  
       <Grid container item xs={12} sm={12} spacing={1} >
-
-      <Grid   item xs={10} sm={10} >
+      <Grid   item xs={6} sm={6} >
+      <Grid container  item xs={12} sm={12} spacing={1}>
         <TextField
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            onChange={handleInputChange('vouchername')}
+            id="vouchername"
+            name="vouchername"
+            value={vouchername}
+            label="Voucher Name"
+            />
+      <Grid   item xs={6} sm={6} >
+      <TextField
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            onChange={handlePrefixChange('voucherprefix')}
+            id="vouchercode"
+            name="vouchercode"
+             value={voucherprefix}
+            label="Voucher Prefix"
+            />
+      </Grid>
+      <Grid   item xs={6} sm={6} >
+
+        <TextField
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            onChange={handleCountChange('vouchercount')}
+            id="vouchercode"
+            name="vouchercode"
+            // value={vouchercode}
+            label="No of vouchers"
+            />
+      </Grid>
+      <Grid   item xs={12} sm={12} >
+
+         {/* <TextField
             variant="outlined"
             margin="dense"
             fullWidth
@@ -151,9 +202,56 @@ const AboutVoucher = props => {
             name="vouchercode"
             value={vouchercode}
             label="Voucher Code"
-            />
-      </Grid>
+            />  */}
 
+                  <Autocomplete
+                       id="free-solo-2-demo"
+                       multiple
+                       freeSolo
+                       defaultValue={vouchercode}
+                       value={vouchercode}
+                       className={classes.fixedTag}
+                       fullWidth
+                       options={[]}
+                      //  onChange={handleInputChange('vouchercode')}
+                       renderTags={(value, getTagProps) =>
+                       value.map((option, index) => (
+                       <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                       ))
+                       }
+                       renderInput={params => (
+                       <TextField
+                       {...params}
+                       label="Voucher Codes"
+                       margin="dense"
+                       variant="outlined"
+                       fullWidth
+                      //  error = {productCtx.error_message.selected_sizes}
+
+                      //  InputProps={{ ...params.InputProps, type: 'search' }}
+                       />
+                       )}
+                       />
+                       </Grid>
+      </Grid>
+      </Grid> 
+      <Grid   item xs={6} sm={6} >
+      <TextField
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            multiline
+            rows="7"
+            onChange={handleInputChange('vouchercode')}
+            id="vouchercode"
+            name="vouchercode"
+            // value={vouchercode}
+            label="Voucher Description"
+            />
+
+      </Grid>
+      
+    
       <Grid   item xs={2} sm={2} >
         <Button size="small" variant="contained" 
         onClick={event => generateCoupon(event)}
@@ -161,57 +259,14 @@ const AboutVoucher = props => {
             Generate Voucher
           </Button>
       </Grid>
-
+      
           
 
         </Grid>
         
        
        
-        <Grid container item xs={12} sm={12} spacing={1}>
-        <Grid  item xs={12} sm={12} spacing={1}>
-
-      <Typography
-        gutterBottom
-        variant="h5"
-      >
-       Voucher Applicable For
-        </Typography>
-      </Grid>
-      <Grid container  item xs={12} sm={12} spacing={1}>
-
-        {['All','Material','Diamond','Gemstone','Making Charge'].map(option => (
-          
-          
-          <div
-            className={clsx(classes.metaloption, {
-              [classes.selectedOption]: minreq === option
-            })}
-            onClick={event => handleminreq(event, option)}
-
-            key={option}
-          >
-            {/* <Radio
-              checked={selected === option}
-              className={classes.optionRadio}
-              color="primary"
-              onClick={event => handleChange(event, option)}
-            /> */}
-            <div className={classes.optionmaterialDetails}>
-              <Typography
-                gutterBottom
-                className={minreq === option ? classes.selectedtext : null}
-                variant="h6"
-              >
-                {option}
-              </Typography>
-              </div>
-            
-          </div>
-          
-        ))}
-        </Grid>
-        </Grid>
+     
         <Grid container item xs={12} sm={12} spacing={1}>
         <Grid  item xs={12} sm={12} spacing={1}>
 
@@ -250,7 +305,7 @@ const AboutVoucher = props => {
           </Grid>
         ))}
         </Grid>
-       
+         {discounttype === 'Free Shipping' || discounttype === "" ? null :  
         <Grid item xs={12} sm={12} spacing={1}>
 
         <TextField
@@ -262,6 +317,40 @@ const AboutVoucher = props => {
           label="Discount Value"
           />
         </Grid>
+}
+        <Grid container item xs={12} sm={12} spacing={1}>
+        <Grid  item xs={12} sm={12} spacing={1}>
+
+          <Typography
+            gutterBottom
+            variant="h5"
+          >
+            Active Date
+            </Typography>
+          </Grid>
+          <Grid  item xs={6} sm={6} spacing={1}>
+
+          <DateTimePicker
+        label="Start Date"
+        fullWidth
+        inputVariant="outlined"
+        value={selectedDate}
+        minDate={new Date()}    
+        onChange={handleDateChange}
+      />
+      </Grid>
+              <Grid  item xs={6} sm={6} spacing={1}>
+              <DateTimePicker
+        label="End Date"
+        fullWidth
+        inputVariant="outlined"
+        value={selectedDate}
+        minDate={selectedDate}
+        strictCompareDates={true}
+        onChange={handleDateChange}
+      />
+      </Grid>
+          </Grid>
         <Grid  item xs={12} sm={12} spacing={1}>
         <CardActionArea>
 
@@ -301,6 +390,19 @@ const AboutVoucher = props => {
           </div>
           </CardActionArea>
           </Grid>
+         
+          <Grid item xs={12} sm={12} spacing={1}>
+        <TextField
+          variant="outlined"
+          margin="dense"
+          
+          fullWidth
+          id="discountvalue"
+          name="discountvalue"
+          label="Limit of uses"
+          />
+        
+        </Grid>
           <Grid container item xs={12} sm={12} spacing={1}>
         <Grid  item xs={12} sm={12} spacing={1}>
 
@@ -365,7 +467,7 @@ const AboutVoucher = props => {
         </Grid>
        
         <Grid container item xs={12} sm={12} spacing={1}>
-        <Grid  item xs={12} sm={12} spacing={1}>
+        {/* <Grid  item xs={12} sm={12} spacing={1}>
 
           <Typography
             gutterBottom
@@ -373,8 +475,8 @@ const AboutVoucher = props => {
           >
             Usage Limits
             </Typography>
-          </Grid>
-
+          </Grid> */}
+{/* 
           <Grid  item xs={6} sm={6} spacing={1}>
 
           <div
@@ -455,39 +557,9 @@ const AboutVoucher = props => {
           />
         }
         </Grid>
-  </Grid>
+  </Grid> */}
           </Grid>
-          <Grid container item xs={12} sm={12} spacing={1}>
-        <Grid  item xs={12} sm={12} spacing={1}>
-
-          <Typography
-            gutterBottom
-            variant="h5"
-          >
-            Active Date
-            </Typography>
-          </Grid>
-          <Grid  item xs={6} sm={6} spacing={1}>
-
-          <DateTimePicker
-        label="Start Date"
-        fullWidth
-        inputVariant="outlined"
-        value={selectedDate}
-      
-        onChange={handleDateChange}
-      />
-      </Grid>
-              <Grid  item xs={6} sm={6} spacing={1}>
-              <DateTimePicker
-        label="End Date"
-        fullWidth
-        inputVariant="outlined"
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
-      </Grid>
-          </Grid>
+         
         </Grid>
       </CardContent>
     </Card>

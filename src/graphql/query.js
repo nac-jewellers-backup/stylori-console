@@ -230,6 +230,8 @@ query MyQuery($productId: String!) {
     }
     productName
     productType
+    vendorCode
+    gender
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -268,6 +270,42 @@ query MyQuery($productId: String!) {
         id
       }
     }
+    productThemesByProductId {
+      nodes {
+        themeName
+        id
+      }
+    }
+    productStonecolorsByProductId {
+      nodes {
+        id
+        stonecolor
+      }
+    }
+    productStylesByProductId {
+      nodes {
+        styleName
+        id
+      }
+    }
+    productCollectionsByProductId {
+      nodes {
+        collectionName
+        id
+      }
+    }
+    productOccassionsByProductId {
+      nodes {
+        occassionName
+        id
+      }
+    }
+    productStonecountsByProductId {
+      nodes {
+        id
+        stonecount
+      }
+    }
     transSkuListsByProductId {
       nodes {
         skuSize
@@ -278,6 +316,13 @@ query MyQuery($productId: String!) {
         generatedSku
         id
         isActive
+        transSkuDescriptionsBySkuId {
+          nodes {
+            skuDescription
+            certificate
+            ringsizeImage
+          }
+        }
       }
     }
     productCategory
