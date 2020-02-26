@@ -24,10 +24,15 @@ import Switch from '@material-ui/core/Switch';
 const columns = [
   { id: 'SKU', label: 'SKU', minWidth: 100 },
   { id: 'Cost Price', label: 'Cost Price', minWidth: 100 },
+  { id: 'Cost Price Tax', label: 'Cost Price Tax', minWidth: 100 },
+
   { id: 'Selling Price', label: 'Selling Price', minWidth: 200 },
-  { id: 'Markup Price', label: 'Markup Price', minWidth: 200 },
+  { id: 'Selling Price Tax', label: 'Selling Price Tax', minWidth: 200 },
+  { id: 'Markup Price', label: 'Markup Price', minWidth: 100 },
+  { id: 'Markup Price Tax', label: 'Markup Price Tax', minWidth: 100 },
   { id: 'Discount Price', label: 'Discount Price', minWidth: 100 },
-  
+  { id: 'Discount Price Tax', label: 'Discount Price Tax', minWidth: 100 },
+
   {
     id: 'Disable',
     label: 'Price Update',
@@ -205,6 +210,15 @@ export default function Variants(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
+
+  function DiamondEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
+
+  }
+  function DiamondSave(id){
+    setBtnEdit({ ...btnEdit, id:"", action: false })
+
+  }
 //   const handleoptionChange = type => (event, value) => {
     
 //     setProductCtx({ ...productCtx, [type]: value})
@@ -237,33 +251,178 @@ export default function Variants(props) {
                 <TableCell component="th" scope="row">
                   {row.generatedSku}
                 </TableCell>
+                {btnEdit.action ? <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Cost Price"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+                </TableCell> :
                 <TableCell component="th" scope="row">
-                  {row.metalColor}
-                </TableCell>
+                  {row.costPrice}
+                </TableCell>}
+
+                {btnEdit.action ?
                 <TableCell component="th" scope="row">
-                  {row.purity}
-                </TableCell>
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Cost Price Tax"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> :
                 <TableCell component="th" scope="row">
-                    {row.skuWeight}
-                  </TableCell>
-                 
+                  {row.costPriceTax}
+                </TableCell>}
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Selling Price"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.sellingPrice}
+                </TableCell>}
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Selling Price Tax"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.sellingPriceTax}
+                </TableCell>}
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Markup Price"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.markupPrice}
+                </TableCell>}
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Markup Price Tax"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.markupPriceTax}
+                </TableCell>}
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Discount Price"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.discountPrice}
+                </TableCell> }
+                {btnEdit.action ?
+                <TableCell component="th" scope="row">
+                <TextField
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    value={productCtx.vendorDeliveryTime}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Discount Price Tax"
+                    //onInput={keyPress.bind(this)}
+                   // onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  />
+              </TableCell> : <TableCell component="th" scope="row">
+                {row.discountPriceTax}
+                </TableCell>}
                 
-                  <TableCell component="th" scope="row">
-                    {row.skuSize}
-                  </TableCell>
                 {
-                  // btnEdit.action && btnEdit.id == row.id ?
-                  //   <TableCell align="center">
-                  //     <Button onClick={(e) => DiamondEdit(row.id)}><SaveIcon />
-                  //     </Button>
-                  //   </TableCell> :
+                  btnEdit.action && btnEdit.id == row.generatedSku ?
                     <TableCell align="center">
-                       {/* <Switch
-                        checked={row.isActive}
-                        onChange={()=>handleChange(row.id)}
-                        value="checkedA"
-                        inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      /> */}
+                      <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
+                      </Button>
+                    </TableCell> :
+                    <TableCell align="center">
+                      <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
+                      </Button>
                     </TableCell>
                 }
               </TableRow>

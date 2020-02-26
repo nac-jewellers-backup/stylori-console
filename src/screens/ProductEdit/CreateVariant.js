@@ -588,7 +588,7 @@ export function CreateVariant(props) {
                     </Grid>
                 ))}
             </Grid>
-            <Grid container style={{display:"flex",justifyContent:"center"}}>
+            {/* <Grid container style={{display:"flex",justifyContent:"center"}}>
                     <Grid item >
                 <Button color="primary" variant="contained" onClick={(e) => saveCreateVariant()}>
                 Save
@@ -599,7 +599,7 @@ export function CreateVariant(props) {
                 Back
                 </Button>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }

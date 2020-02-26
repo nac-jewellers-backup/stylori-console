@@ -313,7 +313,19 @@ query MyQuery($productId: String!) {
         metalColor
         purity
         skuWeight
-        generatedSku
+        generatedSku,
+        costPrice
+        costPriceTax
+        discountPrice
+        discountPriceTax
+        markupPrice
+        markupPriceTax
+        sellingPrice
+        sellingPriceTax
+        isReadyToShip
+        isActive
+        isdefault,
+        vendorDeliveryTime
         id
         isActive
         transSkuDescriptionsBySkuId {

@@ -8,7 +8,10 @@ import DiamondDetails from './DiamondDetails';
 import GemstoneDetails from './GemstoneDetails';
 import Variants from './Variants';
 import Skupricing from './Skupricing';
-
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import { productCategory } from '../../services/mapper';
 import { useQuery } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -20,6 +23,8 @@ import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
   Card,
@@ -43,17 +48,54 @@ const useStyle = makeStyles(theme => ({
     '& .MuiFormHelperText-root': {
       color: "#e53935",
     }
-  }
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+  icon: {
+    verticalAlign: 'bottom',
+    height: 20,
+    width: 20,
+  },
+  details: {
+    alignItems: 'center',
+  },
+  column: {
+    flexBasis: '33.33%',
+  },
+  helper: {
+    borderLeft: `2px solid ${theme.palette.divider}`,
+    padding: theme.spacing(1, 2),
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }))
 
 export function Component(props) {
   const [open, setOpen] = React.useState(false);
+  const [expand, setExpand] = React.useState(false);
+
   const [snackMessage,setSnackMessage] = React.useState({
     message:"",
     severity:""
   });
   const handleClick = () => {
     setOpen(true);
+  };
+  
+  const handleChange = panel => (event, isExpanded) => {
+    createVariant()
+    setExpand(isExpanded ? true : false);
+    
   };
 
   const handleClose = (event, reason) => {
@@ -81,6 +123,18 @@ export function Component(props) {
   const handleoptionChange = type => (event, value) => {
       setProductCtx({ ...productCtx, [type]: value})
 }
+
+const handleinputChange =type => e => {
+  const re = /^[a-zA-Z \b]+$/;
+  if (e.target.value === '' || re.test(e.target.value)) {
+    setProductCtx({ ...productCtx, [type]: e.target.value})
+  }
+  
+}
+// const handleinputChange = type => (event, value) => {
+//   alert(event.target.value)
+//       setProductCtx({ ...productCtx, [type]: value})
+// }
   function createVariant() {
     let diamondTypesArray = [];
     // let diamondClaritySku = [];
@@ -113,25 +167,34 @@ export function Component(props) {
       })
       .catch(console.error)
 
-    setstate({ ...state, create_variant: true })
+    //setstate({ ...state, create_variant: true })
   }
   function saveProductEditItem() {
     let productEditItem = {
       productId: prod_id,
       productName: productCtx.productname,
-      productDiamondsByProductSku: productCtx.editDiamondLists,
-      productGemstonesByProductSku: productCtx.editGemstoneLists,
-      transSkuListsByProductId: productCtx.editVariants,
-      productImages:productCtx.productImages,
-      createVariants: productCtx.createVariantList
+      themes: productCtx.themes,
+      styles: productCtx.prod_styles,
+      occassions : productCtx.occassions,
+      collections : productCtx.collections,
+      stonecount : productCtx.stonecount,
+      stonecolour : productCtx.stonecolour,
+      gender : productCtx.product_gender
+      // productDiamondsByProductSku: productCtx.editDiamondLists,
+      // productGemstonesByProductSku: productCtx.editGemstoneLists,
+      // transSkuListsByProductId: productCtx.editVariants,
+      // productImages:productCtx.productImages,
+      // createVariants: productCtx.createVariantList
     }
+    console.log("************")
+    console.log(JSON.stringify(productEditItem))
     if (productCtx.editDiamondLists.length > 0 && productCtx.name !== "" || productCtx.editGemstoneLists.length > 0 && productCtx.name !== "" || productCtx.editVariants.length > 0 && productCtx.name !== "" || productCtx.createVariantList.length > 0 && productCtx.name !== "" || state.duplicate_productName !== productCtx.productname) {
       setSnackMessage({
         ...snackMessage,
         message:"This is successfully saved",
         severity:"success"
       })
-      handleClick();
+     // handleClick();
       console.log(JSON.stringify(productEditItem))
       // setTimeout(()=>{  window.location='/productlist'},1000)
     } else {
@@ -170,7 +233,15 @@ export function Component(props) {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-        let gender_arr = fatchvalue.data.productListByProductId.gender
+        var genders = fatchvalue.data.productListByProductId.gender
+        genders = genders.split(',')
+        let gender_arr = []
+        genders.forEach(element => {
+          let gender_obj = {
+            label: element
+          }
+          gender_arr.push(gender_obj)
+        });
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -184,7 +255,7 @@ export function Component(props) {
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           variant_size: fatchvalue.data.productListByProductId.sizeVarient,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
-          product_gender:gender_arr.split(','),
+          product_gender:gender_arr,
           themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,
           prod_styles: fatchvalue.data.productListByProductId.productStylesByProductId.nodes,// productDiamondColor:diamondTypesArray,
           occassions:fatchvalue.data.productListByProductId.productOccassionsByProductId.nodes,
@@ -226,8 +297,10 @@ export function Component(props) {
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Product Name"
-                    onInput={keyPress.bind(this)}
-                  // onChange={(e)=>keyPress(e,'productname')}
+                    //onInput={keyPress.bind(this)}
+                    onChange={handleinputChange('productname')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
                   />
                 <TextField
                   className={classes.helperinput}
@@ -368,12 +441,14 @@ export function Component(props) {
                     <Autocomplete
                       multiple
                       id="free-solo-2-demo"
-                      disabled
                       className={classes.fixedTag}
                       value={productCtx.product_gender}
+                      getOptionLabel={option => option.label}
+                      onChange={handleoptionChange('product_gender')}
+                      options={productCtx.masterData.gender}
                       renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                      <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                      <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                       ))
                       }
                       renderInput={params => (
@@ -540,6 +615,25 @@ export function Component(props) {
                       />
                       )}
                       />
+              
+              
+              
+              
+              <Grid item container style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "16px"
+            }}>
+              <Grid item>
+                <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
+                  Save
+             </Button>
+                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
+                  Back
+              </Button>
+              </Grid>
+            </Grid>
+              
               </Grid>
              
             <Grid item xs={12} sm={12} md={9} lg={9}  spacing={2} style={{ padding: "15px" }}>
@@ -550,35 +644,48 @@ export function Component(props) {
               <DiamondDetails diamond={productCtx.diamondlist} />
               {productCtx.gemstonelist.length > 0 ? <> <Grid style={{ fontSize: ".9rem", padding: "8px", marginTop: "28px" }}>Gemstone Table</Grid>
               <GemstoneDetails gemstone={productCtx.gemstonelist} /> </> : null }
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Creation</Grid>
+
               <Grid style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: "42px"
+                
               }}>
-                <Grid style={{ fontSize: ".9rem", display: "flex", alignItems: "center" }}>Create Variant</Grid>
-                <Button onClick={(e) => createVariant()}>
-                  <Fab style={{ height: "20px", width: " 37px" }} color="primary" aria-label="add">
-                    <AddIcon />
-                  </Fab>
-                </Button></Grid>
-              <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Variant Table</Grid>
+                {/* <Grid style={{ fontSize: ".9rem", display: "flex", alignItems: "center" }}>Create Variant</Grid> */}
+               
+                  <ExpansionPanel expanded={expand} onChange={handleChange()}>
+                    <ExpansionPanelSummary
+                      expandIcon={<AddIcon />}
+                      aria-controls="panel1c-content"
+                      id="panel1c-header"
+                    >
+                      <div className={classes.column}>
+                        <Typography className={classes.heading}>Add New varient</Typography>
+                      </div>
+                    
+                    </ExpansionPanelSummary>
+                    <Divider />
+                    <ExpansionPanelDetails className={classes.details}>
+                    <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id} />  
+                    </ExpansionPanelDetails>
+                    <Divider />
+                    <ExpansionPanelActions>
+                      <Button size="small">Cancel</Button>
+                      <Button size="small" color="primary">
+                        Save
+                      </Button>
+                    </ExpansionPanelActions>
+                    </ExpansionPanel>
+                    
+                
+                </Grid>
+                <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Table</Grid>
+
               <Variants variants={productCtx.variants} />
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Pricing Table</Grid>
+
               <Skupricing variants={productCtx.variants} />
 
             </Grid>
-             <Grid container style={{
-              display: "flex",
-              justifyContent: "center"
-            }}>
-              <Grid item>
-                <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
-                  Save
-        </Button>
-                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
-                  Back
-        </Button>
-              </Grid>
-            </Grid>
+            
           </Grid>
         </Grid>
 

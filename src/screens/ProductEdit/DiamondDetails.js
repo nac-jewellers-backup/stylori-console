@@ -22,7 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import { NetworkContext } from '../../context/NetworkContext';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -170,6 +170,8 @@ export default function DiamondDetails(props) {
     message:"",
     severity:""
   });
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -194,6 +196,7 @@ export default function DiamondDetails(props) {
   }) ;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.diamond&&props.diamond.length - page * rowsPerPage);
   function DiamondEdit(diamondData) {
+    alert(JSON.stringify(diamondData))
     setDiamondEditObject({
       ...diamondEditObject,
       edit:JSON.parse(JSON.stringify(diamondData))
@@ -208,6 +211,11 @@ export default function DiamondDetails(props) {
     setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
   }
   function DiamondSave(id){
+    // alert(JSON.stringify(productCtx.diamondsettings))
+    // alert(JSON.stringify(productCtx.diamondshape))
+    // alert(JSON.stringify(productCtx.diamondcount))
+    // alert(JSON.stringify(id))
+    var bodydata = {}
     if(productCtx.diamondsettings && productCtx.diamondshape && productCtx.diamondcount && productCtx.diamondweight){
       let list_data=props.diamond;
       let DiamondChangeData = list_data.map((diamondListData,index)=>{
@@ -216,40 +224,51 @@ export default function DiamondDetails(props) {
           diamondListData.diamondShape = productCtx.diamondshape.name;
           diamondListData.stoneCount = productCtx.diamondcount;
           diamondListData.stoneWeight = productCtx.diamondweight;
+          bodydata['diamondSettings'] = productCtx.diamondsettings.name
+          bodydata['diamondShape'] = productCtx.diamondshape.name
+          bodydata['stoneCount'] = productCtx.diamondcount;
+          bodydata['stoneWeight'] = productCtx.diamondweight;
+          bodydata['diamondid'] = id;
           return diamondListData;
         }
         return diamondListData;
-      });
-      let editDiamondList = DiamondChangeData && DiamondChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
-      let editDiamondLists = productCtx.editDiamondLists;
-      if(JSON.stringify(editDiamondList)!==JSON.stringify(diamondEditObject.edit)){
-        let status = editDiamondLists&& editDiamondLists.some((check_edit,index)=>check_edit.id===editDiamondList.id) ? 
-        editDiamondLists = editDiamondLists && editDiamondLists
-        .map((diamond_list,index)=>{
-          if(diamond_list.id === editDiamondList.id){
-            return editDiamondList;
-          }
-          return diamond_list;
-        }) 
-        : editDiamondLists.push(editDiamondList); 
-      }
-      // console.log(editDiamondLists,'editDiamondList')
-      setSnackMessage({
-        ...snackMessage,
-        message:"This is successfully saved",
-        severity:"success"
-      })
-      handleClick();
-      setProductCtx({
-        ...productCtx,
-        diamondlist:DiamondChangeData,
-        editDiamondLists,
-        diamondsettings:"",
-        diamondshape: "",
-        diamondcount:"",
-        diamondweight:"",
-      })
-      setBtnEdit({ ...btnEdit, id:"", action: false })
+      }); 
+      sendNetworkRequest('/editproductdiamond', {}, bodydata)
+
+      console.log("------******")
+      console.log(JSON.stringify(bodydata))
+    setBtnEdit({ ...btnEdit, id:"", action: false })
+    
+      // let editDiamondList = DiamondChangeData && DiamondChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
+      // let editDiamondLists = productCtx.editDiamondLists;
+      // if(JSON.stringify(editDiamondList)!==JSON.stringify(diamondEditObject.edit)){
+      //   let status = editDiamondLists&& editDiamondLists.some((check_edit,index)=>check_edit.id===editDiamondList.id) ? 
+      //   editDiamondLists = editDiamondLists && editDiamondLists
+      //   .map((diamond_list,index)=>{
+      //     if(diamond_list.id === editDiamondList.id){
+      //       return editDiamondList;
+      //     }
+      //     return diamond_list;
+      //   }) 
+      //   : editDiamondLists.push(editDiamondList); 
+      // }
+      // // console.log(editDiamondLists,'editDiamondList')
+      // setSnackMessage({
+      //   ...snackMessage,
+      //   message:"This is successfully saved",
+      //   severity:"success"
+      // })
+      // handleClick();
+      // setProductCtx({
+      //   ...productCtx,
+      //   diamondlist:DiamondChangeData,
+      //   editDiamondLists,
+      //   diamondsettings:"",
+      //   diamondshape: "",
+      //   diamondcount:"",
+      //   diamondweight:"",
+      // })
+      // setBtnEdit({ ...btnEdit, id:"", action: false })
     }else{
       setSnackMessage({
         ...snackMessage,
