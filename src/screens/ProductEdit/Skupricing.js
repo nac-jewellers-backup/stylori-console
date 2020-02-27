@@ -18,9 +18,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/CancelOutlined';
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import Switch from '@material-ui/core/Switch';
+import { NetworkContext } from '../../context/NetworkContext';
+
 const columns = [
   { id: 'SKU', label: 'SKU', minWidth: 100 },
   { id: 'Cost Price', label: 'Cost Price', minWidth: 100 },
@@ -167,6 +171,8 @@ export default function Variants(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { productCtx, setProductCtx} = React.useContext(ProductContext);
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
@@ -205,20 +211,81 @@ export default function Variants(props) {
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
-
+  const handleinputChange =type => e => {
+    // const re = /^[a-zA-Z \b]+$/;
+    // if (e.target.value === '' || re.test(e.target.value)) {
+      setProductCtx({ ...productCtx, [type]: e.target.value})
+   // }
+  }
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
+  function CancelEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:'', action: false })
 
+  }
+  function Skupricesync(diamondData) {
+  
+    let bodydata = {
+      req_product_id: diamondData.productId,
+      generatedSku:  diamondData.generatedSku
+    }
+console.log(JSON.stringify(bodydata))
+    sendNetworkRequest('/productpriceupdate',{},bodydata)
+
+  }
   function DiamondEdit(diamondData) {
+    setProductCtx({
+      ...productCtx,
+      editcostprice:diamondData.costPrice,
+      editcostpricetax: diamondData.costPriceTax,
+      editsellingprice:diamondData.sellingPrice,
+      editsellingpricetax:diamondData.sellingPriceTax,
+      editmarkupprice: diamondData.markupPrice,
+      editmarkuppricetax : diamondData.markupPriceTax,
+      editdiscountprice: diamondData.discountPrice,
+      editdiscountpricetax: diamondData.discountPriceTax
+    })
+
     setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
 
   }
   function DiamondSave(id){
+
+    var bodydata = {}
+      let list_data=props.variants;
+      let Skuchangedata = list_data.map((skulistdata,index)=>{
+        if(id===skulistdata.generatedSku){
+          skulistdata.costPrice = productCtx.editcostprice;
+          skulistdata.costPriceTax = productCtx.editcostpricetax;
+          skulistdata.sellingPrice =  productCtx.editsellingprice;
+          skulistdata.sellingPriceTax = productCtx.editsellingpricetax
+          skulistdata.markupPrice = productCtx.editmarkupprice
+          skulistdata.markupPriceTax = productCtx.editmarkuppricetax
+          skulistdata.discountPrice = productCtx.editdiscountprice
+          skulistdata.discountPriceTax = productCtx.editdiscountpricetax
+
+           bodydata['costPrice'] = parseFloat(productCtx.editcostprice)
+           bodydata['costPriceTax'] = parseFloat(productCtx.editcostpricetax)
+           bodydata['sellingPrice'] = parseFloat(productCtx.editsellingprice)
+           bodydata['sellingPriceTax'] = parseFloat(productCtx.editsellingpricetax)
+           bodydata['markupPrice'] = parseFloat(productCtx.editmarkupprice)
+           bodydata['markupPriceTax'] = parseFloat(productCtx.editmarkuppricetax)
+           bodydata['discountPrice'] = parseFloat(productCtx.editdiscountprice)
+           bodydata['discountPriceTax'] = parseFloat(productCtx.editdiscountpricetax)
+           bodydata['generatedSku'] = id;
+          return skulistdata;
+        }
+        return skulistdata;
+      });
+
+      sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
+
     setBtnEdit({ ...btnEdit, id:"", action: false })
 
-  }
+  
+}
 //   const handleoptionChange = type => (event, value) => {
     
 //     setProductCtx({ ...productCtx, [type]: value})
@@ -251,17 +318,19 @@ export default function Variants(props) {
                 <TableCell component="th" scope="row">
                   {row.generatedSku}
                 </TableCell>
-                {btnEdit.action ? <TableCell component="th" scope="row">
+                {btnEdit.action && btnEdit.id == row.generatedSku ? <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editcostprice}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Cost Price"
+                    onChange={handleinputChange('editcostprice')}
+
                     //onInput={keyPress.bind(this)}
                    // onChange={handleinputChange('productname')}
 
@@ -272,18 +341,20 @@ export default function Variants(props) {
                   {row.costPrice}
                 </TableCell>}
 
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editcostpricetax}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Cost Price Tax"
+                    onChange={handleinputChange('editcostpricetax')}
+
                     //onInput={keyPress.bind(this)}
                    // onChange={handleinputChange('productname')}
 
@@ -293,18 +364,20 @@ export default function Variants(props) {
                 <TableCell component="th" scope="row">
                   {row.costPriceTax}
                 </TableCell>}
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editsellingprice}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Selling Price"
+                    onChange={handleinputChange('editsellingprice')}
+
                     //onInput={keyPress.bind(this)}
                    // onChange={handleinputChange('productname')}
 
@@ -313,38 +386,42 @@ export default function Variants(props) {
               </TableCell> : <TableCell component="th" scope="row">
                 {row.sellingPrice}
                 </TableCell>}
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editsellingpricetax}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Selling Price Tax"
+                    onChange={handleinputChange('editsellingpricetax')}
+
                     //onInput={keyPress.bind(this)}
-                   // onChange={handleinputChange('productname')}
+                    //onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   />
               </TableCell> : <TableCell component="th" scope="row">
                 {row.sellingPriceTax}
                 </TableCell>}
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editmarkupprice}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Markup Price"
+                    onChange={handleinputChange('editmarkupprice')}
+
                     //onInput={keyPress.bind(this)}
                    // onChange={handleinputChange('productname')}
 
@@ -353,18 +430,20 @@ export default function Variants(props) {
               </TableCell> : <TableCell component="th" scope="row">
                 {row.markupPrice}
                 </TableCell>}
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editmarkuppricetax}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Markup Price Tax"
+                    onChange={handleinputChange('editmarkuppricetax')}
+
                     //onInput={keyPress.bind(this)}
                    // onChange={handleinputChange('productname')}
 
@@ -373,15 +452,17 @@ export default function Variants(props) {
               </TableCell> : <TableCell component="th" scope="row">
                 {row.markupPriceTax}
                 </TableCell>}
-                {btnEdit.action ?
+                {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editdiscountprice}
                     id="productname"
+                    onChange={handleinputChange('editdiscountprice')}
+
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Discount Price"
@@ -393,14 +474,16 @@ export default function Variants(props) {
               </TableCell> : <TableCell component="th" scope="row">
                 {row.discountPrice}
                 </TableCell> }
-                {btnEdit.action ?
+                {btnEdit.action  && btnEdit.id == row.generatedSku ?
                 <TableCell component="th" scope="row">
                 <TextField
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editdiscountpricetax}
+                    onChange={handleinputChange('editdiscountpricetax')}
+
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
@@ -417,11 +500,19 @@ export default function Variants(props) {
                 {
                   btnEdit.action && btnEdit.id == row.generatedSku ?
                     <TableCell align="center">
+                      <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
+                        Price Run
+                      </Button>
                       <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
+                      </Button>
+                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                       </Button>
                     </TableCell> :
                     <TableCell align="center">
-                      <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
+                      <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
+                        Price Run
+                      </Button>
+                      <Button  onClick={(e) => DiamondEdit(row)}><EditIcon />
                       </Button>
                     </TableCell>
                 }

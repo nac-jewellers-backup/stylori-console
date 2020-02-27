@@ -196,7 +196,6 @@ export default function DiamondDetails(props) {
   }) ;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.diamond&&props.diamond.length - page * rowsPerPage);
   function DiamondEdit(diamondData) {
-    alert(JSON.stringify(diamondData))
     setDiamondEditObject({
       ...diamondEditObject,
       edit:JSON.parse(JSON.stringify(diamondData))

@@ -25,6 +25,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { NetworkContext } from '../../context/NetworkContext';
 
 import {
   Card,
@@ -83,6 +84,7 @@ const useStyle = makeStyles(theme => ({
 export function Component(props) {
   const [open, setOpen] = React.useState(false);
   const [expand, setExpand] = React.useState(false);
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const [snackMessage,setSnackMessage] = React.useState({
     message:"",
@@ -129,7 +131,6 @@ const handleinputChange =type => e => {
   if (e.target.value === '' || re.test(e.target.value)) {
     setProductCtx({ ...productCtx, [type]: e.target.value})
   }
-  
 }
 // const handleinputChange = type => (event, value) => {
 //   alert(event.target.value)
@@ -186,6 +187,8 @@ const handleinputChange =type => e => {
       // productImages:productCtx.productImages,
       // createVariants: productCtx.createVariantList
     }
+    sendNetworkRequest('/editproduct', {}, productEditItem)
+
     console.log("************")
     console.log(JSON.stringify(productEditItem))
     if (productCtx.editDiamondLists.length > 0 && productCtx.name !== "" || productCtx.editGemstoneLists.length > 0 && productCtx.name !== "" || productCtx.editVariants.length > 0 && productCtx.name !== "" || productCtx.createVariantList.length > 0 && productCtx.name !== "" || state.duplicate_productName !== productCtx.productname) {
@@ -218,6 +221,13 @@ const handleinputChange =type => e => {
     // .catch(console.error)
     console.log(JSON.stringify(productEditItem))
     // props.history.push('/productlist')
+  }
+  function Skupricesync(diamondData) {
+    let bodydata = {
+      req_product_id: diamondData
+    }
+    sendNetworkRequest('/productpriceupdate',{},bodydata)
+
   }
   function backProductList() {
     window.location='/productlist';
@@ -658,7 +668,7 @@ const handleinputChange =type => e => {
                       id="panel1c-header"
                     >
                       <div className={classes.column}>
-                        <Typography className={classes.heading}>Add New varient</Typography>
+                        <Typography className={classes.heading}>Add New variant</Typography>
                       </div>
                     
                     </ExpansionPanelSummary>
@@ -667,20 +677,23 @@ const handleinputChange =type => e => {
                     <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id} />  
                     </ExpansionPanelDetails>
                     <Divider />
-                    <ExpansionPanelActions>
+                    {/* <ExpansionPanelActions>
                       <Button size="small">Cancel</Button>
                       <Button size="small" color="primary">
                         Save
                       </Button>
-                    </ExpansionPanelActions>
+                    </ExpansionPanelActions> */}
                     </ExpansionPanel>
                     
                 
                 </Grid>
-                <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Table</Grid>
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Table  </Grid>
 
               <Variants variants={productCtx.variants} />
-              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Pricing Table</Grid>
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Pricing Table  
+              <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
+                        Price Run For This Product
+                      </Button></Grid>
 
               <Skupricing variants={productCtx.variants} />
 

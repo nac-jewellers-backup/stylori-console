@@ -21,6 +21,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import Switch from '@material-ui/core/Switch';
+import { NetworkContext } from '../../context/NetworkContext';
+
 const columns = [
   { id: 'SKU', label: 'SKU'},
   { id: 'Metal Colour', label: 'Metal Colour' },
@@ -176,6 +178,8 @@ export default function Variants(props) {
     action: false,
     id: ''
   })
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+
   const [state, setState] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -210,16 +214,54 @@ export default function Variants(props) {
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
+  const handleinputChange =type => e => {
+    // const re = /^[a-zA-Z \b]+$/;
+    // if (e.target.value === '' || re.test(e.target.value)) {
+      setProductCtx({ ...productCtx, [type]: e.target.value})
+   // }
+  }
 
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
   function DiamondEdit(diamondData) {
+    setProductCtx({
+      ...productCtx,
+      editleadtime:diamondData.vendorDeliveryTime,
+      editreadytoship: diamondData.isReadyToShip,
+      editisdefault:diamondData.isdefault,
+      editisactive:diamondData.isActive
+    })
     setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
 
   }
   function DiamondSave(id){
+    var bodydata = {}
+    if(productCtx.editleadtime){
+      let list_data=props.variants;
+      let Skuchangedata = list_data.map((skulistdata,index)=>{
+        if(id===skulistdata.generatedSku){
+          skulistdata.vendorDeliveryTime = productCtx.editleadtime;
+          skulistdata.isdefault = productCtx.editisdefault;
+          skulistdata.isActive =  productCtx.editisactive;
+          skulistdata.isReadyToShip = productCtx.editreadytoship
+          // diamondListData.stoneCount = productCtx.diamondcount;
+          // diamondListData.stoneWeight = productCtx.diamondweight;
+           bodydata['vendorDeliveryTime'] = productCtx.editleadtime
+           bodydata['isdefault'] = productCtx.editisdefault
+           bodydata['isActive'] = productCtx.editisactive;
+           bodydata['isReadyToShip'] = productCtx.editreadytoship;
+           bodydata['generatedSku'] = id;
+          console.log(JSON.stringify(bodydata))
+          return skulistdata;
+        }
+        return skulistdata;
+      });
+    }
+
+    sendNetworkRequest('/updateskuinfo', {}, bodydata)
+
     setBtnEdit({ ...btnEdit, id:"", action: false })
 
   }
@@ -276,13 +318,13 @@ export default function Variants(props) {
                     variant="outlined"
                     margin="dense"
                     fullWidth
-                    value={productCtx.vendorDeliveryTime}
+                    value={productCtx.editleadtime}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                     name="productname"
                     label="Vendor Lead Time"
                     //onInput={keyPress.bind(this)}
-                   // onChange={handleinputChange('productname')}
+                    onChange={handleinputChange('editleadtime')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   /> </TableCell> :
@@ -294,14 +336,14 @@ export default function Variants(props) {
                         checked={row.isReadyToShip}
                         onChange={()=>handleChange(row.id)}
                         value="checkedA"
-                        disabled={!btnEdit.action && btnEdit.id != row.generatedSku}
+                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
                   </TableCell>
                   <TableCell component="th" scope="row">
                   <Switch
                         checked={row.isdefault}
-                        disabled={btnEdit.action && btnEdit.id != row.generatedSku}
+                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
                         onChange={()=>handleChange(row.id)}
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -316,7 +358,7 @@ export default function Variants(props) {
                     <TableCell align="center">
                        <Switch
                         checked={row.isActive}
-                        disabled={!btnEdit.action && btnEdit.id != row.generatedSku}
+                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
                         onChange={()=>handleChange(row.id)}
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}

@@ -15,7 +15,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size';
 import FilePondPluginFileRename from 'filepond-plugin-file-rename';
-// import { NetworkContext } from '../../context/NetworkContext';
+ import { NetworkContext } from '../../context/NetworkContext';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
@@ -42,8 +42,14 @@ const useStyle = makeStyles(theme => ({
 export function CreateVariant(props) {
     const classes = useStyle();
     let prod_id = props.productId;
+    let colors = []
+    
     const TOKEN = 'token'
     const { productCtx, setProductCtx } = React.useContext(ProductContext);
+    const [metalcolor, setMetalcolor] = useState(productCtx.productMetalColor)
+    productCtx.productMetalColor.forEach(colorobj => {
+        colors.push(colorobj.productColor)
+    })
     const [variant, setVariant] = useState({
         metal_color: [],
         metal_purity: [],
@@ -54,7 +60,7 @@ export function CreateVariant(props) {
         size: []
 
     });
-   
+    
     function handleMetalColor(status_data) {
         let color = variant.metal_color;
         color.some(color_data => color_data.id === status_data.id) ? color = color.filter(color_fil => color_fil.id !== status_data.id) : color.push(status_data)
@@ -78,6 +84,11 @@ export function CreateVariant(props) {
             ...variant,
             metal_color: color_arr
         })
+
+        setProductCtx({
+            ...productCtx,
+            [type]:value
+          })
       }
     const sendNetworkRequest = async (url, params, data, auth = false) => {
         url = API_URL + url;
@@ -107,19 +118,23 @@ export function CreateVariant(props) {
     const handleMetalPurity = type => (event, value) => {        
 
         let purity_arr = []
+         setProductCtx({
+            ...productCtx,
+            [type]:value
+          })
         value.map((color, index) => {
-          if(productCtx.productMetalPurity.some(item => item.purity === color.purity)){
-           }else{ let color_obj = {
+            let color_obj = {
                 ...color,
-                metal_color: color.purity
+                purity: color.purity
             }
             purity_arr.push(color_obj)
-          }
         })
         setVariant({
             ...variant,
             metal_purity: purity_arr
         })
+
+       
     }
     // function handleMetalPurity(status_data) {
     //     status_data.metal_weight = "";
@@ -185,6 +200,7 @@ export function CreateVariant(props) {
     //     })
 
     // }
+  
     function setMetalWeightInput(e, metalPurityId) {
         // alert(e.target.value)
         let metalWeight = variant.metal_purity;
@@ -205,9 +221,14 @@ export function CreateVariant(props) {
             productMetalcoloursByProductId:variant.metal_color,
             productPuritiesByProductId:variant.metal_purity,
             productDiamondTypes:variant.variant_diamond_type,
-            productSize:variant.size
+            productSize:variant.size,
+            product_images:variant.product_images
             // productImage:variant.product_images
         }
+        console.log(JSON.stringify(createVariant))
+        alert(JSON.stringify(createVariant))
+
+        
         let metal_color_image_length = Object.entries(variant.product_images);
         let metal_purity_weight = false;
         let metal_purity = variant.metal_purity && variant.metal_purity.map((metal_weight_check)=>{
@@ -239,34 +260,34 @@ export function CreateVariant(props) {
                 },
                 body: JSON.stringify(createVariant)
             }
-            console.log(JSON.stringify(createVariant))
-            fetch(`${API_URL}/getproductvarient`, params)
-            .then(res=>res.json())
-              .then(function (response) {
-                console.log(response,'saveCreateVariant');
-                // createVariants = [...createVariants,...response];
-                editVariants = [...editVariants,...response.newskus];
-                variants = [...variants,...response.newskus];
-                setProductCtx({
-                    ...productCtx,
-                    editVariants,
-                    variants,
-                    productImages,
-                    createVariantList:createVariants
-                })
-                setVariant({
-                    ...variant,
-                    metal_color: [],
-                    metal_purity: [],
-                    variant_diamond_type:[],
-                    product_images: {},
-                    size: []
-                })
-                props.changeVariant();
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+            alert(JSON.stringify(createVariant))
+            // fetch(`${API_URL}/getproductvarient`, params)
+            // .then(res=>res.json())
+            //   .then(function (response) {
+            //     console.log(response,'saveCreateVariant');
+            //     // createVariants = [...createVariants,...response];
+            //     editVariants = [...editVariants,...response.newskus];
+            //     variants = [...variants,...response.newskus];
+            //     setProductCtx({
+            //         ...productCtx,
+            //         editVariants,
+            //         variants,
+            //         productImages,
+            //         createVariantList:createVariants
+            //     })
+            //     setVariant({
+            //         ...variant,
+            //         metal_color: [],
+            //         metal_purity: [],
+            //         variant_diamond_type:[],
+            //         product_images: {},
+            //         size: []
+            //     })
+            //     props.changeVariant();
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //   });
           
             
         }else{
@@ -337,6 +358,7 @@ export function CreateVariant(props) {
 
         await axios.put(signedRequest, bodaydata.file, options)
     }
+   
     return (
         <Grid container  spacing={2} >
             <Grid xs={6} sm={6} md={6} lg={6} >
@@ -347,12 +369,13 @@ export function CreateVariant(props) {
                     margin="dense"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.productColor}
+                    getOptionDisabled={option => colors.indexOf(option.productColor) > -1 }
                     options={productCtx.masterData.metalcolour}
-                    defaultValue={productCtx.productMetalColor}
+                    value={productCtx.productMetalColor}
                     onChange={handleoptionChange('productMetalColor')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option.productColor} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    <Chip variant="outlined" size="small" label={option.productColor} disabled={colors.indexOf(option.productColor) > -1} {...getTagProps({ index })}   />
                     ))
                     }
                     renderInput={params => (
@@ -421,8 +444,8 @@ export function CreateVariant(props) {
                     className={classes.fixedTag}
                     getOptionLabel={option => option.name}
                     options={productCtx.masterData.metalpurity}
-                    defaultValue={productCtx.productMetalPurity}
-                    onChange={handleMetalPurity('productMetalColor')}
+                    value={productCtx.productMetalPurity}
+                    onChange={handleMetalPurity('productMetalPurity')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
                     <Chip variant="outlined" size="small" label={option.purity} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
@@ -439,6 +462,25 @@ export function CreateVariant(props) {
                     />
                     )}
                     />
+
+{
+                                variant.metal_purity && variant.metal_purity.map(metal_purity => (
+                                    <TextField
+                                        className={classes.helperinput}
+                                        style={{ width: "100px", marginLeft: "8px" }}
+                                        variant="outlined"
+                                        margin="dense"
+                                        fullWidth
+                                        type="number"
+                                        value={metal_purity.metal_weight}
+                                        id="metal_weight"
+                                        error={metal_purity && metal_purity.error_message }
+                                        name="metal_weight"
+                                        label={`Weight ${metal_purity.purity}`}
+                                        onChange={(e) => setMetalWeightInput(e, metal_purity.id)}
+                                    />
+                                ))
+                            }
                 </Grid>
 
             <Grid item  xs={6} sm={6} md={6} lg={6}>
@@ -448,11 +490,11 @@ export function CreateVariant(props) {
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
                     options={productCtx.masterData.diamondtypes}
-                    defaultValue={productCtx.productDiamondTypes}
-                    onChange={diamondTypeChange('productDiamondType')}
+                    value={productCtx.productDiamondTypesArray ? productCtx.productDiamondTypesArray : [] }
+                    onChange={diamondTypeChange('productDiamondTypesArray')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    <Chip variant="outlined" size="small" label={option.diamondType} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
                     ))
                     }
                     renderInput={params => (
@@ -479,11 +521,11 @@ export function CreateVariant(props) {
                     fullWidth
                     getOptionLabel={option => option}
                     options={productCtx.productVariantSize}
-                    defaultValue={productCtx.productDiamondTypes}
+                    value={productCtx.productSizes}
                     onChange={sizeChange('productSizes')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
                     ))
                     }
                     renderInput={params => (
@@ -588,7 +630,7 @@ export function CreateVariant(props) {
                     </Grid>
                 ))}
             </Grid>
-            {/* <Grid container style={{display:"flex",justifyContent:"center"}}>
+            { <Grid container style={{display:"flex",justifyContent:"center", marginTop: "16px"}}>
                     <Grid item >
                 <Button color="primary" variant="contained" onClick={(e) => saveCreateVariant()}>
                 Save
@@ -599,7 +641,7 @@ export function CreateVariant(props) {
                 Back
                 </Button>
                 </Grid>
-            </Grid> */}
+            </Grid> }
         </Grid>
     )
 }

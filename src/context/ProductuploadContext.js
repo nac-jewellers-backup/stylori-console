@@ -61,6 +61,21 @@ const productuploadCtxInitial = {
         gemstoneweight:"",
         stonetype:"",   
 
+         editleadtime: "",
+         editreadytoship:false,
+         editisdefault: false,
+         editisactive: false,
+
+
+         editcostprice: 0,
+         editsellingprice:0,
+         editmarkupprice: 0,
+         editdiscountprice: 0,
+         editcostpricetax: 0,
+         editsellingpricetax:0,
+         editmarkuppricetax: 0,
+         editdiscountpricetax: 0,
+
         diamondclarity:"",
         diamondcolor:"",
         diamondsettings:"",

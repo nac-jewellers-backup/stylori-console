@@ -270,7 +270,7 @@ query MyQuery($productId: String!) {
         id
       }
     }
-    productThemesByProductId {
+    productThemesByProductId(condition: {isActive: true}) {
       nodes {
         themeName
         id
@@ -282,7 +282,7 @@ query MyQuery($productId: String!) {
         stonecolor
       }
     }
-    productStylesByProductId {
+    productStylesByProductId(condition: {isActive: true}) {
       nodes {
         styleName
         id
@@ -294,7 +294,7 @@ query MyQuery($productId: String!) {
         id
       }
     }
-    productOccassionsByProductId {
+    productOccassionsByProductId(condition: {isActive: true}) {
       nodes {
         occassionName
         id
@@ -312,6 +312,7 @@ query MyQuery($productId: String!) {
         diamondType
         metalColor
         purity
+        productId
         skuWeight
         generatedSku,
         costPrice
