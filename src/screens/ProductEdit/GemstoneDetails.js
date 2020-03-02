@@ -29,12 +29,12 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 const columns = [
-  { id: 'Gemstone Type', label: 'Gemstone Type', minWidth: 100 },
-  { id: 'Shape', label: 'Shape', minWidth: 200 },
-  { id: 'Setting', label: 'Setting', minWidth: 200 },
-  { id: 'Size', label: 'Size', minWidth: 100 },
-  { id: 'Weight', label: 'Weight', minWidth: 100 },
-  { id: 'Number', label: 'Number', minWidth: 100 },
+  { id: 'Gemstone Type', label: 'Gemstone Type' },
+  { id: 'Shape', label: 'Shape' },
+  { id: 'Setting', label: 'Setting' },
+  { id: 'Size', label: 'Size' },
+  { id: 'Weight', label: 'Weight' },
+  { id: 'Number', label: 'Number' },
   {
     id: 'Edit',
     label: 'Edit',
@@ -446,7 +446,7 @@ export default function GemstoneDetails(props) {
                 }
               </TableRow>
             ))}
-            {emptyRows > 0 && (
+            {emptyRows == 0 && (
               <TableRow style={{ height: 1 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>

@@ -188,10 +188,18 @@ query MyQuery($Veiw: Int!, $Offset: Int!) {
     nodes {
       id
       nodeId
-      productName
+      productName,
+      productCategory,
       productType
-      productId
-      isactive
+      productId,
+      createdAt
+      isactive,
+      transSkuListsByProductId(condition: {isdefault: true}) {
+        nodes {
+          skuUrl
+          discount
+        }
+      }
     }
     totalCount
   }

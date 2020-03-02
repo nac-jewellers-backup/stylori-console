@@ -1,5 +1,5 @@
 import { PRODUCTCATEGORY } from "../graphql/query";
-import { MATERIALMASTER } from "../services/queries";
+import { MATERIALMASTER,ORDERS } from "../services/queries";
 import apidata from '../screens/Productupload/data.json';
 
 export const productCategory = {
@@ -166,7 +166,23 @@ export const productCategory = {
     }
 }
 
+export const orderList = {
+    query: ORDERS,
+    mapper: (response) => {
+        const orders = response.allOrders.nodes.map(_ => ({
+            ..._,
+            ipgid: JSON.parse(_.paymentDetailsByOrderId.nodes[0])
+                }))
+                if(orders.length > 0)
+                {
+                    alert(JSON.stringify(orders[0].ipgid))
 
+                }
+        return {
+            orders
+        }
+    }
+}
 export const materialMaster = {
     query: MATERIALMASTER,
     mapper: (response) => {

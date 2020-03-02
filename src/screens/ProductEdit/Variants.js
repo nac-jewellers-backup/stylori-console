@@ -22,6 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import Switch from '@material-ui/core/Switch';
 import { NetworkContext } from '../../context/NetworkContext';
+import CancelIcon from '@material-ui/icons/CancelOutlined';
 
 const columns = [
   { id: 'SKU', label: 'SKU'},
@@ -70,7 +71,7 @@ function TablePaginationActions(props) {
   function handleBackButtonClick(event) {
     onChangePage(event, page - 1);
   }
-
+  
   function handleNextButtonClick(event) {
     onChangePage(event, page + 1);
   }
@@ -178,6 +179,10 @@ export default function Variants(props) {
     action: false,
     id: ''
   })
+  function CancelEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+
+  }
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const [state, setState] = React.useState({
@@ -382,6 +387,8 @@ export default function Variants(props) {
                     <TableCell align="center">
                       <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
                       </Button>
+                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                      </Button>
                     </TableCell> :
                     <TableCell align="center">
                       <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
@@ -390,7 +397,7 @@ export default function Variants(props) {
                 }
               </TableRow>
             ))}
-            {emptyRows > 0 && (
+            {emptyRows == 0 && (
               <TableRow style={{ height: 1 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>

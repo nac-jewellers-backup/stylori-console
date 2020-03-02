@@ -43,13 +43,25 @@ export function CreateVariant(props) {
     const classes = useStyle();
     let prod_id = props.productId;
     let colors = []
-    
+    let purities = []
+    let diamondtypes = []
     const TOKEN = 'token'
     const { productCtx, setProductCtx } = React.useContext(ProductContext);
     const [metalcolor, setMetalcolor] = useState(productCtx.productMetalColor)
-    productCtx.productMetalColor.forEach(colorobj => {
+    productCtx.oldproductMetalColor.forEach(colorobj => {
         colors.push(colorobj.productColor)
     })
+    productCtx.oldproductMetalPurity.forEach(colorobj => {
+        purities.push(colorobj.purity)
+    })
+
+    productCtx.oldproductDiamondTypesArray.forEach(diamondobj => {
+
+        diamondtypes.push(diamondobj.diamondType)
+        
+    })
+    
+  
     const [variant, setVariant] = useState({
         metal_color: [],
         metal_purity: [],
@@ -91,6 +103,7 @@ export function CreateVariant(props) {
           })
       }
     const sendNetworkRequest = async (url, params, data, auth = false) => {
+        alert(url)
         url = API_URL + url;
         console.info('URL', url, data)
         const method = data ? 'POST' : 'GET',
@@ -151,18 +164,38 @@ export function CreateVariant(props) {
 
         let diamondtype_arr = []
         value.map((color, index) => {
-          if(productCtx.productDiamondTypes.some(item => item.label === color.label)){
-           }else{ let color_obj = {
-                ...color,
-                metal_color: color.label
-            }
-            diamondtype_arr.push(color_obj)
-          }
+                if(color.label)
+                {
+                    let color_obj = {
+                        ...color,
+                        diamondType: color.label
+                    }
+                    diamondtype_arr.push(color_obj)
+                }else{
+                    let color_obj = {
+                        ...color,
+                        diamondType: color.diamondType
+                    }
+                    diamondtype_arr.push(color_obj)
+                }
+                    
+        //   if(productCtx.productDiamondTypes.some(item => item.label === color.label)){
+        //    }else{ let color_obj = {
+        //         ...color,
+        //         diamondType: color.label
+        //     }
+        //     diamondtype_arr.push(color_obj)
+        //   }
         })
         setVariant({
             ...variant,
             variant_diamond_type: diamondtype_arr
         })
+        alert(JSON.stringify(value))
+         setProductCtx({
+            ...productCtx,
+            [type]:diamondtype_arr
+          })
     }
 
    
@@ -225,8 +258,6 @@ export function CreateVariant(props) {
             product_images:variant.product_images
             // productImage:variant.product_images
         }
-        console.log(JSON.stringify(createVariant))
-        alert(JSON.stringify(createVariant))
 
         
         let metal_color_image_length = Object.entries(variant.product_images);
@@ -260,34 +291,6 @@ export function CreateVariant(props) {
                 },
                 body: JSON.stringify(createVariant)
             }
-            alert(JSON.stringify(createVariant))
-            // fetch(`${API_URL}/getproductvarient`, params)
-            // .then(res=>res.json())
-            //   .then(function (response) {
-            //     console.log(response,'saveCreateVariant');
-            //     // createVariants = [...createVariants,...response];
-            //     editVariants = [...editVariants,...response.newskus];
-            //     variants = [...variants,...response.newskus];
-            //     setProductCtx({
-            //         ...productCtx,
-            //         editVariants,
-            //         variants,
-            //         productImages,
-            //         createVariantList:createVariants
-            //     })
-            //     setVariant({
-            //         ...variant,
-            //         metal_color: [],
-            //         metal_purity: [],
-            //         variant_diamond_type:[],
-            //         product_images: {},
-            //         size: []
-            //     })
-            //     props.changeVariant();
-            //   })
-            //   .catch(function (error) {
-            //     console.log(error);
-            //   });
           
             
         }else{
@@ -361,7 +364,7 @@ export function CreateVariant(props) {
    
     return (
         <Grid container  spacing={2} >
-            <Grid xs={6} sm={6} md={6} lg={6} >
+            <Grid item xs={6} sm={6} md={6} lg={6} >
             <Autocomplete
                     multiple
                     id="free-solo-2-demo"
@@ -370,12 +373,13 @@ export function CreateVariant(props) {
                     className={classes.fixedTag}
                     getOptionLabel={option => option.productColor}
                     getOptionDisabled={option => colors.indexOf(option.productColor) > -1 }
+                    defaultValue={productCtx.oldproductMetalColor}
                     options={productCtx.masterData.metalcolour}
                     value={productCtx.productMetalColor}
                     onChange={handleoptionChange('productMetalColor')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option.productColor} disabled={colors.indexOf(option.productColor) > -1} {...getTagProps({ index })}   />
+                    <Chip variant="outlined" size="small" label={option.productColor}  {...getTagProps({ index })} disabled={colors.indexOf(option.productColor) > -1}  />
                     ))
                     }
                     renderInput={params => (
@@ -442,13 +446,16 @@ export function CreateVariant(props) {
                     multiple
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
+                    margin="dense"
                     getOptionLabel={option => option.name}
+                    getOptionDisabled={option => purities.indexOf(option.name) > -1 }
+                    defaultValue={productCtx.oldproductMetalPurity}
                     options={productCtx.masterData.metalpurity}
                     value={productCtx.productMetalPurity}
                     onChange={handleMetalPurity('productMetalPurity')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option.purity} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    <Chip variant="outlined" size="small" label={option.purity}  {...getTagProps({ index })} disabled={purities.indexOf(option.purity) > -1}  />
                     ))
                     }
                     renderInput={params => (
@@ -489,12 +496,14 @@ export function CreateVariant(props) {
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     getOptionLabel={option => option.label}
+                    getOptionDisabled={option => diamondtypes.indexOf(option.label) > -1 }
+                    defaultValue={productCtx.oldproductDiamondTypesArray}
                     options={productCtx.masterData.diamondtypes}
                     value={productCtx.productDiamondTypesArray ? productCtx.productDiamondTypesArray : [] }
                     onChange={diamondTypeChange('productDiamondTypesArray')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
-                    <Chip variant="outlined" size="small" label={option.diamondType} {...getTagProps({ index })}  disabled={index < productCtx.productMetalColor.length}/>
+                    <Chip variant="outlined" size="small" label={option.diamondType} {...getTagProps({ index })}  disabled={diamondtypes.indexOf(option.diamondType) > -1}/>
                     ))
                     }
                     renderInput={params => (
@@ -637,9 +646,9 @@ export function CreateVariant(props) {
                 </Button>
                 </Grid>
                 <Grid item >
-                <Button  style={{background: "#ffffff",marginLeft:"16px"}} variant="contained" onClick={(e) => backToProductAttribute()}>
+                {/* <Button  style={{background: "#ffffff",marginLeft:"16px"}} variant="contained" onClick={(e) => backToProductAttribute()}>
                 Back
-                </Button>
+                </Button> */}
                 </Grid>
             </Grid> }
         </Grid>

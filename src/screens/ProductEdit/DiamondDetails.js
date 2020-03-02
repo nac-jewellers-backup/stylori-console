@@ -23,18 +23,19 @@ import { ProductContext } from '../../context';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { NetworkContext } from '../../context/NetworkContext';
+import CancelIcon from '@material-ui/icons/CancelOutlined';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 const columns = [
-  { id: 'Diamond', label: 'Diamond', minWidth: 50 },
-  { id: 'Colour', label: 'Colour', minWidth: 50 },
-  { id: 'Clarity', label: 'Clarity', minWidth: 50 },
-  { id: 'Setting', label: 'Setting', minWidth: 200 },
-  { id: 'Shape', label: 'Shape', minWidth: 200 },
-  { id: 'Weight', label: 'Weight', minWidth: 50 },
-  { id: 'Number', label: 'Number', minWidth: 50 },
+  { id: 'Diamond', label: 'Diamond' },
+  { id: 'Colour', label: 'Colour' },
+  { id: 'Clarity', label: 'Clarity' },
+  { id: 'Setting', label: 'Setting' },
+  { id: 'Shape', label: 'Shape' },
+  { id: 'Weight', label: 'Weight' },
+  { id: 'Number', label: 'Number' },
   {
     id: 'Edit',
     label: 'Edit',
@@ -277,6 +278,10 @@ export default function DiamondDetails(props) {
       handleClick();
     }
   }
+  function CancelEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+
+  }
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
@@ -433,6 +438,8 @@ const handleInputChange = type => e => {
                     <TableCell align="center">
                       <Button onClick={(e) => DiamondSave(row.id)}><SaveIcon />
                       </Button>
+                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                      </Button>
                     </TableCell> :
                     <TableCell align="center">
                       <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
@@ -441,11 +448,12 @@ const handleInputChange = type => e => {
                 }
               </TableRow>
             ))}
-            {emptyRows > 0 && (
+            {emptyRows == 0 ? <>
               <TableRow style={{ height: 1 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
-            )}
+              </> : null
+            }
           </TableBody>
           <TableFooter>
             <TableRow>

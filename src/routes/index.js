@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import route from './route';
-import { Dashboard, Login, Productupload, Configuration,Priceupdate, Vendorlist, Productlist, Materiallist, CategoryList, ProducttypeList, Voucherdiscount } from '../screens';
+import { Dashboard, Login, Productupload, Configuration,Priceupdate, Vendorlist, Productlist, Materiallist, CategoryList, ProducttypeList, Voucherdiscount, OrderList } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -37,7 +37,9 @@ const MainApp = () => {
                     <PrivateRoute  path={route.producttypes} component={ProducttypeList} />
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute  path={route.priceupdate} component={Priceupdate} />
-                    <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
+                    <PrivateRoute  path={route.orderlist} component={OrderList} />
+
+                     <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />            
           </Switch>
             </NetworkProvider>

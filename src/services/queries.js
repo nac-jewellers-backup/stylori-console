@@ -32,7 +32,65 @@ export const PRODUCTCATEGORY = gql`query {
   }
   }`
 
+export const ORDERS = gql`query {
+  allOrders {
+    nodes {
+      paymentMode
+      paymentStatus
+      updatedAt
+      createdAt
+      id
+      shoppingCartByCartId {
+        shoppingCartItemsByShoppingCartId {
+          nodes {
+            transSkuListByProductSku {
+              generatedSku
+              productListByProductId {
+                productCategory
+                productType
+                productCollectionsByProductId {
+                  nodes {
+                    collectionName
+                  }
+                }
+              }
+            }
+          }
+        }
+        giftwrapsByCartId {
+          nodes {
+            message
+            giftFrom
+            giftTo
+          }
+        }
+        
+        cartAddressesByCartId {
+          nodes {
+            firstname
+            contactNumber
+            addressline1
+            addressline2
+            city
+            pincode
+            state
+          }
+        }
+        userProfileByUserprofileId {
+          firstName
+          mobile
+          email
+        }
+      }
+      paymentDetailsByOrderId {
+        nodes {
+          paymentResponse
+        }
+      }
+    }
+  }
 
+}`
 
 export const MATERIALMASTER = gql`query {
         allMasterVendors {

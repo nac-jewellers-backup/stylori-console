@@ -16,29 +16,21 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {PRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
+import Moment from 'react-moment';
+
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 200 },
-  { id: 'SKU', label: 'SKU', minWidth: 100 },
-  
-  {
-    id: 'Edit',
-    label: 'Edit',
-    minWidth: 120,
-    align: 'center',
-    format: value => value.toFixed(2),
-  },
-  {
-    id: 'delete',
-    label: 'Action',
-    minWidth: 120,
-    align: 'center',
-    format: value => value.toFixed(2),
-  },
+  { id: 'Product Id', label: 'Product Id' },
+  { id: 'name', label: 'Name' },
+  { id: 'Product type', label: 'Product type' },
+  { id: 'Product Category', label: 'Product Category' },
+  { id: 'CreatedAt', label: 'CreatedAt' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -131,7 +123,7 @@ const   AddContact=(props)=> {
   let history = useHistory();
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
@@ -207,24 +199,25 @@ const   AddContact=(props)=> {
                               {data.allProductLists.nodes.map((row, index) => (
                                   <TableRow key={row.name}>
                                   <TableCell component="th" scope="row">
-                                    {row.productName}
-                                  </TableCell>
-                                  <TableCell align="left">{row.productType}</TableCell>
-                                  <TableCell align="center">
-                                  <Button onClick={(e) => ProductEdit(row.productId)}>
+                                    {row.productId}
+                                    <Button onClick={(e) => ProductEdit(row.productId)}>
                                     <EditIcon />
                                   </Button>
                                   </TableCell>
-                                  <TableCell align="center">
-                                  <Switch
-                                    checked={row.isactive}
-                                    onChange={()=>{
-                                      productItemStatusChange(row.productId,row.isactive,refetch );
-                                    }}
-                                    value="checkedA"
-                                    inputProps={{ 'aria-label': 'secondary checkbox' }}
-                                  />
+                                  <TableCell component="th" scope="row">
+                                     
+                                    <Link target='blank_' href={row.transSkuListsByProductId.nodes.length > 0 ? 'https://www.stylori.com/'+row.transSkuListsByProductId.nodes[0].skuUrl : '-'}  variant="body2">
+                                    {row.productName}
+                                    </Link>
                                   </TableCell>
+                                  <TableCell align="left">{row.productType}</TableCell>
+                                  <TableCell align="left">{row.productCategory}</TableCell>
+                                  <TableCell align="left">            
+                                  <Moment format="DD MMM YYYY hh:mm a">
+                                  {row.createdAt}
+                                  </Moment>
+                                  </TableCell>
+                                  
                                 </TableRow>
                               ))}
                           </>
@@ -243,7 +236,7 @@ const   AddContact=(props)=> {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[50,100,200,500]}
                 colSpan={5}
                 count={pageCount}
                 rowsPerPage={rowsPerPage}

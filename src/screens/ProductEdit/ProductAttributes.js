@@ -148,6 +148,8 @@ const handleinputChange =type => e => {
       return diamond_type;
     })
     productCtx['productDiamondTypesArray'] = diamondTypesArray
+    productCtx['oldproductDiamondTypesArray'] = diamondTypesArray
+
     setProductCtx({
       ...productCtx,
       productCtx
@@ -262,7 +264,9 @@ async function saveProductEditItem() {
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
           productMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
+          oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
+          oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           variant_size: fatchvalue.data.productListByProductId.sizeVarient,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
           product_gender:gender_arr,

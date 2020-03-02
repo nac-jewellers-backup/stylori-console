@@ -16,7 +16,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
+import { Typography, Button, Chip, TextField, Input, CircularProgress } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 
@@ -175,6 +175,7 @@ export default function Variants(props) {
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
+    pricerun: false,
     id: ''
   })
   const [state, setState] = React.useState({
@@ -225,14 +226,17 @@ export default function Variants(props) {
     setBtnEdit({ ...btnEdit, id:'', action: false })
 
   }
-  function Skupricesync(diamondData) {
-  
+ async function Skupricesync(diamondData) {
+    setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, pricerun: true })
+
+    
     let bodydata = {
       req_product_id: diamondData.productId,
       generatedSku:  diamondData.generatedSku
     }
 console.log(JSON.stringify(bodydata))
-    sendNetworkRequest('/productpriceupdate',{},bodydata)
+   await sendNetworkRequest('/productpriceupdate',{},bodydata)
+   setBtnEdit({ ...btnEdit, id:'', pricerun: false })
 
   }
   function DiamondEdit(diamondData) {
@@ -509,16 +513,17 @@ console.log(JSON.stringify(bodydata))
                       </Button>
                     </TableCell> :
                     <TableCell align="center">
-                      <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
+                      {btnEdit.pricerun && btnEdit.id == row.generatedSku ? <CircularProgress size={15}/> : <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
                         Price Run
                       </Button>
+                        } 
                       <Button  onClick={(e) => DiamondEdit(row)}><EditIcon />
                       </Button>
                     </TableCell>
                 }
               </TableRow>
             ))}
-            {emptyRows > 0 && (
+            {emptyRows == 0 && (
               <TableRow style={{ height: 1 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>

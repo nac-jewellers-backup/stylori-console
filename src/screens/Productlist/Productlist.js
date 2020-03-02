@@ -27,7 +27,6 @@ export const Productlist = withRouter(props => {
           </Typography>
           </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
-
           <Link underline='none' component={RouterLink} to={'/productupload'}>
           <Button variant="outlined" color="primary" >
             Add New Product

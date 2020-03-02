@@ -86,6 +86,14 @@ function SideBar() {
               <ListItemText primary={"Vendorlist"} />
             </ListItem>
             </Link>
+            <Link underline='none' component={RouterLink} to={'/orderlist'}>
+
+            <ListItem button key={"Order List"}  >
+            <ListItemIcon><InboxIcon /> </ListItemIcon>
+
+              <ListItemText primary={"Order List"} />
+            </ListItem>
+            </Link>
           <Link underline='none' component={RouterLink} to={'/configuration'}>
 
             <ListItem button key={"Configuration"}  >

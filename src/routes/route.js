@@ -6,6 +6,7 @@ const route = {
     configuration: '/Configuration',
     vendor: '/vendorlist',
     productlist: '/productlist',
+    orderlist: '/orderlist',
     materiallist: '/material',
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
