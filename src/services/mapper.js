@@ -170,14 +170,9 @@ export const orderList = {
     query: ORDERS,
     mapper: (response) => {
         const orders = response.allOrders.nodes.map(_ => ({
-            ..._,
-            ipgid: JSON.parse(_.paymentDetailsByOrderId.nodes[0])
+            ..._
                 }))
-                if(orders.length > 0)
-                {
-                    alert(JSON.stringify(orders[0].ipgid))
-
-                }
+               
         return {
             orders
         }
