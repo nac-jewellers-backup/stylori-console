@@ -170,7 +170,7 @@ const handleinputChange =type => e => {
 
     //setstate({ ...state, create_variant: true })
   }
-  function saveProductEditItem() {
+async function saveProductEditItem() {
     let productEditItem = {
       productId: prod_id,
       productName: productCtx.productname,
@@ -187,17 +187,17 @@ const handleinputChange =type => e => {
       // productImages:productCtx.productImages,
       // createVariants: productCtx.createVariantList
     }
-    sendNetworkRequest('/editproduct', {}, productEditItem)
+  let response =  await sendNetworkRequest('/editproduct', {}, productEditItem)
 
     console.log("************")
     console.log(JSON.stringify(productEditItem))
-    if (productCtx.editDiamondLists.length > 0 && productCtx.name !== "" || productCtx.editGemstoneLists.length > 0 && productCtx.name !== "" || productCtx.editVariants.length > 0 && productCtx.name !== "" || productCtx.createVariantList.length > 0 && productCtx.name !== "" || state.duplicate_productName !== productCtx.productname) {
+    if (response) {
       setSnackMessage({
         ...snackMessage,
         message:"This is successfully saved",
         severity:"success"
       })
-     // handleClick();
+      handleClick();
       console.log(JSON.stringify(productEditItem))
       // setTimeout(()=>{  window.location='/productlist'},1000)
     } else {

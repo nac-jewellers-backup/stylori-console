@@ -184,7 +184,15 @@ export default function Variants(props) {
     checkedA: true,
     checkedB: true,
   });
+  function handleChangeisdefault(variantId) {
+    
+  }
 
+  const handleChangeswitch = name => event => {
+    setProductCtx({ ...productCtx, [name]: event.target.checked})
+
+  //  setState({ ...state, [name]: event.target.checked });
+  };
   function handleChange(variantId) {
     let variantslist = productCtx.variants;
     variantslist = productCtx.variants && productCtx.variants.map((variant,index)=>{
@@ -333,18 +341,19 @@ export default function Variants(props) {
             </TableCell> } 
                   <TableCell component="th" scope="row">
                   <Switch
-                        checked={row.isReadyToShip}
-                        onChange={()=>handleChange(row.id)}
+                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editreadytoship : row.isReadyToShip}
+                       // onChange={()=>handleChange(row.id)}
                         value="checkedA"
+                        onChange={handleChangeswitch('editreadytoship')}
                         disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
                   </TableCell>
                   <TableCell component="th" scope="row">
                   <Switch
-                        checked={row.isdefault}
+                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisdefault : row.isdefault}
                         disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={()=>handleChange(row.id)}
+                        onChange={handleChangeswitch('editisdefault')}
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
@@ -359,7 +368,10 @@ export default function Variants(props) {
                        <Switch
                         checked={row.isActive}
                         disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={()=>handleChange(row.id)}
+                     checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisactive : row.isActive}
+                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
+                        onChange={handleChangeswitch('editisactive')}
+
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />

@@ -22,6 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { NetworkContext } from '../../context/NetworkContext';
 
 
 function Alert(props) {
@@ -169,6 +170,8 @@ export default function GemstoneDetails(props) {
     message:"",
     severity:""
   });
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -207,9 +210,10 @@ export default function GemstoneDetails(props) {
     })
     setBtnEdit({ ...btnEdit, id: gemstoneData.id, action: true })
   }
-  function GemstoneSave(id) {
+ async function GemstoneSave(id) {
     if (productCtx.gemstonesettings && productCtx.gemstoneshape && productCtx.gemstonecount && productCtx.gemstoneweight && productCtx.gemstonesize) {
       let list_data = props.gemstone;
+      var bodydata = {}
       let gemstoneChangeData = list_data.map((gemstoneListData, index) => {
         if (id === gemstoneListData.id) {
           gemstoneListData.gemstoneSetting = productCtx.gemstonesettings.name;
@@ -217,10 +221,18 @@ export default function GemstoneDetails(props) {
           gemstoneListData.stoneCount = productCtx.gemstonecount;
           gemstoneListData.stoneWeight = productCtx.gemstoneweight;
           gemstoneListData.gemstoneSize = productCtx.gemstonesize;
+          bodydata['gemstoneSetting'] = productCtx.gemstonesettings.name
+          bodydata['gemstoneShape'] = productCtx.gemstoneshape.name
+          bodydata['stoneCount'] = productCtx.gemstonecount;
+          bodydata['gemstoneSize'] = productCtx.gemstonesize;
+          bodydata['stoneWeight'] = productCtx.gemstoneweight;
+          bodydata['id'] = id;
           return gemstoneListData;
         }
         return gemstoneListData;
       });
+
+      let response =  await sendNetworkRequest('/editproductgemstone', {}, bodydata)
       let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
       let editGemstoneLists = productCtx.editGemstoneLists;
       if(JSON.stringify(editGemstoneList)!==JSON.stringify(gemstoneEditObject.edit)){
