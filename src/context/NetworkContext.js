@@ -26,7 +26,7 @@ const sendNetworkRequest = async (url, params, data, auth = false) => {
     if(auth){
         const token = localStorage.getItem(TOKEN)
         if(token) headers["auth"] = token
-        else window.location = '/'
+       // else window.location = '/'
     }
     const response = await fetch(url, {
         method, body: isString(data) ? data : JSON.stringify(data), headers
