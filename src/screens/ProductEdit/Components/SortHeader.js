@@ -44,7 +44,7 @@ function SortHeader(props){
                 </Grid>
                 <Grid container xl={4} lg={3} md={4} sm={5} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <Grid className="column-btn" lg={5} md={5} sm={5} xs={5} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                        <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined" size="large" color="primary" style={{fontSize:"15px",padding:"6px 6px"}}>
+                        <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" style={{fontSize:"15px",padding:"6px 6px"}}>
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button>
                         <Popover

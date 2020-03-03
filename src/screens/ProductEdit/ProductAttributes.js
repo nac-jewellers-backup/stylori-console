@@ -721,9 +721,11 @@ async function saveProductEditItem() {
               <Variants variants={productCtx.variants} columns={varientcolumns} displycolumns={displycolumns} />
                   
               <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>  
+              <SortHeader columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/>
               <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
                         Price Run For This Product
-                      </Button><SortHeader columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/></Grid>
+              </Button>
+            </Grid>
 
               <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
 

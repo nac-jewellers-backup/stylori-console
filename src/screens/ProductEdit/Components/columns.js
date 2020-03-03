@@ -139,8 +139,8 @@ export default function Columns(props) {
                     <Button size="large" onClick={()=>resetButton()}>RESET</Button>
                 </Grid>
                 <Grid style={{ display: "flex", justifyContent: "space-between" }}>
-                    <Button size="large" onClick={()=>props.columnclose()}>cancel</Button>
-                    <Button color="primary" onClick={()=>saveaction()}  backgroundColor="secondary" size="large" variant="contained" className={classes.margin}>
+                    <Button size="small" onClick={()=>props.columnclose()}>cancel</Button>
+                    <Button  size="small" color="primary" onClick={()=>saveaction()}  backgroundColor="secondary" size="large" variant="contained" className={classes.margin}>
                         SAVE
                     </Button>
                 </Grid>

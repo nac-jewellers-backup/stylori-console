@@ -320,7 +320,7 @@ console.log(JSON.stringify(bodydata))
           <TableBody>
             {props.variants&& props.variants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.name}>
-                <TableCell  style = {{width: 40}} component="th" scope="row">
+                <TableCell   component="th" scope="row">
                   {row.generatedSku}
                 </TableCell>
                 {props.displycolumns.indexOf('Cost Price') > -1 ? <TableCell component="th" scope="row">

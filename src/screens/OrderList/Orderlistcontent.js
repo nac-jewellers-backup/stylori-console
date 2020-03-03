@@ -6,6 +6,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
 import Page from '../../components/Page'
 import { Header, Results } from './components';
+import Columns from './components/columnnames.json';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +21,18 @@ export default function Producttypecontent() {
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const { orderCtx, setOrderCtx ,orderMaster} = React.useContext(OrderContext);
+  const [columnnames, setColumnnames] = useState(Columns.columns);
+  const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
+  const [displaycolumns, setDisplaycolumns] = useState(Columns.defaultcolumnnames);
 
+  function columnchanged(columnnames){
+    let displycolumns = [];
+    columnnames.forEach(element => {
+      displycolumns.push(element.name)
+    })
+    setDisplaycolumns(columnnames)
+    setDisplaycolumnnames(displycolumns)
+  }
   useEffect(() => {
     let mounted = true;
     const fetchOrders = () => {
@@ -55,10 +67,14 @@ export default function Producttypecontent() {
     className={classes.root}
     title="Orders Management List"
   >
-    <Header />
+    <Header getColumnnames={columnchanged} columns={columnnames}/>
     <Results
       className={classes.results}
      orders={orderCtx.orderMaster.orders}
+     showcolumns={displaycolumnnames}
+     columnobjs={displaycolumns}
+
+
     />
     
   </Page>
