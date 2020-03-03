@@ -1,0 +1,280 @@
+{
+    "varients" : [
+        {
+            "id":1,
+            "name":"SKU",
+            "isActive": true,
+            "disabled": true
+
+        },
+        {
+            "id":2,
+            "name":"Metal Colour",
+            "isActive": true,
+            "disabled": false       
+        },
+        {
+            "id":3,
+            "name":"Metal Purity",
+            "isActive":true,
+            "disabled": false      
+        },
+        {
+            "id":4,
+            "name":"Gold Weight",
+            "isActive": true ,
+            "disabled": false   
+        },
+        {
+            "id":5,
+            "name":"Size",
+            "isActive":  true,
+            "disabled": false       
+        },
+        {
+            "id":6,
+            "name":"Vendor lead Time",
+            "isActive": true,
+            "disabled": false  
+        },
+        {
+            "id":7,
+            "name":"Ready To Ship",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":8,
+            "name": "Default",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":9,
+            "name":"Active",
+            "isActive":false,
+            "disabled": false         
+        },
+        {
+            "id":10,
+            "name":"Edit",
+            "isActive":true,
+            "disabled": true         
+        }
+      
+        
+    ],
+    "defaultvarients" : [
+        {
+            "id":1,
+            "name":"SKU",
+            "isActive": true,
+            "disabled": true
+
+        },
+        {
+            "id":2,
+            "name":"Metal Colour",
+            "isActive": true,
+            "disabled": false       
+        },
+        {
+            "id":3,
+            "name":"Metal Purity",
+            "isActive":true,
+            "disabled": false      
+        },
+        {
+            "id":4,
+            "name":"Gold Weight",
+            "isActive": true ,
+            "disabled": false   
+        },
+        {
+            "id":5,
+            "name":"Size",
+            "isActive":  true,
+            "disabled": false       
+        },
+        {
+            "id":6,
+            "name":"Vendor lead Time",
+            "isActive": true,
+            "disabled": false  
+        },
+        {
+            "id":7,
+            "name":"Ready To Ship",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":8,
+            "name": "Default",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":9,
+            "name": "Edit",
+            "isActive":true,
+            "disabled": false        
+        }
+        
+      
+        
+    ],
+    "defaultvarientnames":[
+        "SKU",
+        "Metal Colour",
+        "Metal Purity",
+        "Gold Weight",
+        "Size",
+        "Vendor lead Time",
+        "Ready To Ship",
+        "Default",
+        "Edit"
+    ],
+    "defaultpricingnames":[
+        "SKU",
+        "Cost Price",
+        "Cost Price Tax",
+        "Selling Price",
+        "Selling Price Tax",
+        "Markup Price",
+        "Markup Price Tax",
+        "Discount Price",
+        "Discount Price Tax",
+        "Margin on Sale Percentage",
+        "Discount"
+    ],
+    "pricing":[
+        {
+            "id":1,
+            "name":"SKU",
+            "isActive": true,
+            "disabled": true       
+        },
+        {
+            "id":2,
+            "name":"Cost Price",
+            "isActive": false       
+        },
+        {
+            "id":3,
+            "name":"Cost Price Tax",
+            "isActive":false      
+        },
+        {
+            "id":4,
+            "name":"Selling Price",
+            "isActive": false   
+        },
+        {
+            "id":5,
+            "name":"Selling Price Tax",
+            "isActive":  false      
+        },
+        {
+            "id":6,
+            "name":"Markup Price",
+            "isActive": false  
+        },
+        {
+            "id":7,
+            "name":"Markup Price Tax",
+            "isActive":false       
+        },
+        {
+            "id":8,
+            "name": "Discount Price",
+            "isActive":false        
+        },
+        {
+            "id":9,
+            "name":"Discount Price Tax",
+            "isActive":false        
+        },
+        {
+            "id":10,
+            "name":"Margin on Sale Percentage",
+            "isActive":false        
+        },
+        {
+            "id":11,
+            "name":"Discount",
+            "isActive":false        
+        },
+        {
+            "id":12,
+            "name":"Edit",
+            "isActive":true,
+            "disabled": true        
+        }
+    ],
+
+    "defaultpricing":[
+        {
+            "id":1,
+            "name":"SKU",
+            "isActive": true,
+            "disabled": true       
+        },
+        {
+            "id":2,
+            "name":"Cost Price",
+            "isActive": false       
+        },
+        {
+            "id":3,
+            "name":"Cost Price Tax",
+            "isActive":false      
+        },
+        {
+            "id":4,
+            "name":"Selling Price",
+            "isActive": false   
+        },
+        {
+            "id":5,
+            "name":"Selling Price Tax",
+            "isActive":  false      
+        },
+        {
+            "id":6,
+            "name":"Markup Price",
+            "isActive": false  
+        },
+        {
+            "id":7,
+            "name":"Markup Price Tax",
+            "isActive":false       
+        },
+        {
+            "id":8,
+            "name": "Discount Price",
+            "isActive":false        
+        },
+        {
+            "id":9,
+            "name":"Discount Price Tax",
+            "isActive":false        
+        },
+        {
+            "id":10,
+            "name":"Margin on Sale Percentage",
+            "isActive":false        
+        },
+        {
+            "id":11,
+            "name":"Discount",
+            "isActive":false        
+        },
+        {
+            "id":12,
+            "name":"Edit",
+            "isActive":true,
+            "disabled": true        
+        }
+    ]
+}

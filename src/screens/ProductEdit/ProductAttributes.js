@@ -26,6 +26,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { NetworkContext } from '../../context/NetworkContext';
+import CloseIcon from '@material-ui/icons/Close';
+import SortHeader from './Components/SortHeader';
+import columnnames from './columnnames.json';
 
 import {
   Card,
@@ -84,8 +87,13 @@ const useStyle = makeStyles(theme => ({
 export function Component(props) {
   const [open, setOpen] = React.useState(false);
   const [expand, setExpand] = React.useState(false);
-  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [varientcolumns, setVarientcolumns] = React.useState(columnnames.defaultvarients);
+  const [displycolumns, setDisplycolumns] = React.useState(columnnames.defaultvarientnames);
+  const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.defaultpricing);
+  const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricingnames);
 
+  
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [snackMessage,setSnackMessage] = React.useState({
     message:"",
     severity:""
@@ -136,6 +144,23 @@ const handleinputChange =type => e => {
 //   alert(event.target.value)
 //       setProductCtx({ ...productCtx, [type]: value})
 // }
+function getColumnnames(columnnames,displytype) {
+  let displycolumns = [];
+    columnnames.forEach(element => {
+      displycolumns.push(element.name)
+    })
+  if(displytype === 1)
+  {
+    setDisplycolumns(displycolumns)
+    setVarientcolumns(columnnames)
+  }else{
+    setPricingcolumns(columnnames)
+    setDisplypricingcolumns(displycolumns)
+  }
+    
+   
+
+}
   function createVariant() {
     let diamondTypesArray = [];
     // let diamondClaritySku = [];
@@ -667,7 +692,7 @@ async function saveProductEditItem() {
                
                   <ExpansionPanel expanded={expand} onChange={handleChange()}>
                     <ExpansionPanelSummary
-                      expandIcon={<AddIcon />}
+                      expandIcon={expand? <CloseIcon /> : <AddIcon />}
                       aria-controls="panel1c-content"
                       id="panel1c-header"
                     >
@@ -691,15 +716,16 @@ async function saveProductEditItem() {
                     
                 
                 </Grid>
-              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Table  </Grid>
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}><SortHeader columnnames={columnnames.varients}  getColumnnames={getColumnnames} displytype={1}/>  </Grid>
 
-              <Variants variants={productCtx.variants} />
-              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Pricing Table  
+              <Variants variants={productCtx.variants} columns={varientcolumns} displycolumns={displycolumns} />
+                  
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>  
               <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
                         Price Run For This Product
-                      </Button></Grid>
+                      </Button><SortHeader columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/></Grid>
 
-              <Skupricing variants={productCtx.variants} />
+              <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
 
             </Grid>
             

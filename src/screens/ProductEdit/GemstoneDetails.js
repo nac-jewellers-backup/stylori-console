@@ -139,7 +139,7 @@ const useStyles2 = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   table: {
-    marginTop: theme.spacing(2)
+   // marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(0),
@@ -298,7 +298,7 @@ export default function GemstoneDetails(props) {
       </Snackbar>
         </React.Fragment>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table} stickyHeader>
+        <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (

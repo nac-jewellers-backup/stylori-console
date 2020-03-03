@@ -332,6 +332,7 @@ query MyQuery($productId: String!) {
         sellingPrice
         sellingPriceTax
         isReadyToShip
+        discount
         isActive
         isdefault,
         vendorDeliveryTime

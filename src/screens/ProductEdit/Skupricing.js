@@ -16,7 +16,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Typography, Button, Chip, TextField, Input, CircularProgress } from '@material-ui/core';
+import { Typography, Button, Chip, Input, CircularProgress } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 
@@ -26,21 +26,22 @@ import Switch from '@material-ui/core/Switch';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const columns = [
-  { id: 'SKU', label: 'SKU', minWidth: 100 },
-  { id: 'Cost Price', label: 'Cost Price', minWidth: 100 },
-  { id: 'Cost Price Tax', label: 'Cost Price Tax', minWidth: 100 },
+  { id: 'SKU', label: 'SKU' },
+  { id: 'Cost Price', label: 'Cost Price' },
+  { id: 'Cost Price Tax', label: 'Cost Price Tax' },
 
-  { id: 'Selling Price', label: 'Selling Price', minWidth: 200 },
-  { id: 'Selling Price Tax', label: 'Selling Price Tax', minWidth: 200 },
-  { id: 'Markup Price', label: 'Markup Price', minWidth: 100 },
-  { id: 'Markup Price Tax', label: 'Markup Price Tax', minWidth: 100 },
-  { id: 'Discount Price', label: 'Discount Price', minWidth: 100 },
-  { id: 'Discount Price Tax', label: 'Discount Price Tax', minWidth: 100 },
+  { id: 'Selling Price', label: 'Selling Price' },
+  { id: 'Selling Price Tax', label: 'Selling Price Tax' },
+  { id: 'Markup Price', label: 'Markup Price' },
+  { id: 'Markup Price Tax', label: 'Markup Price Tax' },
+  { id: 'Discount Price', label: 'Discount Price' },
+  { id: 'Discount Price Tax', label: 'Discount Price Tax' },
+  { id: 'Margin On Sale', label: 'Margin On Sale' },
+  { id: 'Discount', label: 'Discount' },
 
   {
     id: 'Disable',
     label: 'Price Update',
-    minWidth: 120,
     align: 'center',
     format: value => value.toFixed(2),
   }
@@ -141,7 +142,7 @@ const useStyles2 = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   table:{
-    marginTop: theme.spacing(2)
+   // marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(0),
@@ -301,16 +302,16 @@ console.log(JSON.stringify(bodydata))
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table} stickyHeader>
+        <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {props.columns.map(column => (
                 <TableCell
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  {column.name}
                 </TableCell>
               ))}
             </TableRow>
@@ -319,15 +320,16 @@ console.log(JSON.stringify(bodydata))
           <TableBody>
             {props.variants&& props.variants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
+                <TableCell  style = {{width: 40}} component="th" scope="row">
                   {row.generatedSku}
                 </TableCell>
-                {btnEdit.action && btnEdit.id == row.generatedSku ? <TableCell component="th" scope="row">
-                <TextField
+                {props.displycolumns.indexOf('Cost Price') > -1 ? <TableCell component="th" scope="row">
+                {btnEdit.action && btnEdit.id == row.generatedSku ? 
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
-                    fullWidth
+                    style = {{width: 40}}
                     value={productCtx.editcostprice}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
@@ -340,14 +342,12 @@ console.log(JSON.stringify(bodydata))
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   />
-                </TableCell> :
-                <TableCell component="th" scope="row">
-                  {row.costPrice}
-                </TableCell>}
-
+                 :
+                <Typography className={classes.heading}> {row.costPrice}</Typography> 
+                  } </TableCell> : null }
+                  {props.displycolumns.indexOf('Cost Price Tax') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -363,14 +363,13 @@ console.log(JSON.stringify(bodydata))
                    // onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  />
-              </TableCell> :
-                <TableCell component="th" scope="row">
-                  {row.costPriceTax}
-                </TableCell>}
+                  /> 
+               :
+               <Typography className={classes.heading}> {row.costPriceTax} </Typography>
+                } : </TableCell> : null }
+                {props.displycolumns.indexOf('Selling Price') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -386,13 +385,15 @@ console.log(JSON.stringify(bodydata))
                    // onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.sellingPrice}
-                </TableCell>}
+                  /> :
+                  <Typography className={classes.heading}> 
+                {row.sellingPrice} </Typography> 
+                } </TableCell> : null }
+               
+               {props.displycolumns.indexOf('Selling Price Tax') > -1 ? <TableCell component="th" scope="row">
+
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -409,12 +410,16 @@ console.log(JSON.stringify(bodydata))
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.sellingPriceTax}
-                </TableCell>}
+                : 
+                  <Typography className={classes.heading}> 
+                  {row.sellingPriceTax} </Typography> 
+                  } </TableCell> : null }
+             
+             {props.displycolumns.indexOf('Markup Price') > -1 ? <TableCell component="th" scope="row">
+
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -430,13 +435,14 @@ console.log(JSON.stringify(bodydata))
                    // onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.markupPrice}
-                </TableCell>}
+                  />: 
+                  <Typography className={classes.heading}> 
+                  {row.markupPrice} </Typography> 
+                  } </TableCell> : null }
+             
+             {props.displycolumns.indexOf('Markup Price Tax') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -453,12 +459,14 @@ console.log(JSON.stringify(bodydata))
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.markupPriceTax}
-                </TableCell>}
+                  : 
+                  <Typography className={classes.heading}> 
+                  {row.markupPriceTax} </Typography> 
+                  } </TableCell> : null }
+
+            {props.displycolumns.indexOf('Discount Price') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -474,13 +482,13 @@ console.log(JSON.stringify(bodydata))
                    // onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.discountPrice}
-                </TableCell> }
+                  /> : 
+                  <Typography className={classes.heading}> 
+                  {row.discountPrice} </Typography> 
+                  } </TableCell> : null }
+                {props.displycolumns.indexOf('Discount Price Tax') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action  && btnEdit.id == row.generatedSku ?
-                <TableCell component="th" scope="row">
-                <TextField
+                <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
@@ -496,25 +504,35 @@ console.log(JSON.stringify(bodydata))
                    // onChange={handleinputChange('productname')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  />
-              </TableCell> : <TableCell component="th" scope="row">
-                {row.discountPriceTax}
-                </TableCell>}
+                  /> : 
+                  <Typography className={classes.heading}> 
+                  {row.discountPriceTax} </Typography> 
+                  } </TableCell> : null }
+             
+                  {props.displycolumns.indexOf('Margin on Sale Percentage') > -1 ?
+                <TableCell  style = {{width: 40}} component="th" scope="row">
+                {row.marginOnSalePercentage}
+                </TableCell> : null}
+                {props.displycolumns.indexOf('Discount') > -1 ?
+
+                <TableCell  style = {{width: 40}} component="th" scope="row">
+                {row.discount} 
+                </TableCell> : null }
                 
                 {
                   btnEdit.action && btnEdit.id == row.generatedSku ?
-                    <TableCell align="center">
+                    <TableCell  style = {{width: 40}} align="center">
                       <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
-                        Price Run
+                      ₹
                       </Button>
                       <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
                       </Button>
                       <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                       </Button>
                     </TableCell> :
-                    <TableCell align="center">
+                    <TableCell  style = {{width: 40}} align="center">
                       {btnEdit.pricerun && btnEdit.id == row.generatedSku ? <CircularProgress size={15}/> : <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
-                        Price Run
+                      ₹
                       </Button>
                         } 
                       <Button  onClick={(e) => DiamondEdit(row)}><EditIcon />
@@ -533,7 +551,7 @@ console.log(JSON.stringify(bodydata))
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                colSpan={5}
+                
                 count={props.variants&&props.variants.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
