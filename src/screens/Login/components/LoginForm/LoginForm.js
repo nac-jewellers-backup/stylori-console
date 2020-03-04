@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -16,6 +17,7 @@ import {
   Link,
   Avatar
 } from '@material-ui/core';
+var validate = require("validate.js");
 
 const schema = {
   email: {
@@ -110,13 +112,13 @@ const LoginForm = props => {
   });
 
   useEffect(() => {
-    // const errors = validate(formState.values, schema);
+   const errors = validate(formState.values, schema);
 
-    // setFormState(formState => ({
-    //   ...formState,
-    //   isValid: errors ? false : true,
-    //   errors: errors || {}
-    // }));
+    setFormState(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
   }, [formState.values]);
 
   const handleChange = event => {
@@ -140,7 +142,15 @@ const LoginForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    if(formState.isValid)
+    {
+      alert("all ok")
+    }else{
+      alert("has some error")
+    }
+    //alert(JSON.stringify(formState))
     // dispatch(login());
+    //alert("i am here")
   };
 
   const hasError = field =>
@@ -206,8 +216,7 @@ const LoginForm = props => {
 
       >
              <div className={classes.person}>
-                <img src="/images/shape1.png"
-                 />
+              
               </div> 
         {/* <Typography
           color="inherit"

@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Columns from './columns';
 import Popover from '@material-ui/core/Popover';
-import './table.css';
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,13 +37,14 @@ function SortHeader(props){
     
      
         return(
-            <Grid container lg={12} md={12} sm={12} xs={12} style={{display:"flex",justifyContent:"space-between"}}>
-                <Grid xl={8} lg={9} md={8} sm={7} xs={12}>
-                     {/* <h4 className="products">Variants Table</h4>    */}
-                </Grid>
+            <Grid container lg={12} md={12} sm={12} xs={12} >
+                
                 <Grid container xl={4} lg={3} md={4} sm={5} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <Grid className="column-btn" lg={5} md={5} sm={5} xs={5} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                        <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
+                        {/* <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
+                            COLUMNS<ArrowDownwardIcon fontSize="inherit" />
+                        </Button> */}
+                        <Button className="product" fullWidth size="large" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button>
                         <Popover
