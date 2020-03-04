@@ -112,7 +112,6 @@ export function Component(props) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
@@ -271,6 +270,16 @@ async function saveProductEditItem() {
       .then(res => res.json())
       .then(fatchvalue => {
         var genders = fatchvalue.data.productListByProductId.gender
+        var size_obj = fatchvalue.data.productListByProductId.sizeVarient
+        let sizes_arr = []
+        if(size_obj)
+        {
+          let sizes = size_obj.split(',')
+          sizes.forEach(element => {
+            
+            sizes_arr.push(element)
+          });
+        }
         genders = genders.split(',')
         let gender_arr = []
         genders.forEach(element => {
@@ -292,7 +301,7 @@ async function saveProductEditItem() {
           oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
-          variant_size: fatchvalue.data.productListByProductId.sizeVarient,
+          variant_size: sizes_arr,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
           product_gender:gender_arr,
           themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,

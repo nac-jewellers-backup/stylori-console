@@ -523,7 +523,7 @@ console.log(JSON.stringify(bodydata))
                   btnEdit.action && btnEdit.id == row.generatedSku ?
                     <TableCell  style = {{width: 40}} align="center">
                       <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
-                      ₹
+                      Price ₹
                       </Button>
                       <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
                       </Button>
@@ -532,7 +532,7 @@ console.log(JSON.stringify(bodydata))
                     </TableCell> :
                     <TableCell  style = {{width: 40}} align="center">
                       {btnEdit.pricerun && btnEdit.id == row.generatedSku ? <CircularProgress size={15}/> : <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
-                      ₹
+                      Price ₹
                       </Button>
                         } 
                       <Button  onClick={(e) => DiamondEdit(row)}><EditIcon />

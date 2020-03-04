@@ -45,6 +45,8 @@ export function CreateVariant(props) {
     let colors = []
     let purities = []
     let diamondtypes = []
+    let oldpurity = []
+
     const TOKEN = 'token'
     const { productCtx, setProductCtx } = React.useContext(ProductContext);
     const [metalcolor, setMetalcolor] = useState(productCtx.productMetalColor)
@@ -53,6 +55,7 @@ export function CreateVariant(props) {
     })
     productCtx.oldproductMetalPurity.forEach(colorobj => {
         purities.push(colorobj.purity)
+        oldpurity.push(colorobj)
     })
 
     productCtx.oldproductDiamondTypesArray.forEach(diamondobj => {
@@ -471,7 +474,7 @@ export function CreateVariant(props) {
                     />
 
 {
-                                variant.metal_purity && variant.metal_purity.map(metal_purity => (
+                                productCtx.productMetalPurity && productCtx.productMetalPurity.map(metal_purity => (
                                     <TextField
                                         className={classes.helperinput}
                                         style={{ width: "100px", marginLeft: "8px" }}
@@ -523,14 +526,14 @@ export function CreateVariant(props) {
                 </Grid>
 
                 <Grid item  xs={6} sm={6} md={6} lg={6}>
-                <Autocomplete
+                {productCtx.variant_size && productCtx.variant_size.length > 0 ?  <Autocomplete
                     multiple
                     id="free-solo-2-demo"
                     className={classes.fixedTag}
                     fullWidth
                     getOptionLabel={option => option}
                     options={productCtx.productVariantSize}
-                    value={productCtx.productSizes}
+                    value={productCtx.variant_size}
                     onChange={sizeChange('productSizes')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
@@ -547,7 +550,7 @@ export function CreateVariant(props) {
                     InputProps={{ ...params.InputProps, type: 'search' }}
                     />
                     )}
-                    />
+                    /> : null }
                 </Grid>
 
 
