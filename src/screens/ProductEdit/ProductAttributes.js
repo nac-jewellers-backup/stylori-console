@@ -263,7 +263,7 @@ async function saveProductEditItem() {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: PRODUCTEDIT })
+      body: JSON.stringify({ query: PRODUCTEDIT, variables: { "productId": prod_id }  })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
@@ -302,6 +302,7 @@ async function saveProductEditItem() {
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           variant_size: sizes_arr,
+          productmaterials: fatchvalue.data.productListByProductId.productMaterialsByProductSku.nodes,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
           product_gender:gender_arr,
           themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,
@@ -424,10 +425,10 @@ async function saveProductEditItem() {
                       id="free-solo-2-demo"
                       disabled
                       className={classes.fixedTag}
-                      value={[{label: "Silver",name:"Silver"},{label: "Gold",name:"Gold"}]}
+                      value={productCtx.productmaterials}
                       renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                      <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                      <Chip variant="outlined" size="small" label={option.materialName} {...getTagProps({ index })} />
                       ))
                       }
                       renderInput={params => (

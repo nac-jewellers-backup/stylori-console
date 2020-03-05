@@ -182,6 +182,30 @@ const PRODUCTCATEGORY = gql`query {
     }
   }
   }`
+
+const ALLPRODUCTLIST = gql`
+query  {
+  allProductLists {
+    nodes {
+      id
+      nodeId
+      productName,
+      productCategory,
+      productType
+      productId,
+      createdAt
+      isactive,
+      transSkuListsByProductId(condition: {isdefault: true}) {
+        nodes {
+          skuUrl
+          discount
+        }
+      }
+    }
+    totalCount
+  }
+}
+`;
 const PRODUCTLIST = gql`
 query MyQuery($Veiw: Int!, $Offset: Int!) {
   allProductLists(first: $Veiw, offset: $Offset) {
@@ -336,6 +360,11 @@ query MyQuery($productId: String!) {
     productType
     vendorCode
     gender
+    productMaterialsByProductSku {
+      nodes {
+        materialName
+      }
+    }
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -459,5 +488,6 @@ query MyQuery($productId: String!) {
     DIAMONDPRICELIST,
     GEMPRICELIST,
     MAKINGCHARGEPRICELIST,
-    VENDORLIST
+    VENDORLIST,
+    ALLPRODUCTLIST
   }

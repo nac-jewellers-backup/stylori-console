@@ -29,7 +29,6 @@ const columns = [
   { id: 'SKU', label: 'SKU' },
   { id: 'Cost Price', label: 'Cost Price' },
   { id: 'Cost Price Tax', label: 'Cost Price Tax' },
-
   { id: 'Selling Price', label: 'Selling Price' },
   { id: 'Selling Price Tax', label: 'Selling Price Tax' },
   { id: 'Markup Price', label: 'Markup Price' },

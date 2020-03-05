@@ -137,6 +137,7 @@
     ],
     "defaultpricingnames":[
         "SKU",
+
         "Selling Price",
         "Selling Price Tax",
         "Discount Price",

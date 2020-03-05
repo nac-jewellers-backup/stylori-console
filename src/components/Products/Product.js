@@ -25,7 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {PRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
+import {PRODUCTLIST,PRODUCTCATEGORY,ALLPRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -313,20 +313,20 @@ const   AddContact=(props)=> {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
   }
-  // useEffect(() => {
-  // const query = props.client.query
-  //   query({
-  //     query: PRODUCTLIST,
-  //     fetchPolicy: "network-only"
-  //   }).then((data) => {
-  //     if (data) {
-  //      alert(JSON.stringify(data))
-  //     }else{
-  //       alert("success")
-  //     }
-  //   })
-  // .catch((error) => {console.log("smbcj")})
-  // }, [])
+  useEffect(() => {
+  const query = props.client.query
+    query({
+      query: PRODUCTCATEGORY,
+      fetchPolicy: "network-only"
+    }).then((data) => {
+      if (data) {
+       //alert(JSON.stringify(data))
+      }else{
+        alert("success")
+      }
+    })
+  .catch((error) => {console.log("smbcj")})
+  }, [])
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);

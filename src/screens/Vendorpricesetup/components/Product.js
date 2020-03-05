@@ -329,15 +329,15 @@ const   AddContact=(props)=> {
 
   }
   function handleEdit(diamondData) {
-      setEditdiamond({
-        ...editdiamond,
-        costPrice : diamondData.costPrice,
-        sellingPriceType : diamondData.sellingPriceType,
-        sellingPrice : diamondData.sellingPrice,
-        updatedAt : new Date()
+        setEditdiamond({
+          ...editdiamond,
+          costPrice : diamondData.costPrice,
+          sellingPriceType : diamondData.sellingPriceType,
+          sellingPrice : diamondData.sellingPrice,
+          updatedAt : new Date()
 
 
-      })
+        })
     // setProductCtx({
     //   ...productCtx,
     //   editleadtime:diamondData.vendorDeliveryTime,
