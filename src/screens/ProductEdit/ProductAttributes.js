@@ -263,7 +263,7 @@ async function saveProductEditItem() {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: PRODUCTEDIT, variables: { "productId": prod_id } })
+      body: JSON.stringify({ query: PRODUCTEDIT })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)

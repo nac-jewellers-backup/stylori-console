@@ -18,7 +18,8 @@ const route = {
     images:'/images',
     createVariant:'/create_variant',
     materiallistpage:'/newmaterial',
-    editCategory:'/editcategory'
+    editCategory:'/editcategory',
+    vendorPrice:'/vendorpricesetup'
 
 }
 

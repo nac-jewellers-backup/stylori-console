@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {Input} from '../../components/Input.js'
 import { ProductContext } from '../../context';
+import FullLoader from '../../components/Loader'
 import "./Productupload.css"
 import Select from 'react-select';
 import "./floating_dropdown.css"
@@ -400,6 +401,7 @@ export default function AddressForm(props) {
   return (
     <>
     <div>
+      {/* <FullLoader /> */}
     <Grid container  spacing={1}>  
     <Grid item xs={12} sm={6} spacing={1}>
 

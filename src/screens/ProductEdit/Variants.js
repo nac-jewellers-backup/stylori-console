@@ -17,12 +17,12 @@ import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import Switch from '@material-ui/core/Switch';
 import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import SaveIcon from '@material-ui/icons/Save';
 
 const columns = [
   { id: 'SKU', label: 'SKU'},

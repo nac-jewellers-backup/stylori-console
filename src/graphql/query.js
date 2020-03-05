@@ -205,6 +205,102 @@ query MyQuery($Veiw: Int!, $Offset: Int!) {
   }
 }
 `;
+
+const GOLDPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+    allGoldPriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      purity
+      vendorCode
+      updatedAt
+      sellingPriceType
+      sellingPrice
+      material
+      id
+      createdAt
+      costPrice
+    }
+    totalCount
+  }
+}`;
+
+const DIAMONDPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+  allDiamondPriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      costPrice
+      createdAt
+      diamondClarity
+      diamondColour
+      id
+      sellingPrice
+      sellingPriceType
+      updatedAt
+      vendorCode
+    }
+    totalCount
+  }
+}`;
+
+
+const VENDORLIST =`
+query {
+  allMasterVendors {
+    nodes {
+      vendorDelivaryDays
+      updatedAt
+      state
+      shortCode
+      partnerCategory
+      name
+      organization
+      gstNo
+      currency
+      createdAt
+      city
+      address
+    }
+  }
+}`;
+const MAKINGCHARGEPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+  allMakingChargeSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      weightStart
+      weightEnd
+      vendorCode
+      updatedAt
+      sellingPriceType
+      rateType
+      purity
+      priceType
+      price
+      material
+      id
+      createdAt
+    }
+    totalCount
+  }
+}`;
+const GEMPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+  allGemstonePriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      price
+      rateType
+      priceType
+      sellingPriceType
+      vendorCode
+      weightEnd
+      weightStart
+      updatedAt
+      id
+      createdAt
+      gemstoneType
+    }
+    totalCount
+  }
+}`;
 const PRODUCTLISTSTATUSEDIT = gql`
 mutation MyMutation($productId:String!,$isActive:Boolean!) {
   __typename
@@ -217,7 +313,7 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
 }
 `;
 const PRODUCTDIAMONDTYPES = `
-query MyQuery {
+query{
   allMasterDiamondTypes {
     nodes {
       diamondClarity
@@ -358,5 +454,10 @@ query MyQuery($productId: String!) {
     PRODUCTLIST,
     PRODUCTEDIT,
     PRODUCTLISTSTATUSEDIT,
-    PRODUCTDIAMONDTYPES
+    PRODUCTDIAMONDTYPES,
+    GOLDPRICELIST,
+    DIAMONDPRICELIST,
+    GEMPRICELIST,
+    MAKINGCHARGEPRICELIST,
+    VENDORLIST
   }

@@ -9,4 +9,5 @@ export * from "./ProducttypeList"
 export * from "./Voucherdiscount"
 export * from "./Priceupdate"
 export * from "./OrderList"
+export * from "./Vendorpricesetup"
 
