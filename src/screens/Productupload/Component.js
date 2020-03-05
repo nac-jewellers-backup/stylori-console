@@ -294,7 +294,7 @@ export default function Productupload() {
      console.log("><><><><><")
      console.log(JSON.stringify(formdata))
       setLoading(true)
-     // await sendNetworkRequest('/productupload', {}, formdata)
+      await sendNetworkRequest('/productupload', {}, formdata)
       setLoading(false)
       setSuccess(true)
       await sleep(500)

@@ -311,6 +311,7 @@ const   AddContact=(props)=> {
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   const [editdiamond,setEditdiamond] = React.useState({})
+  const [goldpricelist,setGoldpricelist] = React.useState({})
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -349,8 +350,8 @@ const   AddContact=(props)=> {
   }
   function handleSave(id){
     var bodydata = {}
-   
-
+   alert(JSON.stringify(goldpricelist))
+    
   //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
@@ -424,8 +425,9 @@ const   AddContact=(props)=> {
                           // return false
                       }
                       if (data) {
+                        setGoldpricelist(data)
                           return <>
-                              {data.allGoldPriceSettings.nodes.map((row, index) => (
+                              { data.allGoldPriceSettings.nodes.map((row, index) => (
                                   <TableRow key={row.material}>
                                   <TableCell component="th" scope="row">
                                      {row.material}

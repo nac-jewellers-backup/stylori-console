@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
+
 import clsx from 'clsx';
 import {lighten, makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -312,7 +313,20 @@ const   AddContact=(props)=> {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
   }
-
+  // useEffect(() => {
+  // const query = props.client.query
+  //   query({
+  //     query: PRODUCTLIST,
+  //     fetchPolicy: "network-only"
+  //   }).then((data) => {
+  //     if (data) {
+  //      alert(JSON.stringify(data))
+  //     }else{
+  //       alert("success")
+  //     }
+  //   })
+  // .catch((error) => {console.log("smbcj")})
+  // }, [])
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);

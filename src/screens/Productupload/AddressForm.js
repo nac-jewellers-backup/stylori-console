@@ -202,8 +202,7 @@ export default function AddressForm(props) {
     }
 
 
-    const handleChange = event => {
-    
+    const switchisorderable = event => {
         setProductCtx({ ...productCtx, ['isreorderable']: event.target.value})
 
      
@@ -707,7 +706,7 @@ export default function AddressForm(props) {
 
           <FormControl component="fieldset">
           <FormLabel component="legend">IsReorderable</FormLabel>
-          <RadioGroup aria-label="position" name="position" value={productCtx.isreorderable} onChange={handleChange} row>
+          <RadioGroup aria-label="position" name="position" value={productCtx.isreorderable} onChange={switchisorderable} row>
             <FormControlLabel
               value="Yes"
               

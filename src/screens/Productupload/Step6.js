@@ -103,6 +103,7 @@ export default function Review() {
     var url = returnData.url;
     console.log("responseurl"+url);
     var filepathname = returnData.filepath
+    filepathname = filepathname.replace("base_images", "product/"+prodid);
     var options = {
         headers: {
             'Content-Type': bodaydata.fileExtension,
