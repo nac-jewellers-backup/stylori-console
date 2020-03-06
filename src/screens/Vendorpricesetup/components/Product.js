@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect, useContext, useState }  from 'react';
 import clsx from 'clsx';
 import {lighten, makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -25,7 +25,7 @@ import { Input} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {GOLDPRICELIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {GOLDPRICELIST,ALLPRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -370,7 +370,23 @@ const   AddContact=(props)=> {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
+  useEffect(() => {
+    const query = props.client.query
+      query({
+        query: ALLPRODUCTLIST,
+        fetchPolicy: "network-only"
+      }).then((data) => {
+        // if (data) {
+        // setProductlists(data.data.allProductLists.nodes)
+        // setAllProductlists(data.data.allProductLists.nodes)
+        // setPageCount( data.data.allProductLists.totalCount )
+        // }else{
+        //   alert("success")
+        // }
+        alert(JSON.stringify(data))
+      })
+    .catch((error) => {console.log("smbcj")})
+    }, [])
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id

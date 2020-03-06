@@ -19,8 +19,8 @@ const route = {
     createVariant:'/create_variant',
     materiallistpage:'/newmaterial',
     editCategory:'/editcategory',
-    vendorPrice:'/vendorpricesetup'
-
+    vendorPrice:'/vendorpricesetup',
+    markupPrice: '/markuppricesetup'
 }
 
 export default route;

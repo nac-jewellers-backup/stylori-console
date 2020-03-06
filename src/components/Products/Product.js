@@ -25,7 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {PRODUCTLIST,PRODUCTCATEGORY,ALLPRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
+import {PRODUCTLIST,PRODUCTCATEGORY,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -33,6 +33,8 @@ import Moment from 'react-moment';
 import {BASE_URL} from '../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../screens/Productlist/filterandsearch';
+import { NetworkContext } from '../../context/NetworkContext';
+
 const columns = [
   { id: 'productId', label: 'productId' },
   { id: 'productName', label: 'productName' },
@@ -72,6 +74,7 @@ function TablePaginationActions(props) {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   }
 
+ 
   return (
     <div className={classes.root}>
       <IconButton
@@ -306,6 +309,14 @@ const   AddContact=(props)=> {
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
+  const [productlists,setProductlists] = React.useState([])
+  const [allproductlists,setAllProductlists] = React.useState([])
+  const [mastercategories,setMastercategories] = React.useState([])
+  const [masterproducttypes,setMasterproducttypes] = React.useState([])
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [searchtext,setSearchtext] = React.useState('')
+
+
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
@@ -313,14 +324,18 @@ const   AddContact=(props)=> {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
   }
-  useEffect(() => {
+  useEffect( () => {
+
+    getproductlist("")
   const query = props.client.query
     query({
-      query: PRODUCTCATEGORY,
+      query: PRODUCTFILTERMASTER,
       fetchPolicy: "network-only"
     }).then((data) => {
       if (data) {
-       //alert(JSON.stringify(data))
+      // setProductlists(data.data.allProductLists.nodes)
+       setMastercategories(data.data.allMasterProductCategories.nodes)
+       setMasterproducttypes( data.data.allMasterProductTypes.nodes )
       }else{
         alert("success")
       }
@@ -340,7 +355,29 @@ const   AddContact=(props)=> {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+  function searchproduct(searchtext, productcategory, producttype)
+  {
+    let products = allproductlists.filter(l => {
+      return l.productId.toLowerCase().match( searchtext.toLowerCase()) || l.productName.toLowerCase().match( searchtext.toLowerCase());
+    });
+    setProductlists(products)
+  }
+  async function getproductlist(searchtext,productcategory,producttype)
+{
+  let bodydata = {
+    size : rowsPerPage,
+    offset : offsetValue,
+    searchtext: searchtext
+  }
 
+  let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
+  setProductlists(response.products)
+  
+}
+function applyfilter(searchtext, categoryname, typename)
+{
+  getproductlist(searchtext,categoryname,typename)
+}
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id
@@ -363,7 +400,7 @@ const   AddContact=(props)=> {
   // }
   return (
     <Paper className={classes.root}>
-      <Filterandsearch />
+      <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} />
       <div className={classes.tableWrapper}>
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
         {/* <TableHead>
@@ -386,8 +423,8 @@ const   AddContact=(props)=> {
               onRequestSort={handleRequestSort}
             />
           <TableBody>
-          <Query
-              query={PRODUCTLIST}
+          {/* <Query
+              query={PRODUCTLIST(true,"Bangles")}
               onCompleted={data => setPageCount( data.allProductLists.totalCount )}
               variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
               {
@@ -400,24 +437,24 @@ const   AddContact=(props)=> {
                         return <div>{error}</div>
                           // return false
                       }
-                      if (data) {
-                          return <>
-                              {stableSort(data.allProductLists.nodes, getComparator(order, orderBy)).map((row, index) => (
-                                  <TableRow key={row.name}>
+                      if (data) { 
+                           return <> */}
+                              {stableSort(productlists, getComparator(order, orderBy)).map((row, index) => (
+                                  <TableRow key={row.product_id}>
                                   <TableCell component="th" scope="row">
-                                    {row.productId}
-                                    <Button onClick={(e) => ProductEdit(row.productId)}>
+                                    {row.product_id}
+                                    <Button onClick={(e) => ProductEdit(row.product_id)}>
                                     <EditIcon />
                                   </Button>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                     
-                                    <Link target='blank_' href={row.transSkuListsByProductId.nodes.length > 0 ? BASE_URL+row.transSkuListsByProductId.nodes[0].skuUrl : '-'}  variant="body2">
-                                    {row.productName}
-                                    </Link>
+                                  {row.product_name}
+                                    {/* <Link target='blank_' href={row.transSkuListsByProductId.nodes.length > 0 ? BASE_URL+row.transSkuListsByProductId.nodes[0].skuUrl : '-'}  variant="body2">
+                                   
+                                    </Link> */}
                                   </TableCell>
-                                  <TableCell align="left">{row.productType}</TableCell>
-                                  <TableCell align="left">{row.productCategory}</TableCell>
+                                  <TableCell align="left">{row.product_type}</TableCell>
+                                  <TableCell align="left">{row.product_category}</TableCell>
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
                                   {row.updatedAt}
@@ -426,18 +463,18 @@ const   AddContact=(props)=> {
                                   
                                 </TableRow>
                               ))}
-                          </>
-                      }
+                          {/* </> */}
+                       {/* }
                       else{
                       return <div>{"Fetch Products"}</div>
-                      }
-                  }}
-          </Query>
-            {/* {emptyRows > 0 && (
+                     
+                 } } }
+                </Query>  */}
+          {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
-            )} */}
+            )}  */}
           </TableBody>
           <TableFooter>
             <TableRow>

@@ -36,6 +36,7 @@ const productuploadCtxInitial = {
         gemstontypes:"",
         gemstonshapes:"",
         product_code: "",
+        isactive: false,
         gemstonelist:[],
         diamondlist:[],
         variants:[],

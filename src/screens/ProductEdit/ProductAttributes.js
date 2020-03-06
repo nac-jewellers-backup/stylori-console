@@ -36,6 +36,7 @@ import {
   Chip,
   CardContent,
   Divider,
+  Switch,
   RadioGroup,
   Radio,
   FormLabel,
@@ -248,6 +249,35 @@ async function saveProductEditItem() {
     console.log(JSON.stringify(productEditItem))
     // props.history.push('/productlist')
   }
+
+  const handledisableproduct = name => async event => {
+    setProductCtx({ ...productCtx, [name]: event.target.checked });
+    let bodycontent = {
+      "productid": prod_id,
+      "isactive" : event.target.checked
+    }
+    let response =  await sendNetworkRequest('/disableproduct', {}, bodycontent)
+
+    console.log("************")
+    console.log(JSON.stringify(bodycontent))
+    if (response) {
+      setSnackMessage({
+        ...snackMessage,
+        message:"This is successfully saved",
+        severity:"success"
+      })
+      handleClick();
+        // setTimeout(()=>{  window.location='/productlist'},1000)
+    } else {
+      setSnackMessage({
+        ...snackMessage,
+        message:"You are not edit product",
+        severity:"info"
+      })
+      handleClick();
+    }
+  };
+
   function Skupricesync(diamondData) {
     let bodydata = {
       req_product_id: diamondData
@@ -291,6 +321,7 @@ async function saveProductEditItem() {
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
+          isactive: fatchvalue.data.productListByProductId.isactive,
           product_type: fatchvalue.data.productListByProductId.productType,
           product_categoy: fatchvalue.data.productListByProductId.productCategory,
           gemstonelist: fatchvalue.data.productListByProductId.productGemstonesByProductSku.nodes,
@@ -665,7 +696,13 @@ async function saveProductEditItem() {
                       )}
                       />
               
-              
+              <FormControlLabel
+                                label={productCtx.isactive ? "Disable this product" : "Enable this product"}
+
+                  control={
+                    <Switch checked={productCtx.isactive} onChange={handledisableproduct('isactive')} value="checkedA" />
+                  }
+                />
               
               
               <Grid item container style={{

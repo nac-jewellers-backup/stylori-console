@@ -98,7 +98,7 @@ export default function Review() {
       imagecount = imagecolourobj.length + 1;
     }
 
-    let imagename = (prodid+"_"+(imagecount)+imagecolor.charAt(0));
+    let imagename = (prodid+"-"+(imagecount)+imagecolor.charAt(0));
     let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename, product_id: prodid },false)
     var returnData = responsedata.data.returnData;
     var signedRequest = returnData.signedRequest;

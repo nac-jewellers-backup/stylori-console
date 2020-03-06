@@ -11,6 +11,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import {
+
+  Chip
+
+} from '@material-ui/core';
 
 
 
@@ -41,19 +47,33 @@ const options = [
   "Hide all notification content"
 ];
 
-export default function FormPropsTextFields() {
+export default function FormPropsTextFields(props) {
   const classess = useStyless();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [searchtext, setSearchtext] = React.useState("");
+  const [category, setCategory] = React.useState("");
+  const [producttype, setProducttype] = React.useState("");
 
-
+  // const handleinputChange =type => e => {
+  // props.searchproduct(e.target.value)
+  // }
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClickListItem = event => {
     setAnchorEl(event.currentTarget);
   };
+  const handleinputChange =type => e => {
+    setSearchtext(e.target.value)
+  }
+  const handlecategoryChange = type => (event, value) => {
 
+    setCategory( value.name)
+}
+const handletypeChange = type => (event, value) => {
+  setProducttype(value.name)
+}
   const handleMenuItemClick = (event, index) => {
     setAnchorEl(null);
   };
@@ -61,83 +81,81 @@ export default function FormPropsTextFields() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+   function applyfilter() {
+     props.applyfilter(searchtext, category, producttype)
+  }
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
 
   return (
     <div className="search" style={{ display: "flex", justifyContent: "space-around", background: "white", borderTop: "1px solid #e4e4e4", borderBottom: "1px solid #e4e4e4" }}>
-      <Grid lg={2} md={2} sm={3}>
-        <Button onClick={handleClick} variant="outlined" color="primary" backgroundColor="secondary" size="large"  style={{ fontSize: "15px", width: "95%", marginLeft: "15px", marginTop: "18px", marginBottom: "10px", padding: "6px 0px" }}>
-          ADD FILTER<ArrowDownwardIcon fontSize="inherit" />
+      <Grid lg={3} md={3} sm={3}>
+      <Autocomplete
+                      
+                      fullWidth
+                      id="free-solo-2-demo"
+                      style={{ margin: "auto",marginLeft: "10px", marginTop: "10px", marginBottom: "10px" }}
+                      className={classes.fixedTag}
+                      getOptionLabel={option => option.name}
+                      options={props.mastercategory}
+                      onChange={handlecategoryChange('product_category')}
 
-        </Button>
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Filter By Product Category"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+                      />
+                      )}
+                      />
+      </Grid>
+      <Grid lg={3} md={3} sm={3}>
 
-        
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Typography style={{ paddingBottom: "0px", FontWeight: "400", color: "#6f6f6f" }} className={classes.typography} variant="h5">Select all products where:</Typography>
+      <Autocomplete
+                      id="free-solo-2-demo"
+                      style={{ margin: "auto",marginLeft: "10px", marginTop: "10px", marginBottom: "10px" }}
+                      className={classes.fixedTag}
+                      getOptionLabel={option => option.name}
+                      options={props.masterproducttype}
+                      onChange={handletypeChange('product_type')}
 
-          <div className={classes.root} style={{padding:"4px 10px 10px 10px"}}>
+                      renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                      <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                      ))
+                      }
+                      renderInput={params => (
+                      <TextField
+                      {...params}
+                      label="Filter By Product Type"
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+                      />
+                      )}
+                      />
+      </Grid>
+      <Grid lg={3} md={3} sm={3}>
+          <TextField fullWidth margin="dense" onChange={handleinputChange('productname')} placeholder={"Search by product name or product id"} onChange={handleinputChange('productname')} id="outlined-basic" variant="outlined"  style={{ margin: "auto",marginLeft: "10px", marginTop: "18px", marginBottom: "10px" }}/>
           
-              <Select
-              className={classes.notchedOutline}
-                fullWidth
-                variant="outlined"
-                margin="dense"
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-              >
-         
-          <MenuItem style={{backgroundColor:"white",color:"#6f6f6f",padding:"15px 20px",fontSize:"17px"}}>Visibility</MenuItem>
-          <MenuItem style={{backgroundColor:"white",color:"#6f6f6f",padding:"15px 20px",fontSize:"17px"}}>Stock</MenuItem>
-          <MenuItem style={{backgroundColor:"white",color:"#6f6f6f",padding:"15px 20px",fontSize:"17px"}}>Price</MenuItem>
-        </Select>
-         
-            <Menu
-              id="lock-menu"
-              // anchorEl={anchorEl}
-
-              keepMounted
-              // open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {options.map((option, index) => (
-                <MenuItem
-                  key={option}
-
-
-                  onClick={event => handleMenuItemClick(event, index)}
-                >
-                  {option}
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
-
-
-
-        </Popover>
-
       </Grid>
-      <Grid lg={10} md={10} sm={9}>
-        <form noValidate autoComplete="off" style={{ width: "97%", margin: "auto", marginTop: "10px", marginBottom: "10px" }}>
-          <TextField fullWidth margin="dense" id="outlined-basic" variant="outlined"  />
-        </form>
-      </Grid>
+      <Grid lg={3} md={3} sm={3}>
+
+      <Button onClick={(e) => applyfilter()} color="primary" variant="contained" style={{ marginLeft: "10px", marginTop: "18px", marginBottom: "10px" }} >
+                  Search
+          </Button>
+          </Grid>
+
     </div>
   );
 }

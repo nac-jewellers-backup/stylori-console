@@ -182,19 +182,44 @@ const PRODUCTCATEGORY = gql`query {
     }
   }
   }`
+const PRODUCTFILTERMASTER = gql`
+query  {
+  allMasterProductCategories {
+    nodes {
+      updatedAt
+      shortCode
+      name
+      id
+      createdAt
+      alias
+    }
+  }
+  allMasterProductTypes {
+    nodes {
+      updatedAt
+      shortCode
+      name
+      id
+      createdAt
+      alias
+      displayOrder
+    }
+  }
+}
+`;
 
 const ALLPRODUCTLIST = gql`
 query  {
-  allProductLists {
+  allProductLists(first: 500)  {
     nodes {
       id
       nodeId
-      productName,
-      productCategory,
+      productName
+      productCategory
       productType
-      productId,
+      productId
       createdAt
-      isactive,
+      isactive
       transSkuListsByProductId(condition: {isdefault: true}) {
         nodes {
           skuUrl
@@ -206,8 +231,8 @@ query  {
   }
 }
 `;
-const PRODUCTLIST = gql`
-query MyQuery($Veiw: Int!, $Offset: Int!) {
+const PRODUCTLIST = (category) => gql`
+query($Veiw: Int!, $Offset: Int!) {
   allProductLists(first: $Veiw, offset: $Offset) {
     nodes {
       id
@@ -230,6 +255,32 @@ query MyQuery($Veiw: Int!, $Offset: Int!) {
 }
 `;
 
+
+
+// const PRODUCTLIST  = (category) =>  gql`
+// query  {
+//   allProductLists ${category ? `(${category ? 'filter: {productCategory: {equalTo: "Jewellery"}}' : ''})` : ""} {
+//     nodes {
+//       id
+//       nodeId
+//       productName,
+//       productCategory,
+//       productType
+//       productId,
+//       createdAt
+//       isactive,
+//       transSkuListsByProductId(condition: {isdefault: true}) {
+//         nodes {
+//           skuUrl
+//           discount
+//         }
+//       }
+//     }
+//     totalCount
+//   }
+// }
+// `;
+
 const GOLDPRICELIST = gql`
 query MyQuery($vendorCode: String!) {
     allGoldPriceSettings(condition: {vendorCode: $vendorCode}) {
@@ -243,6 +294,23 @@ query MyQuery($vendorCode: String!) {
       id
       createdAt
       costPrice
+    }
+    totalCount
+  }
+}`;
+
+const DIAMONDMARKUP = gql`
+query MyQuery($vendorCode: String!) {
+  allPricingMarkups(condition: {material: $vendorCode}) {
+    nodes {
+      updatedAt
+      sellingPriceMin
+      sellingPriceMax
+      material
+      markupValue
+      markupType
+      id
+      createdAt
     }
     totalCount
   }
@@ -360,6 +428,7 @@ query MyQuery($productId: String!) {
     productType
     vendorCode
     gender
+    isactive
     productMaterialsByProductSku {
       nodes {
         materialName
@@ -489,5 +558,7 @@ query MyQuery($productId: String!) {
     GEMPRICELIST,
     MAKINGCHARGEPRICELIST,
     VENDORLIST,
-    ALLPRODUCTLIST
+    ALLPRODUCTLIST,
+    DIAMONDMARKUP,
+    PRODUCTFILTERMASTER
   }
