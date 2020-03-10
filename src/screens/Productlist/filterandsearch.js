@@ -68,7 +68,6 @@ export default function FormPropsTextFields(props) {
     setSearchtext(e.target.value)
   }
   const handlecategoryChange = type => (event, value) => {
-
     setCategory( value.name)
 }
 const handletypeChange = type => (event, value) => {

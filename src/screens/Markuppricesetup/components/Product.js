@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import { NetworkContext } from '../../../context/NetworkContext';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -310,8 +311,9 @@ const   AddContact=(props)=> {
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
-  const [editdiamond,setEditdiamond] = React.useState({})
+  const [editmarkup,setEditmarkup] = React.useState({})
   const [goldpricelist,setGoldpricelist] = React.useState({})
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -329,11 +331,12 @@ const   AddContact=(props)=> {
 
   }
   function handleEdit(diamondData) {
-        setEditdiamond({
-          ...editdiamond,
-          costPrice : diamondData.costPrice,
-          sellingPriceType : diamondData.sellingPriceType,
-          sellingPrice : diamondData.sellingPrice,
+    setEditmarkup({
+          ...editmarkup,
+          markupid : diamondData.id,
+          sellingPriceMin : diamondData.sellingPriceMin,
+          sellingPriceMax : diamondData.sellingPriceMax,
+          markupValue : diamondData.markupValue,
           updatedAt : new Date()
 
 
@@ -348,14 +351,24 @@ const   AddContact=(props)=> {
     setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
 
   }
-  function handleSave(id){
+  async function handleSave(id, refetch){
     var bodydata = {}
-   alert(JSON.stringify(goldpricelist))
     
-  //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
+   await sendNetworkRequest('/updatemarkup', {}, editmarkup)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
-
+    refetch()
+  }
+  const handleoptionChange = type => (event, value) => {
+    setEditmarkup({ ...editmarkup, [type]: value})
+}
+  const handleinputChange =type => e => {
+   setEditmarkup({
+     ...editmarkup,
+     [type]: e.target.value
+   })
+     // setProductCtx({ ...productCtx, [type]: e.target.value})
+   
   }
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -442,7 +455,9 @@ const   AddContact=(props)=> {
                                     label="Cost Price"
                                     fullWidth
                                     className={classes.helperinput}
-                                    value= {editdiamond.costPrice}
+                                    value= {editmarkup.sellingPriceMin}
+                                    onChange={handleinputChange('sellingPriceMin')}
+
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -457,7 +472,8 @@ const   AddContact=(props)=> {
                                     label="Cost Price"
                                     fullWidth
                                     className={classes.helperinput}
-                                    value= {editdiamond.sellingPrice}
+                                    value= {editmarkup.sellingPriceMax}
+                                    onChange={handleinputChange('sellingPriceMax')}
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -473,6 +489,7 @@ const   AddContact=(props)=> {
                                       disableClearable
                                       className={classes.fixedTag}
                                       getOptionLabel={option => option.name}
+                                      onChange={handleoptionChange('sellingPriceType')}
                                       options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
                                       renderTags={(value, getTagProps) =>
                                       value.map((option, index) => (
@@ -502,7 +519,9 @@ const   AddContact=(props)=> {
                                     label="Cost Price"
                                     fullWidth
                                     className={classes.helperinput}
-                                    value= {editdiamond.sellingPrice}
+                                    value= {editmarkup.markupValue}
+                                    onChange={handleinputChange('markupValue')}
+
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -513,13 +532,13 @@ const   AddContact=(props)=> {
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  { btnEdit.action && btnEdit.id == row.id ? editdiamond.updatedAt : row.updatedAt}
+                                  { btnEdit.action && btnEdit.id == row.id ? editmarkup.updatedAt : row.updatedAt}
                                   </Moment>
                                   </TableCell>
                                   {
                                     btnEdit.action && btnEdit.id == row.id ?
                                       <TableCell  style = {{width: 20}} align="center">
-                                        <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
+                                        <Button onClick={(e) => handleSave(row.id, refetch)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>

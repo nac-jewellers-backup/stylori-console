@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect} from 'react';
 import clsx from 'clsx';
 import {lighten, makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -23,6 +23,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
+import { Input} from '@material-ui/core';
 import { Query, withApollo } from 'react-apollo';
 import {MAKINGCHARGEPRICELIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
@@ -34,6 +35,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
+import { NetworkContext } from '../../../context/NetworkContext';
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
  
@@ -41,11 +44,14 @@ import {
   TextField
 } from '@material-ui/core';
 const columns = [
-  { id: 'Diamond Colour', label: 'Diamond Colour' },
-  { id: 'Diamond Clarity', label: 'Diamond Clarity' },
+  { id: 'Metal', label: 'Metal' },
+  { id: 'Purity', label: 'Purity' },
+  { id: 'From Weight', label: 'From Weight' },
+  { id: 'To weight', label: 'To weight' },
   { id: 'Cost Price', label: 'Cost Price' },
   { id: 'Selling Price', label: 'Selling Price' },
-  { id: 'Selling Price Type', label: 'Selling Price Type' },
+
+  { id: 'Price Type', label: 'Price Type' },
   { id: 'updatedAt', label: 'updatedAt' },
   { id: 'Edit', label: 'Edit' }
 
@@ -309,11 +315,15 @@ const   AddContact=(props)=> {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [vendorid,setVendorid] = React.useState(props.vendor);
+  const [editmc,setEditmc] = React.useState({})
+
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
   const [editdiamond,setEditdiamond] = React.useState({})
-
+  const [mchargelist,setMchargelist]= React.useState([])
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
@@ -324,11 +334,14 @@ const   AddContact=(props)=> {
 
   }
   function handleEdit(diamondData) {
-      setEditdiamond({
-        ...editdiamond,
-        costPrice : diamondData.costPrice,
-        sellingPriceType : diamondData.sellingPriceType,
-        sellingPrice : diamondData.sellingPrice,
+      setEditmc({
+        ...editmc,
+        cost_price_id : diamondData.costprice.id,
+        selling_price_id : diamondData.sellprice.id,
+        weight_start: diamondData.costprice.weight_start,
+        weight_end : diamondData.costprice.weight_end,
+        cost_price : diamondData.costprice.price,
+        selling_price : diamondData.sellprice.price,
         updatedAt : new Date()
 
 
@@ -340,18 +353,30 @@ const   AddContact=(props)=> {
     //   editisdefault:diamondData.isdefault,
     //   editisactive:diamondData.isActive
     // })
-    setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+    setBtnEdit({ ...btnEdit, id:diamondData.costprice.id, action: true })
 
   }
+  async function getmclist()
+  {
+    let bodydata = {
+      vendorid : props.vendor
+    }
 
-  function handleSave(id){
+    let response =  await sendNetworkRequest('/getvendormakingprice', {}, bodydata)
+   setMchargelist(response.gems)
+
+  }
+  useEffect( () => {
+    getmclist()
+  }, [vendorid])
+  async function handleSave(id){
     var bodydata = {}
    
 
-  //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
+   await sendNetworkRequest('/updatemakingcharge', {}, editmc)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
-
+    getmclist()
   }
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -371,7 +396,14 @@ const   AddContact=(props)=> {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
+  const handleinputChange =type => e => {
+    setEditmc({
+      ...editmc,
+      [type]: e.target.value
+    })
+      // setProductCtx({ ...productCtx, [type]: e.target.value})
+    
+   }
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id
@@ -411,7 +443,7 @@ const   AddContact=(props)=> {
             </TableRow>
           </TableHead>
           <TableBody>
-          <Query
+          {/* <Query
               query={MAKINGCHARGEPRICELIST}
               onCompleted={data => setPageCount( data.allMakingChargeSettings.totalCount )}
               variables={{ "vendorCode": 'STYPA 010'}}>
@@ -426,30 +458,127 @@ const   AddContact=(props)=> {
                           // return false
                       }
                       if (data) {
-                          return <>
-                              {data.allMakingChargeSettings.nodes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                          return <> */}
+                              {mchargelist.map((row, index) => (
                                   <TableRow key={row.material}>
                                   <TableCell component="th" scope="row">
-                                     {row.material}
+                                     {row.costprice.material}
                                     
                                   </TableCell>
-                                  <TableCell component="th" scope="row">
-                                  {row.weightStart}
-                                    
-                                  </TableCell>
-                                  <TableCell align="left">{row.weightEnd}</TableCell>
-                                  <TableCell align="left">{row.purity}</TableCell>
-                                  <TableCell align="left">{row.sellingPriceType === 1 ? 'Flat' : 'Percentage'}</TableCell>
+                                  <TableCell align="left">{row.costprice.purity}</TableCell>
+
+                                  <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editmc.weight_start}
+                                    onChange={handleinputChange('weight_start')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.weight_start}
+                                   </Typography>  }
+                                    </TableCell>
+
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editmc.weight_end}
+                                    onChange={handleinputChange('weight_end')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.weight_end}
+                                   </Typography>  }
+                                    </TableCell>
+
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editmc.cost_price}
+                                    onChange={handleinputChange('cost_price')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.price}
+                                   </Typography>  }
+                                    </TableCell>
+
+
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editmc.selling_price}
+                                    onChange={handleinputChange('selling_price')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.sellprice.price}
+                                   </Typography>  }
+                                    </TableCell>
+
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ?  <Autocomplete
+                                      id="free-solo-2-demo"
+                                      fullWidth
+                                      disableClearable
+                                      className={classes.fixedTag}
+                                      getOptionLabel={option => option.name}
+                                      options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+                                      renderTags={(value, getTagProps) =>
+                                      value.map((option, index) => (
+                                      <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                                      ))
+                                      }
+                                      renderInput={params => (
+                                      <TextField
+                                      {...params}
+                                      label="Price Type"
+                                      margin="dense"
+                                      variant="outlined"
+                                      fullWidth
+                                      InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+                                      />
+                                      )}
+                                      /> : <Typography className={classes.heading}> 
+                                      {row.sellprice.selling_price_type === 1 ? 'Flat' : 'Percentage'} </Typography>  }
+
+                                    </TableCell>
+
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  {row.updatedAt}
+                                  {row.costprice.updatedAt}
                                   </Moment>
                                   </TableCell>
                                   {
-                                    btnEdit.action && btnEdit.id == row.id ?
+                                    btnEdit.action && btnEdit.id == row.costprice.id ?
                                       <TableCell  style = {{width: 20}} align="center">
-                                        <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
+                                        <Button onClick={(e) => handleSave(row.costprice.id)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>
@@ -461,20 +590,20 @@ const   AddContact=(props)=> {
                                   }
                                 </TableRow>
                               ))}
-                          </>
+                          {/* </>
                       }
                       else{
                       return <div>{"Fetch Products"}</div>
                       }
                   }}
-          </Query>
+          </Query> */}
             {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )} */}
           </TableBody>
-         <TableFooter>
+         {/* <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[10,100,200,500]}
@@ -491,7 +620,7 @@ const   AddContact=(props)=> {
                 // ActionsComponent={TablePaginationActions}
               />
             </TableRow>
-          </TableFooter>
+          </TableFooter> */}
         </Table> 
       </div>
     </Paper>

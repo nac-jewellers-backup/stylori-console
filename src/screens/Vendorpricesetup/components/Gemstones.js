@@ -1,10 +1,11 @@
-import React from 'react';
+import React,{ useEffect} from 'react';
 import clsx from 'clsx';
 import {lighten, makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import { Input} from '@material-ui/core';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -32,6 +33,7 @@ import Moment from 'react-moment';
 import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
+import { NetworkContext } from '../../../context/NetworkContext';
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -42,8 +44,9 @@ import {
   TextField
 } from '@material-ui/core';
 const columns = [
-  { id: 'Diamond Colour', label: 'Diamond Colour' },
-  { id: 'Diamond Clarity', label: 'Diamond Clarity' },
+  { id: 'Gemstone Type', label: 'Gemstone Type' },
+  { id: 'From weight', label: 'From weight' },
+  { id: 'To Weight', label: 'To Weight' },
   { id: 'Cost Price', label: 'Cost Price' },
   { id: 'Selling Price', label: 'Selling Price' },
   { id: 'Selling Price Type', label: 'Selling Price Type' },
@@ -311,10 +314,13 @@ const   AddContact=(props)=> {
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [vendorid,setVendorid] = React.useState(props.vendor);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
-  const [editdiamond,setEditdiamond] = React.useState({})
+  const [editgem,setEditgem] = React.useState({})
+  const [gemlist,setgemlist] = React.useState([])
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -343,11 +349,15 @@ const   AddContact=(props)=> {
 
   }
   function handleEdit(diamondData) {
-      setEditdiamond({
-        ...editdiamond,
-        costPrice : diamondData.costPrice,
-        sellingPriceType : diamondData.sellingPriceType,
-        sellingPrice : diamondData.sellingPrice,
+      setEditgem({
+        ...editgem,
+        cost_price_id : diamondData.costprice.id,
+        weight_start : diamondData.costprice.weight_start,
+        weight_end : diamondData.costprice.weight_end,
+        cost_price : diamondData.costprice.price,
+         selling_price : diamondData.sellprice.price,
+         selling_price_id : diamondData.sellprice.id,
+
         updatedAt : new Date()
 
 
@@ -359,19 +369,44 @@ const   AddContact=(props)=> {
     //   editisdefault:diamondData.isdefault,
     //   editisactive:diamondData.isActive
     // })
-    setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+    setBtnEdit({ ...btnEdit, id:diamondData.costprice.id, action: true })
 
   }
 
-  function handleSave(id){
+ async function handleSave(id){
     var bodydata = {}
    
+   await sendNetworkRequest('/updategemstoneprice', {}, editgem)
 
-  //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
-
+    getgemlist()
     setBtnEdit({ ...btnEdit, id:"", action: false })
 
   }
+  async function getgemlist()
+  {
+    let bodydata = {
+      vendorid : props.vendor,
+      ratetype : props.viewtype
+    }
+   
+    let response =  await sendNetworkRequest('/getvendorgemprice', {}, bodydata)
+   // setProductlists(response.products)
+   setgemlist(response.gems)
+
+  }
+  useEffect( () => {
+    getgemlist()
+  }, [vendorid])
+
+
+  const handleinputChange =type => e => {
+    setEditgem({
+      ...editgem,
+      [type]: e.target.value
+    })
+      // setProductCtx({ ...productCtx, [type]: e.target.value})
+    
+   }
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id
@@ -411,10 +446,10 @@ const   AddContact=(props)=> {
             </TableRow>
           </TableHead>
           <TableBody>
-          <Query
+          {/* <Query
               query={GEMPRICELIST}
               onCompleted={data => setPageCount( data.allGemstonePriceSettings.totalCount )}
-              variables={{ "vendorCode": 'STYPA 010'}}>
+              variables={{ "vendorCode": 'STYPA 010',"rateType": 1}}>
               {
                   ({ data, loading, error, refetch }) => {
                     debugger
@@ -426,22 +461,86 @@ const   AddContact=(props)=> {
                           // return false
                       }
                       if (data) {
-                          return <>
-                               {stableSort(data.allGemstonePriceSettings.nodes, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                          return <> */}
+                               {stableSort(gemlist, getComparator(order, orderBy)).map((row, index) => (
                                   <TableRow key={row.gemstoneType}>
                                   <TableCell component="th" scope="row">
-                                     {row.gemstoneType}
+                                     {row.costprice.gemstone_type}
                                     
                                   </TableCell>
-                                  <TableCell component="th" scope="row">
-                                  {row.weightStart}
-                                    
-                                  </TableCell>
-                                  <TableCell align="left">{row.weightEnd}</TableCell>
-                                  <TableCell align="left">{row.price}</TableCell>
                                   <TableCell align="left">
                                   {
-                                    btnEdit.action && btnEdit.id == row.id ?  <Autocomplete
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editgem.weight_start}
+                                    onChange={handleinputChange('weight_start')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.weight_start}
+                                   </Typography>  }
+                                    </TableCell>
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editgem.weight_end}
+                                    onChange={handleinputChange('weight_end')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.weight_end}
+                                   </Typography>  }
+                                    </TableCell>
+
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editgem.cost_price}
+                                    onChange={handleinputChange('cost_price')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.price}
+                                   </Typography>  }
+                                    </TableCell>
+                                    <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    variant="outlined"
+                                    margin="dense"
+                                    label="Cost Price"
+                                    fullWidth
+                                    className={classes.helperinput}
+                                    value= {editgem.selling_price}
+                                    onChange={handleinputChange('selling_price')}
+                                    id="productvendorcode"
+                                    name="Cost Price"
+                                    /> : 
+                                    <Typography className={classes.heading}> 
+                                    {row.sellprice.price}
+                                   </Typography>  }
+                                    </TableCell>
+
+                                  <TableCell align="left">
+                                  {
+                                    btnEdit.action && btnEdit.id == row.costprice.id ?  <Autocomplete
                                       id="free-solo-2-demo"
                                       fullWidth
                                       disableClearable
@@ -464,7 +563,7 @@ const   AddContact=(props)=> {
                                       />
                                       )}
                                       /> : <Typography className={classes.heading}> 
-                                      {row.sellingPriceType === 1 ? 'Flat' : 'Percentage'} </Typography>  }
+                                      {row.sellprice.selling_price_type === 1 ? 'Flat' : 'Percentage'} </Typography>  }
 
                                     </TableCell>
 
@@ -474,7 +573,7 @@ const   AddContact=(props)=> {
                                   </Moment>
                                   </TableCell>
                                   {
-                                    btnEdit.action && btnEdit.id == row.id ?
+                                    btnEdit.action && btnEdit.id == row.costprice.id ?
                                       <TableCell  style = {{width: 20}} align="center">
                                         <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
                                         </Button>
@@ -488,20 +587,20 @@ const   AddContact=(props)=> {
                                   }
                                 </TableRow>
                               ))}
-                          </>
+                          {/* </>
                       }
                       else{
                       return <div>{"Fetch Products"}</div>
-                      }
-                  }}
-          </Query>
+                      } 
+                  }}*/}
+          {/* </Query> */}
             {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )} */}
           </TableBody>
-        <TableFooter>
+        {/* <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[10,20,200,500]}
@@ -517,7 +616,7 @@ const   AddContact=(props)=> {
                 // ActionsComponent={TablePaginationActions}
               />
             </TableRow>
-          </TableFooter>
+          </TableFooter> */}
         </Table> 
       </div>
     </Paper>

@@ -29,6 +29,7 @@ import {GOLDPRICELIST,ALLPRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../../graph
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
+import { NetworkContext } from '../../../context/NetworkContext';
 import Moment from 'react-moment';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -42,7 +43,7 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 const columns = [
-  { id: 'Material', label: 'Material' },
+  { id: 'Metal', label: 'Metal' },
   { id: 'Purity', label: 'Purity' },
   { id: 'Cost Price', label: 'Cost Price' },
   { id: 'Selling Price', label: 'Selling Price' },
@@ -312,6 +313,7 @@ const   AddContact=(props)=> {
   const [offsetValue,setOffsetValue] = React.useState(0)
   const [editdiamond,setEditdiamond] = React.useState({})
   const [goldpricelist,setGoldpricelist] = React.useState({})
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -331,6 +333,7 @@ const   AddContact=(props)=> {
   function handleEdit(diamondData) {
         setEditdiamond({
           ...editdiamond,
+          priceid: diamondData.id,
           costPrice : diamondData.costPrice,
           sellingPriceType : diamondData.sellingPriceType,
           sellingPrice : diamondData.sellingPrice,
@@ -348,14 +351,30 @@ const   AddContact=(props)=> {
     setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
 
   }
-  function handleSave(id){
+  async function handleSave(id, refetch){
     var bodydata = {}
-   alert(JSON.stringify(goldpricelist))
-    
-  //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
+   bodydata = {
+    priceid: editdiamond.priceid,
+    costprice : editdiamond.costPrice,
+    sellingprice : editdiamond.sellingPrice,
+    pricetype: editdiamond.sellingPriceType.label
+   }
+  await sendNetworkRequest('/updatemetalprice', {}, bodydata)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
+    refetch()
 
+  }
+  const handleoptionChange = type => (event, value) => {
+    setEditdiamond({ ...editdiamond, [type]: value})
+}
+  const handleinputChange =type => e => {
+   setEditdiamond({
+     ...editdiamond,
+     [type]: e.target.value
+   })
+     // setProductCtx({ ...productCtx, [type]: e.target.value})
+   
   }
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -383,7 +402,6 @@ const   AddContact=(props)=> {
         // }else{
         //   alert("success")
         // }
-        alert(JSON.stringify(data))
       })
     .catch((error) => {console.log("smbcj")})
     }, [])
@@ -462,7 +480,9 @@ const   AddContact=(props)=> {
                                     fullWidth
                                     className={classes.helperinput}
                                     value= {editdiamond.costPrice}
+                                    onChange={handleinputChange('costPrice')}
                                     id="productvendorcode"
+
                                     name="Cost Price"
                                     /> : 
                                     <Typography className={classes.heading}> 
@@ -477,6 +497,7 @@ const   AddContact=(props)=> {
                                     fullWidth
                                     className={classes.helperinput}
                                     value= {editdiamond.sellingPrice}
+                                    onChange={handleinputChange('sellingPrice')}
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -491,6 +512,7 @@ const   AddContact=(props)=> {
                                       fullWidth
                                       disableClearable
                                       className={classes.fixedTag}
+                                      onChange={handleoptionChange('sellingPriceType')}
                                       getOptionLabel={option => option.name}
                                       options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
                                       renderTags={(value, getTagProps) =>
@@ -524,7 +546,7 @@ const   AddContact=(props)=> {
                                   {
                                     btnEdit.action && btnEdit.id == row.id ?
                                       <TableCell  style = {{width: 20}} align="center">
-                                        <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
+                                        <Button onClick={(e) => handleSave(row.generatedSku, refetch)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>

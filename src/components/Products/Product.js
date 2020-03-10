@@ -367,7 +367,9 @@ const   AddContact=(props)=> {
   let bodydata = {
     size : rowsPerPage,
     offset : offsetValue,
-    searchtext: searchtext
+    searchtext: searchtext,
+    productcategory: productcategory,
+    producttype: producttype
   }
 
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)

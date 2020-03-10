@@ -117,12 +117,22 @@ export const Vendorprice = withRouter(props => {
 
     <Grid item xs={12} sm={12}>
     <Typography component="h6" variant="h6">
-           Gemstone Price Setup
+           Gemstone Price Setup By weight
           </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
 
-  <Gemstones /> 
+  <Gemstones vendor={vendorcode} viewtype={1}/> 
+    </Grid>
+
+    <Grid item xs={12} sm={12}>
+    <Typography component="h6" variant="h6">
+           Gemstone Price Setup By No of Stones
+          </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+
+  <Gemstones vendor={vendorcode} viewtype={2}/> 
     </Grid>
 
 
@@ -133,7 +143,7 @@ export const Vendorprice = withRouter(props => {
           </Grid>
           <Grid item xs={12} sm={12}>
 
-    <Makingcharge />
+    <Makingcharge vendor={vendorcode} />
     </Grid>
           </> : null }
     </Grid>

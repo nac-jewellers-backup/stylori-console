@@ -36,6 +36,8 @@ import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { NetworkContext } from '../../../context/NetworkContext';
+
 import {
  
   Chip,
@@ -311,6 +313,7 @@ const   AddContact=(props)=> {
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   const [editdiamond,setEditdiamond] = React.useState({})
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -344,11 +347,11 @@ const   AddContact=(props)=> {
   function handleEdit(diamondData) {
       setEditdiamond({
         ...editdiamond,
+        priceid : diamondData.id,
         costPrice : diamondData.costPrice,
         sellingPriceType : diamondData.sellingPriceType,
         sellingPrice : diamondData.sellingPrice,
         updatedAt : new Date()
-
 
       })
     // setProductCtx({
@@ -361,14 +364,30 @@ const   AddContact=(props)=> {
     setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
 
   }
-  function handleSave(id){
+  async function handleSave(id,refetch){
     var bodydata = {}
-   
+    bodydata = {
+      priceid: editdiamond.priceid,
+      costprice : editdiamond.costPrice,
+      sellingprice : editdiamond.sellingPrice,
+      pricetype: editdiamond.sellingPriceType.label
+     }
+    await sendNetworkRequest('/updatediamondprice', {}, bodydata)
+  
+      setBtnEdit({ ...btnEdit, id:"", action: false })
+      refetch()
 
-  //  sendNetworkRequest('/updateskuinfo', {}, bodydata)
 
-    setBtnEdit({ ...btnEdit, id:"", action: false })
+  }
 
+  const handleoptionChange = type => (event, value) => {
+    setEditdiamond({ ...editdiamond, [type]: value})
+}
+  const handleinputChange =type => e => {
+   setEditdiamond({
+     ...editdiamond,
+     [type]: e.target.value
+   })
   }
   // function productItemStatusChange(id,isactive){
     // let variable = {
@@ -444,6 +463,7 @@ const   AddContact=(props)=> {
                                     fullWidth
                                     className={classes.helperinput}
                                     value= {editdiamond.costPrice}
+                                    onChange={handleinputChange('costPrice')}
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -459,6 +479,7 @@ const   AddContact=(props)=> {
                                     fullWidth
                                     className={classes.helperinput}
                                     value= {editdiamond.sellingPrice}
+                                    onChange={handleinputChange('sellingPrice')}
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
@@ -474,6 +495,7 @@ const   AddContact=(props)=> {
                                       className={classes.fixedTag}
                                       getOptionLabel={option => option.name}
                                       options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+                                      onChange={handleoptionChange('sellingPriceType')}
                                       renderTags={(value, getTagProps) =>
                                       value.map((option, index) => (
                                       <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -502,7 +524,7 @@ const   AddContact=(props)=> {
                                   {
                                     btnEdit.action && btnEdit.id == row.id ?
                                       <TableCell  style = {{width: 20}} align="center">
-                                        <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
+                                        <Button onClick={(e) => handleSave(row.generatedSku, refetch)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>

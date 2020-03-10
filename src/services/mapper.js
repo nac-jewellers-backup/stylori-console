@@ -29,7 +29,8 @@ export const productCategory = {
         const vendorcode  = response.allMasterVendors.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            display: _.name +' ('+_.shortCode+' )'
         }))
         
         const diamondsettings = response.allMasterDiamondsSettings.nodes.map(_ => ({
