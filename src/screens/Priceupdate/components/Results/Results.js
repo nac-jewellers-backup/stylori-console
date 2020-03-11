@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { NetworkContext } from '../../../../context/NetworkContext';
+
 import {
   Button,
   Card,
@@ -84,7 +86,9 @@ const Results = props => {
   const handleChangePage = (event, page) => {
     setPage(page);
   };
-
+  function handleAdd(e) {
+    props.update(e)
+  }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
@@ -137,7 +141,7 @@ const Results = props => {
                      
 
                       <TableCell >{order.id}</TableCell>
-                      <TableCell align="center">  <Button variant="outlined" size="small" color="primary" className={classes.margin}>
+                      <TableCell align="center">  <Button variant="outlined" onClick={(e) => handleAdd(order)} size="small" color="primary" className={classes.margin}>
                       ₹ Run
                         </Button></TableCell>
                       

@@ -355,8 +355,8 @@ query {
   }
 }`;
 const MAKINGCHARGEPRICELIST = gql`
-query MyQuery($vendorCode: String!) {
-  allMakingChargeSettings(condition: {vendorCode: $vendorCode}) {
+query MyQuery($vendorCode: String!,$ratetype: Int!) {
+  allMakingChargeSettings(condition: {vendorCode: $vendorCode,rateType: $ratetype}) {
     nodes {
       weightStart
       weightEnd

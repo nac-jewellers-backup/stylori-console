@@ -6,7 +6,8 @@ import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { Input} from '@material-ui/core';
-
+import {Card,CardContent} from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,6 +23,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {Grid} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
@@ -296,7 +298,14 @@ const useStyles = makeStyles(theme => ({
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+
+  },
+  cardroot: {
+    flexGrow: 1,
+  },
+  cardcontent: {
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   table: {
     minWidth: 500,
@@ -428,7 +437,38 @@ const   AddContact=(props)=> {
     // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
   // }
   return (
+    <>
+   <Card className={classes.cardcontent} > 
+    <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
+      <Grid item> 
+      <Typography variant="h6"> 
+        {props.title}
+      </Typography> 
+      </Grid>
+      <Grid item> 
+      <TextField
+          variant="outlined"
+          margin="dense"
+          label="Search By Purity"
+          className={classes.helperinput}
+          onChange={handleinputChange('weight_start')}
+          id="productvendorcode"
+          name="Cost Price"
+      />
+      </Grid>
+      <Grid item>
+        <Button color="primary" variant="outlined"  size="small">
+              Add New
+        </Button>
+      </Grid>
+
+      </Grid>
+    </Card>
     <Paper className={classes.root}>
+       
+      {/* <div className={classes.tableWrapper} style={{marginTop:16,marginBottom:16,textAlign: "right"} }>
+        
+      </div> */}
       <div className={classes.tableWrapper}>
       
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -620,6 +660,7 @@ const   AddContact=(props)=> {
         </Table> 
       </div>
     </Paper>
+    </>
   );
 }
 export default withApollo(AddContact);

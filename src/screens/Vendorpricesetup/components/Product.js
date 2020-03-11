@@ -21,7 +21,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Input} from '@material-ui/core';
+import { Input, Grid, Card} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
@@ -426,7 +426,35 @@ const   AddContact=(props)=> {
     // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
   // }
   return (
+      <>
+    <Card className={classes.cardcontent} > 
+    <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
+      <Grid item> 
+      <Typography variant="h6"> 
+        {"Diamond Price Setup"}
+      </Typography> 
+      </Grid>
+      <Grid item> 
+      <TextField
+          variant="outlined"
+          margin="dense"
+          label="Diamond Price Setup"
+          className={classes.helperinput}
+          onChange={handleinputChange('weight_start')}
+          id="productvendorcode"
+          name="Cost Price"
+      />
+      </Grid>
+      <Grid item>
+        <Button color="primary" variant="outlined"  size="small">
+              Add New
+        </Button>
+      </Grid>
+
+      </Grid>
+    </Card>
     <Paper className={classes.root}>
+      
       <div className={classes.tableWrapper}>
       
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -592,6 +620,7 @@ const   AddContact=(props)=> {
         </Table> 
       </div>
     </Paper>
+    </>
   );
 }
 export default withApollo(AddContact);

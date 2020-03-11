@@ -6,6 +6,7 @@ import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { Input} from '@material-ui/core';
+import {Grid, Card} from '@material-ui/core';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -295,7 +296,14 @@ const useStyles = makeStyles(theme => ({
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+   
+  },
+  cardroot: {
+    flexGrow: 1,
+  },
+  cardcontent: {
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   table: {
     minWidth: 500,
@@ -410,7 +418,35 @@ const   AddContact=(props)=> {
     // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
   // }
   return (
+    <>
+    <Card className={classes.cardcontent} > 
+    <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
+      <Grid item> 
+      <Typography variant="h6"> 
+        {"Diamond Price Setup"}
+      </Typography> 
+      </Grid>
+      <Grid item> 
+      <TextField
+          variant="outlined"
+          margin="dense"
+          label="Diamond Price Setup"
+          className={classes.helperinput}
+          onChange={handleinputChange('weight_start')}
+          id="productvendorcode"
+          name="Cost Price"
+      />
+      </Grid>
+      <Grid item>
+        <Button color="primary" variant="outlined"  size="small">
+              Add New
+        </Button>
+      </Grid>
+
+      </Grid>
+    </Card>
     <Paper className={classes.root}>
+    
       <div className={classes.tableWrapper}>
       
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -570,6 +606,7 @@ const   AddContact=(props)=> {
         </Table> 
       </div>
     </Paper>
+  </>
   );
 }
 export default withApollo(AddContact);

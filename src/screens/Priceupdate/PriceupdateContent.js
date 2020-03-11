@@ -38,7 +38,20 @@ export default function PriceupdateContent(props) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [vendors, setVendors] = useState([]);
+  async function updateprices(component)
+{
 
+  var  bodydata = {}
+  
+  bodydata = {
+    pricingcomponent: component.label,
+    req_product_id : products
+  }
+ // alert(JSON.stringify(bodydata))
+  let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
+ alert(JSON.stringify(response))
+
+}
  async function filterapllied(filterdata, categories, producttypes)
   {
     var  bodydata = {}
@@ -48,7 +61,7 @@ export default function PriceupdateContent(props) {
         product_category : categories ? categories : '',
         product_type : producttypes ? producttypes : ''
       }
-    
+    alert(JSON.stringify(bodydata))
 
     let response = await sendNetworkRequest('/getdistinctproduct', {}, bodydata, false)
     setProducts(response.products)
@@ -86,7 +99,7 @@ export default function PriceupdateContent(props) {
     title="Orders Management List"
   >
     <AboutVoucher className={classes.aboutvoucher} apply={filterapllied} productids= {products.length > 0 ? products : []} categorylist={masters.category} producttypelist={masters.product_type} vendorlist={ masters.vendorcode} masterData= {masters} categories={['Fixed Amount','percentage','Free Shipping']} />
-    <Results pricingrows={rows}/>
+    <Results pricingrows={rows} update={updateprices}/>
   </Page>
   </MuiPickersUtilsProvider>
   );

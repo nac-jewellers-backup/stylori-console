@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import {Grid,Card} from '@material-ui/core';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -34,6 +35,7 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+
 import SaveIcon from '@material-ui/icons/Save';
 import { NetworkContext } from '../../../context/NetworkContext';
 
@@ -49,9 +51,7 @@ const columns = [
   { id: 'From Weight', label: 'From Weight' },
   { id: 'To weight', label: 'To weight' },
   { id: 'Cost Price', label: 'Cost Price' },
-  { id: 'Selling Price', label: 'Selling Price' },
 
-  { id: 'Price Type', label: 'Price Type' },
   { id: 'updatedAt', label: 'updatedAt' },
   { id: 'Edit', label: 'Edit' }
 
@@ -298,7 +298,13 @@ const useStyles = makeStyles(theme => ({
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+  },
+  cardroot: {
+    flexGrow: 1,
+  },
+  cardcontent: {
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   table: {
     minWidth: 500,
@@ -326,22 +332,22 @@ const   AddContact=(props)=> {
   const [mchargelist,setMchargelist]= React.useState([])
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
-    id: ''
+    id: '',
+    add: false
   })
 
   function CancelEdit(diamondData) {
-    setBtnEdit({ ...btnEdit, id:'', action: false })
+    setBtnEdit({ ...btnEdit, id:'', action: false, add: true })
+
+  }
+  function handleAdd() {
+    setBtnEdit({ ...btnEdit, id:'', action: true })
 
   }
   function handleEdit(diamondData) {
       setEditmc({
         ...editmc,
-        cost_price_id : diamondData.costprice.id,
-        selling_price_id : diamondData.sellprice.id,
-        weight_start: diamondData.costprice.weight_start,
-        weight_end : diamondData.costprice.weight_end,
-        cost_price : diamondData.costprice.price,
-        selling_price : diamondData.sellprice.price,
+        price : diamondData.price,
         updatedAt : new Date()
 
 
@@ -353,7 +359,7 @@ const   AddContact=(props)=> {
     //   editisdefault:diamondData.isdefault,
     //   editisactive:diamondData.isActive
     // })
-    setBtnEdit({ ...btnEdit, id:diamondData.costprice.id, action: true })
+    setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
 
   }
   async function getmclist()
@@ -425,7 +431,38 @@ const   AddContact=(props)=> {
     // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
   // }
   return (
+    <>
+    <Card className={classes.cardcontent} > 
+    <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
+      <Grid item > 
+      <Typography variant="h6"> 
+        {props.title}
+      </Typography> 
+      </Grid>
+      <Grid item > 
+      <TextField
+          variant="outlined"
+          margin="dense"
+          label="Search By Purity"
+          className={classes.helperinput}
+          onChange={handleinputChange('weight_start')}
+          id="productvendorcode"
+          name="Cost Price"
+      />
+      </Grid>
+      <Grid item>
+        <Button color="primary" variant="outlined" onClick={(e) => handleAdd()} size="small">
+                        Add New
+        </Button>
+      </Grid>
+
+      </Grid>
+    </Card>
     <Paper className={classes.root}>
+     
+      
+
+
       <div className={classes.tableWrapper}>
       
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -437,16 +474,16 @@ const   AddContact=(props)=> {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  {column.label === 'Cost Price' ? props.ratetype == 1 ? "Cost Price" : "Selling Price"  : column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-          {/* <Query
+          <Query
               query={MAKINGCHARGEPRICELIST}
               onCompleted={data => setPageCount( data.allMakingChargeSettings.totalCount )}
-              variables={{ "vendorCode": 'STYPA 010'}}>
+              variables={{ "vendorCode": props.vendor, "ratetype": props.ratetype}}>
               {
                   ({ data, loading, error, refetch }) => {
                     debugger
@@ -458,18 +495,18 @@ const   AddContact=(props)=> {
                           // return false
                       }
                       if (data) {
-                          return <> */}
-                              {mchargelist.map((row, index) => (
+                          return <>
+                              {data.allMakingChargeSettings.nodes.map((row, index) => (
                                   <TableRow key={row.material}>
                                   <TableCell component="th" scope="row">
-                                     {row.costprice.material}
+                                     {row.material}
                                     
                                   </TableCell>
-                                  <TableCell align="left">{row.costprice.purity}</TableCell>
+                                  <TableCell align="left">{row.purity}</TableCell>
 
                                   <TableCell align="left">
-                                  {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                  {/* {
+                                    btnEdit.action && btnEdit.id == row.id ? <Input
                                     variant="outlined"
                                     margin="dense"
                                     label="Cost Price"
@@ -479,70 +516,54 @@ const   AddContact=(props)=> {
                                     onChange={handleinputChange('weight_start')}
                                     id="productvendorcode"
                                     name="Cost Price"
-                                    /> : 
+                                    /> :  */}
                                     <Typography className={classes.heading}> 
-                                    {row.costprice.weight_start}
-                                   </Typography>  }
+                                    {row.weightStart}
+                                   </Typography>  
                                     </TableCell>
 
                                     <TableCell align="left">
-                                  {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                  {/* {
+                                    btnEdit.action && btnEdit.id == row.id ? <Input
                                     variant="outlined"
                                     margin="dense"
-                                    label="Cost Price"
+                                    label={props.ratetype == 1 ? "Cost Price" : "Selling Price"}
                                     fullWidth
                                     className={classes.helperinput}
                                     value= {editmc.weight_end}
                                     onChange={handleinputChange('weight_end')}
                                     id="productvendorcode"
                                     name="Cost Price"
-                                    /> : 
+                                    /> :  */}
                                     <Typography className={classes.heading}> 
-                                    {row.costprice.weight_end}
-                                   </Typography>  }
+                                    {row.weightEnd}
+                                   </Typography>  
                                     </TableCell>
+
+                                  
+
 
                                     <TableCell align="left">
                                   {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
+                                    btnEdit.action && btnEdit.id == row.id ? <Input
                                     variant="outlined"
                                     margin="dense"
                                     label="Cost Price"
                                     fullWidth
                                     className={classes.helperinput}
-                                    value= {editmc.cost_price}
-                                    onChange={handleinputChange('cost_price')}
-                                    id="productvendorcode"
-                                    name="Cost Price"
-                                    /> : 
-                                    <Typography className={classes.heading}> 
-                                    {row.costprice.price}
-                                   </Typography>  }
-                                    </TableCell>
-
-
-                                    <TableCell align="left">
-                                  {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ? <Input
-                                    variant="outlined"
-                                    margin="dense"
-                                    label="Cost Price"
-                                    fullWidth
-                                    className={classes.helperinput}
-                                    value= {editmc.selling_price}
+                                    value= {editmc.price}
                                     onChange={handleinputChange('selling_price')}
                                     id="productvendorcode"
                                     name="Cost Price"
                                     /> : 
                                     <Typography className={classes.heading}> 
-                                    {row.sellprice.price}
+                                    {row.price}
                                    </Typography>  }
                                     </TableCell>
 
-                                    <TableCell align="left">
+                                    {/* <TableCell align="left">
                                   {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ?  <Autocomplete
+                                    btnEdit.action && btnEdit.id == row.id ?  <Autocomplete
                                       id="free-solo-2-demo"
                                       fullWidth
                                       disableClearable
@@ -565,38 +586,40 @@ const   AddContact=(props)=> {
                                       />
                                       )}
                                       /> : <Typography className={classes.heading}> 
-                                      {row.sellprice.selling_price_type === 1 ? 'Flat' : 'Percentage'} </Typography>  }
+                                      {row.selling_price_type === 0 ? 'Flat' : 'Percentage'} </Typography>  }
 
-                                    </TableCell>
+                                    </TableCell> */}
 
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  {row.costprice.updatedAt}
+                                  {row.updatedAt}
                                   </Moment>
                                   </TableCell>
                                   {
-                                    btnEdit.action && btnEdit.id == row.costprice.id ?
-                                      <TableCell  style = {{width: 20}} align="center">
-                                        <Button onClick={(e) => handleSave(row.costprice.id)}><SaveIcon />
+                                    btnEdit.action && btnEdit.id == row.id ?
+                                      <TableCell  style = {{width: 170}} align="left">
+                                        <Button onClick={(e) => handleSave(row.id)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>
                                       </TableCell> :
-                                      <TableCell align="center" style = {{width: 20}}>
+                                      <TableCell align="left" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
+                                        </Button>
+                                        <Button onClick={(e) => handleEdit(row)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
                                 </TableRow>
                               ))}
-                          {/* </>
+                          </>
                       }
                       else{
                       return <div>{"Fetch Products"}</div>
                       }
                   }}
-          </Query> */}
+          </Query>
             {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
@@ -624,6 +647,7 @@ const   AddContact=(props)=> {
         </Table> 
       </div>
     </Paper>
+    </>
   );
 }
 export default withApollo(AddContact);
