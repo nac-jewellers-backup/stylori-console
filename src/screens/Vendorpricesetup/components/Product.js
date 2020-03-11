@@ -431,14 +431,14 @@ const   AddContact=(props)=> {
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
       <Grid item> 
       <Typography variant="h6"> 
-        {"Diamond Price Setup"}
+        {"Gold Price Setup"}
       </Typography> 
       </Grid>
       <Grid item> 
       <TextField
           variant="outlined"
           margin="dense"
-          label="Diamond Price Setup"
+          label="Search"
           className={classes.helperinput}
           onChange={handleinputChange('weight_start')}
           id="productvendorcode"

@@ -449,7 +449,7 @@ const   AddContact=(props)=> {
       <TextField
           variant="outlined"
           margin="dense"
-          label="Search By Purity"
+          label="Search"
           className={classes.helperinput}
           onChange={handleinputChange('weight_start')}
           id="productvendorcode"

@@ -430,7 +430,7 @@ const   AddContact=(props)=> {
       <TextField
           variant="outlined"
           margin="dense"
-          label="Diamond Price Setup"
+          label="Search"
           className={classes.helperinput}
           onChange={handleinputChange('weight_start')}
           id="productvendorcode"

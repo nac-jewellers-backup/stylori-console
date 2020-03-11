@@ -107,7 +107,7 @@ function SideBar() {
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
-            <ListItemText primary="Markup Setup" />
+            <ListItemText primary="Selling Price Markup Setup" />
           </ListItem>
           </Link>
           <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>

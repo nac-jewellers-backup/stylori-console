@@ -97,14 +97,14 @@ export const Markupprice = withRouter(props => {
           <Grid item xs={12} sm={12}>
 
             <Typography component="h6" variant="h6">
-           Diamond Markup Setup
+           Selling Price Markup Setup
           </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
 
           <Product vendor={"Diamond"} />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
 
           <Typography component="h6" variant="h6">
           Gem Stone Markup Setup
@@ -133,7 +133,7 @@ export const Markupprice = withRouter(props => {
           <Grid item xs={12} sm={12}>
 
           <Product vendor={"Making Charge"} />
-          </Grid>
+          </Grid> */}
     {/* <Grid item xs={12} sm={12}>
     <Typography component="h6" variant="h6">
            Diamond Price Setup
