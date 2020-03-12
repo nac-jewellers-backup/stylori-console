@@ -194,6 +194,7 @@ const AboutVoucher = props => {
            <Autocomplete
               multiple
               id="combo-box-demo"
+              disabled={props.isdisabled}
               options={props.vendorlist}
               getOptionLabel={option => option.display}
               fullWidth
@@ -207,6 +208,7 @@ const AboutVoucher = props => {
         <Autocomplete
               multiple
               id="combo-box-demo"
+              disabled={props.isdisabled}
               options={props.categorylist}
               getOptionLabel={option => option.name}
               onChange={handlecategorychange('category')}
@@ -220,6 +222,7 @@ const AboutVoucher = props => {
         <Autocomplete
               multiple
               id="combo-box-demo"
+              disabled={props.isdisabled}
               options={props.producttypelist}
               getOptionLabel={option => option.name}
               onChange={handleproducttypechange('product_type')}
@@ -236,7 +239,7 @@ const AboutVoucher = props => {
                   <Autocomplete
                        id="free-solo-2-demo"
                        multiple
-                       freeSolo
+                       disabled={props.isdisabled}
                        className={classes.fixedTag}
                        value={props.productids}
                        options={productids}
@@ -248,11 +251,10 @@ const AboutVoucher = props => {
                        renderInput={params => (
                        <TextField
                        {...params}
-                       label="Products"
+                       label={props.productids.length > 0 ? "Products ("+props.productids.length+") ": "Products"}
                        margin="dense"
                        variant="outlined"
                        fullWidth
-
                        InputProps={{ ...params.InputProps, type: 'search' }}
                        />
                        )}

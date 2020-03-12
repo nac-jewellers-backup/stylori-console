@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-
+import ConformationAlert from '../../../components/ConformationAlert'
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -34,6 +34,7 @@ import Moment from 'react-moment';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Addmetalprice from './Addmetalprice'
 import {
  
   Chip,
@@ -294,7 +295,13 @@ const useStyles = makeStyles(theme => ({
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+  },
+  cardroot: {
+    flexGrow: 1,
+  },
+  cardcontent: {
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   table: {
     minWidth: 500,
@@ -318,10 +325,39 @@ const   AddContact=(props)=> {
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
+  const [deleteid, setDeleteid] = React.useState('');
+
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
   })
+  const [isconformation, setIsconformation] = React.useState(false);
+  const showdeleteconformation = () => {
+    setIsconformation(true);
+  };
+
+  const hidedeleteconformation = () => {
+    setIsconformation(false);
+  };
+  function handledelete(datacontent)
+  {
+   
+    setIsconformation(false);
+
+  }
+  function handleDelete(diamondData) {
+    setDeleteid(diamondData.id)
+    setIsconformation(true);
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   function handleChangePage(event, newPage) {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
@@ -330,6 +366,7 @@ const   AddContact=(props)=> {
     setBtnEdit({ ...btnEdit, id:'', action: false })
 
   }
+  
   function handleEdit(diamondData) {
         setEditdiamond({
           ...editdiamond,
@@ -427,14 +464,23 @@ const   AddContact=(props)=> {
   // }
   return (
       <>
+      <ConformationAlert 
+      title={"Are you sure to delete?"} 
+      positivebtn={"Yes"} 
+      negativebtn={"No"} 
+      message={""} 
+      data={deleteid}
+      onSuccess={handledelete}
+      onCancel={hidedeleteconformation}
+      isshow={isconformation} />
     <Card className={classes.cardcontent} > 
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
-      <Grid item> 
+      <Grid item xs={6}> 
       <Typography variant="h6"> 
         {"Gold Price Setup"}
       </Typography> 
       </Grid>
-      <Grid item> 
+      {/* <Grid item> 
       <TextField
           variant="outlined"
           margin="dense"
@@ -444,9 +490,9 @@ const   AddContact=(props)=> {
           id="productvendorcode"
           name="Cost Price"
       />
-      </Grid>
-      <Grid item>
-        <Button color="primary" variant="outlined"  size="small">
+      </Grid> */}
+      <Grid item xs={6} style={{textAlign: "right"}}>
+        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -573,14 +619,16 @@ const   AddContact=(props)=> {
                                   </TableCell>
                                   {
                                     btnEdit.action && btnEdit.id == row.id ?
-                                      <TableCell  style = {{width: 20}} align="center">
+                                      <TableCell  style = {{width: 170}} align="center">
                                         <Button onClick={(e) => handleSave(row.generatedSku, refetch)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>
                                       </TableCell> :
-                                      <TableCell align="center" style = {{width: 20}}>
+                                      <TableCell align="center" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
+                                        </Button>
+                                        <Button onClick={(e) => handleDelete(row)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
@@ -618,7 +666,9 @@ const   AddContact=(props)=> {
             </TableRow>
           </TableFooter>*/}
         </Table> 
+
       </div>
+     {open ? <Addmetalprice isadd={open} actionclose={handleClose}/> : null} 
     </Paper>
     </>
   );

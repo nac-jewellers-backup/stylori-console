@@ -3,7 +3,7 @@ import { productCategory } from '../services/mapper';
 import { API_URL } from '../config';
 import { isString } from 'util';
 
-const TOKEN = 'token'
+const TOKEN = 'accesstoken'
 
 const initialNetworkCtx = {
     networkCtx: {
@@ -28,15 +28,26 @@ const sendNetworkRequest = async (url, params, data, auth = false) => {
         if(token) headers["auth"] = token
        // else window.location = '/'
     }
-    const response = await fetch(url, {
+    const response = await fetch(url, method === 'GET' ? {method} : ({
         method, body: isString(data) ? data : JSON.stringify(data), headers
-    })
+    }))
 
     if(response.status < 400){
         resdata = await response.json();
     } else {
-        alert(`${response.status}:${response.statusText} - Unable to complete your request to \n${url}`)
+        resdata = await response.json();
+        // if(url === 'https://api-staging.stylori.com/api/auth/signin')
+        // {
+        //    if(!resdata.auth)
+        //    {
+        //     //alert(resdata.message)
+        //    }
+        // }else{
+        //   //  alert(`${response.status}:${response.statusText} - Unable to complete your request to \n${url}`)
+        // }
     }
+    resdata['statuscode'] = response.status
+
     return resdata;
 }
 

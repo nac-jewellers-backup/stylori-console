@@ -8,12 +8,18 @@ const PrivateRoute = props => {
     const { component, ...rest } = props;
 
     const checkAuth = () => {
-        return true;
+        let accesstoken = localStorage.getItem('accesstoken')
+        if(accesstoken)
+        {
+            return true;
+        }else{
+            return false;
+        }
+        
     }
 
     const Component = props => withAppBar(component, props);
-
-    return checkAuth() ? <Component {...rest} /> : <Redirect to={route.login} />
+    return checkAuth() ? (rest.path === '/' || rest.path === '/login' ? <Redirect to={route.productlist} /> : <Component {...rest} />) : <Redirect to={route.login} />
 }
 
 

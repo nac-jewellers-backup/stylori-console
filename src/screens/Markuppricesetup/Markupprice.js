@@ -94,12 +94,7 @@ export const Markupprice = withRouter(props => {
                       />
     </Grid> */}
          
-          <Grid item xs={12} sm={12}>
-
-            <Typography component="h6" variant="h6">
-           Selling Price Markup Setup
-          </Typography>
-          </Grid>
+          
           <Grid item xs={12} sm={12}>
 
           <Product vendor={"Diamond"} />

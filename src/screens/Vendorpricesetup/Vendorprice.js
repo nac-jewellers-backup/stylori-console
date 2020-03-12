@@ -84,7 +84,7 @@ export const Vendorprice = withRouter(props => {
                       renderInput={params => (
                       <TextField
                       {...params}
-                      label="Product Materials"
+                      label="Choose Vendor"
                       margin="dense"
                       variant="outlined"
                       fullWidth
@@ -95,12 +95,12 @@ export const Vendorprice = withRouter(props => {
     </Grid>
          
          {vendorcode ? <>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
 
             <Typography component="h6" variant="h6">
            Gold Price Setup
           </Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={12}>
 
           <Product vendor={vendorcode} />

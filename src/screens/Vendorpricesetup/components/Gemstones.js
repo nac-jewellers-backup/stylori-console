@@ -24,6 +24,8 @@ import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Grid} from '@material-ui/core';
+import ConformationAlert from '../../../components/ConformationAlert'
+
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
@@ -36,6 +38,7 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../../context/NetworkContext';
+import Addgemstoneprice from './Addgemstoneprice'
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -330,6 +333,34 @@ const   AddContact=(props)=> {
   const [orderBy, setOrderBy] = React.useState('Product Id');
   const [editgem,setEditgem] = React.useState({})
   const [gemlist,setgemlist] = React.useState([])
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [isconformation, setIsconformation] = React.useState(false);
+  const showdeleteconformation = () => {
+    setIsconformation(true);
+  };
+
+  const hidedeleteconformation = () => {
+    setIsconformation(false);
+  };
+  function handledelete()
+  {
+    setIsconformation(false);
+
+  }
+  function handleDelete(diamondData) {
+    setIsconformation(true);
+  }
+
+
+
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -438,14 +469,22 @@ const   AddContact=(props)=> {
   // }
   return (
     <>
+     <ConformationAlert 
+      title={"Are you sure to delete?"} 
+      positivebtn={"Yes"} 
+      negativebtn={"No"} 
+      message={""} 
+      onSuccess={handledelete}
+      onCancel={hidedeleteconformation}
+      isshow={isconformation} />
    <Card className={classes.cardcontent} > 
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
-      <Grid item> 
+      <Grid item xs={6}> 
       <Typography variant="h6"> 
         {props.title}
       </Typography> 
       </Grid>
-      <Grid item> 
+      {/* <Grid item> 
       <TextField
           variant="outlined"
           margin="dense"
@@ -455,9 +494,9 @@ const   AddContact=(props)=> {
           id="productvendorcode"
           name="Cost Price"
       />
-      </Grid>
-      <Grid item>
-        <Button color="primary" variant="outlined"  size="small">
+      </Grid> */}
+      <Grid item xs={6} style={{textAlign: "right"}}>
+        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -614,14 +653,16 @@ const   AddContact=(props)=> {
                                   </TableCell>
                                   {
                                     btnEdit.action && btnEdit.id == row.costprice.id ?
-                                      <TableCell  style = {{width: 20}} align="center">
+                                      <TableCell  style = {{width: 170}} align="center">
                                         <Button onClick={(e) => handleSave(row.generatedSku)}><SaveIcon />
                                         </Button>
                                         <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                                         </Button>
                                       </TableCell> :
-                                      <TableCell align="center" style = {{width: 20}}>
+                                      <TableCell align="center" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
+                                        </Button>
+                                        <Button onClick={(e) => handleDelete(row)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
@@ -659,6 +700,8 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
+      {open ? <Addgemstoneprice isadd={open} title={props.title} actionclose={handleClose}/> : null} 
+
     </Paper>
     </>
   );

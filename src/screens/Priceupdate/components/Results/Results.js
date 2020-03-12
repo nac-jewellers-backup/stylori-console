@@ -89,6 +89,10 @@ const Results = props => {
   function handleAdd(e) {
     props.update(e)
   }
+
+  function handledownload(e) {
+    props.downloadlog()
+  }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
@@ -141,15 +145,17 @@ const Results = props => {
                      
 
                       <TableCell >{order.id}</TableCell>
-                      <TableCell align="center">  <Button variant="outlined" onClick={(e) => handleAdd(order)} size="small" color="primary" className={classes.margin}>
-                      ₹ Run
-                        </Button></TableCell>
+                      <TableCell align="center">  
+                        <Button variant="outlined"  onClick={(e) => handleAdd(order)} size="small" color="primary" className={classes.margin}>
+                          ₹ Run
+                        </Button>
+                      </TableCell>
                       
                       <TableCell align="center">
                         {"Running"}
                       </TableCell>
                       <TableCell align="center">
-                      <Button color="primary" size="small">
+                      <Button color="primary" disabled onClick={(e) => handledownload()} size="small">
                         Download
                       </Button>
                       </TableCell>

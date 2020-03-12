@@ -35,9 +35,10 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
-
+import Addmakingchargeprice from './Addmakingchargeprice'
 import SaveIcon from '@material-ui/icons/Save';
 import { NetworkContext } from '../../../context/NetworkContext';
+import ConformationAlert from '../../../components/ConformationAlert'
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
@@ -52,7 +53,7 @@ const columns = [
   { id: 'To weight', label: 'To weight' },
   { id: 'Cost Price', label: 'Cost Price' },
 
-  { id: 'updatedAt', label: 'updatedAt' },
+  { id: 'updated On', label: 'updated On' },
   { id: 'Edit', label: 'Edit' }
 
 ];
@@ -71,7 +72,7 @@ function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
-
+  
   function handleFirstPageButtonClick(event) {
     onChangePage(event, 0);
   }
@@ -330,12 +331,40 @@ const   AddContact=(props)=> {
   const [orderBy, setOrderBy] = React.useState('Product Id');
   const [editdiamond,setEditdiamond] = React.useState({})
   const [mchargelist,setMchargelist]= React.useState([])
+  const [deleteid,setDeleteid]= React.useState('')
+
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: '',
     add: false
   })
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  const [isconformation, setIsconformation] = React.useState(false);
+  const showdeleteconformation = () => {
+    setIsconformation(true);
+  };
+
+  const hidedeleteconformation = () => {
+    setIsconformation(false);
+  };
+  function handledelete(datacontent)
+  {
+    setIsconformation(false);
+
+  }
+  function handleDelete(diamondData) {
+    setDeleteid(diamondData.id)
+    setIsconformation(true);
+  }
   function CancelEdit(diamondData) {
     setBtnEdit({ ...btnEdit, id:'', action: false, add: true })
 
@@ -432,14 +461,23 @@ const   AddContact=(props)=> {
   // }
   return (
     <>
+     <ConformationAlert 
+      title={"Are you sure to delete?"} 
+      positivebtn={"Yes"} 
+      negativebtn={"No"} 
+      message={""} 
+      data={deleteid}
+      onSuccess={handledelete}
+      onCancel={hidedeleteconformation}
+      isshow={isconformation} />
     <Card className={classes.cardcontent} > 
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
-      <Grid item > 
+      <Grid item xs={6}> 
       <Typography variant="h6"> 
         {props.title}
       </Typography> 
       </Grid>
-      <Grid item > 
+      {/* <Grid item > 
       <TextField
           variant="outlined"
           margin="dense"
@@ -449,10 +487,10 @@ const   AddContact=(props)=> {
           id="productvendorcode"
           name="Cost Price"
       />
-      </Grid>
-      <Grid item>
-        <Button color="primary" variant="outlined" onClick={(e) => handleAdd()} size="small">
-                        Add New
+      </Grid> */}
+       <Grid item xs={6} style={{textAlign: "right"}}>
+        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+              Add New
         </Button>
       </Grid>
 
@@ -607,7 +645,7 @@ const   AddContact=(props)=> {
                                       <TableCell align="left" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
                                         </Button>
-                                        <Button onClick={(e) => handleEdit(row)}><DeleteIcon />
+                                        <Button onClick={(e) => handleDelete(row)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
@@ -646,6 +684,8 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
+      {open ? <Addmakingchargeprice isadd={open} title={"Add Making Charge Setup"} actionclose={handleClose}/> : null} 
+
     </Paper>
     </>
   );

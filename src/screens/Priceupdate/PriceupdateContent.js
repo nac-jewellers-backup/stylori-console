@@ -11,10 +11,9 @@ import { Header, Results,AboutVoucher } from './components';
 import { productCategory } from '../../services/mapper';
 import { NetworkContext } from '../../context/NetworkContext';
 const rows = [
-  { id: 'Gold', label: 'Gold' },
   { id: 'Diamond', label: 'Diamond' },
   { id: 'Gemstone', label: 'Gemstone' },
-  { id: 'Making Charge', label: 'Making Charge' },
+  { id: 'Metal & Making Charge', label: 'Gold' },
   { id: 'Price Update', label: 'Price Update' }
 ];
 const useStyles = makeStyles(theme => ({
@@ -38,6 +37,8 @@ export default function PriceupdateContent(props) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [vendors, setVendors] = useState([]);
+  const [startrun, setStartrun] = useState(false);
+
   async function updateprices(component)
 {
 
@@ -47,9 +48,8 @@ export default function PriceupdateContent(props) {
     pricingcomponent: component.label,
     req_product_id : products
   }
- // alert(JSON.stringify(bodydata))
+  setStartrun(true)
   let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
- alert(JSON.stringify(response))
 
 }
  async function filterapllied(filterdata, categories, producttypes)
@@ -57,11 +57,10 @@ export default function PriceupdateContent(props) {
     var  bodydata = {}
   
       bodydata = {
-        vendorid : filterdata ? filterdata : '',
-        product_category : categories ? categories : '',
-        product_type : producttypes ? producttypes : ''
+        vendorid : filterdata && filterdata.length > 0 ? filterdata : '',
+        product_category : categories && categories.length > 0 ? categories : '',
+        product_type : producttypes && producttypes.length > 0 ? producttypes : ''
       }
-    alert(JSON.stringify(bodydata))
 
     let response = await sendNetworkRequest('/getdistinctproduct', {}, bodydata, false)
     setProducts(response.products)
@@ -70,6 +69,13 @@ export default function PriceupdateContent(props) {
     // if(response.status < 400){
     //   alert(JSON.stringify(products))
     // }
+  }
+  async function downloadlog()
+  {
+
+    window.location.href = 'https://api-staging.stylori.com/getlogfile';
+    // let response = await sendNetworkRequest('/getlogfile', {}, "", false)
+  
   }
  async function getsizes()
   {
@@ -98,8 +104,8 @@ export default function PriceupdateContent(props) {
     className={classes.root}
     title="Orders Management List"
   >
-    <AboutVoucher className={classes.aboutvoucher} apply={filterapllied} productids= {products.length > 0 ? products : []} categorylist={masters.category} producttypelist={masters.product_type} vendorlist={ masters.vendorcode} masterData= {masters} categories={['Fixed Amount','percentage','Free Shipping']} />
-    <Results pricingrows={rows} update={updateprices}/>
+    <AboutVoucher isdisabled={startrun} className={classes.aboutvoucher} apply={filterapllied} productids= {products.length > 0 ? products : []} categorylist={masters.category} producttypelist={masters.product_type} vendorlist={ masters.vendorcode} masterData= {masters} categories={['Fixed Amount','percentage','Free Shipping']} />
+    <Results pricingrows={rows} downloadlog={downloadlog} update={updateprices}/>
   </Page>
   </MuiPickersUtilsProvider>
   );

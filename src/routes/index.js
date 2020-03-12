@@ -26,7 +26,7 @@ const MainApp = () => {
             {/* <ProductProvider > */}
             <NetworkProvider>
                 <Switch>
-                    <Route exact path="/" component={Login} />
+                    <PrivateRoute exact path="/" component={Login} />
                     <Route path={route.login} component={Login} />
                     <PrivateRoute  path={route.dashboard} component={Dashboard} />
                     <PrivateRoute  path={route.productupload} component={Productupload} />
@@ -43,8 +43,6 @@ const MainApp = () => {
                     <PrivateRoute  path={route.vendorPrice} component={Vendorprice} />
                     <PrivateRoute  path={route.markupPrice} component={Markupprice} />
 
-                    
-                    
                      <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />            
           </Switch>
