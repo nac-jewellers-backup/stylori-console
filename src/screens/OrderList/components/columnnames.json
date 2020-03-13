@@ -1,0 +1,153 @@
+{
+    "columns" : [
+        {
+            "id":1,
+            "name":"Order ID",
+            "isActive": true,
+            "disabled": true
+
+        },
+        {
+            "id":2,
+            "name":"Order Date",
+            "isActive": true,
+            "disabled": false       
+        },
+        {
+            "id":3,
+            "name":"SKUs",
+            "isActive": false,
+            "disabled": false       
+        },
+        {
+            "id":4,
+            "name":"Customer Name",
+            "isActive":true,
+            "disabled": false      
+        },
+        {
+            "id":5,
+            "name":"Email",
+            "isActive": true ,
+            "disabled": false   
+        },
+        {
+            "id":6,
+            "name":"Phone Number",
+            "isActive":  true,
+            "disabled": false       
+        },
+        {
+            "id":7,
+            "name":"Shipping Address",
+            "isActive": true,
+            "disabled": false  
+        },
+        {
+            "id":8,
+            "name":"Gift Message",
+            "isActive":false,
+            "disabled": false        
+        },
+        {
+            "id":9,
+            "name": "Payment Type",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":10,
+            "name":"Payment Status",
+            "isActive":true,
+            "disabled": false         
+        },
+        {
+            "id":11,
+            "name":"Waybill No",
+            "isActive":false,
+            "disabled": false         
+        },
+        {
+            "id":12,
+            "name":"Comments",
+            "isActive":false,
+            "disabled": false         
+        },
+        {
+            "id":13,
+            "name":"Pg Response",
+            "isActive":false,
+            "disabled": false         
+        }   
+      
+        
+    ],
+    "defaultcolumnnames" : [
+        {
+            "id":1,
+            "name":"Order ID",
+            "isActive": true,
+            "disabled": true
+
+        },
+        {
+            "id":2,
+            "name":"Order Date",
+            "isActive": true,
+            "disabled": false       
+        },
+       
+        {
+            "id":4,
+            "name":"Customer Name",
+            "isActive":true,
+            "disabled": false      
+        },
+        {
+            "id":5,
+            "name":"Email",
+            "isActive": true ,
+            "disabled": false   
+        },
+        {
+            "id":6,
+            "name":"Phone Number",
+            "isActive":  true,
+            "disabled": false       
+        },
+        {
+            "id":7,
+            "name":"Shipping Address",
+            "isActive": true,
+            "disabled": false  
+        },
+        
+        {
+            "id":9,
+            "name": "Payment Type",
+            "isActive":true,
+            "disabled": false        
+        },
+        {
+            "id":10,
+            "name":"Payment Status",
+            "isActive":false,
+            "disabled": false         
+        }
+      
+      
+        
+    ],
+    "defaultcolumns":[
+        "Order ID",
+        "Order Date",
+        "Customer Name",
+        "Email",
+        "Phone Number",
+        "Shipping Address",
+        "Payment Type",
+        "Payment Status"
+
+    ]
+    
+}

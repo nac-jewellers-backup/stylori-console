@@ -62,8 +62,9 @@ export default function Review() {
   React.useEffect(() => {
     let metalcolour = []
     let product_images = [];
+
     productCtx.metalcolour.forEach(element => {
-      if(element.name === productCtx.default_metal_colour.name)
+      if(element.name === productCtx.default_metal_colour)
       {
         product_images[element.name] = [] 
         if(metalcolour.length > 0)
@@ -77,9 +78,9 @@ export default function Review() {
         metalcolour.push(element)
         product_images[element.name] = []
       }
-
     })
     setMetalcolour(metalcolour)
+
 }, []);
   async function uploadimagetoserver(bodaydata, imageposition, imagecolor, uploadtype)
   {
@@ -97,13 +98,14 @@ export default function Review() {
       imagecount = imagecolourobj.length + 1;
     }
 
-    let imagename = (prodid+"_"+(imagecount)+imagecolor.charAt(0));
+    let imagename = (prodid+"-"+(imagecount)+imagecolor.charAt(0));
     let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename, product_id: prodid },false)
     var returnData = responsedata.data.returnData;
     var signedRequest = returnData.signedRequest;
     var url = returnData.url;
     console.log("responseurl"+url);
     var filepathname = returnData.filepath
+    filepathname = filepathname.replace("base_images", "product/"+prodid);
     var options = {
         headers: {
             'Content-Type': bodaydata.fileExtension,
@@ -115,7 +117,7 @@ export default function Review() {
     {
       const imageobj = {
         "name": (prodid+"_"+(imagecolourobj.length+1)+imagecolor.charAt(0)),
-        "position":imageposition,
+        "position":(imagecolourobj.length+1),
         "color":imagecolor,
         "image_url":filepathname,
         "url":'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname

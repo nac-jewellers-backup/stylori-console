@@ -1,0 +1,395 @@
+{
+    "productId": "SE0054",
+    "productName": "Scarlet Passion Ruby & Diamond Huggies",
+    "productDiamondsByProductSku": [
+        {
+            "diamondClarity": "SI",
+            "diamondColour": "IJ",
+            "diamondSettings": "Prong",
+            "diamondShape": "Round Trillion",
+            "diamondType": "SIIJ",
+            "id": "6cfd9453-e56b-11e9-9b04-3994d8de07d0",
+            "stoneCount": 60,
+            "stoneWeight": 0.19
+        },
+        {
+            "diamondClarity": "VS",
+            "diamondColour": "GH",
+            "diamondSettings": "Prong",
+            "diamondShape": "Pear",
+            "diamondType": "VSGH",
+            "id": "6cfd9454-e56b-11e9-9b04-3994d8de07d0",
+            "stoneCount": 60,
+            "stoneWeight": 0.19
+        }
+    ],
+    "productGemstonesByProductSku": [
+        {
+            "gemstoneSetting": "Pin",
+            "gemstoneShape": "Oval",
+            "gemstoneSize": "6  x  4",
+            "gemstoneType": "Ruby",
+            "gemstonsSize": null,
+            "id": "9de5e9f6-e56c-11e9-927a-ff8aff7b238d",
+            "stoneCount": 2,
+            "stoneWeight": "5"
+        }
+    ],
+    "transSkuListsByProductId": [
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-18230000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-18240000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-18210000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-18220000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-18130000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-18140000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-18110000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-18120000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-18030000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-18040000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-18010000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-18020000-10",
+            "purity": "18K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-14230000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-14240000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-14210000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-14220000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-14130000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-14140000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-14110000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-14120000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-14030000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-14040000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-14010000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-14020000-10",
+            "purity": "14K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-22230000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-22240000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-22210000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "White",
+            "generatedSku": "SE0054-22220000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-22130000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-22140000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-22110000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Yellow",
+            "generatedSku": "SE0054-22120000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-22030000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-22040000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-22010000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "productId": "SE0054",
+            "productType": "Earrings",
+            "metalColor": "Only Metal",
+            "generatedSku": "SE0054-22020000-10",
+            "purity": "22K",
+            "isActive": true
+        },
+        {
+            "id": "2759c326-e640-11e9-8a48-8bf7ba362790",
+            "isActive": true
+        },
+        {
+            "id": "275a10e2-e640-11e9-8a48-8bf7ba362790",
+            "isActive": true
+        }
+    ],
+    "productImages": [
+        {
+            "Only Metal": [
+                {
+                    "name": "SE0054_1O",
+                    "position": 0,
+                    "color": "Only Metal",
+                    "image_url": "base_images/SE0054_1O.jpeg",
+                    "url": "https://s3.ap-south-1.amazonaws.com/styloribaseimages/base_images/SE0054_1O.jpeg"
+                },
+                {
+                    "name": "SE0054_2O",
+                    "position": 0,
+                    "color": "Only Metal",
+                    "image_url": "base_images/SE0054_2O.jpeg",
+                    "url": "https://s3.ap-south-1.amazonaws.com/styloribaseimages/base_images/SE0054_2O.jpeg"
+                }
+            ]
+        }
+    ],
+    "createVariants": [
+        {
+            "productId": "SE0054",
+            "productMetalcoloursByProductId": [
+                {
+                    "alias": "Only Metal",
+                    "id": "2d1a5680-e561-11e9-a022-4f27706ed94e",
+                    "name": "Only Metal",
+                    "shortCode": "0",
+                    "__typename": "MasterMetalsColor",
+                    "value": "2d1a5680-e561-11e9-a022-4f27706ed94e",
+                    "label": "Only Metal"
+                }
+            ],
+            "productPuritiesByProductId": [
+                {
+                    "alias": "22K",
+                    "id": "2d1f5f90-e561-11e9-a022-4f27706ed94d",
+                    "name": "22K",
+                    "shortCode": 22,
+                    "__typename": "MasterMetalsPurity",
+                    "value": "2d1f5f90-e561-11e9-a022-4f27706ed94d",
+                    "label": "22K",
+                    "metal_weight": "3",
+                    "error_message": false
+                }
+            ],
+            "productDiamondTypes": [
+                {
+                    "diamondClarity": "GH",
+                    "diamondColor": "SI",
+                    "id": "2cf25c20-e561-11e9-a022-4f27706ed94a"
+                }
+            ],
+            "productSize": [
+                10
+            ]
+        }
+    ]
+}

@@ -18,12 +18,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import Step4 from './Step4';
 import Step5 from './Step5';
 import Step6 from './Step6';
 import Step7 from './Step7';
 import Step8 from './Step8';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import { ProductContext } from '../../context';
 import { NetworkContext } from '../../context/NetworkContext';
@@ -101,8 +103,22 @@ export default function Productupload() {
   const [activeStep, setActiveStep] = React.useState(0);
   const { productCtx,setProductCtx} = React.useContext(ProductContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [failure, setfailure] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
-  const handleNext = () => {
+  const handleClick = () => {
+    setSuccess(true);
+  };
+ 
+  const handleClose =  (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSuccess(false);
+  };
+  const handleNext = async () => {
     var isvalid = true;
     var  error_content = {}
     // if(productCtx.error_message)
@@ -277,8 +293,13 @@ export default function Productupload() {
       formdata['productseries'] = productseries
      console.log("><><><><><")
      console.log(JSON.stringify(formdata))
-      sendNetworkRequest('/productupload', {}, formdata)
-     }else{
+      setLoading(true)
+       await sendNetworkRequest('/productupload', {}, formdata)
+      setLoading(false)
+      setSuccess(true)
+      await sleep(500)
+      window.location.replace('/productlist')
+    }else{
        if(isvalid)
        {
         setActiveStep(activeStep + 1);
@@ -302,11 +323,30 @@ export default function Productupload() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
+  async  function sleep(millis) {
+    return new Promise(resolve => setTimeout(resolve, millis));
+  }
+  
   return (
     
     <Grid item xs={12} sm={12}  >
+       <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} >
+          Product Created Successfully
+        </Alert>
+      </Snackbar>
 
+    <Snackbar open={loading} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info">
+          Please Wait ...
+        </Alert>
+  </Snackbar> 
+
+      <Snackbar open={failure} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          Please try again
+        </Alert>
+      </Snackbar>
         <Paper className={classes.paper}>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {productCtx.steps.map((label, index) => (

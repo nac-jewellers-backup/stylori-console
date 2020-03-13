@@ -1,0 +1,106 @@
+{
+    "productId": "SE0764",
+    "productName": "Charming Halcyon Diamond Amethyst Jhumka",
+    "productDiamondsByProductSku": [
+        {
+            "diamondClarity": "SI",
+            "diamondColour": "IJ",
+            "diamondSettings": "Prong",
+            "diamondShape": "Round",
+            "diamondType": "SIIJ",
+            "id": "6d02015b-e56b-11e9-9b04-3994d8de07d0",
+            "stoneCount": "10",
+            "stoneWeight": 0.03
+        },
+        {
+            "diamondClarity": "VS",
+            "diamondColour": "GH",
+            "diamondSettings": "Prong",
+            "diamondShape": "Round",
+            "diamondType": "VSGH",
+            "id": "6d02015c-e56b-11e9-9b04-3994d8de07d0",
+            "stoneCount": 2,
+            "stoneWeight": 0.03
+        },
+        {
+            "diamondClarity": "VVS",
+            "diamondColour": "EF",
+            "diamondSettings": "Prong",
+            "diamondShape": "Round",
+            "diamondType": "VVSEF",
+            "id": "6d02015d-e56b-11e9-9b04-3994d8de07d0",
+            "stoneCount": 2,
+            "stoneWeight": 0.03
+        }
+    ],
+    "productGemstonesByProductSku": [
+        {
+            "gemstoneSetting": "Prong",
+            "gemstoneShape": "Marquise",
+            "gemstoneSize": "3 x 1.5",
+            "gemstoneType": "Amethyst",
+            "gemstonsSize": null,
+            "id": "9de6ad44-e56c-11e9-927a-ff8aff7b238d",
+            "stoneCount": "10",
+            "stoneWeight": 0.2
+        }
+    ],
+    "transSkuListsByProductId": [
+        {
+            "id": "275c3412-e640-11e9-8a48-8bf7ba362790",
+            "isActive": false
+        },
+        {
+            "id": "275ecb1b-e640-11e9-8a48-8bf7ba362790",
+            "isActive": false
+        },
+        {
+            "id": "275ef2df-e640-11e9-8a48-8bf7ba362790",
+            "isActive": false
+        }
+    ],
+    "createVariants": [
+        {
+            "productMetalcoloursByProductId": [
+                {
+                    "alias": "Only Metal",
+                    "id": "2d1a5680-e561-11e9-a022-4f27706ed94e",
+                    "name": "Only Metal",
+                    "shortCode": "0",
+                    "__typename": "MasterMetalsColor",
+                    "value": "2d1a5680-e561-11e9-a022-4f27706ed94e",
+                    "label": "Only Metal"
+                }
+            ],
+            "productPuritiesByProductId": [
+                {
+                    "alias": "24K",
+                    "id": "2d1f5f90-e561-11e2-a022-4f27706ed94d",
+                    "name": "24K",
+                    "shortCode": 24,
+                    "__typename": "MasterMetalsPurity",
+                    "value": "2d1f5f90-e561-11e2-a022-4f27706ed94d",
+                    "label": "24K",
+                    "metal_weight": "23"
+                }
+            ],
+            "productDiamondColor": [],
+            "productDiamondClarity": [],
+            "productSize": [
+                11,
+                12
+            ],
+            "productImage": {
+                "Only Metal": [
+                    {
+                        "name": "SE0764_1O",
+                        "position": 0,
+                        "color": "Only Metal",
+                        "image_url": "base_images/SE0764_1O.jpeg",
+                        "url": "https://s3.ap-south-1.amazonaws.com/styloribaseimages/base_images/SE0764_1O.jpeg"
+                    }
+                ]
+            }
+        }
+    ]
+}

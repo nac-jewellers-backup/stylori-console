@@ -22,6 +22,7 @@ export const useStyles = makeStyles(theme => ({
     },
     menuButton: {
       marginRight: 36,
+     
     },
     hide: {
       display: 'none',
@@ -37,6 +38,17 @@ export const useStyles = makeStyles(theme => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      [theme.breakpoints.down('md')]: {
+        flex: "1 0 auto",
+        height: "100%",
+        display: "flex",
+        outline: 0,
+        zIndex: 1200,
+        position: "fixed",
+        overflowY: "auto",
+        flexDirection: "column",
+       
+      },
     },
     nested: {
       paddingLeft: theme.spacing(4),

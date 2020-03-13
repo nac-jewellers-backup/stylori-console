@@ -1,7 +1,7 @@
 import React from 'react';
 
 const productuploadCtxInitial = {
-    productCtx: {
+    productCtx: {  
         product_categoy: "",
         steps: ['Step1', 'Step2','Step6'],
         product_type:"",
@@ -15,6 +15,7 @@ const productuploadCtxInitial = {
         selectedgender:"",
         selected_metal_colour:{},
         gender: {},
+        product_gender:"",
         vendorcode: "",
         productseries:[],
         size:0,
@@ -35,16 +36,50 @@ const productuploadCtxInitial = {
         gemstontypes:"",
         gemstonshapes:"",
         product_code: "",
+        isactive: false,
         gemstonelist:[],
         diamondlist:[],
-
+        variants:[],
+        oldproductMetalColor:[],
+        oldproductMetalPurity:[],
+        productMetalColor:[],
+        productMetalPurity:[],
+        productDiamondColor:[],
+        productDiamondClarity:[],
+        productDiamondTypes:[],
+        productImages:[],
+        productDiamondTypesArray:[],
+        oldproductDiamondTypesArray:[],
+        productmaterials:[],
+        createVariantList:[],
+        editVariants:[],
+        editDiamondLists:[],
+        editGemstoneLists:[],
+        productVariantSize:[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25   
+        ],
+        variant_size:[],
         gemstonetype:"",
         gemstoneshape:"",
-        gemstonesetings:"",
+        gemstonesettings:"",
         gemstonesize:"",
         gemstonecount:"",
         gemstoneweight:"",
         stonetype:"",   
+
+         editleadtime: "",
+         editreadytoship:false,
+         editisdefault: false,
+         editisactive: false,
+
+
+         editcostprice: 0,
+         editsellingprice:0,
+         editmarkupprice: 0,
+         editdiscountprice: 0,
+         editcostpricetax: 0,
+         editsellingpricetax:0,
+         editmarkuppricetax: 0,
+         editdiscountpricetax: 0,
 
         diamondclarity:"",
         diamondcolor:"",
@@ -53,7 +88,6 @@ const productuploadCtxInitial = {
         diamondcount:"",
         diamondweight:"",
         metalindex: -1,
-
         themes:"",
         prod_styles:"",
         occassions:"",

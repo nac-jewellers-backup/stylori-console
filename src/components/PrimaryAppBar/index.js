@@ -17,6 +17,7 @@ import SideBar from '../SideBar';
 import { GlobalContext } from '../../context';
 import { CssBaseline } from '@material-ui/core';
 import clsx from 'clsx';
+import './style.css'
 
 
 function PAppBar() {
@@ -114,8 +115,9 @@ function PAppBar() {
             })} >
         <Toolbar>
           <IconButton
+            className="hide"
             edge="start"
-            // className={classes.menuButton}
+            className={classes.hide}
             className={clsx(classes.menuButton, {
               [classes.hide]: globalCtx.sideBarOpen,
             })}

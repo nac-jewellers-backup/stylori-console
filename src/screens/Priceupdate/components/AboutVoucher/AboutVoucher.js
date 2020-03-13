@@ -15,6 +15,7 @@ import {
   Typography,
   TextField,
   Popper,
+  Chip,
   CardActionArea,
   CardActions,
   Radio,
@@ -92,6 +93,12 @@ const AboutVoucher = props => {
   const { className, ...rest } = props;
   const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [vendorlist, setVendorlist] = useState(props.masterData.vendorcode);
+  const [categorylist, setCategorylist] = useState(props.masterData.category);
+  const [producttypelist, setProducttypelist] = useState(props.masterData.product_type);
+  const [productids, setProductids] = useState(props.productids);
+  
+  
   const [updatestatus, setUpdatestatus] = useState("");
 
   const [vouchercode, setVouchercode] = useState("");
@@ -111,8 +118,34 @@ const AboutVoucher = props => {
     setSelected(option);
 
   };
+
+  const handleproducttypechange = type => (event, option) => {
+      
+    let vendorsarray = []
+    option.forEach(element => {
+      vendorsarray.push(element.name)
+    });
+    setFormData({...formData, producttypes:vendorsarray})
+    props.apply(formData.vendorid,formData.categories,vendorsarray)
+  };
+  const handlecategorychange = type => (event, option) => {
+    let vendorsarray = []
+    option.forEach(element => {
+      vendorsarray.push(element.name)
+    });
+    setFormData({...formData, categories:vendorsarray})
+
+    props.apply(formData.vendorid,vendorsarray,formData.producttypes)
+  };
   const hangeoptionchange = type => (event, option) => {
-      setFormData({...formData,[type]: option})
+    
+    let vendorsarray = []
+    option.forEach(element => {
+      vendorsarray.push(element.shortCode)
+    });
+    setFormData({...formData, vendorid:vendorsarray})
+
+    props.apply(vendorsarray,formData.categories,formData.producttypes)
   };
  
   const handleClick = async (event, option) => {
@@ -157,12 +190,13 @@ const AboutVoucher = props => {
       <Divider />
       <CardContent className={classes.cardcontent}>
       <Grid container spacing={2}>  
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={6} sm={4}>
            <Autocomplete
               multiple
               id="combo-box-demo"
-              options={props.masterData.vendorcode}
-              getOptionLabel={option => option.name}
+              disabled={props.isdisabled}
+              options={props.vendorlist}
+              getOptionLabel={option => option.display}
               fullWidth
               onChange={hangeoptionchange('vendorcode')}
               renderInput={params => (
@@ -170,101 +204,66 @@ const AboutVoucher = props => {
               )}
             />
         </Grid>
-        <Grid item xs={6} sm={3} >
+        <Grid item xs={6} sm={4} >
         <Autocomplete
               multiple
               id="combo-box-demo"
-              options={props.masterData.category}
+              disabled={props.isdisabled}
+              options={props.categorylist}
               getOptionLabel={option => option.name}
-              onChange={hangeoptionchange('category')}
+              onChange={handlecategorychange('category')}
               fullWidth
               renderInput={params => (
                 <TextField {...params} label="Select Product Category" variant="outlined" fullWidth />
               )}
             />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={6} sm={4}>
         <Autocomplete
               multiple
               id="combo-box-demo"
-              options={props.masterData.product_type}
+              disabled={props.isdisabled}
+              options={props.producttypelist}
               getOptionLabel={option => option.name}
-              onChange={hangeoptionchange('product_type')}
+              onChange={handleproducttypechange('product_type')}
               fullWidth
+              margin="dense"
               renderInput={params => (
                 <TextField {...params} label="Select Product type" variant="outlined" fullWidth />
               )}
             />
         </Grid>
-        <Grid item xs={3} >
-        <Autocomplete
-              multiple
-              id="combo-box-demo"
-              options={props.masterData.metalpurity}
-              getOptionLabel={option => option.name}
-              onChange={hangeoptionchange('metalpurity')}
-              fullWidth
-              renderInput={params => (
-                <TextField {...params} label="Select Purity" variant="outlined" fullWidth />
-              )}
-            />
+        <Grid item xs={12} >
+        
+
+                  <Autocomplete
+                       id="free-solo-2-demo"
+                       multiple
+                       disabled={props.isdisabled}
+                       className={classes.fixedTag}
+                       value={props.productids}
+                       options={productids}
+                       renderTags={(value, getTagProps) =>
+                       value.map((option, index) => (
+                       <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                       ))
+                       }
+                       renderInput={params => (
+                       <TextField
+                       {...params}
+                       label={props.productids.length > 0 ? "Products ("+props.productids.length+") ": "Products"}
+                       margin="dense"
+                       variant="outlined"
+                       fullWidth
+                       InputProps={{ ...params.InputProps, type: 'search' }}
+                       />
+                       )}
+                       />
         </Grid>
 
        
-        <Grid item xs={6} sm={3} >
-        <Autocomplete
-              multiple
-              id="combo-box-demo"
-              options={props.masterData.diamondtypes}
-              getOptionLabel={option => option.label}
-              onChange={hangeoptionchange('diamondtypes')}
-              fullWidth
-              renderInput={params => (
-                <TextField {...params} label="Diamond Colour" variant="outlined" fullWidth />
-              )}
-            />
-        </Grid>
        
-        <Grid item xs={6} sm={3} >
-        <Autocomplete
-              multiple
-              id="combo-box-demo"
-              options={props.sizes}
-              getOptionLabel={option => option.sku_size}
-              onChange={hangeoptionchange('sizes')}
-              fullWidth
-              renderInput={params => (
-                <TextField {...params} label="Sizes" variant="outlined" fullWidth />
-              )}
-            />
-        </Grid>
-        <Grid item xs={6} sm={3} >
-        <Autocomplete
-              multiple
-              id="combo-box-demo"
-              options={props.masterData.gemstontypes}
-              getOptionLabel={option => option.name}
-              onChange={hangeoptionchange('gemstontypes')}
-              fullWidth
-              renderInput={params => (
-                <TextField {...params} label="Gemstone Type" variant="outlined" fullWidth />
-              )}
-            />
-        </Grid>
-        <Grid item xs={6} sm={3} >
-        <Autocomplete
-              multiple
-              id="combo-box-demo"
-              options={['Diamond','Gemstone','Gold','Making Charge','price update']}
-              onChange={hangeoptionchange('pricingcomponent')}
-
-              fullWidth
-              renderInput={params => (
-                <TextField {...params} label="Price Component" variant="outlined" fullWidth />
-              )}
-            />
-        </Grid>
-        <Grid item xs={6} sm={3} >
+       {/* <Grid item xs={6} sm={3} >
 
         <Button variant="contained" 
           onClick={handleClick}
@@ -284,7 +283,7 @@ const AboutVoucher = props => {
                 {updatestatus}
       </Typography>
 
-      </Grid>
+      </Grid> */}
       {/* <Grid item xs={6} sm={3} >
       <Button variant="contained" 
           onClick={handleuploadstatus}

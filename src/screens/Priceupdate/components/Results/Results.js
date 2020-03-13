@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { NetworkContext } from '../../../../context/NetworkContext';
+
 import {
   Button,
   Card,
@@ -84,7 +86,13 @@ const Results = props => {
   const handleChangePage = (event, page) => {
     setPage(page);
   };
+  function handleAdd(e) {
+    props.update(e)
+  }
 
+  function handledownload(e) {
+    props.downloadlog()
+  }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
@@ -109,20 +117,8 @@ const Results = props => {
         {orders.length} Records found. Page {page + 1} of{' '}
         {Math.ceil(orders.length / rowsPerPage)}
       </Typography> */}
-      <Card>
-        <CardHeader
-          title="Product Type"
-          action ={
-            <Button
-            color="primary"
-            variant="contained"
-
-          >
-            Add New Producttype
-          </Button>
-          }
-        />
-        <Divider />
+      <Card style={{marginTop : 16}}>
+        
         <CardContent className={classes.content}>
           {/* <PerfectScrollbar> */}
             <div className={classes.inner}>
@@ -130,15 +126,17 @@ const Results = props => {
                 <TableHead>
                   <TableRow>
                     
-                    <TableCell>Name</TableCell>
+                    <TableCell>Components</TableCell>
                     
-                    <TableCell align="center">Alias</TableCell>
+                    <TableCell align="center">Action</TableCell>
 
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">Log</TableCell>
+
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
+                  {props.pricingrows.map(order => (
                     <TableRow
                       // key={order.id}
                       // selected={selectedOrders.indexOf(order.id) !== -1}
@@ -146,16 +144,20 @@ const Results = props => {
                       
                      
 
-                      <TableCell >{order.name}</TableCell>
-                      <TableCell align="center">{order.alias}</TableCell>
+                      <TableCell >{order.id}</TableCell>
+                      <TableCell align="center">  
+                        <Button variant="outlined"  onClick={(e) => handleAdd(order)} size="small" color="primary" className={classes.margin}>
+                          ₹ Run
+                        </Button>
+                      </TableCell>
                       
                       <TableCell align="center">
-                      <IconButton aria-label="add to favorites">
-                        <CreateIcon />
-                        </IconButton>
-                        <IconButton aria-label="add to favorites">
-                        <DeleteIcon />
-                        </IconButton>
+                        {"Running"}
+                      </TableCell>
+                      <TableCell align="center">
+                      <Button color="primary" disabled onClick={(e) => handledownload()} size="small">
+                        Download
+                      </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -165,15 +167,7 @@ const Results = props => {
           {/* </PerfectScrollbar> */}
         </CardContent>
         <CardActions className={classes.actions}>
-          <TablePagination
-            component="div"
-            count={orders.length}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 25]}
-          />
+          
         </CardActions>
       </Card>
       {/* <TableEditBar selected={selectedOrders} /> */}
