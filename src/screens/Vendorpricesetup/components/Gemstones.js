@@ -328,6 +328,7 @@ const   AddContact=(props)=> {
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [vendorid,setVendorid] = React.useState(props.vendor);
+  const [deleteid, setDeleteid] = React.useState('');
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
@@ -350,12 +351,14 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete()
+  function handledelete(diamondcontent)
   {
+
     setIsconformation(false);
 
   }
   function handleDelete(diamondData) {
+    setDeleteid(diamondData.id)
     setIsconformation(true);
   }
 
@@ -475,6 +478,7 @@ const   AddContact=(props)=> {
       negativebtn={"No"} 
       message={""} 
       onSuccess={handledelete}
+      data={deleteid}
       onCancel={hidedeleteconformation}
       isshow={isconformation} />
    <Card className={classes.cardcontent} > 
