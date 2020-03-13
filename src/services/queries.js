@@ -93,7 +93,7 @@ export const ORDERS = gql`query {
 }`
 
 export const MATERIALMASTER = gql`query {
-        allMasterVendors {
+  allMasterVendors {
     nodes {
       name
       id

@@ -26,7 +26,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Input} from '@material-ui/core';
 import { Query, withApollo } from 'react-apollo';
-import {MAKINGCHARGEPRICELIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {MAKINGCHARGEPRICELIST,PRODUCTLISTSTATUSEDIT,METALMASTER, DELETEMAKINGCHARGE} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -39,6 +39,7 @@ import Addmakingchargeprice from './Addmakingchargeprice'
 import SaveIcon from '@material-ui/icons/Save';
 import { NetworkContext } from '../../../context/NetworkContext';
 import ConformationAlert from '../../../components/ConformationAlert'
+import { API_URL, GRAPHQL_DEV_CLIENT } from '../../../config';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
@@ -54,7 +55,7 @@ const columns = [
   { id: 'Cost Price', label: 'Cost Price' },
 
   { id: 'updated On', label: 'updated On' },
-  { id: 'Edit', label: 'Edit' }
+  { id: 'Edit / Delete', label: 'Edit / Delete', align : 'center' }
 
 ];
 
@@ -332,6 +333,7 @@ const   AddContact=(props)=> {
   const [editdiamond,setEditdiamond] = React.useState({})
   const [mchargelist,setMchargelist]= React.useState([])
   const [deleteid,setDeleteid]= React.useState('')
+  const [metalmaster,setMetalmaster]= React.useState([])
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -356,8 +358,20 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete(datacontent)
+ async function handledelete(datacontent)
   {
+    let variables ={
+      elementId:deleteid
+    }
+    await props.client.mutate({mutation:DELETEMAKINGCHARGE,variables}).then(res=>{
+
+      if(res!==null){
+        //refetch();
+        // refetchval()
+      }
+    }).catch(err => {
+
+    })
     setIsconformation(false);
 
   }
@@ -401,6 +415,24 @@ const   AddContact=(props)=> {
    setMchargelist(response.gems)
 
   }
+  useEffect(() => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: METALMASTER, variables: { } })
+    };
+    // console.log("helo",setProductCtx)
+    fetch(url, opts)
+      .then(res => res.json())
+      .then(fatchvalue => {
+
+        setMetalmaster(fatchvalue.data.allMasterMaterials.nodes)
+
+      })
+      .catch(console.error)
+  }, [])
+
   useEffect( () => {
     getmclist()
   }, [vendorid])
@@ -684,7 +716,7 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
-      {open ? <Addmakingchargeprice isadd={open} title={"Add Making Charge Setup"} actionclose={handleClose}/> : null} 
+      {open ? <Addmakingchargeprice metals={metalmaster} isadd={open} title={"Add Making Charge Setup"} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

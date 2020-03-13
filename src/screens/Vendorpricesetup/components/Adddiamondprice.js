@@ -54,19 +54,33 @@ const DialogActions = withStyles(theme => ({
 
 export default function Addmetalprice(props) {
   const [open, setOpen] = React.useState(props.isadd);
+  const [diamonddata, setDiamonddata] = React.useState({});
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     props.actionclose()
   };
-
+  const handleSave = () => {
+    alert(JSON.stringify(diamonddata))
+    //props.actionclose()
+  };
+  const handleoptionChange = type => (event, value) => {
+    setDiamonddata({ ...diamonddata, [type]: value})
+}
+const handleinputChange =type => e => {
+  setDiamonddata({
+    ...diamonddata,
+    [type]: e.target.value
+  })
+}
   return (
     <div>
   
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-         New Gold Price
+         New Diamond Price
         </DialogTitle>
         <DialogContent dividers>
         <Grid container spacing={2}>
@@ -75,8 +89,9 @@ export default function Addmetalprice(props) {
               id="free-solo-2-demo"
               fullWidth
               disableClearable
-              getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+              getOptionLabel={option => (option.diamondColor + option.diamondClarity)}
+              options={props.diamonds}
+              onChange={handleoptionChange('diamondtype')}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
               <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -100,6 +115,7 @@ export default function Addmetalprice(props) {
               margin="dense"
               label="Cost Price"
               fullWidth
+              onChange={handleinputChange('costPrice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -109,6 +125,7 @@ export default function Addmetalprice(props) {
               id="free-solo-2-demo"
               fullWidth
               disableClearable
+              onChange={handleoptionChange('pricetype')}
               getOptionLabel={option => option.name}
               options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
               renderTags={(value, getTagProps) =>
@@ -136,6 +153,7 @@ export default function Addmetalprice(props) {
               margin="dense"
               label="Selling Price"
               fullWidth
+              onChange={handleinputChange('sellingprice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -148,7 +166,7 @@ export default function Addmetalprice(props) {
         <Button autoFocus onClick={handleClose} >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}  color="primary">
+          <Button variant="contained" onClick={handleSave}  color="primary">
             Save
           </Button>
           

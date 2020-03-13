@@ -1,0 +1,148 @@
+import React from 'react';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import {Paper,    Card,CardHeader,
+  CardContent,
+Grid} from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TableHead from '@material-ui/core/TableHead';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { ProductContext } from '../../context';
+import Switch from '@material-ui/core/Switch';
+import { NetworkContext } from '../../context/NetworkContext';
+import "./upload.css"
+
+
+
+
+
+const useStyles2 = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    height: 100,
+    marginTop: theme.spacing(3),
+  },
+  table: {
+    minWidth: 500,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
+  fixedTag: {
+    padding: 0,
+    '& .MuiOutlinedInput-root':{
+      padding: 0,
+    }
+  },
+  root:{
+    marginTop: theme.spacing(2)
+  },
+  table:{
+    width: '100%'
+   // marginTop: theme.spacing(2)
+  },
+  button: {
+    margin: theme.spacing(0),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    width: '100%'
+  },
+  gempapper: {
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    width: '100%'
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1),
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
+  styleFile: {
+    paddingTop: "10px"
+},
+  card: {
+    minHeight: "150px",
+    textAlign: "left",
+    boxShadow: "0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)"
+},
+formContainer: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 20,
+    paddingBottom: 30
+}
+
+}));
+
+export default function Productimages(props) {
+  const classes = useStyles2();
+  
+  return (
+    <Paper className={classes.root} >
+       <Card className={classes.card}>
+       <CardHeader
+       
+        title={props.color}
+      />
+                        <CardContent>
+                            <Grid container spacing={2} className={classes.styleFile}>
+                            {/* <Grid item>
+                            {
+                                                            (<label class="custom-file-upload" style={{ display: "flex" }}>
+                                                                <i className="fa fa-plus" aria-hidden="true" style={{ color: "rgba(60,64,67,.15)", fontSize: "45px", margin: "auto" }}></i>
+                                                                <input
+                                                                    type="file"
+                                                                    className="custom-file-input"
+                                                                    multiple
+
+                                                                ></input>
+                                                            </label>)
+                                                        }
+                              </Grid> */}
+                            {props.prodimages.map(url => (
+
+                             <>
+                             {props.color === url.productColor ? 
+                              <div style={{ position: "relative" }}>
+                                 
+                                                <i className="fa fa-window-edit" style={{ position: "absolute", right: 10, top: 11, color: "red", zIndex: '12' }}  />
+                                                
+                                                 <Grid item style={{ width: "150px", wordBreak: "break-all", height: "150px", padding: '8px', margin: '0', cursor: "pointer", position: "relative" }} className="container" >
+                                                          <input
+                                                                    type="file"
+                                                                    className="custom-file-input"
+                                                                    multiple
+
+                                                                ></input>
+                                                      
+                                                            <img src={"https://styloriimages.s3.ap-south-1.amazonaws.com/"+url.imageUrl.replace(url.productId, url.productId+'/1000X1000')}
+                                                                style={{ width: "100%", height: "100%", borderRadius: "4px" }} />
+                                                    
+                                                </Grid>
+                                </div> : null }
+                                </> 
+                              ))}                         
+                            </Grid>
+                      </CardContent>
+                </Card>
+    </Paper>
+  );
+}

@@ -94,7 +94,7 @@ const productuploadCtxInitial = {
         collections:"",
         stonecount:"",
         stonecolour:"",
-        product_images:{},
+        product_images:[],
         metalcolour:[],
         metal_purity:[],
         metalpurity:[],

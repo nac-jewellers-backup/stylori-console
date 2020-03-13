@@ -27,7 +27,7 @@ import { Input, Grid, Card} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {DIAMONDMARKUP,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {DIAMONDMARKUP,PRODUCTLISTSTATUSEDIT,DELETEMARKUPPRICE} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -45,13 +45,15 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 const columns = [
+  { id: 'Product Category', label: 'product Category' },
+  { id: 'Product Type', label: 'Product Type' },
   { id: 'Selling Price Min', label: 'Selling Price Min' },
   { id: 'Selling Price Max', label: 'Selling Price Max' },
   { id: 'Markup Type', label: 'Markup Type' },
   { id: 'Markup value', label: 'Markup value' },
 
   { id: 'updatedAt', label: 'updatedAt' },
-  { id: 'Edit', label: 'Edit' }
+  { id: 'Edit / Delete', label: 'Edit / Delete', align: "center" }
 
 ];
 
@@ -322,6 +324,9 @@ const   AddContact=(props)=> {
   const [editmarkup,setEditmarkup] = React.useState({})
   const [goldpricelist,setGoldpricelist] = React.useState({})
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [deleteid,setDeleteid] = React.useState("")
+  const [refetch,setRefetch] = React.useState(null)
+  const [isdelete, setIsdelete] = React.useState(false);
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -334,6 +339,7 @@ const   AddContact=(props)=> {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+   
     setOpen(true);
   };
   const handleClose = () => {
@@ -348,12 +354,27 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete()
+  async function handledelete(datacontent, refetch)
   {
-    setIsconformation(false);
+    setIsdelete(true)
+    let variables ={
+      elementId:deleteid
+    }
+    await props.client.mutate({mutation:DELETEMARKUPPRICE,variables}).then(res=>{
 
+      if(res!==null){
+        refetch();
+        // refetchval()
+      }
+    }).catch(err => {
+
+    })
+    setIsconformation(false);
+    
   }
-  function handleDelete(diamondData) {
+  function handleDelete(diamondData, refetch) {
+    setDeleteid(diamondData.id)
+    setRefetch(refetch)
     setIsconformation(true);
   }
 
@@ -408,6 +429,7 @@ const   AddContact=(props)=> {
      // setProductCtx({ ...productCtx, [type]: e.target.value})
    
   }
+  
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -427,31 +449,12 @@ const   AddContact=(props)=> {
     //   "productId": id
     // };
     // let status = isactive ? variable.isActive = false :variable.isActive = true;
-    async function productItemStatusChange(id,isactive,refetch){
-      let variables ={
-        productId:id,
-        isActive:isactive ?false:true
-      }
-      await props.client.mutate({mutation:PRODUCTLISTSTATUSEDIT,variables}).then(res=>{
-
-        if(res!==null){
-          refetch();
-        }
-      }).catch(console.error)
     
-    }
     // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
   // }
   return (
     <>
-       <ConformationAlert 
-      title={"Are you sure to delete?"} 
-      positivebtn={"Yes"} 
-      negativebtn={"No"} 
-      message={""} 
-      onSuccess={handledelete}
-      onCancel={hidedeleteconformation}
-      isshow={isconformation} />
+      
     <Card className={classes.cardcontent} > 
      <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
      <Grid item xs={6}>
@@ -514,14 +517,17 @@ const   AddContact=(props)=> {
                         setGoldpricelist(data)
                           return <>
                               { data.allPricingMarkups.nodes.map((row, index) => (
-                                  <TableRow key={row.material}>
-                                  {/* <TableCell component="th" scope="row">
-                                     {row.material}
+                                  <TableRow key={row.category}>
+                                  <TableCell component="th" scope="row">
+                                     {row.category}
                                     
-                                  </TableCell> */}
-                                
+                                  </TableCell>
+                                  <TableCell component="th" scope="row">
+                                     {row.productType ? row.productType : 'All' }
+                                    
+                                  </TableCell>
                                   <TableCell align="left">
-                                  {
+                                  {/* {
                                     btnEdit.action && btnEdit.id == row.id ? <Input
                                     variant="outlined"
                                     margin="dense"
@@ -533,12 +539,12 @@ const   AddContact=(props)=> {
 
                                     id="productvendorcode"
                                     name="Cost Price"
-                                    /> : 
+                                    /> :  */}
                                     <Typography className={classes.heading}> 
-                                    {row.sellingPriceMin} </Typography>  }
+                                    {row.sellingPriceMin} </Typography>  
                                     </TableCell>
                                   <TableCell align="left">
-                                  {
+                                  {/* {
                                     btnEdit.action && btnEdit.id == row.id ? <Input
                                     variant="outlined"
                                     margin="dense"
@@ -549,9 +555,9 @@ const   AddContact=(props)=> {
                                     onChange={handleinputChange('sellingPriceMax')}
                                     id="productvendorcode"
                                     name="Cost Price"
-                                    /> : 
+                                    /> :  */}
                                     <Typography className={classes.heading}> 
-                                    {row.sellingPriceMax} </Typography>  }
+                                    {row.sellingPriceMax} </Typography>  
                                     </TableCell>
 
                                     <TableCell align="center">
@@ -619,7 +625,7 @@ const   AddContact=(props)=> {
                                       <TableCell align="center" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
                                         </Button>
-                                        <Button onClick={(e) => handleDelete(row)}><DeleteIcon />
+                                        <Button onClick={(e) => handleDelete(row,refetch)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
@@ -631,7 +637,7 @@ const   AddContact=(props)=> {
                       return <div>{"Fetch Products"}</div>
                       }
                   }}
-          </Query>
+          </Query> 
             {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
@@ -657,8 +663,17 @@ const   AddContact=(props)=> {
             </TableRow>
           </TableFooter>*/}
         </Table> 
+        <ConformationAlert 
+      title={"Are you sure to delete?"} 
+      positivebtn={"Yes"} 
+      negativebtn={"No"} 
+      message={""} 
+      refetch={refetch}
+      onSuccess={handledelete}
+      onCancel={hidedeleteconformation}
+      isshow={isconformation} />
       </div>
-      {open ? <Addmarkup isadd={open} title={props.title} actionclose={handleClose}/> : null} 
+      {open ? <Addmarkup isadd={open} category={props.categories} producttype={props.producttypes} title={props.title} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

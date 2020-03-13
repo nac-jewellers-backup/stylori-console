@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { withRouter } from "react-router-dom";
+import { Query, withApollo } from 'react-apollo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Link as RouterLink } from 'react-router-dom'
@@ -9,7 +10,7 @@ import Diamonds from './components/Diamonds'
 import Gemstones from './components/Gemstones'
 import Makingcharge from './components/Makingcharge'
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
-import { VENDORLIST, PRODUCTDIAMONDTYPES } from '../../graphql/query';
+import { VENDORLIST,MASTERCATEGORY, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -26,6 +27,9 @@ const useStyle = makeStyles(theme => ({
 export const Markupprice = withRouter(props => {
   const [vendorcode, setVendorcode] = React.useState(0);
   const [vendorlist, setVendorlist] = React.useState(0);
+  const [categorylist, setCategorylist] = React.useState([]);
+  const [producttypes, setProducttypes] = React.useState([]);
+  const [isadd, setIsadd] = React.useState(false);
 
    
   const classes = useStyle();
@@ -39,18 +43,18 @@ export const Markupprice = withRouter(props => {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: VENDORLIST, variables: { } })
+      body: JSON.stringify({ query: MASTERCATEGORY, variables: { } })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-
-
-        setVendorlist({ 
-          ...vendorlist,
-          vendors : fatchvalue.data.allMasterVendors.nodes
-        })
+        setCategorylist(fatchvalue.data.allMasterProductCategories.nodes)
+        setProducttypes(fatchvalue.data.allMasterProductTypes.nodes)
+        // setVendorlist({ 
+        //   ...vendorlist,
+        //   vendors : fatchvalue.data.allMasterVendors.nodes
+        // })
 
       })
       .catch(console.error)
@@ -97,7 +101,7 @@ export const Markupprice = withRouter(props => {
           
           <Grid item xs={12} sm={12}>
 
-          <Product vendor={"Diamond"} />
+          <Product categories={categorylist} producttypes={producttypes} vendor={"Diamond"} />
           </Grid>
           {/* <Grid item xs={12} sm={12}>
 
@@ -163,4 +167,4 @@ export const Markupprice = withRouter(props => {
   )
 });
 
-export default withRouter(Markupprice);
+export default withApollo(withRouter(Markupprice));

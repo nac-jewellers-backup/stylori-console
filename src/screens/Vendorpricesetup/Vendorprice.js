@@ -58,7 +58,7 @@ export const Vendorprice = withRouter(props => {
 
    
   return (
-    <Grid container  spacing={1}>  
+         <Grid container  spacing={1}>  
           <Grid item xs={12} sm={12}>
 
           <Typography component="h6" variant="h6">
@@ -73,7 +73,7 @@ export const Vendorprice = withRouter(props => {
                       fullWidth
                       disableClearable
                       className={classes.fixedTag}
-                      getOptionLabel={option => option.name}
+                      getOptionLabel={option => (option.name +"   ("+ option.shortCode+") ")}
                       options={vendorlist.vendors}
                       onChange={handlevendorchange('vendor')}
                       renderTags={(value, getTagProps) =>

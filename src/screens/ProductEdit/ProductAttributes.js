@@ -29,7 +29,7 @@ import { NetworkContext } from '../../context/NetworkContext';
 import CloseIcon from '@material-ui/icons/Close';
 import SortHeader from './Components/SortHeader';
 import columnnames from './columnnames.json';
-
+import Productimages from './Productimages'
 import {
   Card,
   CardHeader,
@@ -318,6 +318,7 @@ async function saveProductEditItem() {
           }
           gender_arr.push(gender_obj)
         });
+
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -712,11 +713,11 @@ async function saveProductEditItem() {
             }}>
               <Grid item>
                 <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
-                  Save
+                  Update
              </Button>
-                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
+                {/* <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
                   Back
-              </Button>
+              </Button> */}
               </Grid>
             </Grid>
               
@@ -775,8 +776,14 @@ async function saveProductEditItem() {
             </Grid>
 
               <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
+              <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
+              {productCtx.productMetalColor.map(colors => (
+                    <Productimages color={colors.productColor} prodimages={productCtx.product_images} />
 
+              ))}
+            
             </Grid>
+            
             
           </Grid>
         </Grid>

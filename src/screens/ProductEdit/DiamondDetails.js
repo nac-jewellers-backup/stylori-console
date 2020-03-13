@@ -24,6 +24,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -123,6 +124,7 @@ function createData(name, calories, fat) {
 
 const useStyles2 = makeStyles(theme => ({
   root: {
+    
     width: '100%',
     marginTop: theme.spacing(3),
   },
@@ -130,6 +132,8 @@ const useStyles2 = makeStyles(theme => ({
     minWidth: 500,
   },
   tableWrapper: {
+    display: 'flex',
+    
     overflowX: 'auto',
   },
   fixedTag: {
@@ -310,7 +314,9 @@ const handleInputChange = type => e => {
       </Snackbar>
         </React.Fragment>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
+      {/* <CircularProgress color="secondary"/> */}
+
+         <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -461,11 +467,11 @@ const handleInputChange = type => e => {
               </> : null
             }
           </TableBody>
-          {/* <TableFooter>
+           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                colSpan={5}
+               
                 count={props.diamond&&props.diamond.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -478,8 +484,8 @@ const handleInputChange = type => e => {
                 ActionsComponent={TablePaginationActions}
               />
             </TableRow>
-          </TableFooter> */}
-        </Table>
+          </TableFooter>  
+        </Table>         
       </div>
     </Paper>
   );
