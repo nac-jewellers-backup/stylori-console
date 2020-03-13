@@ -36,10 +36,10 @@ import Filterandsearch from './../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const columns = [
-  { id: 'productId', label: 'productId' },
-  { id: 'productName', label: 'productName' },
-  { id: 'productType', label: 'productType' },
-  { id: 'productCategory', label: 'productCategory' },
+  { id: 'product_id', label: 'productId' },
+  { id: 'product_name', label: 'productName' },
+  { id: 'product_type', label: 'productType' },
+  { id: 'product_category', label: 'productCategory' },
   { id: 'updatedAt', label: 'updatedAt' }
 ];
 
@@ -323,6 +323,8 @@ const   AddContact=(props)=> {
   function handleChangePage(event, newPage) {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
+    getproductlist("","","","",newPage)
+
   }
   useEffect( () => {
 
@@ -337,7 +339,6 @@ const   AddContact=(props)=> {
        setMastercategories(data.data.allMasterProductCategories.nodes)
        setMasterproducttypes( data.data.allMasterProductTypes.nodes )
       }else{
-        alert("success")
       }
     })
   .catch((error) => {console.log("smbcj")})
@@ -345,6 +346,8 @@ const   AddContact=(props)=> {
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    getproductlist("","","",event.target.value,"")
+
   }
   function ProductEdit(id){
     // localStorage.setItem('productEditId',id);
@@ -362,10 +365,10 @@ const   AddContact=(props)=> {
     });
     setProductlists(products)
   }
-  async function getproductlist(searchtext,productcategory,producttype)
+  async function getproductlist(searchtext,productcategory,producttype,pagesize,offsetvalue)
 {
   let bodydata = {
-    size : rowsPerPage,
+    size : pagesize ? pagesize : rowsPerPage,
     offset : offsetValue,
     searchtext: searchtext,
     productcategory: productcategory,
@@ -373,8 +376,8 @@ const   AddContact=(props)=> {
   }
 
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
-  setProductlists(response.products)
-  
+  setProductlists(response.products.rows)
+  setPageCount(response.products.count)
 }
 function applyfilter(searchtext, categoryname, typename)
 {
