@@ -27,7 +27,7 @@ import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {PRODUCTLIST,PRODUCTCATEGORY,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
-import { Button, Switch } from '@material-ui/core';
+import { Button, Switch, FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
 import {BASE_URL} from '../../config'
@@ -36,11 +36,12 @@ import Filterandsearch from './../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const columns = [
-  { id: 'product_id', label: 'productId' },
-  { id: 'product_name', label: 'productName' },
-  { id: 'product_type', label: 'productType' },
-  { id: 'product_category', label: 'productCategory' },
-  { id: 'updatedAt', label: 'updatedAt' }
+  { id: 'product_id', label: 'product id' },
+  { id: 'product_name', label: 'product name' },
+  { id: 'product_type', label: 'product type' },
+  { id: 'product_category', label: 'product category' },
+  { id: 'isactive', label: 'active' },
+  { id: 'updatedAt', label: 'updated on' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -319,7 +320,7 @@ const   AddContact=(props)=> {
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('Product Id');
+  const [orderBy, setOrderBy] = React.useState('product_id');
   function handleChangePage(event, newPage) {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
@@ -328,7 +329,7 @@ const   AddContact=(props)=> {
   }
   useEffect( () => {
 
-    getproductlist("")
+    getproductlist("","","","","",order,orderBy)
   const query = props.client.query
     query({
       query: PRODUCTFILTERMASTER,
@@ -355,8 +356,13 @@ const   AddContact=(props)=> {
   }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
+    
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    getproductlist("","","","","",isAsc ? 'desc' : 'asc',property)
+
+
+
   };
   function searchproduct(searchtext, productcategory, producttype)
   {
@@ -365,14 +371,16 @@ const   AddContact=(props)=> {
     });
     setProductlists(products)
   }
-  async function getproductlist(searchtext,productcategory,producttype,pagesize,offsetvalue)
+  async function getproductlist(searchtext,productcategory,producttype,pagesize,offsetvalue,sort,orderby)
 {
   let bodydata = {
     size : pagesize ? pagesize : rowsPerPage,
     offset : offsetValue,
     searchtext: searchtext,
     productcategory: productcategory,
-    producttype: producttype
+    producttype: producttype,
+    order: sort ? sort : order,
+    orderby : orderby ? orderby : orderBy
   }
 
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
@@ -460,6 +468,14 @@ function applyfilter(searchtext, categoryname, typename)
                                   </TableCell>
                                   <TableCell align="left">{row.product_type}</TableCell>
                                   <TableCell align="left">{row.product_category}</TableCell>
+                                  <TableCell align="left"> <FormControlLabel
+                                      label={row.isactive ? "" : ""}
+
+                                      control={
+                                        <Switch checked={row.isactive}  value="checkedA" />
+                                      }
+                                    /></TableCell>
+
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
                                   {row.updatedAt}
