@@ -22,7 +22,6 @@ function App() {
   return (
     <GlobalProvider>
     <MuiThemeProvider theme={theme}>
-
         <div className="App">
           <CssBaseline />
             <Router>

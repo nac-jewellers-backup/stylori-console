@@ -318,7 +318,31 @@ async function saveProductEditItem() {
           }
           gender_arr.push(gender_obj)
         });
+        let defaultcolour = "";
+       var images_arr = fatchvalue.data.productListByProductId.productImagesByProductId.nodes
+       images_arr.forEach(element => {
+          if(element.isdefault)
+          {
+            defaultcolour = element.productColor
+          }
+      });
+      var metalcolors = []
+      Array.prototype.insert = function ( index, item ) {
+        this.splice( index, 0, item );
+    };
+     let metalcolor =  fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes
+     metalcolor.forEach(colorobj => {
+          if(colorobj.productColor === defaultcolour)
+          {
+            colorobj['isdefault'] = true
+            metalcolors.insert(0, colorobj);
 
+          }else
+          {
+            colorobj['isdefault'] = false
+            metalcolors.push(colorobj)
+          }
+     })
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -329,7 +353,7 @@ async function saveProductEditItem() {
           diamondlist: fatchvalue.data.productListByProductId.productDiamondsByProductSku.nodes,
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
-          productMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
+          productMetalColor: metalcolors,
           oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
@@ -778,7 +802,7 @@ async function saveProductEditItem() {
               <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
               {productCtx.productMetalColor.map(colors => (
-                    <Productimages color={colors.productColor} prodimages={productCtx.product_images} />
+                    <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />
 
               ))}
             

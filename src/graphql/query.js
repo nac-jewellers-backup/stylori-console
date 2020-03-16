@@ -557,12 +557,14 @@ query MyQuery($productId: String!) {
         stoneWeight
       }
     }
-    productImagesByProductId {
+    productImagesByProductId(orderBy: IMAGE_POSITION_ASC) {
       nodes {
         id
         imagePosition
         productId
         imageUrl
+        ishover
+        isdefault
         productColor
       }
     }
