@@ -30,6 +30,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import SortHeader from './Components/SortHeader';
 import columnnames from './columnnames.json';
 import Productimages from './Productimages'
+import FullLoader from '../../components/Loader'
+
 import {
   Card,
   CardHeader,
@@ -92,6 +94,7 @@ export function Component(props) {
   const [displycolumns, setDisplycolumns] = React.useState(columnnames.defaultvarientnames);
   const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.defaultpricing);
   const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricingnames);
+  const [loadopen, setLoadopen] = React.useState(true);
 
   
   const { sendNetworkRequest } = React.useContext(NetworkContext);
@@ -373,13 +376,15 @@ async function saveProductEditItem() {
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName))
         })
+        setLoadopen(false)
 
       })
       .catch(console.error)
   }, [])
   return (
     state.create_variant ? <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id} /> :
-      <Grid container>
+           <Grid container>
+             <FullLoader title="Getting Product Details" isopen={loadopen}/>
              <React.Fragment>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={snackMessage.severity}>

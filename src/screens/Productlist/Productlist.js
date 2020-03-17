@@ -7,6 +7,7 @@ import Link from '@material-ui/core/Link'
 import Product from '../../components/Products'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import FullLoader from '../../components/Loader'
 
 
 
