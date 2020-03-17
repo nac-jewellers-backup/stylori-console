@@ -13,7 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import {Paper, TextField} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -34,15 +34,18 @@ import {BASE_URL} from '../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../context/NetworkContext';
-
+import CancelIcon from '@material-ui/icons/CancelOutlined';
+import SaveIcon from '@material-ui/icons/Save';
 const columns = [
   { id: 'name', label: 'Name' },
-  { id: 'organization', label: 'Organization' },
-  { id: 'partnerCategory', label: 'partnerCategory' },
   { id: 'vendorcode', label: 'Vendor Code' },
+  { id: 'Address', label: 'Address' },
+  { id: 'City', label: 'City' },
   { id: 'gstNo', label: 'gstNo' },
   { id: 'vendorDelivaryDays', label: 'vendorDelivaryDays' },
-  { id: 'updatedAt', label: 'updated on' }
+  { id: 'updatedAt', label: 'updated on' },
+  { id: 'actions', label: 'actions' }
+
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -317,8 +320,41 @@ const   Vendor=(props)=> {
   const [masterproducttypes,setMasterproducttypes] = React.useState([])
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext,setSearchtext] = React.useState('')
+  const [editcontent,setEditcontent] = React.useState({})
 
+  const [btnEdit, setBtnEdit] = React.useState({
+    action: false,
+    id: ''
+  })
 
+  function Editvendor(vendordata) {
+    setEditcontent({
+      ...editcontent,
+      shortCode : vendordata.shortCode,
+      name : vendordata.name,
+      address : vendordata.address,
+      city : vendordata.city,
+      pincode : vendordata.pincode,
+      gstNo : vendordata.gstNo,
+      vendorDelivaryDays : vendordata.vendorDelivaryDays,
+
+    })
+    setBtnEdit({ ...btnEdit, id:vendordata.shortCode, action: true })
+
+  }
+  async function Savevendor(refetch) {
+
+    let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
+
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+    refetch()
+  }
+  function CancelEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+  }
+  const handleInputChange = type => e => {
+    setEditcontent({ ...editcontent, [type]: e.target.value  })
+}
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('product_id');
@@ -456,25 +492,103 @@ function applyfilter(searchtext, categoryname, typename)
                               {stableSort(data.allMasterVendors.nodes, getComparator(order, orderBy)).map((row, index) => (
                                   <TableRow key={row.name}>
                                   <TableCell component="th" scope="row">
-                                    {row.name}
-                                    <Button onClick={(e) => ProductEdit(row.product_id)}>
-                                    <EditIcon />
-                                  </Button>
+                                    {row.shortCode}
                                   </TableCell>
-                                  <TableCell component="th" scope="row">
-                                  {row.organization}
+                {
+                  btnEdit.action && btnEdit.id == row.shortCode ? 
+                  <TableCell align="left">
+                  <TextField
+                        variant="outlined"
+                        margin="dense"
+                        fullWidth
+                        id="vendorname"
+                        name="vendorname"
+                        value={editcontent.name}
+                        onChange={handleInputChange('name')}
+                        label="Vendor Name"
+                        /> </TableCell> :  <TableCell align="left">{row.name} 
+                           </TableCell> }
+                           {
+                  btnEdit.action && btnEdit.id == row.shortCode ? 
+                  <TableCell align="left">
+                  <TextField
+                        variant="outlined"
+                        margin="dense"
+                        fullWidth
+                        id="vendoraddress"
+                        name="vendoraddress"
+                        value={editcontent.address}
+                        onChange={handleInputChange('address')}
+                        label="Vendor Address"
+                        /> </TableCell> :  <TableCell align="left">{row.address} 
+                           </TableCell> }
 
-                                  </TableCell>
-                                  <TableCell align="left"> {row.partnerCategory}</TableCell>
-                                  <TableCell align="left">{row.shortCode}</TableCell>
-                                  <TableCell align="left">{row.gstNo}</TableCell>
-                                  <TableCell align="left">{row.vendorDelivaryDays}</TableCell>
+                           {
+                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        <TableCell align="left">
+                        <TextField
+                              variant="outlined"
+                              margin="dense"
+                              fullWidth
+                              id="vendorcity"
+                              name="vendorcity"
+                              value={editcontent.city}
+                              onChange={handleInputChange('city')}
+
+                              label="Vendor City"
+                             /> </TableCell> :  <TableCell align="left">{row.city} 
+                           </TableCell> }
+                                  
+                           {
+                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        <TableCell align="left">
+                        <TextField
+                              variant="outlined"
+                              margin="dense"
+                              fullWidth
+                              id="gst_no"
+                              name="gst_no"
+                              value={editcontent.gstNo}
+                              onChange={handleInputChange('gstNo')}
+
+                              label="GST Number"
+                             /> </TableCell> :  <TableCell align="left">{row.gstNo} 
+                           </TableCell> }  
+
+                           {
+                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        <TableCell align="left">
+                        <TextField
+                              variant="outlined"
+                              margin="dense"
+                              fullWidth
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.vendorDelivaryDays}
+                              onChange={handleInputChange('vendorDelivaryDays')}
+
+                              label="Vendor Delivery Days"
+                             /> </TableCell> :  <TableCell align="left">{row.vendorDelivaryDays} 
+                           </TableCell> }
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  {row.updatedAt}
+                                  {row.createdAt}
                                   </Moment>
                                   </TableCell>
+                                  {
+                  btnEdit.action && btnEdit.id == row.shortCode ?
+                    <TableCell  style = {{width: 20}} align="center">
+                      <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
+                      </Button>
+                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                      </Button>
+                    </TableCell> :
+                    <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
+                      <Button ><EditIcon />
+                      </Button>
+                    </TableCell>
+                }
                                   
                                 </TableRow>
                               ))}

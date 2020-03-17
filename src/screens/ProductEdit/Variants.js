@@ -282,9 +282,7 @@ export default function Variants(props) {
 //     setProductCtx({ ...productCtx, [type]: value})
 
 // }
-// const handleInputChange = type => e => {
-//   setProductCtx({ ...productCtx, [type]: e.target.value  })
-// }
+
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
