@@ -91,6 +91,8 @@ const Results = props => {
     setPage(page);
   };
   function handleAdd(e) {
+    setStatus({...status, [e.id]:"0 out of "+props.products.length})
+
     props.update(e)
   }
 

@@ -113,7 +113,7 @@ export default function PriceupdateContent(props) {
   >
     <FullLoader title={"Run Diamond Price"} isopen={open} ></FullLoader>
      <AboutVoucher isdisabled={startrun} className={classes.aboutvoucher} apply={filterapllied} productids= {products.length > 0 ? products : []} categorylist={masters.category} producttypelist={masters.product_type} vendorlist={ masters.vendorcode} masterData= {masters} categories={['Fixed Amount','percentage','Free Shipping']} />
-    <Results pricingrows={rows} downloadlog={downloadlog} update={updateprices}/>
+    <Results products={products} pricingrows={rows} downloadlog={downloadlog} update={updateprices}/>
   </Page>
   </MuiPickersUtilsProvider>
   );
