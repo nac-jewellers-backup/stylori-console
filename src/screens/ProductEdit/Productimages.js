@@ -165,7 +165,6 @@ export default function Productimages(props) {
   }
   const handlenewAssetChange =  (e) => {
     const files = e.target.files;
-    alert(files.length)
     Object.keys(files).map((file, index) => { 
       // const size = files[index].size;
       var imagecount  = 1;
@@ -177,7 +176,6 @@ export default function Productimages(props) {
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
      
-      alert(imagename)
       uploadimagetoserver(files[index],fileType,imagename,product_id,{}, false)
 
 

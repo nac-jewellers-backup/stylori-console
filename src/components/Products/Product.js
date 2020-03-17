@@ -461,10 +461,10 @@ function applyfilter(searchtext, categoryname, typename)
                                   </Button>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                  {row.product_name}
-                                    {/* <Link target='blank_' href={row.transSkuListsByProductId.nodes.length > 0 ? BASE_URL+row.transSkuListsByProductId.nodes[0].skuUrl : '-'}  variant="body2">
-                                   
-                                    </Link> */}
+                                     <Link target='blank_' href={row.trans_sku_lists.length > 0 ? BASE_URL+row.trans_sku_lists[0].sku_url : '-'}  variant="body2">
+                                    {row.product_name}
+
+                                    </Link> 
                                   </TableCell>
                                   <TableCell align="left">{row.product_type}</TableCell>
                                   <TableCell align="left">{row.product_category}</TableCell>
