@@ -119,7 +119,6 @@ function Newvendor(props) {
             fullWidth
             rows={3}
             multiline
-            // onChange={handleInputChange('vouchername')}
             id="vendordeliverydays"
             name="vendordeliverydays"
             value={"test"}
