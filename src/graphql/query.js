@@ -254,7 +254,27 @@ query($Veiw: Int!, $Offset: Int!) {
   }
 }
 `;
-
+const VENDORLISTS = gql`
+query  {
+  allMasterVendors {
+    nodes {
+      vendorDelivaryDays
+      updatedAt
+      state
+      shortCode
+      partnerCategory
+      name
+      organization
+      gstNo
+      currency
+      createdAt
+      city
+      address
+    }
+    totalCount
+  }
+}
+`;
 
 
 // const PRODUCTLIST  = (category) =>  gql`
@@ -670,5 +690,6 @@ query MyQuery($productId: String!) {
     DELETEMAKINGCHARGE,
     DELETEGEMCHARGE,
     DELETEGOLDPRICE,
-    DELETEDIAMONDCHARGE
+    DELETEDIAMONDCHARGE,
+    VENDORLISTS
   }
