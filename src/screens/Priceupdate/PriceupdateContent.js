@@ -52,7 +52,6 @@ export default function PriceupdateContent(props) {
   setOpen(true)
 
   var  bodydata = {}
-  
   bodydata = {
     pricingcomponent: component.label,
     req_product_id : products
