@@ -50,7 +50,6 @@ export default function PriceupdateContent(props) {
   async function updateprices(component)
 {
   setOpen(true)
-
   var  bodydata = {}
   bodydata = {
     pricingcomponent: component.label,
