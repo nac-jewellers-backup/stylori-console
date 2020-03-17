@@ -58,8 +58,6 @@ export default function PriceupdateContent(props) {
   setStartrun(true)
   let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
   setOpen(false)
-
-
 }
  async function filterapllied(filterdata, categories, producttypes)
   {
