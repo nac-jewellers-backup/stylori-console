@@ -9,7 +9,7 @@ import {Divider} from '@material-ui/core'
 export default function ConformationAlert(props) {
   
   const handleOk = () => {
-    props.onSuccess(props.data)
+    props.onSuccess(props.data, props.refetch)
   };
   const handleClose = () => {
     props.onCancel()
@@ -29,8 +29,7 @@ export default function ConformationAlert(props) {
         <DialogContent dividers>
           <DialogContentText id="alert-dialog-description">
             {props.message}
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            Verify details before deleting
           </DialogContentText>
         </DialogContent>
         <DialogActions>

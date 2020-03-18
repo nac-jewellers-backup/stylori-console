@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import clsx from 'clsx';
 import {lighten, makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { Input} from '@material-ui/core';
 import {Grid, Card} from '@material-ui/core';
 import ConformationAlert from '../../../components/ConformationAlert'
+import { API_URL, GRAPHQL_DEV_CLIENT } from '../../../config';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,7 +28,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {DIAMONDPRICELIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {DIAMONDPRICELIST,PRODUCTLISTSTATUSEDIT, DELETEDIAMONDCHARGE,PRODUCTDIAMONDTYPES} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -53,7 +54,7 @@ const columns = [
   { id: 'Selling Price', label: 'Selling Price' },
   { id: 'Selling Price Type', label: 'Selling Price Type' },
   { id: 'updatedAt', label: 'updatedAt' },
-  { id: 'Edit', label: 'Edit' }
+  { id: 'Edit / Delete', label: 'Edit / Delete', align : 'center' }
 
 ];
 
@@ -325,6 +326,7 @@ const   AddContact=(props)=> {
   const [editdiamond,setEditdiamond] = React.useState({})
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [deleteid, setDeleteid] = React.useState('');
+  const [diamondmaster, setDiamondmaster] = React.useState([]);
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -342,9 +344,20 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete(datacontent)
+  async function handledelete(datacontent)
   {
+    let variables ={
+      elementId:deleteid
+    }
+    await props.client.mutate({mutation:DELETEDIAMONDCHARGE,variables}).then(res=>{
 
+      if(res!==null){
+        //refetch();
+        // refetchval()
+      }
+    }).catch(err => {
+
+    })
     setIsconformation(false);
 
   }
@@ -431,6 +444,27 @@ const   AddContact=(props)=> {
      [type]: e.target.value
    })
   }
+
+  useEffect(() => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: PRODUCTDIAMONDTYPES, variables: { } })
+    };
+    // console.log("helo",setProductCtx)
+    fetch(url, opts)
+      .then(res => res.json())
+      .then(fatchvalue => {
+       // alert(JSON.stringify(fatchvalue))
+       setDiamondmaster(fatchvalue.data.allMasterDiamondTypes.nodes)
+        // setPuritymaster(fatchvalue.data.allMasterMetalsPurities.nodes)
+
+      })
+      .catch(console.error)
+  }, [])
+
+
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id
@@ -651,7 +685,7 @@ const   AddContact=(props)=> {
           </TableFooter>*/}
         </Table> 
       </div>
-      {open ? <Adddiamondprice isadd={open} actionclose={handleClose}/> : null} 
+      {open ? <Adddiamondprice diamonds={diamondmaster} isadd={open} actionclose={handleClose}/> : null} 
 
     </Paper>
   </>

@@ -282,9 +282,7 @@ export default function Variants(props) {
 //     setProductCtx({ ...productCtx, [type]: value})
 
 // }
-// const handleInputChange = type => e => {
-//   setProductCtx({ ...productCtx, [type]: e.target.value  })
-// }
+
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
@@ -348,31 +346,29 @@ export default function Variants(props) {
                 {props.displycolumns.indexOf('Ready To Ship') > -1 ? 
                   <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                   <Switch
-                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editreadytoship : row.isReadyToShip}
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editreadytoship : row.isReadyToShip}
                        // onChange={()=>handleChange(row.id)}
                         value="checkedA"
-                        onChange={handleChangeswitch('editreadytoship')}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
+                        // onChange={handleChangeswitch('editreadytoship')}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editreadytoship') : null}
+
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
                   </TableCell> : null }
                   {props.displycolumns.indexOf('Default') > -1 ? 
                   <TableCell  align="center" style = {{width: 40}} component="th" scope="row">
                   <Switch
-                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisdefault : row.isdefault}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={handleChangeswitch('editisdefault')}
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisdefault : row.isdefault}
                         value="checkedA"
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editisdefault') : null}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
                   </TableCell> : null }
                 {props.displycolumns.indexOf('Active') > -1 ?<TableCell  style = {{width: 40}} align="center">
                        <Switch
                         checked={row.isActive}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                       checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisactive : row.isActive}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={handleChangeswitch('editisactive')}
+                       checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisactive : row.isActive}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editisactive') : null}
 
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}

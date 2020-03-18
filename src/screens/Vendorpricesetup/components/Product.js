@@ -25,7 +25,7 @@ import { Input, Grid, Card} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {GOLDPRICELIST,ALLPRODUCTLIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {GOLDPRICELIST,ALLPRODUCTLIST,DELETEGOLDPRICE,METALMASTER,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -35,6 +35,9 @@ import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Addmetalprice from './Addmetalprice'
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { API_URL, GRAPHQL_DEV_CLIENT } from '../../../config';
+
 import {
  
   Chip,
@@ -43,6 +46,7 @@ import {
 import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
+import { MATERIALMASTER } from '../../../services/queries';
 const columns = [
   { id: 'Metal', label: 'Metal' },
   { id: 'Purity', label: 'Purity' },
@@ -50,7 +54,7 @@ const columns = [
   { id: 'Selling Price', label: 'Selling Price' },
   { id: 'Selling Price Type', label: 'Selling Price Type' },
   { id: 'updatedAt', label: 'updatedAt' },
-  { id: 'Edit', label: 'Edit' }
+  { id: 'Edit / Delete', label: 'Edit / Delete', align : 'center' }
 
 ];
 
@@ -321,6 +325,8 @@ const   AddContact=(props)=> {
   const [editdiamond,setEditdiamond] = React.useState({})
   const [goldpricelist,setGoldpricelist] = React.useState({})
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [metalmaster,setMetalmaster] = React.useState([])
+  const [puritymaster,setPuritymaster] = React.useState([])
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -339,11 +345,26 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete(datacontent)
+ async function handledelete(datacontent)
   {
    
+    let variables ={
+      elementId:deleteid
+    }
+    await props.client.mutate({mutation:DELETEGOLDPRICE,variables}).then(res=>{
+
+      if(res!==null){
+        //refetch();
+        // refetchval()
+      }
+    }).catch(err => {
+
+    })
     setIsconformation(false);
 
+  }
+  function handleAdd()
+  {
   }
   function handleDelete(diamondData) {
     setDeleteid(diamondData.id)
@@ -426,22 +447,41 @@ const   AddContact=(props)=> {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+  // useEffect(() => {
+  //   const query = props.client.query
+  //     query({
+  //       query: ALLPRODUCTLIST,
+  //       fetchPolicy: "network-only"
+  //     }).then((data) => {
+  //       // if (data) {
+  //       // setProductlists(data.data.allProductLists.nodes)
+  //       // setAllProductlists(data.data.allProductLists.nodes)
+  //       // setPageCount( data.data.allProductLists.totalCount )
+  //       // }else{
+  //       //   alert("success")
+  //       // }
+  //     })
+  //   .catch((error) => {console.log("smbcj")})
+  //   }, [])
+
   useEffect(() => {
-    const query = props.client.query
-      query({
-        query: ALLPRODUCTLIST,
-        fetchPolicy: "network-only"
-      }).then((data) => {
-        // if (data) {
-        // setProductlists(data.data.allProductLists.nodes)
-        // setAllProductlists(data.data.allProductLists.nodes)
-        // setPageCount( data.data.allProductLists.totalCount )
-        // }else{
-        //   alert("success")
-        // }
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: METALMASTER, variables: { } })
+    };
+    // console.log("helo",setProductCtx)
+    fetch(url, opts)
+      .then(res => res.json())
+      .then(fatchvalue => {
+
+        setMetalmaster(fatchvalue.data.allMasterMaterials.nodes)
+        setPuritymaster(fatchvalue.data.allMasterMetalsPurities.nodes)
+
       })
-    .catch((error) => {console.log("smbcj")})
-    }, [])
+      .catch(console.error)
+  }, [])
   // function productItemStatusChange(id,isactive){
     // let variable = {
     //   "productId": id
@@ -668,7 +708,7 @@ const   AddContact=(props)=> {
         </Table> 
 
       </div>
-     {open ? <Addmetalprice isadd={open} actionclose={handleClose}/> : null} 
+     {open ? <Addmetalprice isadd={open} metals={metalmaster} purities={puritymaster} save={handleAdd} actionclose={handleClose}/> : null} 
     </Paper>
     </>
   );

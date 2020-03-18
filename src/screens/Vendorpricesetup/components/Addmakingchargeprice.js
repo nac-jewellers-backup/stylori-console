@@ -54,12 +54,27 @@ const DialogActions = withStyles(theme => ({
 
 export default function Addmakingchargeprice(props) {
   const [open, setOpen] = React.useState(props.isadd);
+  const [makingcharge, setMakingcharge] = React.useState({});
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     props.actionclose()
   };
+  const handleSave = () => {
+    alert(JSON.stringify(makingcharge))
+    //props.actionclose()
+  };
+  const handleoptionChange = type => (event, value) => {
+    setMakingcharge({ ...makingcharge, [type]: value})
+}
+const handleinputChange =type => e => {
+  setMakingcharge({
+    ...makingcharge,
+    [type]: e.target.value
+  })
+}
 
   return (
     <div>
@@ -76,7 +91,8 @@ export default function Addmakingchargeprice(props) {
               fullWidth
               disableClearable
               getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+              options={props.metals}
+              onChange={handleoptionChange('metal')}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
               <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -85,7 +101,7 @@ export default function Addmakingchargeprice(props) {
               renderInput={params => (
               <TextField
               {...params}
-              label="Choose Gemstone"
+              label="Choose Metal"
               margin="dense"
               variant="outlined"
               fullWidth
@@ -100,6 +116,7 @@ export default function Addmakingchargeprice(props) {
               margin="dense"
               label="Weight Start"
               fullWidth
+              onChange={handleinputChange('weightstart')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -110,6 +127,7 @@ export default function Addmakingchargeprice(props) {
               margin="dense"
               label="Weight End"
               fullWidth
+              onChange={handleinputChange('weightend')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -120,6 +138,7 @@ export default function Addmakingchargeprice(props) {
               margin="dense"
               label="Cost Price"
               fullWidth
+              onChange={handleinputChange('costPrice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -130,6 +149,7 @@ export default function Addmakingchargeprice(props) {
               id="free-solo-2-demo"
               fullWidth
               disableClearable
+              onChange={handleoptionChange('pricetype')}
               getOptionLabel={option => option.name}
               options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
               renderTags={(value, getTagProps) =>
@@ -157,6 +177,7 @@ export default function Addmakingchargeprice(props) {
               margin="dense"
               label="Selling Price"
               fullWidth
+              onChange={handleinputChange('sellingprice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -169,7 +190,7 @@ export default function Addmakingchargeprice(props) {
         <Button autoFocus onClick={handleClose} >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}  color="primary">
+          <Button variant="contained" onClick={handleSave}  color="primary">
             Save
           </Button>
           

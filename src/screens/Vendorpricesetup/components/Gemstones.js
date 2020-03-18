@@ -29,7 +29,7 @@ import ConformationAlert from '../../../components/ConformationAlert'
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
-import {GEMPRICELIST,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
+import {GEMPRICELIST,GEMSTONEMASTER, DELETEGEMCHARGE,PRODUCTLISTSTATUSEDIT} from '../../../graphql/query';
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
@@ -39,6 +39,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../../context/NetworkContext';
 import Addgemstoneprice from './Addgemstoneprice'
+import { API_URL, GRAPHQL_DEV_CLIENT } from '../../../config';
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -56,7 +57,17 @@ const columns = [
   { id: 'Selling Price', label: 'Selling Price' },
   { id: 'Selling Price Type', label: 'Selling Price Type' },
   { id: 'updatedAt', label: 'updatedAt' },
-  { id: 'Edit', label: 'Edit' }
+  { id: 'Edit / Delete', label: 'Edit / Delete', align : 'center' }
+
+];
+const stonecountcolumns = [
+  { id: 'Gemstone Type', label: 'Gemstone Type' },
+  
+  { id: 'Cost Price', label: 'Cost Price' },
+  { id: 'Selling Price', label: 'Selling Price' },
+  { id: 'Selling Price Type', label: 'Selling Price Type' },
+  { id: 'updatedAt', label: 'updatedAt' },
+  { id: 'Edit / Delete', label: 'Edit / Delete', align : 'center' }
 
 ];
 
@@ -328,6 +339,8 @@ const   AddContact=(props)=> {
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [vendorid,setVendorid] = React.useState(props.vendor);
+  const [deleteid, setDeleteid] = React.useState('');
+  const [gemmaster, setGemmaster] = React.useState([]);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Product Id');
@@ -350,12 +363,25 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  function handledelete()
+ async function handledelete(diamondcontent)
   {
+    let variables ={
+      elementId:deleteid
+    }
+    await props.client.mutate({mutation:DELETEGEMCHARGE,variables}).then(res=>{
+
+      if(res!==null){
+        //refetch();
+        // refetchval()
+      }
+    }).catch(err => {
+
+    })
     setIsconformation(false);
 
   }
   function handleDelete(diamondData) {
+    setDeleteid(diamondData.id)
     setIsconformation(true);
   }
 
@@ -437,7 +463,24 @@ const   AddContact=(props)=> {
   useEffect( () => {
     getgemlist()
   }, [vendorid])
+  useEffect(() => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: GEMSTONEMASTER, variables: { } })
+    };
+    // console.log("helo",setProductCtx)
+    fetch(url, opts)
+      .then(res => res.json())
+      .then(fatchvalue => {
 
+        setGemmaster(fatchvalue.data.allMasterGemstonesTypes.nodes)
+       
+
+      })
+      .catch(console.error)
+  }, [])
 
   const handleinputChange =type => e => {
     setEditgem({
@@ -475,6 +518,7 @@ const   AddContact=(props)=> {
       negativebtn={"No"} 
       message={""} 
       onSuccess={handledelete}
+      data={deleteid}
       onCancel={hidedeleteconformation}
       isshow={isconformation} />
    <Card className={classes.cardcontent} > 
@@ -512,8 +556,11 @@ const   AddContact=(props)=> {
       
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
         <TableHead>
+            {props.viewtype == 1 ? 
             <TableRow>
+              
               {columns.map(column => (
+              
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -522,7 +569,19 @@ const   AddContact=(props)=> {
                   {column.label}
                 </TableCell>
               ))}
-            </TableRow>
+            </TableRow> : <TableRow>
+              
+              {stonecountcolumns.map(column => (
+              
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow> }
           </TableHead>
           <TableBody>
           {/* <Query
@@ -547,8 +606,13 @@ const   AddContact=(props)=> {
                                      {row.costprice.gemstone_type}
                                     
                                   </TableCell>
+                                  {props.viewtype == 1 ? 
+                                  <>
                                   <TableCell align="left">
-                                  {
+                                  <Typography className={classes.heading}> 
+                                    {row.costprice.weight_start}
+                                   </Typography>
+                                  {/* {
                                     btnEdit.action && btnEdit.id == row.costprice.id ? <Input
                                     variant="outlined"
                                     margin="dense"
@@ -562,10 +626,13 @@ const   AddContact=(props)=> {
                                     /> : 
                                     <Typography className={classes.heading}> 
                                     {row.costprice.weight_start}
-                                   </Typography>  }
+                                   </Typography>  } */}
                                     </TableCell>
                                     <TableCell align="left">
-                                  {
+                                    <Typography className={classes.heading}> 
+                                    {row.costprice.weight_end}
+                                   </Typography> 
+                                  {/* {
                                     btnEdit.action && btnEdit.id == row.costprice.id ? <Input
                                     variant="outlined"
                                     margin="dense"
@@ -579,9 +646,9 @@ const   AddContact=(props)=> {
                                     /> : 
                                     <Typography className={classes.heading}> 
                                     {row.costprice.weight_end}
-                                   </Typography>  }
+                                   </Typography>  } */}
                                     </TableCell>
-
+                                    </> : null}
                                     <TableCell align="left">
                                   {
                                     btnEdit.action && btnEdit.id == row.costprice.id ? <Input
@@ -700,7 +767,7 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
-      {open ? <Addgemstoneprice isadd={open} title={props.title} actionclose={handleClose}/> : null} 
+      {open ? <Addgemstoneprice gems={gemmaster} viewtype={props.viewtype} isadd={open} title={props.title} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

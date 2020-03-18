@@ -27,7 +27,7 @@ import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {PRODUCTLIST,PRODUCTCATEGORY,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
-import { Button, Switch } from '@material-ui/core';
+import { Button, Switch, FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
 import {BASE_URL} from '../../config'
@@ -36,11 +36,12 @@ import Filterandsearch from './../../screens/Productlist/filterandsearch';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const columns = [
-  { id: 'productId', label: 'productId' },
-  { id: 'productName', label: 'productName' },
-  { id: 'productType', label: 'productType' },
-  { id: 'productCategory', label: 'productCategory' },
-  { id: 'updatedAt', label: 'updatedAt' }
+  { id: 'product_id', label: 'product id' },
+  { id: 'product_name', label: 'product name' },
+  { id: 'product_type', label: 'product type' },
+  { id: 'product_category', label: 'product category' },
+  { id: 'isactive', label: 'active' },
+  { id: 'updatedAt', label: 'updated on' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -319,14 +320,16 @@ const   AddContact=(props)=> {
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('Product Id');
+  const [orderBy, setOrderBy] = React.useState('product_id');
   function handleChangePage(event, newPage) {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
+    getproductlist("","","","",newPage)
+
   }
   useEffect( () => {
 
-    getproductlist("")
+    getproductlist("","","","","",order,orderBy)
   const query = props.client.query
     query({
       query: PRODUCTFILTERMASTER,
@@ -337,7 +340,6 @@ const   AddContact=(props)=> {
        setMastercategories(data.data.allMasterProductCategories.nodes)
        setMasterproducttypes( data.data.allMasterProductTypes.nodes )
       }else{
-        alert("success")
       }
     })
   .catch((error) => {console.log("smbcj")})
@@ -345,6 +347,8 @@ const   AddContact=(props)=> {
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    getproductlist("","","",event.target.value,"")
+
   }
   function ProductEdit(id){
     // localStorage.setItem('productEditId',id);
@@ -352,8 +356,13 @@ const   AddContact=(props)=> {
   }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
+    
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    getproductlist("","","","","",isAsc ? 'desc' : 'asc',property)
+
+
+
   };
   function searchproduct(searchtext, productcategory, producttype)
   {
@@ -362,19 +371,21 @@ const   AddContact=(props)=> {
     });
     setProductlists(products)
   }
-  async function getproductlist(searchtext,productcategory,producttype)
+  async function getproductlist(searchtext,productcategory,producttype,pagesize,offsetvalue,sort,orderby)
 {
   let bodydata = {
-    size : rowsPerPage,
+    size : pagesize ? pagesize : rowsPerPage,
     offset : offsetValue,
     searchtext: searchtext,
     productcategory: productcategory,
-    producttype: producttype
+    producttype: producttype,
+    order: sort ? sort : order,
+    orderby : orderby ? orderby : orderBy
   }
 
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
-  setProductlists(response.products)
-  
+  setProductlists(response.products.rows)
+  setPageCount(response.products.count)
 }
 function applyfilter(searchtext, categoryname, typename)
 {
@@ -450,13 +461,21 @@ function applyfilter(searchtext, categoryname, typename)
                                   </Button>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                  {row.product_name}
-                                    {/* <Link target='blank_' href={row.transSkuListsByProductId.nodes.length > 0 ? BASE_URL+row.transSkuListsByProductId.nodes[0].skuUrl : '-'}  variant="body2">
-                                   
-                                    </Link> */}
+                                     <Link target='blank_' href={row.trans_sku_lists.length > 0 ? BASE_URL+row.trans_sku_lists[0].sku_url : '-'}  variant="body2">
+                                    {row.product_name}
+
+                                    </Link> 
                                   </TableCell>
                                   <TableCell align="left">{row.product_type}</TableCell>
                                   <TableCell align="left">{row.product_category}</TableCell>
+                                  <TableCell align="left"> <FormControlLabel
+                                      label={row.isactive ? "" : ""}
+
+                                      control={
+                                        <Switch checked={row.isactive}  value="checkedA" />
+                                      }
+                                    /></TableCell>
+
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
                                   {row.updatedAt}

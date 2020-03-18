@@ -54,12 +54,28 @@ const DialogActions = withStyles(theme => ({
 
 export default function Addgemstoneprice(props) {
   const [open, setOpen] = React.useState(props.isadd);
+  const [gemstonedata, setGemstonedata] = React.useState({});
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     props.actionclose()
   };
+
+  const handleSave = () => {
+    alert(JSON.stringify(gemstonedata))
+    //props.actionclose()
+  };
+  const handleoptionChange = type => (event, value) => {
+    setGemstonedata({ ...gemstonedata, [type]: value})
+}
+const handleinputChange =type => e => {
+  setGemstonedata({
+    ...gemstonedata,
+    [type]: e.target.value
+  })
+}
 
   return (
     <div>
@@ -75,8 +91,9 @@ export default function Addgemstoneprice(props) {
               id="free-solo-2-demo"
               fullWidth
               disableClearable
+              onChange={handleoptionChange('gemstone')}
               getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+              options={props.gems}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
               <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -94,12 +111,15 @@ export default function Addgemstoneprice(props) {
               )}
             />
           </Grid>
+          {props.viewtype == 1 ? 
+          <>
           <Grid item xs={6}>
               <TextField
               variant="outlined"
               margin="dense"
               label="Weight Start"
               fullWidth
+              onChange={handleinputChange('weightstart')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -109,11 +129,13 @@ export default function Addgemstoneprice(props) {
               variant="outlined"
               margin="dense"
               label="Weight End"
+              onChange={handleinputChange('weightend')}
               fullWidth
               id="productvendorcode"
               name="Cost Price"
               />
           </Grid>
+          </> : null }
           <Grid item xs={12}>
               <TextField
               variant="outlined"
@@ -121,6 +143,7 @@ export default function Addgemstoneprice(props) {
               label="Cost Price"
               fullWidth
               id="productvendorcode"
+              onChange={handleinputChange('costprice')}
               name="Cost Price"
               />
           </Grid>
@@ -130,6 +153,7 @@ export default function Addgemstoneprice(props) {
               id="free-solo-2-demo"
               fullWidth
               disableClearable
+              onChange={handleoptionChange('pricetype')}
               getOptionLabel={option => option.name}
               options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
               renderTags={(value, getTagProps) =>
@@ -157,6 +181,7 @@ export default function Addgemstoneprice(props) {
               margin="dense"
               label="Selling Price"
               fullWidth
+              onChange={handleinputChange('sellingPrice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -169,7 +194,7 @@ export default function Addgemstoneprice(props) {
         <Button autoFocus onClick={handleClose} >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}  color="primary">
+          <Button variant="contained" onClick={handleSave}  color="primary">
             Save
           </Button>
           

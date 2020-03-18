@@ -1,5 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 const useStyles = makeStyles(theme => ({
@@ -9,21 +15,34 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2),
       },
     },
+    loader: {
+      display: 'flex',
+      width: 100,
+      paddingLeft: 25
+    }
   }));
 function FullLoader(props) {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
 
     return (
-        <div style={{ position :"absolute",backgroundColor : "#ddd",zIndex : "999", height: '100vh', width: '100%', display: "flex",left : '0' ,top : '0', overflow: "hidden" }}>
-            { <h1 style={{margin: "auto"}}>Loading.......</h1> }
-            {/* <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style={{height: "40px"}}></i> */}
-            {/* <div className={classes.root}>
-                    <LinearProgress />
-                    </div> */}
+      <Dialog
+      open={props.isopen}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+      <DialogContent>
+      <div className={classes.loader}>
 
+      <CircularProgress />
 
-            <i class="fa fa-cog fa-spin fa-3x fa-fw" style={{height: "auto", fontSize: "66px", margin: "auto", color: "#00695C"}} aria-hidden="true"></i>
-        </div>
+      </div>
+
+      </DialogContent>
+      
+    </Dialog>
+ 
     )
 }
 export default FullLoader;

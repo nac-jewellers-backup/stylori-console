@@ -4,19 +4,25 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
-import Vendors from '../../components/Vendors'
+import Vendor from '../../components/Vendor'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Newvendor from '../../components/Newvendor'
 
 
 
 export const Vendorlist = withRouter(props => {
-
+  const [isadd, setIsadd] = React.useState(false)
    
   
-
+  function addnewvendor()
+  {
+    setIsadd(true)
+  }
    
   return (
+    <>
+    <Newvendor title={'Add new Vendor'} isopen={isadd}/>
     <Grid container  spacing={2}>  
     <Grid container item xs={12} sm={12} alignItems={"flex-end"}>
         <Grid fullwidth item xs={6} sm={6}>
@@ -27,21 +33,16 @@ export const Vendorlist = withRouter(props => {
           </Grid>
           <Grid fullwidth item xs={6} sm={6} >
 
-          <Link underline='none' component={RouterLink} to={'/productupload'}>
-          <Button variant="outlined" color="primary" >
+          <Button variant="outlined" onClick={() =>addnewvendor() } color="primary" >
             Add New Vendor
         </Button>
         
-        </Link>
         </Grid>
     </Grid>
-    <Vendors contactlist={[
-        {
-            "name":"NAC1"
-        }
-    ]} />
+    <Vendor  />
    
     </Grid>
+    </>
   )
 });
 

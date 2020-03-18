@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
+
 import { NetworkContext } from '../../../../context/NetworkContext';
 
 import {
@@ -50,10 +52,12 @@ const Results = props => {
   const { className, orders, ...rest } = props;
 
   const classes = useStyles();
+  const {sendNetworkRequest} = React.useContext(NetworkContext)
 
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [status, setStatus] = useState({});
 
   const handleSelectAll = event => {
     const selectedOrders = event.target.checked
@@ -87,11 +91,25 @@ const Results = props => {
     setPage(page);
   };
   function handleAdd(e) {
+    setStatus({...status, [e.id]:"0 out of "+props.products.length})
+
     props.update(e)
   }
 
   function handledownload(e) {
     props.downloadlog()
+  }
+ async function handlestatus(e) {
+   let bodydata = {
+    "component":e.label
+   }
+  let response = await sendNetworkRequest('/getcomponentpricestatus', {}, bodydata, false)
+
+    setStatus({...status, [e.id]: response.message})
+  }
+  async function getpricestatus(component)
+  {
+
   }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
@@ -152,8 +170,13 @@ const Results = props => {
                       </TableCell>
                       
                       <TableCell align="center">
-                        {"Running"}
+                        {status[order.id] ? status[order.id] : ""}
+                        
+                      <IconButton aria-label="delete" onClick={(e) => handlestatus(order)}  color="primary">
+                          <RefreshIcon />
+                        </IconButton>
                       </TableCell>
+                     
                       <TableCell align="center">
                       <Button color="primary" disabled onClick={(e) => handledownload()} size="small">
                         Download

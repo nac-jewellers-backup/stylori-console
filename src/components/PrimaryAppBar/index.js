@@ -127,8 +127,8 @@ function PAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography  variant="h6" noWrap>
-            NAC Jewellers
+          <Typography style={{color: '#fff'}}  variant="h4" noWrap>
+           Stylori
           </Typography>
           
           <div className={classes.grow} />

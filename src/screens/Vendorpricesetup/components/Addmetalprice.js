@@ -54,13 +54,27 @@ const DialogActions = withStyles(theme => ({
 
 export default function Addmetalprice(props) {
   const [open, setOpen] = React.useState(props.isadd);
+  const [metaldata, setMetaldata] = React.useState({});
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     props.actionclose()
   };
+  const handleSave = () => {
+    props.save()
+  };
 
+const handleoptionChange = type => (event, value) => {
+    setMetaldata({ ...metaldata, [type]: value})
+}
+const handleinputChange =type => e => {
+  setMetaldata({
+    ...metaldata,
+    [type]: e.target.value
+  })
+}
   return (
     <div>
   
@@ -76,7 +90,8 @@ export default function Addmetalprice(props) {
               fullWidth
               disableClearable
               getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+              options={props.metals}
+              onChange={handleoptionChange('metal')}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
               <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -85,7 +100,7 @@ export default function Addmetalprice(props) {
               renderInput={params => (
               <TextField
               {...params}
-              label="Choose Material"
+              label="Choose Metal"
               margin="dense"
               variant="outlined"
               fullWidth
@@ -100,7 +115,9 @@ export default function Addmetalprice(props) {
               fullWidth
               disableClearable
               getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
+              options={props.purities}
+              onChange={handleoptionChange('purity')}
+
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
               <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -124,6 +141,7 @@ export default function Addmetalprice(props) {
               fullWidth
               disableClearable
               getOptionLabel={option => option.name}
+              onChange={handleoptionChange('pricetype')}
               options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
@@ -148,6 +166,7 @@ export default function Addmetalprice(props) {
               margin="dense"
               label="Cost Price"
               fullWidth
+              onChange={handleinputChange('costPrice')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -159,8 +178,9 @@ export default function Addmetalprice(props) {
               margin="dense"
               label="Selling Price"
               fullWidth
-              id="productvendorcode"
-              name="Cost Price"
+              onChange={handleinputChange('sellingPrice')}
+              id="sellingprice"
+              name="Selling Price"
               />
           </Grid>
         </Grid>
@@ -171,7 +191,7 @@ export default function Addmetalprice(props) {
         <Button autoFocus onClick={handleClose} >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}  color="primary">
+          <Button variant="contained" onClick={handleSave}  color="primary">
             Save
           </Button>
           

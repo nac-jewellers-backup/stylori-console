@@ -54,6 +54,21 @@ const DialogActions = withStyles(theme => ({
 
 export default function Addmarkup(props) {
   const [open, setOpen] = React.useState(props.isadd);
+  const [markup, setMarkup] = React.useState({});
+
+  const handleSave = () => {
+    alert(JSON.stringify(markup))
+    //props.actionclose()
+  };
+  const handleoptionChange = type => (event, value) => {
+    setMarkup({ ...markup, [type]: value})
+}
+const handleinputChange =type => e => {
+  setMarkup({
+    ...markup,
+    [type]: e.target.value
+  })
+}
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -71,11 +86,63 @@ export default function Addmarkup(props) {
         <DialogContent dividers>
         <Grid container spacing={2}>
         <Grid item xs={6}>
+            <Autocomplete
+              id="free-solo-2-demo"
+              fullWidth
+              disableClearable
+              onChange={handleoptionChange('category')}
+              getOptionLabel={option => option.name}
+              options={props.category}
+              renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+              ))
+              }
+              renderInput={params => (
+              <TextField
+              {...params}
+              label="Choose category"
+              margin="dense"
+              variant="outlined"
+              fullWidth
+              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+              />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+          <Autocomplete
+              id="free-solo-2-demo"
+              multiple
+              fullWidth
+              disableClearable
+              onChange={handleoptionChange('producttype')}
+              getOptionLabel={option => option.name}
+              options={props.producttype}
+              renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+              ))
+              }
+              renderInput={params => (
+              <TextField
+              {...params}
+              label="Choose product type"
+              margin="dense"
+              variant="outlined"
+              fullWidth
+              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+              />
+              )}
+            />
+          </Grid>
+        <Grid item xs={6}>
               <TextField
               variant="outlined"
               margin="dense"
               label="Selling Price Min"
               fullWidth
+              onChange={handleinputChange('sellpricemin')}
               id="productvendorcode"
               name="Selling Price Min"
               />
@@ -87,6 +154,7 @@ export default function Addmarkup(props) {
               margin="dense"
               label="Selling Price Max"
               fullWidth
+              onChange={handleinputChange('sellpricemax')}
               id="productvendorcode"
               name="Cost Price"
               />
@@ -97,6 +165,7 @@ export default function Addmarkup(props) {
               fullWidth
               disableClearable
               getOptionLabel={option => option.name}
+              onChange={handleoptionChange('markuptype')}
               options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
               renderTags={(value, getTagProps) =>
               value.map((option, index) => (
@@ -106,7 +175,7 @@ export default function Addmarkup(props) {
               renderInput={params => (
               <TextField
               {...params}
-              label="Choose Material"
+              label="Markup Type"
               margin="dense"
               variant="outlined"
               fullWidth
@@ -120,6 +189,7 @@ export default function Addmarkup(props) {
               variant="outlined"
               margin="dense"
               label="Markup Value "
+              onChange={handleinputChange('markup')}
               fullWidth
               id="productvendorcode"
               name="Cost Price"
@@ -133,7 +203,7 @@ export default function Addmarkup(props) {
         <Button autoFocus onClick={handleClose} >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}  color="primary">
+          <Button variant="contained" onClick={handleSave}  color="primary">
             Save
           </Button>
           

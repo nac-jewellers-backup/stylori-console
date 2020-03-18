@@ -29,6 +29,8 @@ import { NetworkContext } from '../../context/NetworkContext';
 import CloseIcon from '@material-ui/icons/Close';
 import SortHeader from './Components/SortHeader';
 import columnnames from './columnnames.json';
+import Productimages from './Productimages'
+import FullLoader from '../../components/Loader'
 
 import {
   Card,
@@ -92,6 +94,7 @@ export function Component(props) {
   const [displycolumns, setDisplycolumns] = React.useState(columnnames.defaultvarientnames);
   const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.defaultpricing);
   const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricingnames);
+  const [loadopen, setLoadopen] = React.useState(true);
 
   
   const { sendNetworkRequest } = React.useContext(NetworkContext);
@@ -318,6 +321,31 @@ async function saveProductEditItem() {
           }
           gender_arr.push(gender_obj)
         });
+        let defaultcolour = "";
+       var images_arr = fatchvalue.data.productListByProductId.productImagesByProductId.nodes
+       images_arr.forEach(element => {
+          if(element.isdefault)
+          {
+            defaultcolour = element.productColor
+          }
+      });
+      var metalcolors = []
+      Array.prototype.insert = function ( index, item ) {
+        this.splice( index, 0, item );
+    };
+     let metalcolor =  fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes
+     metalcolor.forEach(colorobj => {
+          if(colorobj.productColor === defaultcolour)
+          {
+            colorobj['isdefault'] = true
+            metalcolors.insert(0, colorobj);
+
+          }else
+          {
+            colorobj['isdefault'] = false
+            metalcolors.push(colorobj)
+          }
+     })
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -328,7 +356,7 @@ async function saveProductEditItem() {
           diamondlist: fatchvalue.data.productListByProductId.productDiamondsByProductSku.nodes,
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
-          productMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
+          productMetalColor: metalcolors,
           oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
@@ -348,13 +376,15 @@ async function saveProductEditItem() {
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName))
         })
+        setLoadopen(false)
 
       })
       .catch(console.error)
   }, [])
   return (
     state.create_variant ? <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id} /> :
-      <Grid container>
+           <Grid container>
+             <FullLoader title="Getting Product Details" isopen={loadopen}/>
              <React.Fragment>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={snackMessage.severity}>
@@ -712,11 +742,11 @@ async function saveProductEditItem() {
             }}>
               <Grid item>
                 <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
-                  Save
+                  Update
              </Button>
-                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
+                {/* <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
                   Back
-              </Button>
+              </Button> */}
               </Grid>
             </Grid>
               
@@ -775,8 +805,14 @@ async function saveProductEditItem() {
             </Grid>
 
               <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
+              <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
+              {productCtx.productMetalColor.map(colors => (
+                    <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />
 
+              ))}
+            
             </Grid>
+            
             
           </Grid>
         </Grid>

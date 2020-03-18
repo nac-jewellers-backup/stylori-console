@@ -254,7 +254,27 @@ query($Veiw: Int!, $Offset: Int!) {
   }
 }
 `;
-
+const VENDORLISTS = gql`
+query  {
+  allMasterVendors {
+    nodes {
+      vendorDelivaryDays
+      updatedAt
+      state
+      shortCode
+      partnerCategory
+      name
+      organization
+      gstNo
+      currency
+      createdAt
+      city
+      address
+    }
+    totalCount
+  }
+}
+`;
 
 
 // const PRODUCTLIST  = (category) =>  gql`
@@ -307,6 +327,8 @@ query MyQuery($vendorCode: String!) {
       sellingPriceMin
       sellingPriceMax
       material
+      category
+      productType
       markupValue
       markupType
       id
@@ -354,6 +376,54 @@ query {
     }
   }
 }`;
+
+const METALMASTER =`
+query {
+  allMasterMaterials {
+    nodes {
+      name
+      shortCode
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      shortCode
+    }
+  }
+}`;
+
+
+const MASTERCATEGORY =`
+query {
+  allMasterProductCategories {
+    nodes {
+      name
+      shortCode
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      shortCode
+    }
+  }
+}`;
+
+
+const GEMSTONEMASTER =`
+query {
+  allMasterGemstonesTypes {
+    nodes {
+      name
+      shortCode
+      colorCode
+    }
+  }  
+}`;
+
+
+
 const MAKINGCHARGEPRICELIST = gql`
 query MyQuery($vendorCode: String!,$ratetype: Int!) {
   allMakingChargeSettings(condition: {vendorCode: $vendorCode,rateType: $ratetype}) {
@@ -404,6 +474,55 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
   }
 }
 `;
+
+const DELETEMARKUPPRICE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deletePricingMarkupById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+const DELETEGOLDPRICE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteGoldPriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+
+const DELETEMAKINGCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteMakingChargeSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+const DELETEGEMCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteGemstonePriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+const DELETEDIAMONDCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteDiamondPriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+
+
+
 const PRODUCTDIAMONDTYPES = `
 query{
   allMasterDiamondTypes {
@@ -458,11 +577,14 @@ query MyQuery($productId: String!) {
         stoneWeight
       }
     }
-    productImagesByProductId {
+    productImagesByProductId(orderBy: IMAGE_POSITION_ASC) {
       nodes {
         id
         imagePosition
+        productId
         imageUrl
+        ishover
+        isdefault
         productColor
       }
     }
@@ -560,5 +682,14 @@ query MyQuery($productId: String!) {
     VENDORLIST,
     ALLPRODUCTLIST,
     DIAMONDMARKUP,
-    PRODUCTFILTERMASTER
+    PRODUCTFILTERMASTER,
+    METALMASTER,
+    GEMSTONEMASTER,
+    MASTERCATEGORY,
+    DELETEMARKUPPRICE,
+    DELETEMAKINGCHARGE,
+    DELETEGEMCHARGE,
+    DELETEGOLDPRICE,
+    DELETEDIAMONDCHARGE,
+    VENDORLISTS
   }
