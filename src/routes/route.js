@@ -10,6 +10,7 @@ const route = {
     materiallist: '/material',
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
+    salediscount: '/salediscount',
     priceupdate: '/priceupdate',
     productAttributes: '/product_attributes',
     diamondDetails: '/diamond_details',
