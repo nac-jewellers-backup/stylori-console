@@ -518,8 +518,7 @@ function applyfilter(searchtext, categoryname, typename)
                         id="vendoraddress"
                         name="vendoraddress"
                         value={editcontent.address}
-                        onChange={handleInputChange('address')}
-                        label="Vendor Address"
+                        onChange={handleInputChange('address')}                        label="Vendor Address"
                         /> </TableCell> :  <TableCell align="left">{row.address} 
                            </TableCell> }
 
