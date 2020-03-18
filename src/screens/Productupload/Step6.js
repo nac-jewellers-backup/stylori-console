@@ -146,8 +146,7 @@ export default function Review() {
       imagecolourobj.push(imageobj)
     }
     prodimages[imagecolor] = imagecolourobj;
-    alert(JSON.stringify(imagecolor))
-    alert(JSON.stringify(prodimages))
+  
     setProductCtx({ ...productCtx, product_images: prodimages })
     // setFiles([])
   }
