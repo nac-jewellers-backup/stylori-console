@@ -456,7 +456,7 @@ export default function GemstoneDetails(props) {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                colSpan={5}
+                
                 count={props.gemstone && props.gemstone.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

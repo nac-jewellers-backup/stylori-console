@@ -14,7 +14,10 @@ import data from "./data.json"
 export const Taxsetup = withRouter(props => {
   const [isadd, setIsadd] = React.useState(false)
    
-  
+  function canceltaxcreation()
+  {
+    setIsadd(false)
+  }
   function addnewvendor()
   {
     setIsadd(true)
@@ -37,7 +40,7 @@ export const Taxsetup = withRouter(props => {
         
         </Grid>
     </Grid>
-    <Mastercontent  isadd={isadd} columns={data.columns}/> 
+    <Mastercontent onCancel={canceltaxcreation} isadd={isadd} columns={data.columns}/> 
    
     </Grid>
     </>

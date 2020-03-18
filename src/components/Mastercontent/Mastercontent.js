@@ -295,13 +295,18 @@ const   Vendor=(props)=> {
 
   }
   async function Savevendor(refetch) {
-
-    let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
+    alert(editcontent)
+    let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
 
     setBtnEdit({ ...btnEdit, id:'', action: false })
     refetch()
   }
+  function Cancelcreate() {
+    props.onCancel();
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+  }
   function CancelEdit(diamondData) {
+    
     setBtnEdit({ ...btnEdit, id:'', action: false })
   }
   const handleInputChange = type => e => {
@@ -455,7 +460,7 @@ function applyfilter(searchtext, categoryname, typename)
                            <TableCell  style = {{width: 20}} align="center">
                       <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
                       </Button>
-                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                      <Button onClick={(e) => Cancelcreate()}><CancelIcon />
                       </Button>
                     </TableCell>
                            </TableRow> : null}
@@ -463,7 +468,7 @@ function applyfilter(searchtext, categoryname, typename)
                            <TableRow key={row.name}>
                             
                         {
-                        btnEdit.action && btnEdit.id == row.id ? 
+                        btnEdit.action && btnEdit.id == row.id && !props.isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -472,14 +477,14 @@ function applyfilter(searchtext, categoryname, typename)
                               id="vendordeliverydays"
                               name="vendordeliverydays"
                               value={editcontent.hsnNumber}
-                              onChange={handleInputChange('vendorDelivaryDays')}
+                              onChange={handleInputChange('hsnNumber')}
 
                               label="Vendor Delivery Days"
                              /> </TableCell> :  <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
                              {row.hsnNumber}
                            </TableCell> }
                            {
-                        btnEdit.action && btnEdit.id == row.id ? 
+                        btnEdit.action && btnEdit.id == row.id && !props.isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -488,14 +493,14 @@ function applyfilter(searchtext, categoryname, typename)
                               id="vendordeliverydays"
                               name="vendordeliverydays"
                               value={editcontent.taxValue}
-                              onChange={handleInputChange('vendorDelivaryDays')}
+                              onChange={handleInputChange('taxValue')}
 
                               label="Vendor Delivery Days"
                              /> </TableCell> :  <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
                              {row.taxValue}
                            </TableCell> }
                                       {
-                  btnEdit.action && btnEdit.id == row.id ?
+                  btnEdit.action && btnEdit.id == row.id && !props.isadd ?
                     <TableCell  style = {{width: 20}} align="center">
                       <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
                       </Button>

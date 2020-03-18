@@ -293,7 +293,6 @@ export default function Productupload() {
       formdata['productseries'] = productseries
  
       setLoading(true)
-      debugger;
        await sendNetworkRequest('/productupload', {}, formdata)
       setLoading(false)
       setSuccess(true)
