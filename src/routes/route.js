@@ -21,7 +21,9 @@ const route = {
     materiallistpage:'/newmaterial',
     editCategory:'/editcategory',
     vendorPrice:'/vendorpricesetup',
-    markupPrice: '/markuppricesetup'
+    markupPrice: '/markuppricesetup',
+    taxsetup: '/taxsetup'
+
 }
 
 export default route;

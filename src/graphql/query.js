@@ -276,7 +276,20 @@ query  {
 }
 `;
 
-
+const TaxList = gql`
+query  {
+  allMasterTaxSettings {
+    nodes {
+      hsnNumber
+      taxName
+      taxValue
+      updatedAt
+      id
+    }
+    totalCount
+  }
+}
+`;
 // const PRODUCTLIST  = (category) =>  gql`
 // query  {
 //   allProductLists ${category ? `(${category ? 'filter: {productCategory: {equalTo: "Jewellery"}}' : ''})` : ""} {
@@ -691,5 +704,6 @@ query MyQuery($productId: String!) {
     DELETEGEMCHARGE,
     DELETEGOLDPRICE,
     DELETEDIAMONDCHARGE,
-    VENDORLISTS
+    VENDORLISTS,
+    TaxList
   }

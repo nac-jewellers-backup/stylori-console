@@ -12,4 +12,5 @@ export * from "./OrderList"
 export * from "./Vendorpricesetup"
 export * from "./Markuppricesetup"
 export * from "./Salediscount"
+export * from "./Taxsetup"
 
