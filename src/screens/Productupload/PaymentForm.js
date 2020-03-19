@@ -82,7 +82,7 @@ export default function PaymentForm(props) {
                       />
                       </Grid>
      </Grid>
-     {['Rings','Bangles'].includes(productCtx.product_type) ? null :
+     {['R','B'].includes(productCtx.product_type.shortCode) ? null :
       <>
      <Grid item xs={4} >
 
@@ -321,8 +321,10 @@ export default function PaymentForm(props) {
                       />
                     )}
                   />
-    </Grid>
-    <Grid item xs={12} sm={6} >
+              </Grid>
+              {productCtx.material_names.indexOf('Gemstone') > -1 ?
+              <>
+               <Grid item xs={12} sm={6} >
     
                   <Autocomplete
                       id="product_category"
@@ -376,7 +378,7 @@ export default function PaymentForm(props) {
                     )}
                   />
     </Grid>
-    
+    </> : null }
     
     </Grid>
     

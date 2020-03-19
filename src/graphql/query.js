@@ -182,8 +182,57 @@ const PRODUCTCATEGORY = gql`query {
     }
   }
   }`
-const PRODUCTLIST = gql`
-query MyQuery($Veiw: Int!, $Offset: Int!) {
+const PRODUCTFILTERMASTER = gql`
+query  {
+  allMasterProductCategories {
+    nodes {
+      updatedAt
+      shortCode
+      name
+      id
+      createdAt
+      alias
+    }
+  }
+  allMasterProductTypes {
+    nodes {
+      updatedAt
+      shortCode
+      name
+      id
+      createdAt
+      alias
+      displayOrder
+    }
+  }
+}
+`;
+
+const ALLPRODUCTLIST = gql`
+query  {
+  allProductLists(first: 500)  {
+    nodes {
+      id
+      nodeId
+      productName
+      productCategory
+      productType
+      productId
+      createdAt
+      isactive
+      transSkuListsByProductId(condition: {isdefault: true}) {
+        nodes {
+          skuUrl
+          discount
+        }
+      }
+    }
+    totalCount
+  }
+}
+`;
+const PRODUCTLIST = (category) => gql`
+query($Veiw: Int!, $Offset: Int!) {
   allProductLists(first: $Veiw, offset: $Offset) {
     nodes {
       id
@@ -205,6 +254,228 @@ query MyQuery($Veiw: Int!, $Offset: Int!) {
   }
 }
 `;
+const VENDORLISTS = gql`
+query  {
+  allMasterVendors {
+    nodes {
+      vendorDelivaryDays
+      updatedAt
+      state
+      shortCode
+      partnerCategory
+      name
+      organization
+      gstNo
+      currency
+      createdAt
+      city
+      address
+    }
+    totalCount
+  }
+}
+`;
+
+const TaxList = gql`
+query  {
+  allMasterTaxSettings {
+    nodes {
+      hsnNumber
+      taxName
+      taxValue
+      updatedAt
+      id
+    }
+    totalCount
+  }
+}
+`;
+// const PRODUCTLIST  = (category) =>  gql`
+// query  {
+//   allProductLists ${category ? `(${category ? 'filter: {productCategory: {equalTo: "Jewellery"}}' : ''})` : ""} {
+//     nodes {
+//       id
+//       nodeId
+//       productName,
+//       productCategory,
+//       productType
+//       productId,
+//       createdAt
+//       isactive,
+//       transSkuListsByProductId(condition: {isdefault: true}) {
+//         nodes {
+//           skuUrl
+//           discount
+//         }
+//       }
+//     }
+//     totalCount
+//   }
+// }
+// `;
+
+const GOLDPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+    allGoldPriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      purity
+      vendorCode
+      updatedAt
+      sellingPriceType
+      sellingPrice
+      material
+      id
+      createdAt
+      costPrice
+    }
+    totalCount
+  }
+}`;
+
+const DIAMONDMARKUP = gql`
+query MyQuery($vendorCode: String!) {
+  allPricingMarkups(condition: {material: $vendorCode}) {
+    nodes {
+      updatedAt
+      sellingPriceMin
+      sellingPriceMax
+      material
+      category
+      productType
+      markupValue
+      markupType
+      id
+      createdAt
+    }
+    totalCount
+  }
+}`;
+
+const DIAMONDPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+  allDiamondPriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      costPrice
+      createdAt
+      diamondClarity
+      diamondColour
+      id
+      sellingPrice
+      sellingPriceType
+      updatedAt
+      vendorCode
+    }
+    totalCount
+  }
+}`;
+
+
+const VENDORLIST =`
+query {
+  allMasterVendors {
+    nodes {
+      vendorDelivaryDays
+      updatedAt
+      state
+      shortCode
+      partnerCategory
+      name
+      organization
+      gstNo
+      currency
+      createdAt
+      city
+      address
+    }
+  }
+}`;
+
+const METALMASTER =`
+query {
+  allMasterMaterials {
+    nodes {
+      name
+      shortCode
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      shortCode
+    }
+  }
+}`;
+
+
+const MASTERCATEGORY =`
+query {
+  allMasterProductCategories {
+    nodes {
+      name
+      shortCode
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      shortCode
+    }
+  }
+}`;
+
+
+const GEMSTONEMASTER =`
+query {
+  allMasterGemstonesTypes {
+    nodes {
+      name
+      shortCode
+      colorCode
+    }
+  }  
+}`;
+
+
+
+const MAKINGCHARGEPRICELIST = gql`
+query MyQuery($vendorCode: String!,$ratetype: Int!) {
+  allMakingChargeSettings(condition: {vendorCode: $vendorCode,rateType: $ratetype}) {
+    nodes {
+      weightStart
+      weightEnd
+      vendorCode
+      updatedAt
+      sellingPriceType
+      rateType
+      purity
+      priceType
+      price
+      material
+      id
+      createdAt
+    }
+    totalCount
+  }
+}`;
+const GEMPRICELIST = gql`
+query MyQuery($vendorCode: String!) {
+  allGemstonePriceSettings(condition: {vendorCode: $vendorCode}) {
+    nodes {
+      price
+      rateType
+      priceType
+      sellingPriceType
+      vendorCode
+      weightEnd
+      weightStart
+      updatedAt
+      id
+      createdAt
+      gemstoneType
+    }
+    totalCount
+  }
+}`;
 const PRODUCTLISTSTATUSEDIT = gql`
 mutation MyMutation($productId:String!,$isActive:Boolean!) {
   __typename
@@ -216,8 +487,57 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
   }
 }
 `;
+
+const DELETEMARKUPPRICE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deletePricingMarkupById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+const DELETEGOLDPRICE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteGoldPriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+
+const DELETEMAKINGCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteMakingChargeSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+const DELETEGEMCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteGemstonePriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+const DELETEDIAMONDCHARGE = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteDiamondPriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+
+
+
+
 const PRODUCTDIAMONDTYPES = `
-query MyQuery {
+query{
   allMasterDiamondTypes {
     nodes {
       diamondClarity
@@ -240,6 +560,12 @@ query MyQuery($productId: String!) {
     productType
     vendorCode
     gender
+    isactive
+    productMaterialsByProductSku {
+      nodes {
+        materialName
+      }
+    }
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -264,11 +590,14 @@ query MyQuery($productId: String!) {
         stoneWeight
       }
     }
-    productImagesByProductId {
+    productImagesByProductId(orderBy: IMAGE_POSITION_ASC) {
       nodes {
         id
         imagePosition
+        productId
         imageUrl
+        ishover
+        isdefault
         productColor
       }
     }
@@ -332,6 +661,7 @@ query MyQuery($productId: String!) {
         sellingPrice
         sellingPriceTax
         isReadyToShip
+        discount
         isActive
         isdefault,
         vendorDeliveryTime
@@ -357,5 +687,23 @@ query MyQuery($productId: String!) {
     PRODUCTLIST,
     PRODUCTEDIT,
     PRODUCTLISTSTATUSEDIT,
-    PRODUCTDIAMONDTYPES
+    PRODUCTDIAMONDTYPES,
+    GOLDPRICELIST,
+    DIAMONDPRICELIST,
+    GEMPRICELIST,
+    MAKINGCHARGEPRICELIST,
+    VENDORLIST,
+    ALLPRODUCTLIST,
+    DIAMONDMARKUP,
+    PRODUCTFILTERMASTER,
+    METALMASTER,
+    GEMSTONEMASTER,
+    MASTERCATEGORY,
+    DELETEMARKUPPRICE,
+    DELETEMAKINGCHARGE,
+    DELETEGEMCHARGE,
+    DELETEGOLDPRICE,
+    DELETEDIAMONDCHARGE,
+    VENDORLISTS,
+    TaxList
   }

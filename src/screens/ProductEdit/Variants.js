@@ -17,19 +17,18 @@ import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
 import Switch from '@material-ui/core/Switch';
 import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import SaveIcon from '@material-ui/icons/Save';
 
 const columns = [
   { id: 'SKU', label: 'SKU'},
   { id: 'Metal Colour', label: 'Metal Colour' },
   { id: 'Metal Purity', label: 'Metal Purity' },
   { id: 'Gold Weight', label: 'Gold Weight' },
-  { id: 'Diamond Type', label: 'Diamond Type' },
   { id: 'Size', label: 'Size' },
   { id: 'Vendor lead Time', label: 'Vendor lead Time' },
   { id: 'Ready to Ship', label: 'Ready to Ship' },
@@ -37,14 +36,12 @@ const columns = [
   {
     id: 'Active',
     label: 'Active',
-    minWidth: 120,
     align: 'center',
     format: value => value.toFixed(2),
   },
   {
     id: 'Edit',
     label: 'Edit',
-    minWidth: 120,
     align: 'center',
     format: value => value.toFixed(2),
   }
@@ -145,7 +142,8 @@ const useStyles2 = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   table:{
-    marginTop: theme.spacing(2)
+    width: '100%'
+   // marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(0),
@@ -173,6 +171,7 @@ const useStyles2 = makeStyles(theme => ({
 export default function Variants(props) {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
+  
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { productCtx, setProductCtx} = React.useContext(ProductContext);
   const [btnEdit, setBtnEdit] = React.useState({
@@ -283,22 +282,20 @@ export default function Variants(props) {
 //     setProductCtx({ ...productCtx, [type]: value})
 
 // }
-// const handleInputChange = type => e => {
-//   setProductCtx({ ...productCtx, [type]: e.target.value  })
-// }
+
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table} stickyHeader>
+        <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {props.columns.map(column => (
                 <TableCell
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  {column.name}
                 </TableCell>
               ))}
             </TableRow>
@@ -307,30 +304,30 @@ export default function Variants(props) {
           <TableBody>
             {props.variants&& props.variants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
+               {props.displycolumns.indexOf('SKU') > -1 ?  <TableCell component="th" scope="row">
                   {row.generatedSku}
-                </TableCell>
-                <TableCell component="th" scope="row">
+                </TableCell> : null }
+                {props.displycolumns.indexOf('Metal Colour') > -1 ?  <TableCell align="center" style = {{width: 40}}  scope="row">
                   {row.metalColor}
-                </TableCell>
-                <TableCell component="th" scope="row">
+            </TableCell> : null } 
+            {props.displycolumns.indexOf('Metal Purity') > -1 ?  <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                   {row.purity}
-                </TableCell>
-                <TableCell component="th" scope="row">
+                </TableCell> : null }
+                {props.displycolumns.indexOf('Gold Weight') > -1 ? <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                     {row.skuWeight}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
+                  </TableCell>: null}
+                  {/* <TableCell align="center" style = {{width: 20}} component="th" scope="row">
                     {row.diamondType}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
+                  </TableCell> */}
+                  {props.displycolumns.indexOf('Size') > -1 ? <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                     {row.skuSize}
-                  </TableCell>
-                
-                  {btnEdit.action && btnEdit.id == row.generatedSku ? <TableCell component="th" scope="row"> <TextField
+                  </TableCell> : null }
+                  {props.displycolumns.indexOf('Vendor lead Time') > -1 ? <TableCell align="center" style = {{width: 40}} component="th" scope="row">
+                  {btnEdit.action && btnEdit.id == row.generatedSku  ?  <Input
                     className={classes.helperinput}
                     variant="outlined"
                     margin="dense"
-                    fullWidth
+                    style = {{width: 40}}
                     value={productCtx.editleadtime}
                     id="productname"
                     error={productCtx && productCtx.error_message && productCtx.error_message.productname}
@@ -340,57 +337,53 @@ export default function Variants(props) {
                     onChange={handleinputChange('editleadtime')}
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
-                  /> </TableCell> :
-                  <TableCell component="th" scope="row">
-                    {row.vendorDeliveryTime}
-            </TableCell> } 
-                  <TableCell component="th" scope="row">
+                  /> :
+                    
+                    
+                    <Typography className={classes.heading}>{row.vendorDeliveryTime}</Typography>
+
+                  } </TableCell> : null }
+                {props.displycolumns.indexOf('Ready To Ship') > -1 ? 
+                  <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                   <Switch
-                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editreadytoship : row.isReadyToShip}
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editreadytoship : row.isReadyToShip}
                        // onChange={()=>handleChange(row.id)}
                         value="checkedA"
-                        onChange={handleChangeswitch('editreadytoship')}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
+                        // onChange={handleChangeswitch('editreadytoship')}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editreadytoship') : null}
+
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
+                  </TableCell> : null }
+                  {props.displycolumns.indexOf('Default') > -1 ? 
+                  <TableCell  align="center" style = {{width: 40}} component="th" scope="row">
                   <Switch
-                        checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisdefault : row.isdefault}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={handleChangeswitch('editisdefault')}
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisdefault : row.isdefault}
                         value="checkedA"
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editisdefault') : null}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
-                  </TableCell>
-                {
-                  // btnEdit.action && btnEdit.id == row.id ?
-                  //   <TableCell align="center">
-                  //     <Button onClick={(e) => DiamondEdit(row.id)}><SaveIcon />
-                  //     </Button>
-                  //   </TableCell> :
-                    <TableCell align="center">
+                  </TableCell> : null }
+                {props.displycolumns.indexOf('Active') > -1 ?<TableCell  style = {{width: 40}} align="center">
                        <Switch
                         checked={row.isActive}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                     checked={(btnEdit.action && btnEdit.id == row.generatedSku) ? productCtx.editisactive : row.isActive}
-                        disabled={!(btnEdit.action && btnEdit.id == row.generatedSku)}
-                        onChange={handleChangeswitch('editisactive')}
+                       checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisactive : row.isActive}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch('editisactive') : null}
 
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
-                    </TableCell>
+                    </TableCell> : null 
                 }
                     {
                   btnEdit.action && btnEdit.id == row.generatedSku ?
-                    <TableCell align="center">
+                    <TableCell  style = {{width: 20}} align="center">
                       <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
                       </Button>
                       <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                       </Button>
                     </TableCell> :
-                    <TableCell align="center">
+                    <TableCell align="center" style = {{width: 20}}>
                       <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
                       </Button>
                     </TableCell>
@@ -407,7 +400,6 @@ export default function Variants(props) {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                colSpan={5}
                 count={props.variants&&props.variants.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

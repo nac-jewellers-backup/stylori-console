@@ -34,6 +34,12 @@ const useStyles = makeStyles(theme => ({
   filterButton: {
     marginRight: theme.spacing(2)
   },
+  table: {
+    minWidth: 500,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
   content: {
     padding: 0
   },
@@ -53,7 +59,7 @@ const Results = props => {
 
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
 
   const handleSelectAll = event => {
     const selectedOrders = event.target.checked
@@ -115,12 +121,20 @@ const Results = props => {
         
         <CardContent className={classes.content}>
           {/* <PerfectScrollbar> */}
-            <div className={classes.inner}>
-              <Table>
+            <div className={classes.tableWrapper}>
+              <Table className={classes.table} border={1} borderColor={"#ddd"} size="small">
                 <TableHead>
                   <TableRow>
-                    
-                    <TableCell>Order ID</TableCell>
+                  {props.columnobjs.map(column => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.name}
+                </TableCell>
+              ))}
+                    {/* <TableCell>Order ID</TableCell>
                     
                     <TableCell align="left">Order Date</TableCell>
                     <TableCell align="center">Customer Name</TableCell>
@@ -129,8 +143,10 @@ const Results = props => {
                     <TableCell align="center">Shipping Address</TableCell>
                     <TableCell align="center">Gift Message</TableCell>
                     <TableCell align="center">Payment Type</TableCell>
-                    <TableCell align="center">Payment Status</TableCell>
-                    <TableCell align="center">PG Response</TableCell>
+                    <TableCell align="center">Payment Status</TableCell> */}
+                    {/* <TableCell align="center">Waybill No</TableCell>
+                    <TableCell align="center">Comments</TableCell>
+                    <TableCell align="center">PG Response</TableCell> */}
 
                   </TableRow>
                 </TableHead>
@@ -143,19 +159,23 @@ const Results = props => {
                       
                      
 
-                      <TableCell >{order.id}</TableCell>
-                      <TableCell align="left">            
+                      {props.showcolumns.indexOf('Order ID') > -1 ? <TableCell >{order.id}</TableCell> : null }
+                      {props.showcolumns.indexOf('Order Date') > -1 ? <TableCell align="left" style = {{width: 120}}>            
                                   <Moment format="DD MMM YYYY hh:mm a">
                                   {order.createdAt}
                                   </Moment>
-                                  </TableCell>
-                      <TableCell align="center">{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.firstName : ''}</TableCell>
-                      <TableCell align="center">{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.email : ''}</TableCell>
-                      <TableCell align="center">{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.mobile : ''}</TableCell>
-                      <TableCell align="center">{order.shoppingCartByCartId.cartAddressesByCartId.nodes.length > 0 ? order.shoppingCartByCartId.cartAddressesByCartId.nodes[0].addressline1 : ''}</TableCell>
-                      <TableCell align="center">{order.shoppingCartByCartId.giftwrapsByCartId.nodes.length > 0 ? order.shoppingCartByCartId.giftwrapsByCartId.nodes[0].message : ''}</TableCell>
-                      <TableCell >{order.paymentMode}</TableCell>
-                      <TableCell >{order.paymentStatus}</TableCell>
+                                  </TableCell> : null }
+                      {props.showcolumns.indexOf('Customer Name') > -1 ? <TableCell align="left">{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.firstName : ''}</TableCell> :  null}
+                      {props.showcolumns.indexOf('Email') > -1 ? <TableCell align="left" style = {{width: 40}}>{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.email : ''}</TableCell> : null}
+                      {props.showcolumns.indexOf('Phone Number') > -1 ? <TableCell align="left" style = {{width: 40}}>{order.shoppingCartByCartId.userProfileByUserprofileId ? order.shoppingCartByCartId.userProfileByUserprofileId.mobile : ''}</TableCell> : null }
+                      {props.showcolumns.indexOf('Shipping Address') > -1 ?  <TableCell align="left">{order.shoppingCartByCartId.cartAddressesByCartId.nodes.length > 0 ? order.shoppingCartByCartId.cartAddressesByCartId.nodes[0].addressline1 : ''}</TableCell> : null }
+                      {props.showcolumns.indexOf('Gift Message') > -1 ? <TableCell align="left">{order.shoppingCartByCartId.giftwrapsByCartId.nodes.length > 0 ? order.shoppingCartByCartId.giftwrapsByCartId.nodes[0].message : ''}</TableCell> : null }
+                      {props.showcolumns.indexOf('Payment Type') > -1 ? <TableCell >{order.paymentMode}</TableCell> : null }
+                      {props.showcolumns.indexOf('Payment Status') > -1 ? <TableCell >{order.paymentStatus}</TableCell> : null }
+                      {props.showcolumns.indexOf('Waybill No') > -1 ? <TableCell >{order.waybill}</TableCell> : null }
+                      {props.showcolumns.indexOf('Comments') > -1 ? <TableCell >{order.comments}</TableCell> : null }
+                      {props.showcolumns.indexOf('Pg Response') > -1 ? <TableCell >{order.pgresponse}</TableCell> : null }
+                      {props.showcolumns.indexOf('SKUs') > -1 ? <TableCell >{order.skus}</TableCell> : null }
 
                       {/* <TableCell align="center">
                       <IconButton aria-label="add to favorites">
@@ -180,7 +200,7 @@ const Results = props => {
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[50, 100, 250]}
           />
         </CardActions>
       </Card>

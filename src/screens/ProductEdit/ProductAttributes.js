@@ -26,6 +26,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { NetworkContext } from '../../context/NetworkContext';
+import CloseIcon from '@material-ui/icons/Close';
+import SortHeader from './Components/SortHeader';
+import columnnames from './columnnames.json';
+import Productimages from './Productimages'
+import FullLoader from '../../components/Loader'
 
 import {
   Card,
@@ -33,6 +38,7 @@ import {
   Chip,
   CardContent,
   Divider,
+  Switch,
   RadioGroup,
   Radio,
   FormLabel,
@@ -84,8 +90,14 @@ const useStyle = makeStyles(theme => ({
 export function Component(props) {
   const [open, setOpen] = React.useState(false);
   const [expand, setExpand] = React.useState(false);
-  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [varientcolumns, setVarientcolumns] = React.useState(columnnames.defaultvarients);
+  const [displycolumns, setDisplycolumns] = React.useState(columnnames.defaultvarientnames);
+  const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.defaultpricing);
+  const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricingnames);
+  const [loadopen, setLoadopen] = React.useState(true);
 
+  
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [snackMessage,setSnackMessage] = React.useState({
     message:"",
     severity:""
@@ -104,7 +116,6 @@ export function Component(props) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
@@ -136,6 +147,23 @@ const handleinputChange =type => e => {
 //   alert(event.target.value)
 //       setProductCtx({ ...productCtx, [type]: value})
 // }
+function getColumnnames(columnnames,displytype) {
+  let displycolumns = [];
+    columnnames.forEach(element => {
+      displycolumns.push(element.name)
+    })
+  if(displytype === 1)
+  {
+    setDisplycolumns(displycolumns)
+    setVarientcolumns(columnnames)
+  }else{
+    setPricingcolumns(columnnames)
+    setDisplypricingcolumns(displycolumns)
+  }
+    
+   
+
+}
   function createVariant() {
     let diamondTypesArray = [];
     // let diamondClaritySku = [];
@@ -224,6 +252,35 @@ async function saveProductEditItem() {
     console.log(JSON.stringify(productEditItem))
     // props.history.push('/productlist')
   }
+
+  const handledisableproduct = name => async event => {
+    setProductCtx({ ...productCtx, [name]: event.target.checked });
+    let bodycontent = {
+      "productid": prod_id,
+      "isactive" : event.target.checked
+    }
+    let response =  await sendNetworkRequest('/disableproduct', {}, bodycontent)
+
+    console.log("************")
+    console.log(JSON.stringify(bodycontent))
+    if (response) {
+      setSnackMessage({
+        ...snackMessage,
+        message:"This is successfully saved",
+        severity:"success"
+      })
+      handleClick();
+        // setTimeout(()=>{  window.location='/productlist'},1000)
+    } else {
+      setSnackMessage({
+        ...snackMessage,
+        message:"You are not edit product",
+        severity:"info"
+      })
+      handleClick();
+    }
+  };
+
   function Skupricesync(diamondData) {
     let bodydata = {
       req_product_id: diamondData
@@ -239,13 +296,23 @@ async function saveProductEditItem() {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: PRODUCTEDIT, variables: { "productId": prod_id } })
+      body: JSON.stringify({ query: PRODUCTEDIT, variables: { "productId": prod_id }  })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
         var genders = fatchvalue.data.productListByProductId.gender
+        var size_obj = fatchvalue.data.productListByProductId.sizeVarient
+        let sizes_arr = []
+        if(size_obj)
+        {
+          let sizes = size_obj.split(',')
+          sizes.forEach(element => {
+            
+            sizes_arr.push(element)
+          });
+        }
         genders = genders.split(',')
         let gender_arr = []
         genders.forEach(element => {
@@ -254,20 +321,47 @@ async function saveProductEditItem() {
           }
           gender_arr.push(gender_obj)
         });
+        let defaultcolour = "";
+       var images_arr = fatchvalue.data.productListByProductId.productImagesByProductId.nodes
+       images_arr.forEach(element => {
+          if(element.isdefault)
+          {
+            defaultcolour = element.productColor
+          }
+      });
+      var metalcolors = []
+      Array.prototype.insert = function ( index, item ) {
+        this.splice( index, 0, item );
+    };
+     let metalcolor =  fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes
+     metalcolor.forEach(colorobj => {
+          if(colorobj.productColor === defaultcolour)
+          {
+            colorobj['isdefault'] = true
+            metalcolors.insert(0, colorobj);
+
+          }else
+          {
+            colorobj['isdefault'] = false
+            metalcolors.push(colorobj)
+          }
+     })
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
+          isactive: fatchvalue.data.productListByProductId.isactive,
           product_type: fatchvalue.data.productListByProductId.productType,
           product_categoy: fatchvalue.data.productListByProductId.productCategory,
           gemstonelist: fatchvalue.data.productListByProductId.productGemstonesByProductSku.nodes,
           diamondlist: fatchvalue.data.productListByProductId.productDiamondsByProductSku.nodes,
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
-          productMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
+          productMetalColor: metalcolors,
           oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
-          variant_size: fatchvalue.data.productListByProductId.sizeVarient,
+          variant_size: sizes_arr,
+          productmaterials: fatchvalue.data.productListByProductId.productMaterialsByProductSku.nodes,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
           product_gender:gender_arr,
           themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,
@@ -282,13 +376,15 @@ async function saveProductEditItem() {
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName))
         })
+        setLoadopen(false)
 
       })
       .catch(console.error)
   }, [])
   return (
     state.create_variant ? <CreateVariant productMetalColor={productCtx.productMetalColor} productMetalPurity={productCtx.productMetalPurity} changeVariant={changeVariant} productId={prod_id} /> :
-      <Grid container>
+           <Grid container>
+             <FullLoader title="Getting Product Details" isopen={loadopen}/>
              <React.Fragment>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={snackMessage.severity}>
@@ -390,10 +486,10 @@ async function saveProductEditItem() {
                       id="free-solo-2-demo"
                       disabled
                       className={classes.fixedTag}
-                      value={[{label: "Silver",name:"Silver"},{label: "Gold",name:"Gold"}]}
+                      value={productCtx.productmaterials}
                       renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                      <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
+                      <Chip variant="outlined" size="small" label={option.materialName} {...getTagProps({ index })} />
                       ))
                       }
                       renderInput={params => (
@@ -630,7 +726,13 @@ async function saveProductEditItem() {
                       )}
                       />
               
-              
+              <FormControlLabel
+                                label={productCtx.isactive ? "Disable this product" : "Enable this product"}
+
+                  control={
+                    <Switch checked={productCtx.isactive} onChange={handledisableproduct('isactive')} value="checkedA" />
+                  }
+                />
               
               
               <Grid item container style={{
@@ -640,11 +742,11 @@ async function saveProductEditItem() {
             }}>
               <Grid item>
                 <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
-                  Save
+                  Update
              </Button>
-                <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
+                {/* <Button color="default" style={{  marginLeft:"16px" }} variant="contained" onClick={(e) => backProductList()}>
                   Back
-              </Button>
+              </Button> */}
               </Grid>
             </Grid>
               
@@ -667,7 +769,7 @@ async function saveProductEditItem() {
                
                   <ExpansionPanel expanded={expand} onChange={handleChange()}>
                     <ExpansionPanelSummary
-                      expandIcon={<AddIcon />}
+                      expandIcon={expand? <CloseIcon /> : <AddIcon />}
                       aria-controls="panel1c-content"
                       id="panel1c-header"
                     >
@@ -691,17 +793,26 @@ async function saveProductEditItem() {
                     
                 
                 </Grid>
-              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Table  </Grid>
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}><SortHeader columnnames={columnnames.varients}  getColumnnames={getColumnnames} displytype={1}/>  </Grid>
 
-              <Variants variants={productCtx.variants} />
-              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Pricing Table  
+              <Variants variants={productCtx.variants} columns={varientcolumns} displycolumns={displycolumns} />
+                  
+              <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>  
+              <SortHeader columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/>
               <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
                         Price Run For This Product
-                      </Button></Grid>
-
-              <Skupricing variants={productCtx.variants} />
-
+              </Button>
             </Grid>
+
+              <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
+              <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
+              {productCtx.productMetalColor.map(colors => (
+                    <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />
+
+              ))}
+            
+            </Grid>
+            
             
           </Grid>
         </Grid>

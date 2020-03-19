@@ -1,0 +1,20 @@
+{
+    "pricingcomponent":[
+        {
+            "id": 5,
+            "label": "All"
+        },
+        {
+            "id": 1,
+            "label": "Diamond"
+        },
+        {
+            "id": 2,
+            "label": "Gold"
+        },
+        {
+            "id": 3,
+            "label": "Making Charge"
+        }
+    ]
+}

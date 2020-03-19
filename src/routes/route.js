@@ -10,6 +10,7 @@ const route = {
     materiallist: '/material',
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
+    salediscount: '/salediscount',
     priceupdate: '/priceupdate',
     productAttributes: '/product_attributes',
     diamondDetails: '/diamond_details',
@@ -18,7 +19,10 @@ const route = {
     images:'/images',
     createVariant:'/create_variant',
     materiallistpage:'/newmaterial',
-    editCategory:'/editcategory'
+    editCategory:'/editcategory',
+    vendorPrice:'/vendorpricesetup',
+    markupPrice: '/markuppricesetup',
+    taxsetup: '/taxsetup'
 
 }
 

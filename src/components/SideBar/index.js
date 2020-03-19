@@ -34,14 +34,18 @@ function SideBar() {
   const handleDrawer = () => {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen })
   }
-  function handleClick() {
-      
-      setGlobalCtx({ ...globalCtx, isExpand: !globalCtx.isExpand })
+  const handleClick = type => e => {
+    setGlobalCtx({ ...globalCtx, "optionname": type , isExpand: !globalCtx.isExpand})
 
   }
+  // const handleClick  = type => e => {
+      
+  //     setGlobalCtx({ ...globalCtx,optionname: isExpand: !globalCtx.isExpand })
+
+  // }
   function handleListItemClick(event, index)
   {
-    setGlobalCtx({ ...globalCtx, selectedIndex: index})
+    setGlobalCtx({ ...globalCtx, selectedIndex: index,isExpand: !globalCtx.isExpand})
 
   }
 
@@ -79,6 +83,53 @@ function SideBar() {
               <ListItemText primary={"Product List"} />
             </ListItem>
             </Link>
+            <ListItem button onClick={handleClick('Pricing')}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Pricing" />
+              {globalCtx.isExpand && globalCtx.optionname === 'Pricing' ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={globalCtx.isExpand  && globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+        <Link underline='none' component={RouterLink} to={'/vendorpricesetup'}>
+
+          <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 1} onClick={event => handleListItemClick(event, 1)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Vendor Price Setup" />
+          </ListItem>
+          </Link>
+          <Link underline='none' component={RouterLink} to={'/markuppricesetup'}>
+
+          <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 2} onClick={event => handleListItemClick(event, 2)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Selling Price Markup Setup" />
+          </ListItem>
+          </Link>
+          <Link underline='none' component={RouterLink} to={'/salediscount'}>
+
+          <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 3} onClick={event => handleListItemClick(event, 3)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Discount Setup" />
+          </ListItem>
+          </Link>
+          <Link underline='none' component={RouterLink} to={'/priceupdate'}>
+
+          <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 4} onClick={event => handleListItemClick(event, 4)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Price Run" />
+          </ListItem>
+          </Link>
+        </List>
+      </Collapse>
           <Link underline='none' component={RouterLink} to={'/vendorlist'}>
             <ListItem button key={"Vendorlist"}  >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
@@ -103,14 +154,14 @@ function SideBar() {
             </ListItem>
             </Link>
 
-       <ListItem button onClick={handleClick}>
+       <ListItem button onClick={handleClick('Discounts')}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
         <ListItemText primary="Discounts" />
-        {globalCtx.isExpand ? <ExpandLess /> : <ExpandMore />}
+        {globalCtx.isExpand && globalCtx.optionname === 'Discounts' ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={globalCtx.isExpand} timeout="auto" unmountOnExit>
+      <Collapse in={globalCtx.isExpand && globalCtx.optionname === 'Discounts'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>
 

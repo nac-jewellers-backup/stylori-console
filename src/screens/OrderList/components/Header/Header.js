@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Typography, Button } from '@material-ui/core';
 // import {  SnackBarContext } from '../../../../context';
+import SortHeader from './SortHeader';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -15,7 +16,6 @@ const Header = props => {
   // const showSnackbar = React.useContext(SnackBarContext);
 
   const handleApplicationOpen = () => {
-    
     setOpenApplication(true);
   };
 
@@ -48,16 +48,16 @@ const Header = props => {
           >
             Management
           </Typography> */}
-          {/* <Typography
+           <Typography
             component="h1"
-            variant="h2"
+            variant="h5"
           >
-             Product Type
-          </Typography> */}
+             Order List
+          </Typography> 
         </Grid>
         <Grid item>
 
-          
+          <SortHeader columnnames={props.columns} getColumnnames={props.getColumnnames}/>
          
         </Grid>
       </Grid>

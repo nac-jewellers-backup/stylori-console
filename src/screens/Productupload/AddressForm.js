@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {Input} from '../../components/Input.js'
 import { ProductContext } from '../../context';
+import FullLoader from '../../components/Loader'
 import "./Productupload.css"
 import Select from 'react-select';
 import "./floating_dropdown.css"
@@ -201,8 +202,7 @@ export default function AddressForm(props) {
     }
 
 
-    const handleChange = event => {
-    
+    const switchisorderable = event => {
         setProductCtx({ ...productCtx, ['isreorderable']: event.target.value})
 
      
@@ -400,6 +400,7 @@ export default function AddressForm(props) {
   return (
     <>
     <div>
+      {/* <FullLoader /> */}
     <Grid container  spacing={1}>  
     <Grid item xs={12} sm={6} spacing={1}>
 
@@ -705,7 +706,7 @@ export default function AddressForm(props) {
 
           <FormControl component="fieldset">
           <FormLabel component="legend">IsReorderable</FormLabel>
-          <RadioGroup aria-label="position" name="position" value={productCtx.isreorderable} onChange={handleChange} row>
+          <RadioGroup aria-label="position" name="position" value={productCtx.isreorderable} onChange={switchisorderable} row>
             <FormControlLabel
               value="Yes"
               

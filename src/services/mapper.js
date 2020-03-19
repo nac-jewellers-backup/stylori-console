@@ -1,5 +1,5 @@
 import { PRODUCTCATEGORY } from "../graphql/query";
-import { MATERIALMASTER,ORDERS } from "../services/queries";
+import { MATERIALMASTER,ORDERS,VOUCHERMASTER } from "../services/queries";
 import apidata from '../screens/Productupload/data.json';
 
 export const productCategory = {
@@ -29,7 +29,8 @@ export const productCategory = {
         const vendorcode  = response.allMasterVendors.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label: _.name
+            label: _.name,
+            display: _.name +' ('+_.shortCode+' )'
         }))
         
         const diamondsettings = response.allMasterDiamondsSettings.nodes.map(_ => ({
@@ -170,21 +171,16 @@ export const orderList = {
     query: ORDERS,
     mapper: (response) => {
         const orders = response.allOrders.nodes.map(_ => ({
-            ..._,
-            ipgid: JSON.parse(_.paymentDetailsByOrderId.nodes[0])
+            ..._
                 }))
-                if(orders.length > 0)
-                {
-                    alert(JSON.stringify(orders[0].ipgid))
-
-                }
+               
         return {
             orders
         }
     }
 }
 export const materialMaster = {
-    query: MATERIALMASTER,
+    query: VOUCHERMASTER,
     mapper: (response) => {
         const materials = response.allMasterMaterials.nodes.map(_ => ({
             ..._
@@ -199,12 +195,39 @@ export const materialMaster = {
         const product_types = response.allMasterProductTypes.nodes.map(_ => ({
             ..._
         }))
+        const pricing_components = response.allMasterPricingComponents.nodes.map(_ => ({
+            ..._
+        }))
+        const collections = response.allMasterCollections.nodes.map(_ => ({
+            ..._
+        }))
+        const purities = response.allMasterMetalsPurities.nodes.map(_ => ({
+            ..._
+        }))
+        const styles = response.allMasterStyles.nodes.map(_ => ({
+            ..._
+        }))
+
+        const themes = response.allMasterThemes.nodes.map(_ => ({
+            ..._
+        }))
+        const occations = response.allMasterOccasions.nodes.map(_ => ({
+            ..._
+        }))
+
         
+        // alert(JSON.stringify(product_types))
         return {
             vendors,
             product_categories,
             product_types,
-            materials
+            materials,
+            pricing_components,
+            collections,
+            purities,
+            styles,
+            themes,
+            occations
         }
     }
 

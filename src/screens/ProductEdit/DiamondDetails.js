@@ -24,6 +24,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -32,14 +33,16 @@ const columns = [
   { id: 'Diamond', label: 'Diamond' },
   { id: 'Colour', label: 'Colour' },
   { id: 'Clarity', label: 'Clarity' },
-  { id: 'Setting', label: 'Setting' },
-  { id: 'Shape', label: 'Shape' },
   { id: 'Weight', label: 'Weight' },
   { id: 'Number', label: 'Number' },
+  { id: 'Setting', label: 'Setting' },
+  { id: 'Shape', label: 'Shape' },
+
   {
     id: 'Edit',
     label: 'Edit',
-    minWidth: 120,
+    minWidth: 80,
+    maxWidth: 80,
     align: 'center',
     format: value => value.toFixed(2),
   }
@@ -121,6 +124,7 @@ function createData(name, calories, fat) {
 
 const useStyles2 = makeStyles(theme => ({
   root: {
+    
     width: '100%',
     marginTop: theme.spacing(3),
   },
@@ -128,6 +132,8 @@ const useStyles2 = makeStyles(theme => ({
     minWidth: 500,
   },
   tableWrapper: {
+    display: 'flex',
+    
     overflowX: 'auto',
   },
   fixedTag: {
@@ -140,7 +146,7 @@ const useStyles2 = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   table:{
-    marginTop: theme.spacing(2)
+    //marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(0),
@@ -308,7 +314,9 @@ const handleInputChange = type => e => {
       </Snackbar>
         </React.Fragment>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table} stickyHeader>
+      {/* <CircularProgress color="secondary"/> */}
+
+         <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -326,15 +334,55 @@ const handleInputChange = type => e => {
           <TableBody>
             {props.diamond&&props.diamond.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell align={"center"} style = {{width: 40}} component="th" scope="row">
                   {row.diamondType}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell align={"center"} style = {{width: 40}} component="th" scope="row">
                   {row.diamondColour}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell align={"center"} style = {{width: 40}} component="th" scope="row">
                   {row.diamondClarity}
                 </TableCell>
+
+                {btnEdit.action && btnEdit.id == row.id ?  
+                 <TableCell align={"center"} component="th" scope="row"> 
+                <Input
+              variant="outlined"
+              style = {{width: 40}}
+              id="size"
+              margin="dense"
+              label="Weight"
+              name="size"
+              autoComplete="size"
+              onChange={handleInputChange('diamondweight')}
+              value={productCtx.diamondweight}
+              />
+              </TableCell>    :
+                  <TableCell align={"center"} style = {{width: 40}} component="th" scope="row">
+                    {row.stoneWeight}
+                  </TableCell>
+                }
+                {btnEdit.action && btnEdit.id == row.id ?     
+                <TableCell component="th" scope="row">
+                <Input
+              variant="outlined"
+              style = {{width: 40}}
+              id="size"
+              margin="dense"
+              label="#of Stones"
+              name="size"
+              type="number"
+              autoComplete="size"
+              onChange={handleInputChange('diamondcount')}
+              value={productCtx.diamondcount}
+              />
+         
+              </TableCell> :
+                  <TableCell  style = {{width: 40}} component="th" scope="row">
+                    {row.stoneCount}
+                   
+                  </TableCell>
+                }
                 {btnEdit.action && btnEdit.id == row.id ?
                 <TableCell component="th" scope="row">
                   <Autocomplete
@@ -395,53 +443,17 @@ const handleInputChange = type => e => {
                     {row.diamondShape}
                   </TableCell>
                 }
-                {btnEdit.action && btnEdit.id == row.id ?  
-                 <TableCell component="th" scope="row"> 
-                <Input
-              variant="outlined"
-              fullWidth
-              id="size"
-              margin="dense"
-              label="Weight"
-              name="size"
-              autoComplete="size"
-              onChange={handleInputChange('diamondweight')}
-              value={productCtx.diamondweight}
-              />
-              </TableCell>    :
-                  <TableCell component="th" scope="row">
-                    {row.stoneWeight}
-                  </TableCell>
-                }
-                {btnEdit.action && btnEdit.id == row.id ?     
-                <TableCell component="th" scope="row">
-                <Input
-              variant="outlined"
-              fullWidth
-              id="size"
-              margin="dense"
-              label="#of Stones"
-              name="size"
-              type="number"
-              autoComplete="size"
-              onChange={handleInputChange('diamondcount')}
-              value={productCtx.diamondcount}
-              />
-              </TableCell> :
-                  <TableCell component="th" scope="row">
-                    {row.stoneCount}
-                  </TableCell>
-                }
+              
 
                 {
                   btnEdit.action && btnEdit.id == row.id ?
-                    <TableCell align="center">
+                    <TableCell align="center" style={{width: 80}}>
                       <Button onClick={(e) => DiamondSave(row.id)}><SaveIcon />
                       </Button>
                       <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                       </Button>
                     </TableCell> :
-                    <TableCell align="center">
+                    <TableCell align="center" style={{width: 80}}>
                       <Button onClick={(e) => DiamondEdit(row)}><EditIcon />
                       </Button>
                     </TableCell>
@@ -455,11 +467,11 @@ const handleInputChange = type => e => {
               </> : null
             }
           </TableBody>
-          <TableFooter>
+           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                colSpan={5}
+               
                 count={props.diamond&&props.diamond.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -472,8 +484,8 @@ const handleInputChange = type => e => {
                 ActionsComponent={TablePaginationActions}
               />
             </TableRow>
-          </TableFooter>
-        </Table>
+          </TableFooter>  
+        </Table>         
       </div>
     </Paper>
   );

@@ -2,7 +2,9 @@ import React from 'react';
 import {BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import route from './route';
-import { Dashboard, Login, Productupload, Configuration,Priceupdate, Vendorlist, Productlist, Materiallist, CategoryList, ProducttypeList, Voucherdiscount, OrderList } from '../screens';
+import { Dashboard, Login, Productupload, Configuration,
+        Priceupdate,Vendorprice, Vendorlist,Markupprice,
+     Productlist, Materiallist, CategoryList, ProducttypeList, Voucherdiscount, Salediscount, OrderList, Taxsetup } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -24,7 +26,7 @@ const MainApp = () => {
             {/* <ProductProvider > */}
             <NetworkProvider>
                 <Switch>
-                    <Route exact path="/" component={Login} />
+                    <PrivateRoute exact path="/" component={Login} />
                     <Route path={route.login} component={Login} />
                     <PrivateRoute  path={route.dashboard} component={Dashboard} />
                     <PrivateRoute  path={route.productupload} component={Productupload} />
@@ -38,6 +40,10 @@ const MainApp = () => {
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute  path={route.priceupdate} component={Priceupdate} />
                     <PrivateRoute  path={route.orderlist} component={OrderList} />
+                    <PrivateRoute  path={route.vendorPrice} component={Vendorprice} />
+                    <PrivateRoute  path={route.markupPrice} component={Markupprice} />
+                    <PrivateRoute  path={route.salediscount} component={Salediscount} />
+                    <PrivateRoute  path={route.taxsetup} component={Taxsetup} />
 
                      <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />            

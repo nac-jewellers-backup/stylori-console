@@ -1,11 +1,17 @@
 /* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
 import gradients from '../../../../utils/gradients';
 import LockIcon from '@material-ui/icons/Lock';
+import { NetworkContext } from '../../../../context/NetworkContext';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import {
   Card,
@@ -16,6 +22,7 @@ import {
   Link,
   Avatar
 } from '@material-ui/core';
+var validate = require("validate.js");
 
 const schema = {
   email: {
@@ -32,7 +39,6 @@ const useStyles = makeStyles(theme => ({
    
   },
   card: {
-    width: theme.breakpoints.values.md,
     maxWidth: '100%',
     overflow: 'unset',
     display: 'flex',
@@ -95,12 +101,15 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   }
 }));
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const LoginForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -108,15 +117,29 @@ const LoginForm = props => {
     touched: {},
     errors: {}
   });
+  const [open, setOpen] = React.useState(false);
+  const [showmessage, setShowmessage] = React.useState("");
+  const [iserror, setIserror] = React.useState(false);
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   useEffect(() => {
-    // const errors = validate(formState.values, schema);
+   const errors = validate(formState.values, schema);
 
-    // setFormState(formState => ({
-    //   ...formState,
-    //   isValid: errors ? false : true,
-    //   errors: errors || {}
-    // }));
+    setFormState(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
   }, [formState.values]);
 
   const handleChange = event => {
@@ -140,7 +163,32 @@ const LoginForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    if(formState.isValid)
+    {
+      //alert(JSON.stringify(formState.values))
+   let signinobj =   await sendNetworkRequest('/api/auth/signin', {}, formState.values)
+   
+   
+   if(signinobj.statuscode === 200)
+   {
+    localStorage.setItem('accesstoken', signinobj.accessToken);
+    props.history.push('/productlist')
+
+   }else
+   {
+
+    setShowmessage(signinobj.message)
+    setOpen(true);
+   }
+  
+    }else{
+      alert("has some error")
+    }
+
+
+    //alert(JSON.stringify(formState))
     // dispatch(login());
+    //alert("i am here")
   };
 
   const hasError = field =>
@@ -156,11 +204,13 @@ const LoginForm = props => {
         Sign in
         </Typography>
         <Typography variant="subtitle2">
-        Sign in on the internal platform
+        {/* Sign in on the internal platform */}
         </Typography>
+        
         <form
           {...rest}
           className={clsx(classes.root, className)}
+          autoComplete={"off"}
           onSubmit={handleSubmit}
         >
           <div className={classes.fields}>
@@ -170,6 +220,7 @@ const LoginForm = props => {
               helperText={hasError('email') ? formState.errors.email[0] : null}
               label="Email address"
               name="email"
+              
               onChange={handleChange}
               value={formState.values.email || ''}
               variant="outlined"
@@ -197,49 +248,17 @@ const LoginForm = props => {
           >
         Sign in
           </Button>
+          <Snackbar open={open} autoHideDuration={6000}
+          anchorOrigin={{vertical:'top', horizontal:'center'}}
+          onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+             {showmessage}
+            </Alert>
+      </Snackbar>
         </form>
        
       </CardContent>
-      <CardMedia
-        className={classes.media}
-        title="Cover"
-
-      >
-             <div className={classes.person}>
-                <img src="/images/shape1.png"
-                 />
-              </div> 
-        {/* <Typography
-          color="inherit"
-          variant="subtitle1"
-        >
-            Hella narvwhal Cosby sweater McSweeney's, salvia kitsch before they
-            sold out High Life.
-        </Typography>
-        <div className={classes.person}>
-        
-          <Avatar
-            alt="Person"
-            className={classes.avatar}
-            src="/images/avatar_2.png"
-            backgroundImage="/images/blob-shape.svg"
-          />
-          <div>
-            <Typography
-              color="inherit"
-              variant="body1"
-            >
-                Ekaterina Tankova
-            </Typography>
-            <Typography
-              color="inherit"
-              variant="body2"
-            >
-                Manager at inVision
-            </Typography>
-          </div>
-        </div> */}
-      </CardMedia>
+     
     </Card>
   );
 };
@@ -248,4 +267,4 @@ LoginForm.propTypes = {
   className: PropTypes.string
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);
