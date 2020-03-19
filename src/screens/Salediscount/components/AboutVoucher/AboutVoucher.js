@@ -125,6 +125,8 @@ const AboutVoucher = props => {
   };
 
   const handleInputChange = type => e => {
+    props.onAdded(type,e.target.value)
+
   }
   function changediscountype(optionvalue)
   {
@@ -132,12 +134,16 @@ const AboutVoucher = props => {
       ...discountobj,
       "discounttype": optionvalue
     })
+    props.onAdded("discounttype",optionvalue)
+
   }
   const handleoptionChange = type => (event, value) => {
       setDiscountobj({
         ...discountobj,
         [type]: value
       })
+
+      props.onAdded(type,value)
   }
   const handleCountChange = type => e => {
     setVouchercount(e.target.value.toUpperCase())
@@ -172,7 +178,8 @@ const AboutVoucher = props => {
                        value={discountobj.componenets}
                        className={classes.fixedTag}
                        fullWidth
-                       options={voucherCtx.voucherMaster.pricing_components.map(option => option.name)}
+                       getOptionLabel={option => option.name}
+                       options={voucherCtx.voucherMaster.pricing_components}
                        onChange={handleoptionChange('componenets')}
                        renderTags={(value, getTagProps) =>
                        value.map((option, index) => (

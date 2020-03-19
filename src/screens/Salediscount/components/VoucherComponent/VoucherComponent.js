@@ -4,9 +4,13 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {CategoryComponents} from './../../components'
 import { DateTimePicker } from "@material-ui/pickers";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
   Card,
+  Grid,
+  Chip,
+  TextField,
   CardHeader,
   CardContent,
   Tabs, Tab, 
@@ -61,7 +65,8 @@ const useStyles = makeStyles(theme => ({
   optionDetails: {
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(2)
-  }
+  },
+  
 }));
 
 const VoucherComponent = props => {
@@ -69,7 +74,7 @@ const VoucherComponent = props => {
 
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
-  const [tablist, setTablist] = useState(tabs);
+  const [attrobj, setAttrobj] = useState({});
   const [tabnames, setTabnames] = useState([
     "Category",
     "Producttype",
@@ -88,6 +93,13 @@ const VoucherComponent = props => {
     setSelected(option);
 
   };
+  const handleoptionChange = type => (event, value) => {
+      setAttrobj({
+        ...attrobj,
+        [type]: value
+      })
+    props.onAdded(type, value)
+  }
   const handleTabsChange = (event, value) => {
     if(value == 'Material')
     {
@@ -100,7 +112,6 @@ const VoucherComponent = props => {
       }
 
     }
-    setTablist(tabs)
     setSelectedtab(value);
   };
   useEffect(() => {
@@ -111,34 +122,283 @@ const VoucherComponent = props => {
       className={clsx(classes.root, className)}
     >
   
-      <Tabs
-        className={classes.tabs}
-        scrollButtons="auto"
-        value={selectedtab}
-        onChange={handleTabsChange}
-        variant="scrollable"
-      >
-        {tabnames.map(tab => (
-          <Tab
-            key={tab}
-            label={tab}
-            selected
-            value={tab}
-          />
-        ))}
-      </Tabs>
-      <Divider />
+      
       <div className={classes.content}>
-    
-      {selectedtab === 'Category' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.product_categories} /> : null }
-      {selectedtab === 'Material' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.materials} /> : null }
-      {selectedtab === 'Producttype' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.product_types} /> : null }
-      {selectedtab === 'Collections' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.collections} /> : null }
-      {selectedtab === 'Purity' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.purities} /> : null }
-      {selectedtab === 'Styles' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.styles} /> : null }
-      {selectedtab === 'Occations' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.occations} /> : null }
-      {selectedtab === 'Themes' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.themes} /> : null }
+      <Grid container  spacing={2}>  
+      <Grid   item xs={4} sm={4} >
+                  <Autocomplete
+                       id="free-solo-2-demo"
+                       multiple
+                       value={attrobj.category}
+                       className={classes.fixedTag}
+                       fullWidth
+                       getOptionLabel={option => option.name}
+                       options={voucherCtx.voucherMaster.product_categories}
+                       onChange={handleoptionChange('category')}
+                       renderTags={(value, getTagProps) =>
+                       value.map((option, index) => (
+                       <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                       ))
+                       }
+                       renderInput={params => (
+                       <TextField
+                       {...params}
+                       label="Product Category"
+                       margin="dense"
+                       variant="outlined"
+                       fullWidth
+                       />
+                       )}
+                       />
+        </Grid>
+       
+        <Grid   item xs={4} sm={4} >
+           <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+            value={attrobj.product_types}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.product_types}
+           onChange={handleoptionChange('product_types')}
+           getOptionLabel={option => option.name}
+           value={attrobj.product_types}
 
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Product Types"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+        </Grid>
+        <Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.materials}
+           onChange={handleoptionChange('materials')}
+           getOptionLabel={option => option.name}
+           value={attrobj.materials}
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Materials"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid>
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.purities}
+           onChange={handleoptionChange('purities')}
+           getOptionLabel={option => option.name}
+           value={attrobj.purities}
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Purity"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid>  
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.pricing_components.map(option => option.name)}
+           onChange={handleoptionChange('componenets')}
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Diamond Types"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid>  
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.collections}
+           onChange={handleoptionChange('collections')}
+           getOptionLabel={option => option.name}
+           value={attrobj.collections}           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Collections"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid>   
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.occations}
+           onChange={handleoptionChange('occations')}
+           getOptionLabel={option => option.name}
+           value={attrobj.occations} 
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Occassions"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid> 
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.styles}
+           onChange={handleoptionChange('styles')}
+           getOptionLabel={option => option.name}
+           value={attrobj.styles}
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Styles"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid> 
+<Grid   item xs={4} sm={4} >
+            
+            <Autocomplete
+           id="free-solo-2-demo"
+           multiple
+          //  value={attrobj.componenets}
+           className={classes.fixedTag}
+           fullWidth
+           options={voucherCtx.voucherMaster.themes}
+           onChange={handleoptionChange('themes')}
+           getOptionLabel={option => option.name}
+           value={attrobj.themes}
+           renderTags={(value, getTagProps) =>
+           value.map((option, index) => (
+           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           ))
+           }
+           renderInput={params => (
+           <TextField
+           {...params}
+           label="Themes"
+           margin="dense"
+           variant="outlined"
+           fullWidth
+          //  error = {productCtx.error_message.selected_sizes}
+
+          //  InputProps={{ ...params.InputProps, type: 'search' }}
+           />
+           )}
+           />
+</Grid> 
+        </Grid>    
+     
       
         </div>
     </Card>

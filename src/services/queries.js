@@ -137,6 +137,7 @@ export const VOUCHERMASTER = gql`query {
     nodes {
       name
       id
+      
     }
   },
   allMasterPricingComponents(condition: {isActive: true}) {
@@ -149,12 +150,14 @@ export const VOUCHERMASTER = gql`query {
     nodes {
       name
       id
+      alias
     }
   },
   allMasterProductTypes {
     nodes {
       name
       id
+      alias
     }
   },
   allMasterMetalsPurities {

@@ -61,6 +61,8 @@ const CategoryComponents = props => {
   const { className, ...rest } = props;
   const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
   const [vouchercode, setVouchercode] = useState("");
+  const [attributenames, setAttributenames] = useState("");
+  const [attributealias, setAttributealias] = useState("");
 
   const classes = useStyles();
 
@@ -81,6 +83,7 @@ const CategoryComponents = props => {
  }
  
   const handleClick = (event, option) => {
+    alert(JSON.stringify(option))
     setSelected(option);
   };
   const generateCoupon = (event) => {
