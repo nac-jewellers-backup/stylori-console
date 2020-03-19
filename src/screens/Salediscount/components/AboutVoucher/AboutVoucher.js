@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { VoucherContext } from '../../../../context';
 import { DateTimePicker } from "@material-ui/pickers";
 import { makeid } from '../../../../utils/commonmethod';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import data from './data.json'
 import {
   Card,
   CardHeader,
@@ -92,7 +94,7 @@ const useStyles = makeStyles(theme => ({
 const AboutVoucher = props => {
   const { className, ...rest } = props;
   const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
-  const [vouchercode, setVouchercode] = useState([]);
+  const [discountobj, setDiscountobj] = useState({});
   const [vouchername, setVouchername] = useState("");
   const [vouchercount, setVouchercount] = useState("");
   const [voucherprefix, setVoucherprefix] = useState("");
@@ -121,10 +123,22 @@ const AboutVoucher = props => {
     setUsagelimit(option);
 
   };
-  const handleInputChange = type => e => {
-    setVouchercode(e.target.value.toUpperCase())
-  }
 
+  const handleInputChange = type => e => {
+  }
+  function changediscountype(optionvalue)
+  {
+    setDiscountobj({
+      ...discountobj,
+      "discounttype": optionvalue
+    })
+  }
+  const handleoptionChange = type => (event, value) => {
+      setDiscountobj({
+        ...discountobj,
+        [type]: value
+      })
+  }
   const handleCountChange = type => e => {
     setVouchercount(e.target.value.toUpperCase())
   }
@@ -137,11 +151,7 @@ const AboutVoucher = props => {
   const handleonceperorder = (event, option) => {
     setIsonce(!isonce);
   };
-  const generateCoupon = (event) => {
-   // alert(JSON.stringify(voucherCtx))
-   setVouchercode(makeid(10,voucherprefix,vouchercount))
-  };
-  
+ 
   
   return (
     <Card
@@ -159,22 +169,20 @@ const AboutVoucher = props => {
         <Autocomplete
                        id="free-solo-2-demo"
                        multiple
-                       freeSolo
-                       defaultValue={vouchercode}
-                       value={vouchercode}
+                       value={discountobj.componenets}
                        className={classes.fixedTag}
                        fullWidth
-                       options={[]}
-                      //  onChange={handleInputChange('vouchercode')}
+                       options={voucherCtx.voucherMaster.pricing_components.map(option => option.name)}
+                       onChange={handleoptionChange('componenets')}
                        renderTags={(value, getTagProps) =>
                        value.map((option, index) => (
-                       <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                       <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
                        ))
                        }
                        renderInput={params => (
                        <TextField
                        {...params}
-                       label="Voucher Codes"
+                       label="Pricing Components"
                        margin="dense"
                        variant="outlined"
                        fullWidth
@@ -206,40 +214,23 @@ const AboutVoucher = props => {
       Discount Type
       </Typography>
       </Grid>
+      <ButtonGroup color="primary" aria-label="outlined primary button group">
+
         {props.categories.map(option => (
           
-          <Grid justify="center" item xs={3} sm={3} spacing={1}>
-          <CardActionArea>
-            
-          <div
-            className={clsx(classes.option, {
-              [classes.selectedOption]: discounttype === option
-            })}
-            onClick={event => handleClick(event, option)}
-            key={option}
-          >
-
-           <div className={classes.optionDetails}>
-           <Typography className={discounttype === option ? classes.selectedtext : null}
-                gutterBottom
-                variant="h6"
-              >
-                {option}
-              </Typography>  
-              </div> 
-                         
-            
-          </div>
-          </CardActionArea>
-          </Grid>
+        <Button onClick={()=> changediscountype(option)} variant={discountobj.discounttype == option ? "contained" : "outlined" }>{option}</Button>
+          
         ))}
+        </ButtonGroup>
+
         </Grid>
         <Grid item xs={12} sm={12} spacing={1}>
 
         <TextField
           variant="outlined"
           margin="dense"
-          fullWidth
+          value={discountobj.discountvalue}
+          onChange={handleInputChange("discountvalue")}
           id="discountvalue"
           name="discountvalue"
           label="Discount Value"

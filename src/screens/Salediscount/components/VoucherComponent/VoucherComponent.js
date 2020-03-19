@@ -16,12 +16,12 @@ import {
 import { VoucherContext } from '../../../../context';
 const tabs = [
   { value: 'Category', label: 'Category' },
-  { value: 'Material', label: 'Material' },
   { value: 'Producttype', label: 'Product type' },
+  { value: 'Material', label: 'Material' },
   { value: 'Collections', label: 'Collections' },
-  { value: 'Purity', label: 'Purity' },
-  { value: 'Availability', label: 'Availability' },
-  { value: 'Styles', label: 'Styles' }
+  { value: 'Occations', label: 'Occations' },
+  { value: 'Styles', label: 'Styles' },
+  { value: 'Themes', label: 'Themes' }
 
 
 ];
@@ -69,15 +69,38 @@ const VoucherComponent = props => {
 
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
+  const [tablist, setTablist] = useState(tabs);
+  const [tabnames, setTabnames] = useState([
+    "Category",
+    "Producttype",
+    "Material",
+    "Collections",
+    "Occations",
+    "Styles",
+    "Themes"
+
+  ]);
 
   const [selected, setSelected] = useState(1);
-  const [selectedtab, setSelectedtab] = useState("");
+  const [selectedtab, setSelectedtab] = useState("Category");
   const [selectedDate, handleDateChange] = useState(new Date());
   const handleChange = (event, option) => {
     setSelected(option);
 
   };
   const handleTabsChange = (event, value) => {
+    if(value == 'Material')
+    {
+      // tabs.push(  { value: 'Diamond Types', label: 'Diamond Types' },
+      // )
+      if(tabnames.indexOf("Purity") === -1)
+      {
+        tabnames.splice(3, 0, "Purity");
+
+      }
+
+    }
+    setTablist(tabs)
     setSelectedtab(value);
   };
   useEffect(() => {
@@ -95,21 +118,28 @@ const VoucherComponent = props => {
         onChange={handleTabsChange}
         variant="scrollable"
       >
-        {tabs.map(tab => (
+        {tabnames.map(tab => (
           <Tab
-            key={tab.value}
-            label={tab.label}
+            key={tab}
+            label={tab}
             selected
-            value={tab.value}
+            value={tab}
           />
         ))}
       </Tabs>
       <Divider />
       <div className={classes.content}>
     
-     <CategoryComponents  tabname={selectedtab}  materials={['Gold', 'Diamond']} />
-     {/* <CategoryComponents  tabname={selectedtab}  materials={['Rings', 'Bracelets']} /> */}
-    
+      {selectedtab === 'Category' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.product_categories} /> : null }
+      {selectedtab === 'Material' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.materials} /> : null }
+      {selectedtab === 'Producttype' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.product_types} /> : null }
+      {selectedtab === 'Collections' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.collections} /> : null }
+      {selectedtab === 'Purity' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.purities} /> : null }
+      {selectedtab === 'Styles' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.styles} /> : null }
+      {selectedtab === 'Occations' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.occations} /> : null }
+      {selectedtab === 'Themes' ? <CategoryComponents  tabname={selectedtab}  materials={voucherCtx.voucherMaster.themes} /> : null }
+
+      
         </div>
     </Card>
   );

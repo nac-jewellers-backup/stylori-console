@@ -18,7 +18,6 @@ export const Salediscount = withRouter(props => {
     const classes = useStyles();
 
     const { data, loading, error } = useQuery(materialMaster.query);
-
     if(loading) return <div><CircularProgress className={classes.progress} />
     </div>
     if(error) return <div>error</div>

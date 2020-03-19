@@ -99,6 +99,12 @@ export const MATERIALMASTER = gql`query {
       id
     }
   },
+  allMasterPricingComponents(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+    }
+  }
   allMasterProductCategories {
     nodes {
       name
@@ -122,6 +128,89 @@ export const MATERIALMASTER = gql`query {
       alias
       id
       name
+    }
+  }
+}`
+
+export const VOUCHERMASTER = gql`query {
+  allMasterVendors {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterPricingComponents(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+    }
+  }
+  allMasterProductCategories {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      id
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      id
+    }
+  },
+   allMasterMaterials {
+    nodes {
+      alias
+      id
+      name
+    }
+  },
+  allMasterCollections {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+
+  allMasterStyles {
+    nodes {
+      name
+      id
+    }
+  }
+
+  allMasterThemes {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+
+  allMasterOccasions {
+    nodes {
+      name
+      alias
+      id
     }
   }
 }`

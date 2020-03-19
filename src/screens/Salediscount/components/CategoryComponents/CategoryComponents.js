@@ -109,7 +109,7 @@ const CategoryComponents = props => {
                 gutterBottom
                 variant="h5"
               >
-                {option}
+                {option.name}
               </Typography>  
               </div> 
           </div>
