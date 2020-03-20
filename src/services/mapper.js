@@ -202,7 +202,8 @@ export const materialMaster = {
             ..._
         }))
         const purities = response.allMasterMetalsPurities.nodes.map(_ => ({
-            ..._
+            ..._,
+            
         }))
         const styles = response.allMasterStyles.nodes.map(_ => ({
             ..._

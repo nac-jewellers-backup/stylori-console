@@ -93,12 +93,18 @@ const VoucherComponent = props => {
     setSelected(option);
 
   };
+ const myFunction = () => {
+    props.onAdded(attrobj)
+  }
   const handleoptionChange = type => (event, value) => {
+
       setAttrobj({
         ...attrobj,
         [type]: value
       })
-    props.onAdded(type, value)
+      
+      props.onAdded(type,value)
+
   }
   const handleTabsChange = (event, value) => {
     if(value == 'Material')
@@ -214,7 +220,7 @@ const VoucherComponent = props => {
            )}
            />
 </Grid>
-<Grid   item xs={4} sm={4} >
+{/* <Grid   item xs={4} sm={4} >
             
             <Autocomplete
            id="free-solo-2-demo"
@@ -273,7 +279,7 @@ const VoucherComponent = props => {
            />
            )}
            />
-</Grid>  
+</Grid>   */}
 <Grid   item xs={4} sm={4} >
             
             <Autocomplete

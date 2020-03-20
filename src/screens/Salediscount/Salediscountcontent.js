@@ -9,7 +9,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
 import Page from '../../components/Page'
 import { Header, Results,AboutVoucher ,VoucherComponent} from './components';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid,Typography } from '@material-ui/core';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const useStyles = makeStyles(theme => ({
@@ -37,14 +37,25 @@ const useStyles = makeStyles(theme => ({
 export default function Salediscountcontent() {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
+  const [skus, setSkus] = useState([]);
+
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
 
   const { voucherCtx, setVoucherCtx ,materialMaster} = React.useContext(VoucherContext);
-  function creatediscount()
+  async function creatediscount()
   {
     console.log(">>>>>><<<<<<<<<<>>>>><<<<<")
+
+    let bodydata = {
+      discountvalue: parseFloat(attributeobj.discountvalue),
+      discounttype : attributeobj.discounttype,
+      componenets : attributeobj.componenets,
+      skus : skus
+    }
     console.log(JSON.stringify(attributeobj ))
+    let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
+
 }
 const handleDelete = chipToDelete => () => {
  // setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
@@ -55,22 +66,22 @@ async function filterapllied()
     var  bodydata = {}
   
     let product_ids = []
-    
+    console.log("MMMMMMM")
+    console.log(JSON.stringify(attributeobj))
     let response = await sendNetworkRequest('/getaliasproduct', {}, attributeobj, false)
-    response.products.forEach(element => {
-      product_ids.push(element.product_id)
-    });
-     setProducts(product_ids)
+    //alert(JSON.stringify(response.skus))
+     setProducts(response.products)
+   setSkus(response.skus)
     
   }
   function attributeadded(type, value)
   {
-    //alert(JSON.stringify(value))
     setAttributeobj({
       ...attributeobj,
       [type]:value
     })
     filterapllied()
+    
 
   }
   useEffect(() => {
@@ -98,6 +109,10 @@ async function filterapllied()
     <AboutVoucher className={classes.aboutvoucher} onAdded={attributeadded} categories={['Fixed Amount','percentage']} />
     
     <Paper className={classes.productcontent}>
+    <Typography variant="h5" component="h2">
+        {products.length} Products and {skus.length} skus
+      </Typography>
+
       {products.map(data => {
         let icon;
 

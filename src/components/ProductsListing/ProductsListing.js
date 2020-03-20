@@ -38,6 +38,7 @@ export default function ProductsListing(props) {
             key={data}
             icon={icon}
             label={data}
+            variant="outlined"
              onDelete={handleDelete(data)}
             className={classes.chip}
           />
