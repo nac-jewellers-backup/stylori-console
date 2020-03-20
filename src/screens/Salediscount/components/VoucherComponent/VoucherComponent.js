@@ -10,6 +10,7 @@ import {
   Card,
   Grid,
   Chip,
+  Button, 
   TextField,
   CardHeader,
   CardContent,
@@ -103,7 +104,7 @@ const VoucherComponent = props => {
         [type]: value
       })
       
-      props.onAdded(type,value)
+     // props.onAdded(type,value)
 
   }
   const handleTabsChange = (event, value) => {
@@ -403,6 +404,10 @@ const VoucherComponent = props => {
            )}
            />
 </Grid> 
+<Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+
+      <Button onClick={() => props.onAdded(attrobj)} color="primary" variant="contained">Check Applicable Products</Button>
+    </Grid>
         </Grid>    
      
       

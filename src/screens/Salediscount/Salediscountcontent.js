@@ -7,10 +7,14 @@ import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
 import Page from '../../components/Page'
 import { Header, Results,AboutVoucher ,VoucherComponent} from './components';
 import { Button, Grid,Typography } from '@material-ui/core';
 import { NetworkContext } from '../../context/NetworkContext';
+import FullLoader from '../../components/Loader'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,19 +37,35 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5),
   },
 }));
-  
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function Salediscountcontent() {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [skus, setSkus] = useState([]);
+  const [isloading, setIsloading] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
-
+  const [snackMessage,setSnackMessage] = React.useState({
+    message:"Created Successfully",
+    severity:"Success"
+  });
   const { voucherCtx, setVoucherCtx ,materialMaster} = React.useContext(VoucherContext);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   async function creatediscount()
   {
     console.log(">>>>>><<<<<<<<<<>>>>><<<<<")
+    setIsloading(true)
 
     let bodydata = {
       discountvalue: parseFloat(attributeobj.discountvalue),
@@ -55,32 +75,40 @@ export default function Salediscountcontent() {
     }
     console.log(JSON.stringify(attributeobj ))
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
-
+    setIsloading(false)
+    setOpen(true)
 }
 const handleDelete = chipToDelete => () => {
  // setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
 };
 
-async function filterapllied()
+async function filterapllied(value)
   {
     var  bodydata = {}
   
     let product_ids = []
-    console.log("MMMMMMM")
-    console.log(JSON.stringify(attributeobj))
-    let response = await sendNetworkRequest('/getaliasproduct', {}, attributeobj, false)
-    //alert(JSON.stringify(response.skus))
-     setProducts(response.products)
-   setSkus(response.skus)
+
+    let response = await sendNetworkRequest('/getaliasproduct', {}, value, false)
+   setProducts(response.products)
+   setSkus(response.products)
+   setIsloading(false)
+
     
   }
-  function attributeadded(type, value)
+  function attributeadded( value)
+  {
+    setIsloading(true)
+    //setAttributeobj(value)
+    filterapllied(value)
+    
+
+  }
+  function valuechange(type, value)
   {
     setAttributeobj({
       ...attributeobj,
-      [type]:value
+      [type]: value
     })
-    filterapllied()
     
 
   }
@@ -98,6 +126,14 @@ async function filterapllied()
   }, []);
 
   return (
+
+    <>
+     <FullLoader title="" isopen={isloading}/>
+     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={snackMessage.severity}>
+          {snackMessage.message}
+        </Alert>
+      </Snackbar>
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
     <Page
@@ -105,10 +141,7 @@ async function filterapllied()
     title="Orders Management List"
   >
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
-
-    <AboutVoucher className={classes.aboutvoucher} onAdded={attributeadded} categories={['Fixed Amount','percentage']} />
-    
-    <Paper className={classes.productcontent}>
+   {products.length > 0 ? <Paper className={classes.productcontent}>
     <Typography variant="h5" component="h2">
         {products.length} Products and {skus.length} skus
       </Typography>
@@ -125,12 +158,16 @@ async function filterapllied()
             key={data}
             icon={icon}
             label={data}
+            variant="outlined"
              onDelete={handleDelete(data)}
             className={classes.chip}
           />
         );
       })}
-    </Paper>
+    </Paper> : null }
+    <AboutVoucher className={classes.aboutvoucher} onAdded={valuechange} categories={['Fixed Amount','percentage']} />
+    
+    
     {/* <ProductsListing className={classes.aboutvoucher}  products={[]} /> */}
 
     <Grid container xs={12} spacing={2} style={{textAlign:"center"}} >
@@ -141,5 +178,6 @@ async function filterapllied()
     </Grid>
   </Page>
   </MuiPickersUtilsProvider>
+  </>
   );
 }
