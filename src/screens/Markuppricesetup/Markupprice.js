@@ -101,7 +101,7 @@ export const Markupprice = withRouter(props => {
           
           <Grid item xs={12} sm={12}>
 
-          <Product categories={categorylist} producttypes={producttypes} vendor={"Diamond"} />
+          <Product categories={categorylist} producttypes={producttypes} vendor={"Gold"} />
           </Grid>
           {/* <Grid item xs={12} sm={12}>
 
