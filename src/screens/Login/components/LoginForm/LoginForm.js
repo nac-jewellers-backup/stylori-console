@@ -246,7 +246,7 @@ const LoginForm = props => {
             type="submit"
             variant="contained"
           >
-        Sign in
+        Log in
           </Button>
           <Snackbar open={open} autoHideDuration={6000}
           anchorOrigin={{vertical:'top', horizontal:'center'}}
