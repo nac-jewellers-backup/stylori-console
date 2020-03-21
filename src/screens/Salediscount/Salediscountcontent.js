@@ -64,7 +64,6 @@ export default function Salediscountcontent() {
 
   async function creatediscount()
   {
-    console.log(">>>>>><<<<<<<<<<>>>>><<<<<")
     setIsloading(true)
 
     let bodydata = {
