@@ -8,38 +8,49 @@ import Vendor from '../../components/Vendor'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Newvendor from '../../components/Newvendor'
+import { NetworkContext } from '../../context/NetworkContext';
 
 
 
 export const Vendorlist = withRouter(props => {
   const [isadd, setIsadd] = React.useState(false)
-   
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [newvendorcode, setNewvendorcode] = React.useState("")
+
   
-  function addnewvendor()
+ async function addnewvendor()
   {
+
+    let response =  await sendNetworkRequest('/getnewvendorcode', {}, {})
     setIsadd(true)
+    setNewvendorcode(response.newvendorcode)
   }
-   
+  function cancelvendorcreation()
+  {
+    setIsadd(false)
+
+
+  }
   return (
     <>
-    <Newvendor title={'Add new Vendor'} isopen={isadd}/>
+    {/* <Newvendor title={'Add new Vendor'} isopen={isadd}/> */}
     <Grid container  spacing={2}>  
+    
     <Grid container item xs={12} sm={12} alignItems={"flex-end"}>
         <Grid fullwidth item xs={6} sm={6}>
 
             <Typography component="h6" variant="h6">
-            Prodcuts
+            Vendors
           </Typography>
           </Grid>
-          <Grid fullwidth item xs={6} sm={6} >
-
-          <Button variant="outlined" onClick={() =>addnewvendor() } color="primary" >
-            Add New Vendor
+          <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
+          <Button variant="outlined"  onClick={()=>addnewvendor() } color="primary" >
+          Add New Vendor
         </Button>
         
         </Grid>
     </Grid>
-    <Vendor  />
+    <Vendor  onCancel={cancelvendorcreation} isadd={isadd} newvendorcode={newvendorcode} />
    
     </Grid>
     </>

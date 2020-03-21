@@ -256,7 +256,7 @@ query($Veiw: Int!, $Offset: Int!) {
 `;
 const VENDORLISTS = gql`
 query  {
-  allMasterVendors {
+  allMasterVendors(orderBy: CREATED_AT_DESC) {
     nodes {
       vendorDelivaryDays
       updatedAt

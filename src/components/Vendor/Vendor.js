@@ -37,8 +37,8 @@ import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 const columns = [
-  { id: 'name', label: 'Name' },
   { id: 'vendorcode', label: 'Vendor Code' },
+  { id: 'name', label: 'Name' },
   { id: 'Address', label: 'Address' },
   { id: 'City', label: 'City' },
   { id: 'gstNo', label: 'gstNo' },
@@ -321,12 +321,17 @@ const   Vendor=(props)=> {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext,setSearchtext] = React.useState('')
   const [editcontent,setEditcontent] = React.useState({})
+  const [add,setAdd] = React.useState(props.isadd)
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
   })
+  function Cancelcreate() {
+    setBtnEdit({ ...btnEdit, id:'', action: false })    
+    props.onCancel();
 
+  }
   function Editvendor(vendordata) {
     setEditcontent({
       ...editcontent,
@@ -337,15 +342,19 @@ const   Vendor=(props)=> {
       pincode : vendordata.pincode,
       gstNo : vendordata.gstNo,
       vendorDelivaryDays : vendordata.vendorDelivaryDays,
-
+      isedit: true
     })
     setBtnEdit({ ...btnEdit, id:vendordata.shortCode, action: true })
 
   }
   async function Savevendor(refetch) {
-
-    let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
-
+    if(!editcontent.isedit)
+    {
+      editcontent['shortCode'] = props.newvendorcode
+    }
+    
+     let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
+    props.onCancel()
     setBtnEdit({ ...btnEdit, id:'', action: false })
     refetch()
   }
@@ -479,7 +488,6 @@ function applyfilter(searchtext, categoryname, typename)
               variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
               {
                   ({ data, loading, error, refetch }) => {
-                    debugger
                       if (loading) {
                           // return <Loader />
                       }
@@ -489,13 +497,109 @@ function applyfilter(searchtext, categoryname, typename)
                       }
                       if (data) { 
                            return <> 
-                              {stableSort(data.allMasterVendors.nodes, getComparator(order, orderBy)).map((row, index) => (
-                                  <TableRow key={row.name}>
+                              {data.allMasterVendors.nodes.map((row, index) => (
+                           <>
+                           {index == 0 && props.isadd ? 
+                           <TableRow key={row.name}>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              contentEditable={false}
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={props.newvendorcode}
+                              onChange={handleInputChange('shortCode')}
+
+                              label="Vendor Code"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.taxValue}
+                              onChange={handleInputChange('name')}
+
+                              label="Vendor Name"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.taxValue}
+                              onChange={handleInputChange('address')}
+
+                              label="Address"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.taxValue}
+                              onChange={handleInputChange('city')}
+
+                              label="City"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.hsnNumber}
+                              onChange={handleInputChange('gstNo')}
+
+                              label="GST Number"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <TextField
+                              variant="outlined"
+                              margin="dense"
+                              
+                              id="vendordeliverydays"
+                              name="vendordeliverydays"
+                              value={editcontent.hsnNumber}
+                              onChange={handleInputChange('vendorDelivaryDays')}
+
+                              label="vendordeliverydays"
+                             />
+                           </TableCell>
+                           <TableCell align="left">
+                           <Moment format="DD MMM YYYY hh:mm a">
+                                  {new Date()}
+                                  </Moment>
+                           </TableCell>
+                           
+                    <TableCell  style = {{width: 20}} align="center">
+                      <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
+                      </Button>
+                      <Button onClick={(e) => Cancelcreate()}><CancelIcon />
+                      </Button>
+                    </TableCell>
+                           </TableRow> : null}
+                              
+                                
+                                <TableRow key={row.name}>
                                   <TableCell component="th" scope="row">
                                     {row.shortCode}
                                   </TableCell>
                 {
-                  btnEdit.action && btnEdit.id == row.shortCode ? 
+                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
                   <TableCell align="left">
                   <TextField
                         variant="outlined"
@@ -509,7 +613,7 @@ function applyfilter(searchtext, categoryname, typename)
                         /> </TableCell> :  <TableCell align="left">{row.name} 
                            </TableCell> }
                            {
-                  btnEdit.action && btnEdit.id == row.shortCode ? 
+                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
                   <TableCell align="left">
                   <TextField
                         variant="outlined"
@@ -523,7 +627,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }
 
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -539,7 +643,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }
                                   
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -555,7 +659,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }  
 
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -576,7 +680,7 @@ function applyfilter(searchtext, categoryname, typename)
                                   </Moment>
                                   </TableCell>
                                   {
-                  btnEdit.action && btnEdit.id == row.shortCode ?
+                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ?
                     <TableCell  style = {{width: 20}} align="center">
                       <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
                       </Button>
@@ -590,7 +694,10 @@ function applyfilter(searchtext, categoryname, typename)
                 }
                                   
                                 </TableRow>
+                                </>
+
                               ))}
+                              
                          </> 
                        }
                       else{
@@ -608,7 +715,6 @@ function applyfilter(searchtext, categoryname, typename)
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[50,100,200,500]}
-                colSpan={5}
                 count={pageCount}
                 rowsPerPage={rowsPerPage}
                 page={page}

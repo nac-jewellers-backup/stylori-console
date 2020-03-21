@@ -295,7 +295,6 @@ const   Vendor=(props)=> {
 
   }
   async function Savevendor(refetch) {
-    alert(editcontent)
     let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
 
     setBtnEdit({ ...btnEdit, id:'', action: false })
@@ -466,7 +465,6 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableRow> : null}
                           
                            <TableRow key={row.name}>
-                            
                         {
                         btnEdit.action && btnEdit.id == row.id && !props.isadd ? 
                         <TableCell align="left">
