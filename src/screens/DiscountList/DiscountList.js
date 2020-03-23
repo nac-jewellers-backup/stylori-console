@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 let colimns = [
   "Components",
   "discount_value",
+  "product attributes",
   "actions"
 ]
 export const DiscountList = withRouter(props => {

@@ -446,6 +446,8 @@ query  {
       discountValue
       components
       attributes
+      productAttributes
+      productAttributesText
     }
 
     totalCount

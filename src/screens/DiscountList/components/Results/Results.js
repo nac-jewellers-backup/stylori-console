@@ -200,11 +200,16 @@ function handleDelete(diamondData) {
                                     onCancel={hidedeleteconformation}
                                     isshow={isconformation} />
                                 {data.allSaleDiscounts.nodes.map((row, index) => (
+                                  
                                  <>
+
                                   <TableRow key={row.name}>
                                     <TableCell align="left">{row.components.join(' , ')} 
                                               </TableCell>
                                               <TableCell align="left">{row.discountType == 2 ? row.discountValue+'%' : row.discountValue} 
+                                              </TableCell>
+                                              <TableCell align="left">{row.productAttributesText ? row.productAttributesText : ""
+                                              } 
                                               </TableCell>
                                     <TableCell align="center" onClick={(e) => handleDelete(row,refetch)} style = {{width: 20}}>
                                       <Button ><DeleteIcon />
