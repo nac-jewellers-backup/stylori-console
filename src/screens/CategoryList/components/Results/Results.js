@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // import moment from 'moment';
+import { Query, withApollo } from 'react-apollo';
+import {CATGORYLIST} from '../../../../graphql/query'
+import CancelIcon from '@material-ui/icons/CancelOutlined';
+import SaveIcon from '@material-ui/icons/Save';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 // import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import CreateIcon from '@material-ui/icons/Create';
-import DeleteIcon from '@material-ui/icons/Delete';
 import {
   Button,
   Card,
@@ -17,6 +22,7 @@ import {
   IconButton,
   Typography,
   Table,
+  TextField,
   TableBody,
   TableCell,
   TableHead,
@@ -46,41 +52,37 @@ const useStyles = makeStyles(theme => ({
 
 const Results = props => {
   const { className, orders, ...rest } = props;
+  const [pageCount,setPageCount] = React.useState(0);
+  const [offsetValue,setOffsetValue] = React.useState(0)
+  const [btnEdit, setBtnEdit] = React.useState({
+    action: false,
+    id: ''
+  })
+  const [editcontent,setEditcontent] = React.useState({})
 
   const classes = useStyles();
 
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleInputChange = type => e => {
+    setEditcontent({ ...editcontent, [type]: e.target.value  })
+}
+  function Editvendor(vendordata) {
+    setEditcontent({
+      ...editcontent,
+      alias : vendordata.alias,
+      name : vendordata.name,
+      isedit: true
+    })
+    setBtnEdit({ ...btnEdit, id:vendordata.shortCode, action: true })
 
-  const handleSelectAll = event => {
-    const selectedOrders = event.target.checked
-      ? orders.map(order => order.id)
-      : [];
-
-    setSelectedOrders(selectedOrders);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedOrders.indexOf(id);
-    let newSelectedOrders = [];
-
-    if (selectedIndex === -1) {
-      newSelectedOrders = newSelectedOrders.concat(selectedOrders, id);
-    } else if (selectedIndex === 0) {
-      newSelectedOrders = newSelectedOrders.concat(selectedOrders.slice(1));
-    } else if (selectedIndex === selectedOrders.length - 1) {
-      newSelectedOrders = newSelectedOrders.concat(selectedOrders.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedOrders = newSelectedOrders.concat(
-        selectedOrders.slice(0, selectedIndex),
-        selectedOrders.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedOrders(newSelectedOrders);
-  };
-
+  }
+  async function Savevendor(refetch) {
+  }
+  function CancelEdit(diamondData) {
+    setBtnEdit({ ...btnEdit, id:'', action: false })
+  }
   const handleChangePage = (event, page) => {
     setPage(page);
   };
@@ -88,7 +90,11 @@ const Results = props => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
+  function Cancelcreate() {
+    setBtnEdit({ ...btnEdit, id:'', action: false })    
+    props.onCancel();
 
+  }
   const paymentStatusColors = {
     canceled: colors.grey[600],
     pending: colors.orange[600],
@@ -101,14 +107,7 @@ const Results = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      {/* <Typography
-        color="textSecondary"
-        gutterBottom
-        variant="body2"
-      >
-        {orders.length} Records found. Page {page + 1} of{' '}
-        {Math.ceil(orders.length / rowsPerPage)}
-      </Typography> */}
+  
       <Card>
         <CardHeader
           title="Category"
@@ -123,33 +122,120 @@ const Results = props => {
                     
                     <TableCell>Name</TableCell>
                     
-                    <TableCell align="center">Alias</TableCell>
+                    <TableCell align="left">Alias</TableCell>
 
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="left">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
-                    <TableRow
-                      // key={order.id}
-                      // selected={selectedOrders.indexOf(order.id) !== -1}
-                    >
-                      
-                     
+                { <Query
+                    query={CATGORYLIST}
+                    onCompleted={data => setPageCount( data.allMasterProductCategories.totalCount )}
+                    variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
+                    {
+                        ({ data, loading, error, refetch }) => {
+                            if (loading) {
+                                // return <Loader />
+                            }
+                            if (error) {
+                              return <div>{error}</div>
+                                // return false
+                            }
+                            if (data) { 
+                                return <> 
 
-                      <TableCell >{order.name}</TableCell>
-                      <TableCell align="center">{order.alias}</TableCell>
-                      
-                      <TableCell align="center">
-                      <IconButton aria-label="add to favorites">
-                        <CreateIcon />
-                        </IconButton>
-                        <IconButton aria-label="add to favorites">
-                        <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                                {data.allMasterProductCategories.nodes.map((row, index) => (
+                                 <>
+                                 {index == 0 && props.isadd ? 
+                                 <TableRow key={row.name}>
+                                 <TableCell align="left">
+                                 <TextField
+                                    variant="outlined"
+                                    margin="dense"
+                                    contentEditable={false}
+                                    id="vendordeliverydays"
+                                    name="vendordeliverydays"
+                                    value={props.newvendorcode}
+                                    onChange={handleInputChange('shortCode')}
+      
+                                    label="Vendor Code"
+                                   />
+                                   </TableCell>
+                                 <TableCell align="left">
+                                 <TextField
+                                    variant="outlined"
+                                    margin="dense"
+                                    contentEditable={false}
+                                    id="vendordeliverydays"
+                                    name="vendordeliverydays"
+                                    value={props.newvendorcode}
+                                    onChange={handleInputChange('shortCode')}
+      
+                                    label="Vendor Code"
+                                   />
+                                   </TableCell>
+                                          
+                                  <TableCell  style = {{width: 20}} align="center">
+                                    <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
+                                    </Button>
+                                    <Button onClick={(e) => Cancelcreate()}><CancelIcon />
+                                    </Button>
+                                  </TableCell>
+                                   </TableRow>
+                                  : null }
+                                 <TableRow key={row.name}>
+
+                                
+                                 {
+                                btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                                <TableCell align="left">
+                                    <TextField
+                                      variant="outlined"
+                                      margin="dense"
+                                      fullWidth
+                                      id="categoryname"
+                                      name="categoryname"
+                                      value={editcontent.name}
+                                      onChange={handleInputChange('name')}                        
+                                      label="Name"
+                                      /> </TableCell> :  <TableCell align="left">{row.name} 
+                                        </TableCell> }
+                                        {
+                                      btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                                      <TableCell align="left">
+                                      <TextField
+                                            variant="outlined"
+                                            margin="dense"
+                                            fullWidth
+                                            id="alias"
+                                            name="alias"
+                                            value={editcontent.alias}
+                                            onChange={handleInputChange('alias')}  
+                                                                  label="alias"
+                                            /> </TableCell> :  <TableCell align="left">{row.alias} 
+                                              </TableCell> }
+                                  {btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ?
+                                    <TableCell  style = {{width: 20}} align="center">
+                                      <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
+                                      </Button>
+                                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                                      </Button>
+                                    </TableCell> :
+                                    <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
+                                      <Button ><EditIcon />
+                                      </Button>
+                                    </TableCell>}
+                                    </TableRow>
+                                    </>
+
+                                      ))}
+                         </> 
+                       }
+                      else{
+                      return <div>{"Fetch Products"}</div>
+                     
+                 } } }
+                </Query>  }
                 </TableBody>
               </Table>
             </div>

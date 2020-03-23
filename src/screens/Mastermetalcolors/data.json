@@ -1,0 +1,16 @@
+{
+    "columns": [
+        {
+            "label": "HSN Number",
+            "id": "HSN Number"
+        },
+        {
+            "label": "Tax %",
+            "id": "Tax %"
+        },
+        {
+            "label": "Actions",
+            "id": "Actions"
+        }
+    ]
+}

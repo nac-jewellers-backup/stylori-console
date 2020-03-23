@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Button } from '@material-ui/core';
+import { Grid, Typography, Button,TextField } from '@material-ui/core';
 // import {  SnackBarContext } from '../../../../context';
 
 const useStyles = makeStyles(() => ({
@@ -13,7 +13,10 @@ const Header = props => {
   const { className, ...rest } = props;
   const [openApplication, setOpenApplication] = useState(false);
   // const showSnackbar = React.useContext(SnackBarContext);
-
+  const [searchcontent, setSearchcontent] = useState("");
+  const handleinputchange = type => (event,option) =>{
+    setSearchcontent(event.target.value)
+    }
   const handleApplicationOpen = () => {
     
     setOpenApplication(true);
@@ -40,26 +43,40 @@ const Header = props => {
         justify="space-between"
         spacing={3}
       >
-        <Grid item>
-          {/* <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
+        <Grid container 
+                alignItems="flex-start"       
+           item   xs={6} spacing={2}> 
+        <Grid item > 
+
+        <TextField
+          variant="outlined"
+          margin="dense"
+          fullWidth
+          id="size"
+          label="Search"
+          name="size"
+          onChange={handleinputchange('searchtext')}
+          autoComplete="size"
+          value={searchcontent}
+          />
+          </Grid>
+         <Grid item > 
+
+           <Button
+            color="default"
+            variant="contained"
+            onClick={()=>props.onSearch(searchcontent)}
           >
-            Management
-          </Typography> */}
-          {/* <Typography
-            component="h1"
-            variant="h2"
-          >
-             Category
-          </Typography> */}
+            Search
+          </Button>
+          </Grid>
         </Grid>
         <Grid item>
 
           <Button
             color="primary"
             variant="contained"
+            onClick={()=>props.onAdd()}
 
           >
             Add New Category

@@ -20,7 +20,23 @@ export default function Producttypecontent() {
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const { materialCtx, setMaterialCtx ,materialMaster} = React.useContext(MaterialContext);
+  const [searchtext, setSearchtext] = useState("");
+  const [isadd, setIsadd] = useState(false);
 
+
+  function applysearch(searchcontent)
+  {
+    setSearchtext(searchcontent)
+  }
+  function addcategory()
+  {
+    setIsadd(true)
+  }
+  function cancelcreation()
+  {
+    setIsadd(false)
+  }
+  
   useEffect(() => {
     let mounted = true;
     const fetchOrders = () => {
@@ -55,9 +71,12 @@ export default function Producttypecontent() {
     className={classes.root}
     title="Orders Management List"
   >
-    <Header />
+    <Header onSearch={applysearch} onAdd={addcategory}/>
     <Results
       className={classes.results}
+      searchtext={searchtext}
+      isadd={isadd}
+      onCancel={cancelcreation}
       orders={materialCtx.materialMaster.materials}
     />
     

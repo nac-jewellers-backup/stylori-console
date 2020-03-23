@@ -13,4 +13,7 @@ export * from "./Vendorpricesetup"
 export * from "./Markuppricesetup"
 export * from "./Salediscount"
 export * from "./Taxsetup"
+export * from "./Materialmaster"
+export * from "./Mastermetalcolors"
+export * from "./Masterpurities"
 

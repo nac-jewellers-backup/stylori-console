@@ -290,6 +290,10 @@ query  {
   }
 }
 `;
+
+
+
+
 // const PRODUCTLIST  = (category) =>  gql`
 // query  {
 //   allProductLists ${category ? `(${category ? 'filter: {productCategory: {equalTo: "Jewellery"}}' : ''})` : ""} {
@@ -368,8 +372,84 @@ query MyQuery($vendorCode: String!) {
     totalCount
   }
 }`;
+// const CATGORYLIST = gql`
+// query {
+//   allMasterMaterials {
+//     nodes {
+//       name
+//       shortCode
+//     }
+// }`;
 
 
+const CATGORYLIST =gql`
+query  {
+  allMasterProductCategories {
+    nodes {
+      alias
+      name
+      shortCode
+      id
+    }
+    totalCount
+  }
+}
+`;
+const PRODUCTTYPEMASTER =gql`
+query  {
+  allMasterProductTypes {
+    nodes {
+      name
+      id
+      alias
+      shortCode
+    }
+    totalCount
+  }
+}
+`;
+
+const MATERIALMASTER =gql`
+query  {
+  allMasterMaterials {
+    nodes {
+      alias
+      name
+      shortCode
+    }
+    totalCount
+  }
+}
+`;
+
+
+const MASTERCOLORS =gql`
+query  {
+  allMasterMetalsColors {
+    nodes {
+      name
+      alias
+      shortCode
+    }
+    totalCount
+  }
+}
+`;
+
+
+
+const MASTERPURITIES =gql`
+query  {
+  allMasterMetalsPurities {
+    nodes {
+      name
+      alias
+      shortCode
+    }
+    totalCount
+  }
+}
+`;
 const VENDORLIST =`
 query {
   allMasterVendors {
@@ -703,7 +783,12 @@ query MyQuery($productId: String!) {
     DELETEMAKINGCHARGE,
     DELETEGEMCHARGE,
     DELETEGOLDPRICE,
+    CATGORYLIST,
     DELETEDIAMONDCHARGE,
     VENDORLISTS,
-    TaxList
+    TaxList,
+    PRODUCTTYPEMASTER,
+    MATERIALMASTER,
+    MASTERCOLORS,
+    MASTERPURITIES
   }

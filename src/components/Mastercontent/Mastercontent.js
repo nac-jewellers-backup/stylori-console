@@ -365,26 +365,7 @@ function applyfilter(searchtext, categoryname, typename)
 {
   getproductlist(searchtext,categoryname,typename)
 }
-  // function productItemStatusChange(id,isactive){
-    // let variable = {
-    //   "productId": id
-    // };
-    // let status = isactive ? variable.isActive = false :variable.isActive = true;
-    async function productItemStatusChange(id,isactive,refetch){
-      let variables ={
-        productId:id,
-        isActive:isactive ?false:true
-      }
-      await props.client.mutate({mutation:PRODUCTLISTSTATUSEDIT,variables}).then(res=>{
 
-        if(res!==null){
-          refetch();
-        }
-      }).catch(console.error)
-    
-    }
-    // const [productItemStatusChange,{ data }] = useMutation(PRODUCTLISTSTATUSEDIT);
-  // }
   return (
     <Paper className={classes.root}>
       {/* <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} /> */}
