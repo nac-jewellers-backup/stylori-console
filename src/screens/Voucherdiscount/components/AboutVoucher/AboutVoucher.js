@@ -14,7 +14,7 @@ import {
   Typography,
   TextField,
   Popper,
-  
+  ButtonGroup,
   CardActionArea,
   CardActions,
   Radio,
@@ -106,25 +106,71 @@ const AboutVoucher = props => {
   const classes = useStyles();
 
   const [selected, setSelected] = useState(1);
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedendDate, setSelectedendDate] = useState(selectedDate);
 
   const handleChange = (event, option) => {
     setSelected(option);
 
   };
-  
- 
+  const handleendDateChange = val => {
+      setSelectedendDate(val)
+      setVoucherCtx({
+        ...voucherCtx,
+        "enddate": val
+      })
+    };
+  const handleDateChange = val => {
+    setSelectedDate(val)
+
+    setVoucherCtx({
+      ...voucherCtx,
+      "startdate": val
+    })
+};
   const handleClick = (event, option) => {
-    setDiscounttype(option);
+   // setDiscounttype(option);
+   setVoucherCtx({
+     ...voucherCtx,
+     "discounttype": option
+   })
+  };
+  const handleMinimumreq = (event, option) => {
+   // setDiscounttype(option);
+    setVoucherCtx({
+      ...voucherCtx,
+      "minimumreq": option
+    })
   };
   const handleusagelimit = (event, option) => {
     setUsagelimit(option);
-
+    
   };
-  const handleInputChange = type => e => {
-    setVouchercode(e.target.value.toUpperCase())
+  const handleInputChange = type => (event, value) => {
+    setVoucherCtx({
+      ...voucherCtx,
+      "vouchercodes":value
+    })
+    setVouchercode(value)
   }
-
+  // const handleInputChange = (event, option) => {
+  //   alert(JSON.stringify(option))
+  // }
+  // const handleInputChange = type => e => {
+  //   setVouchercode(e.target.value.toUpperCase())
+  // }
+  const handlevouchername = type => e => {
+    setVoucherCtx({
+      ...voucherCtx,
+      [type]: e.target.value.toUpperCase()
+    })
+  }
+  const handlevaluechange = type => e => {
+    setVoucherCtx({
+      ...voucherCtx,
+      [type]: e.target.value
+    })
+  }
   const handleCountChange = type => e => {
     setVouchercount(e.target.value.toUpperCase())
   }
@@ -135,10 +181,18 @@ const AboutVoucher = props => {
     setMinreq(option);
   };
   const handleonceperorder = (event, option) => {
-    setIsonce(!isonce);
+  //  setIsonce(!isonce);
+    setVoucherCtx({
+      ...voucherCtx,
+      "isonce": !voucherCtx.isonce
+    })
   };
   const generateCoupon = (event) => {
    // alert(JSON.stringify(voucherCtx))
+   setVoucherCtx({
+     ...voucherCtx,
+     "vouchercodes":makeid(10,voucherprefix,vouchercount)
+   })
    setVouchercode(makeid(10,voucherprefix,vouchercount))
   };
   
@@ -159,10 +213,10 @@ const AboutVoucher = props => {
             variant="outlined"
             margin="dense"
             fullWidth
-            onChange={handleInputChange('vouchername')}
+            onChange={handlevouchername('vouchername')}
             id="vouchername"
             name="vouchername"
-            value={vouchername}
+            value={voucherCtx.vouchername}
             label="Voucher Name"
             />
       <Grid   item xs={6} sm={6} >
@@ -213,7 +267,7 @@ const AboutVoucher = props => {
                        className={classes.fixedTag}
                        fullWidth
                        options={[]}
-                      //  onChange={handleInputChange('vouchercode')}
+                        onChange={handleInputChange('vouchercode')}
                        renderTags={(value, getTagProps) =>
                        value.map((option, index) => (
                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
@@ -242,10 +296,10 @@ const AboutVoucher = props => {
             fullWidth
             multiline
             rows="7"
-            onChange={handleInputChange('vouchercode')}
+            onChange={handlevaluechange('voucherdescription')}
             id="vouchercode"
             name="vouchercode"
-            // value={vouchercode}
+           value={voucherCtx.voucherdescription}
             label="Voucher Description"
             />
 
@@ -277,35 +331,18 @@ const AboutVoucher = props => {
       Discount Type
       </Typography>
       </Grid>
-        {props.categories.map(option => (
-          
-          <Grid justify="center" item xs={3} sm={3} spacing={1}>
-          <CardActionArea>
-            
-          <div
-            className={clsx(classes.option, {
-              [classes.selectedOption]: discounttype === option
-            })}
-            onClick={event => handleClick(event, option)}
-            key={option}
-          >
+        
 
-           <div className={classes.optionDetails}>
-           <Typography className={discounttype === option ? classes.selectedtext : null}
-                gutterBottom
-                variant="h6"
-              >
-                {option}
-              </Typography>  
-              </div> 
-                         
-            
-          </div>
-          </CardActionArea>
-          </Grid>
-        ))}
+            <ButtonGroup color="primary" aria-label="outlined primary button group">
+
+            {props.categories.map(option => (
+              
+            <Button onClick={(event)=> handleClick(event,option)} variant={voucherCtx.discounttype == option ? "contained" : "outlined" }>{option}</Button>
+              
+            ))}
+            </ButtonGroup>
         </Grid>
-         {discounttype === 'Free Shipping' || discounttype === "" ? null :  
+         {voucherCtx.discounttype === 'Free Shipping' || voucherCtx.discounttype === "" ? null :  
         <Grid item xs={12} sm={12} spacing={1}>
 
         <TextField
@@ -315,6 +352,8 @@ const AboutVoucher = props => {
           id="discountvalue"
           name="discountvalue"
           label="Discount Value"
+          onChange={handlevaluechange('voucherdiscount')}
+          value={voucherCtx.voucherdiscount}
           />
         </Grid>
 }
@@ -331,23 +370,23 @@ const AboutVoucher = props => {
           <Grid  item xs={6} sm={6} spacing={1}>
 
           <DateTimePicker
-        label="Start Date"
-        fullWidth
-        inputVariant="outlined"
-        value={selectedDate}
-        minDate={new Date()}    
-        onChange={handleDateChange}
-      />
+            label="Start Date"
+            fullWidth
+            inputVariant="outlined"
+            value={selectedDate}
+            minDate={new Date()}    
+            onChange={handleDateChange}
+          />
       </Grid>
               <Grid  item xs={6} sm={6} spacing={1}>
               <DateTimePicker
         label="End Date"
         fullWidth
         inputVariant="outlined"
-        value={selectedDate}
+        value={selectedendDate}
         minDate={selectedDate}
         strictCompareDates={true}
-        onChange={handleDateChange}
+        onChange={handleendDateChange}
       />
       </Grid>
           </Grid>
@@ -356,9 +395,9 @@ const AboutVoucher = props => {
 
         <div
             className={clsx(classes.option, {
-              [classes.selectedOptiondefault]: isonce
+              [classes.selectedOptiondefault]: voucherCtx.isonce
             })}
-            onClick={event => handleonceperorder(event, isonce)}
+            onClick={event => handleonceperorder(event, voucherCtx.isonce)}
 
             key={""}
           >
@@ -369,7 +408,7 @@ const AboutVoucher = props => {
               className={classes.optionRadio}
               color="primary"
               label
-              onClick={event => handleonceperorder(event, isonce)}
+              onClick={event => handleonceperorder(event, voucherCtx.isonce)}
               />
             </CardActions>
             <div className={classes.optionDetails}>
@@ -395,8 +434,9 @@ const AboutVoucher = props => {
         <TextField
           variant="outlined"
           margin="dense"
-          
+          onChange={handlevaluechange('limittouse')}
           fullWidth
+          value={voucherCtx.limittouse}
           id="discountvalue"
           name="discountvalue"
           label="Limit of uses"
@@ -413,37 +453,15 @@ const AboutVoucher = props => {
         Minimum Requirements
         </Typography>
       </Grid>
-        {['None','Minimum Order Value','Minimum Quantity of Items'].map(option => (
-          
-          <Grid  item xs={3} sm={3} spacing={1}>
-          
-          <div
-            className={clsx(classes.option, {
-              [classes.selectedOption]: minreq === option
-            })}
-            onClick={event => handleminreq(event, option)}
+      <ButtonGroup color="primary" aria-label="outlined primary button group">
 
-            key={option}
-          >
-            {/* <Radio
-              checked={selected === option}
-              className={classes.optionRadio}
-              color="primary"
-              onClick={event => handleChange(event, option)}
-            /> */}
-            <div className={classes.optionDetails}>
-              <Typography
-                gutterBottom
-                className={minreq === option ? classes.selectedtext : null}
-                variant="h6"
-              >
-                {option}
-              </Typography>
-              </div>
-            
-          </div>
-          </Grid>
-        ))}
+            {['None','Minimum Order Value','Minimum Quantity of Items'].map(option => (
+              
+            <Button onClick={(event)=> handleMinimumreq(event,option)} variant={voucherCtx.minimumreq == option ? "contained" : "outlined" }>{option}</Button>
+              
+            ))}
+            </ButtonGroup>
+        
         </Grid>
 
 
@@ -453,14 +471,15 @@ const AboutVoucher = props => {
 
 
         <Grid item xs={12} sm={12} spacing={1}>
-        {minreq === 'None' ? null :
+        {voucherCtx.minimumreq === 'None' || !voucherCtx.minimumreq  ? null :
         <TextField
           variant="outlined"
           margin="dense"
-          
+          onChange={handlevaluechange('minorder')}
           fullWidth
           id="discountvalue"
           name="discountvalue"
+          value={voucherCtx.minorder}
           label={minreq === 'Minimum Order Value' ? 'Minimun Order' : 'Minimum Quantity'}
           />
         }
