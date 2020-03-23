@@ -47,6 +47,7 @@ export default function Salediscountcontent() {
   const [skus, setSkus] = useState([]);
   const [isloading, setIsloading] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [productattr, setProductattr] = useState({});
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -70,13 +71,13 @@ export default function Salediscountcontent() {
       discountvalue: parseFloat(attributeobj.discountvalue),
       discounttype : attributeobj.discounttype,
       componenets : attributeobj.componenets,
+      product_attributes: productattr,
       skus : skus
     }
-    console.log(JSON.stringify(attributeobj ))
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
-    window.location='/salediscountlist'
+    window.location='/productlist'
 }
 const handleDelete = chipToDelete => () => {
  // setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
@@ -97,6 +98,22 @@ async function filterapllied(value)
   }
   function attributeadded( value)
   {
+  let componentsstring = {}
+    let keys = Object.keys(value);
+    keys.forEach(key => {
+      let values = []
+      let alias_arr = []
+      value[key].forEach(valueobj =>{
+        values.push(valueobj.name)
+        alias_arr.push(valueobj.alias)
+      })
+      componentsstring[key] = {
+        values : values,
+        alias : alias_arr
+      }
+    })
+    setProductattr(componentsstring)
+   //alert(JSON.stringify(componentsstring))
     setIsloading(true)
     //setAttributeobj(value)
     filterapllied(value)
