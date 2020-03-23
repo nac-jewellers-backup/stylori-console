@@ -16,4 +16,5 @@ export * from "./Materialmaster"
 export * from "./Mastermetalcolors"
 export * from "./Masterpurities"
 export * from "./DiscountList"
+export * from "./SalediscountListing"
 

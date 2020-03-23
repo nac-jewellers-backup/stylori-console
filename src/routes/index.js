@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities
-     ,Voucherdiscount, Salediscount, OrderList, Taxsetup, DiscountList } from '../screens';
+     ,Voucherdiscount, Salediscount, OrderList, Taxsetup, DiscountList,SalediscountListing } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -49,6 +49,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.mastercolors} component={Mastermetalcolors} />
                     <PrivateRoute  path={route.masterpurities} component={Masterpurities} />
                     <PrivateRoute  path={route.salediscountlist} component={DiscountList} />
+                    <PrivateRoute  path={route.voucherdiscountlist} component={SalediscountListing} />
 
                     
 

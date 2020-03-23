@@ -12,6 +12,7 @@ const route = {
     mastercolors: '/mastercolors',
     masterpurities: '/masterpurities',
     salediscountlist: '/salediscountlist',
+    voucherdiscountlist: '/voucherdiscountlist',
 
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
