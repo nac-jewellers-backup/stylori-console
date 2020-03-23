@@ -76,6 +76,7 @@ export default function Salediscountcontent() {
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
+    window.location='/salediscountlist'
 }
 const handleDelete = chipToDelete => () => {
  // setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));

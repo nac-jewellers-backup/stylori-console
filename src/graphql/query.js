@@ -437,6 +437,23 @@ query  {
 `;
 
 
+const SALEDISCOUNTS =gql`
+query  {
+  allSaleDiscounts {
+    nodes {
+      id
+      discountType
+      discountValue
+      components
+      attributes
+    }
+
+    totalCount
+  }
+}
+`;
+
+
 
 const MASTERPURITIES =gql`
 query  {
@@ -581,6 +598,14 @@ const DELETEGOLDPRICE = gql`
 mutation MyMutation($elementId:UUID!) {
   __typename
   deleteGoldPriceSettingById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
+const DELETESALEDISCOUNT = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteSaleDiscountById(input: {id: $elementId}) {
     clientMutationId
   }
 }
@@ -783,6 +808,7 @@ query MyQuery($productId: String!) {
     DELETEMAKINGCHARGE,
     DELETEGEMCHARGE,
     DELETEGOLDPRICE,
+    DELETESALEDISCOUNT,
     CATGORYLIST,
     DELETEDIAMONDCHARGE,
     VENDORLISTS,
@@ -790,5 +816,6 @@ query MyQuery($productId: String!) {
     PRODUCTTYPEMASTER,
     MATERIALMASTER,
     MASTERCOLORS,
-    MASTERPURITIES
+    MASTERPURITIES,
+    SALEDISCOUNTS
   }

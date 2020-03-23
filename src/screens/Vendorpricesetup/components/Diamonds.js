@@ -344,7 +344,7 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
-  async function handledelete(datacontent)
+  async function handledelete(datacontent,refetch)
   {
     let variables ={
       elementId:deleteid
@@ -352,7 +352,7 @@ const   AddContact=(props)=> {
     await props.client.mutate({mutation:DELETEDIAMONDCHARGE,variables}).then(res=>{
 
       if(res!==null){
-        //refetch();
+        refetch();
         // refetchval()
       }
     }).catch(err => {
@@ -366,7 +366,26 @@ const   AddContact=(props)=> {
     setIsconformation(true);
   }
 
+  async function handleAdd(metalcontent,refetch)
 
+  {
+    alert("i am here")
+    let bodydata = {}
+    bodydata['diamondcolor'] = metalcontent.diamondtype.diamondColor
+    bodydata['diamondclarity'] = metalcontent.diamondtype.diamondClarity
+    bodydata['costprice'] = metalcontent.costPrice
+    bodydata['pricetype'] = metalcontent.pricetype.label
+    bodydata['sellingprice'] = metalcontent.sellingprice
+    bodydata['vendor_code'] = props.vendor
+    bodydata['isadd'] = true
+
+
+    
+    await sendNetworkRequest('/updatediamondprice', {}, bodydata)
+  setOpen(false)
+    setBtnEdit({ ...btnEdit, id:"", action: false })
+    refetch()
+  }
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -487,15 +506,7 @@ const   AddContact=(props)=> {
   // }
   return (
     <>
-     <ConformationAlert 
-      title={"Are you sure to delete?"} 
-      positivebtn={"Yes"} 
-      negativebtn={"No"} 
-      message={""} 
-      data={deleteid}
-      onSuccess={handledelete}
-      onCancel={hidedeleteconformation}
-      isshow={isconformation} />
+  
     <Card className={classes.cardcontent} > 
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
     <Grid item xs={6}> 
@@ -545,7 +556,7 @@ const   AddContact=(props)=> {
           <Query
               query={DIAMONDPRICELIST}
               onCompleted={data => setPageCount( data.allDiamondPriceSettings.totalCount )}
-              variables={{ "vendorCode": 'STYPA 010'}}>
+              variables={{ "vendorCode": props.vendor}}>
               {
                   ({ data, loading, error, refetch }) => {
                     debugger
@@ -558,6 +569,18 @@ const   AddContact=(props)=> {
                       }
                       if (data) {
                           return <>
+                             <ConformationAlert 
+                            title={"Are you sure to delete?"} 
+                            positivebtn={"Yes"} 
+                            negativebtn={"No"} 
+                            message={""} 
+                            refetch={refetch}
+                            data={deleteid}
+                            onSuccess={handledelete}
+                            onCancel={hidedeleteconformation}
+                            isshow={isconformation} />
+                                {open ? <Adddiamondprice diamonds={diamondmaster} isadd={open} refetch={refetch} actionSave={handleAdd} actionclose={handleClose}/> : null} 
+
                               {data.allDiamondPriceSettings.nodes.map((row, index) => (
                                   <TableRow key={row.diamondClarity}>
                                   <TableCell component="th" scope="row">
@@ -685,7 +708,6 @@ const   AddContact=(props)=> {
           </TableFooter>*/}
         </Table> 
       </div>
-      {open ? <Adddiamondprice diamonds={diamondmaster} isadd={open} actionclose={handleClose}/> : null} 
 
     </Paper>
   </>

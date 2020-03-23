@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities
-     , ProducttypeList, Voucherdiscount, Salediscount, OrderList, Taxsetup } from '../screens';
+     ,Voucherdiscount, Salediscount, OrderList, Taxsetup, DiscountList } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -37,7 +37,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.materiallist} component={CategoryList} />
                     <PrivateRoute  path={route.editCategory} component={Editcategory} />
                     <PrivateRoute  path={route.materiallistpage} component={newmaterial}/>
-                    <PrivateRoute  path={route.producttypes} component={ProducttypeList} />
+                    {/* <PrivateRoute  path={route.producttypes} component={ProducttypeList} /> */}
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute  path={route.priceupdate} component={Priceupdate} />
                     <PrivateRoute  path={route.orderlist} component={OrderList} />
@@ -45,10 +45,12 @@ const MainApp = () => {
                     <PrivateRoute  path={route.markupPrice} component={Markupprice} />
                     <PrivateRoute  path={route.salediscount} component={Salediscount} />
                     <PrivateRoute  path={route.taxsetup} component={Taxsetup} />
-                    <PrivateRoute  path={route.materialmaster} component={Materialmaster} />
+                    <PrivateRoute  path={route.mastermaterial} component={Materialmaster} />
                     <PrivateRoute  path={route.mastercolors} component={Mastermetalcolors} />
                     <PrivateRoute  path={route.masterpurities} component={Masterpurities} />
+                    <PrivateRoute  path={route.salediscountlist} component={DiscountList} />
 
+                    
 
                      <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />            

@@ -326,6 +326,7 @@ const   AddContact=(props)=> {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [vendorid,setVendorid] = React.useState(props.vendor);
   const [editmc,setEditmc] = React.useState({})
+  const [puritymaster,setPuritymaster] = React.useState([])
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -383,8 +384,23 @@ const   AddContact=(props)=> {
     setBtnEdit({ ...btnEdit, id:'', action: false, add: true })
 
   }
-  function handleAdd() {
-    setBtnEdit({ ...btnEdit, id:'', action: true })
+  async function handleAdd(makingcontent) {
+    let bodydata ={}
+    bodydata['material'] = makingcontent.metal.name;
+    bodydata['weight_start'] = makingcontent.weightstart;
+    bodydata['weight_end'] = makingcontent.weightend;
+    bodydata['price_type'] = makingcontent.pricetype.label;
+    bodydata['vendor_code'] = props.vendor;
+    bodydata['purity'] = makingcontent.purity.shortCode;
+    bodydata['cost_price'] = makingcontent.costPrice;
+    bodydata['selling_price'] = makingcontent.sellingprice;
+    bodydata['isadd'] = true
+
+     await sendNetworkRequest('/updatemakingcharge', {}, bodydata)
+
+     setBtnEdit({ ...btnEdit, id:"", action: false })
+     setOpen(false)
+     getmclist()
 
   }
   function handleEdit(diamondData) {
@@ -428,6 +444,7 @@ const   AddContact=(props)=> {
       .then(fatchvalue => {
 
         setMetalmaster(fatchvalue.data.allMasterMaterials.nodes)
+        setPuritymaster(fatchvalue.data.allMasterMetalsPurities.nodes)
 
       })
       .catch(console.error)
@@ -521,7 +538,7 @@ const   AddContact=(props)=> {
       />
       </Grid> */}
        <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="outlined"  size="small"   style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -716,7 +733,7 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
-      {open ? <Addmakingchargeprice metals={metalmaster} isadd={open} title={"Add Making Charge Setup"} actionclose={handleClose}/> : null} 
+      {open ? <Addmakingchargeprice metals={metalmaster} purities={puritymaster}  isadd={open} title={"Add Making Charge Setup"} actionSave={handleAdd} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

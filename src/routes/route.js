@@ -11,6 +11,8 @@ const route = {
     mastermaterial: '/materialmaster',
     mastercolors: '/mastercolors',
     masterpurities: '/masterpurities',
+    salediscountlist: '/salediscountlist',
+
     producttypes: '/producttypes',
     voucherdiscount: '/voucherdiscount',
     salediscount: '/salediscount',

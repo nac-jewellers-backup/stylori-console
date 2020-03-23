@@ -63,8 +63,7 @@ export default function Addmakingchargeprice(props) {
     props.actionclose()
   };
   const handleSave = () => {
-    alert(JSON.stringify(makingcharge))
-    //props.actionclose()
+    props.actionSave(makingcharge)
   };
   const handleoptionChange = type => (event, value) => {
     setMakingcharge({ ...makingcharge, [type]: value})
@@ -132,18 +131,32 @@ const handleinputChange =type => e => {
               name="Cost Price"
               />
           </Grid>
-          <Grid item xs={12}>
-              <TextField
-              variant="outlined"
-              margin="dense"
-              label="Cost Price"
+          <Grid item xs={6}>
+          <Autocomplete
+              id="free-solo-2-demo"
               fullWidth
-              onChange={handleinputChange('costPrice')}
-              id="productvendorcode"
-              name="Cost Price"
+              disableClearable
+              getOptionLabel={option => option.name}
+              options={props.purities}
+              onChange={handleoptionChange('purity')}
+
+              renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+              ))
+              }
+              renderInput={params => (
+              <TextField
+              {...params}
+              label="Choose Purity"
+              margin="dense"
+              variant="outlined"
+              fullWidth
+              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
               />
+              )}
+            />
           </Grid>
-          
           <Grid item xs={6}>
           <Autocomplete
               id="free-solo-2-demo"
@@ -170,6 +183,19 @@ const handleinputChange =type => e => {
             />
           </Grid>
          
+          <Grid item xs={6}>
+              <TextField
+              variant="outlined"
+              margin="dense"
+              label="Cost Price"
+              fullWidth
+              onChange={handleinputChange('costPrice')}
+              id="productvendorcode"
+              name="Cost Price"
+              />
+          </Grid>
+          
+          
           
           <Grid item xs={6}>
               <TextField

@@ -110,7 +110,7 @@ function SideBar() {
             <ListItemText primary="Selling Price Markup Setup" />
           </ListItem>
           </Link>
-          <Link underline='none' component={RouterLink} to={'/salediscount'}>
+          <Link underline='none' component={RouterLink} to={'/salediscountlist'}>
 
           <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 3} onClick={event => handleListItemClick(event, 3)}>
             <ListItemIcon>

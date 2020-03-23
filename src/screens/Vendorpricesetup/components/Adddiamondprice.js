@@ -63,8 +63,7 @@ export default function Addmetalprice(props) {
     props.actionclose()
   };
   const handleSave = () => {
-    alert(JSON.stringify(diamonddata))
-    //props.actionclose()
+    props.actionSave(diamonddata, props.refetch)
   };
   const handleoptionChange = type => (event, value) => {
     setDiamonddata({ ...diamonddata, [type]: value})

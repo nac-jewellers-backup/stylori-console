@@ -385,7 +385,25 @@ const   AddContact=(props)=> {
     setIsconformation(true);
   }
 
+  async function handleAdd(gemstonedata){
+    var bodydata = {}
+    bodydata['gemstone_type'] = gemstonedata.name
+    bodydata['weight_start'] = gemstonedata.weightstart
+    bodydata['weight_end'] = gemstonedata.weightend
+    bodydata['cost_price'] = gemstonedata.costprice
+    bodydata['vendor_code'] = props.vendor
+    bodydata['selling_price_type']= gemstonedata.pricetype.label
+    bodydata['selling_price']= gemstonedata.sellingprice
+    bodydata['isadd']=true
 
+   // alert(JSON.stringify(gemstonedata))
+
+  await sendNetworkRequest('/updategemstoneprice', {}, bodydata)
+    setOpen(false)
+     getgemlist()
+     setBtnEdit({ ...btnEdit, id:"", action: false })
+
+  }
 
 
   const [btnEdit, setBtnEdit] = React.useState({
@@ -767,7 +785,7 @@ const   AddContact=(props)=> {
           </TableFooter> */}
         </Table> 
       </div>
-      {open ? <Addgemstoneprice gems={gemmaster} viewtype={props.viewtype} isadd={open} title={props.title} actionclose={handleClose}/> : null} 
+      {open ? <Addgemstoneprice gems={gemmaster} viewtype={props.viewtype} isadd={open} title={props.title} actionSave={handleAdd} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

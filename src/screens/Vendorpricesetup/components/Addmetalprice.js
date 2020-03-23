@@ -63,7 +63,7 @@ export default function Addmetalprice(props) {
     props.actionclose()
   };
   const handleSave = () => {
-    props.save()
+    props.save(metaldata,props.refetch)
   };
 
 const handleoptionChange = type => (event, value) => {

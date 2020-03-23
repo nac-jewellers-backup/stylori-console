@@ -64,8 +64,7 @@ export default function Addgemstoneprice(props) {
   };
 
   const handleSave = () => {
-    alert(JSON.stringify(gemstonedata))
-    //props.actionclose()
+    props.actionSave(gemstonedata)
   };
   const handleoptionChange = type => (event, value) => {
     setGemstonedata({ ...gemstonedata, [type]: value})

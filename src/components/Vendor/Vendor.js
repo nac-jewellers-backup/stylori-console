@@ -321,7 +321,7 @@ const   Vendor=(props)=> {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext,setSearchtext] = React.useState('')
   const [editcontent,setEditcontent] = React.useState({})
-  const [add,setAdd] = React.useState(props.isadd)
+  const [add,setAdd] = React.useState(false)
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -350,13 +350,23 @@ const   Vendor=(props)=> {
   async function Savevendor(refetch) {
     if(!editcontent.isedit)
     {
+      
+      editcontent['isedit'] = false
       editcontent['shortCode'] = props.newvendorcode
     }
     
      let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
-    props.onCancel()
+     props.onCancel()
     setBtnEdit({ ...btnEdit, id:'', action: false })
-    refetch()
+  // refetch()
+  if(!editcontent.isedit)
+    {
+      
+  window.location.reload();
+    }else{
+      refetch()
+    }
+
   }
   function CancelEdit(diamondData) {
     setBtnEdit({ ...btnEdit, id:'', action: false })

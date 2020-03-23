@@ -345,7 +345,7 @@ const   AddContact=(props)=> {
   const hidedeleteconformation = () => {
     setIsconformation(false);
   };
- async function handledelete(datacontent)
+ async function handledelete(datacontent,refetch)
   {
    
     let variables ={
@@ -354,7 +354,7 @@ const   AddContact=(props)=> {
     await props.client.mutate({mutation:DELETEGOLDPRICE,variables}).then(res=>{
 
       if(res!==null){
-        //refetch();
+        refetch();
         // refetchval()
       }
     }).catch(err => {
@@ -363,8 +363,27 @@ const   AddContact=(props)=> {
     setIsconformation(false);
 
   }
-  function handleAdd()
+  async function handleAdd(metalcontent,refetch)
+
   {
+var bodydata = {}
+bodydata = {
+material : metalcontent.metal.name,
+ purity: metalcontent.purity.shortCode,
+ costprice : metalcontent.costPrice,
+ sellingprice : metalcontent.sellingPrice,
+ pricetype: metalcontent.pricetype.label,
+ vendor : props.vendor,
+ isadd: true
+}
+console.log("--------")
+
+console.log(JSON.stringify(bodydata))
+ await sendNetworkRequest('/updatemetalprice', {}, bodydata)
+
+ setOpen(false)
+ refetch()
+//  setBtnEdit({ ...btnEdit, id:"", action: false })
   }
   function handleDelete(diamondData) {
     setDeleteid(diamondData.id)
@@ -504,15 +523,7 @@ const   AddContact=(props)=> {
   // }
   return (
       <>
-      <ConformationAlert 
-      title={"Are you sure to delete?"} 
-      positivebtn={"Yes"} 
-      negativebtn={"No"} 
-      message={""} 
-      data={deleteid}
-      onSuccess={handledelete}
-      onCancel={hidedeleteconformation}
-      isshow={isconformation} />
+     
     <Card className={classes.cardcontent} > 
     <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
       <Grid item xs={6}> 
@@ -575,6 +586,18 @@ const   AddContact=(props)=> {
                       if (data) {
                         setGoldpricelist(data)
                           return <>
+                           <ConformationAlert 
+                                    title={"Are you sure to delete?"} 
+                                    positivebtn={"Yes"} 
+                                    negativebtn={"No"} 
+                                    message={""} 
+                                    data={deleteid}
+                                    refetch={refetch}
+                                    onSuccess={handledelete}
+                                    onCancel={hidedeleteconformation}
+                                    isshow={isconformation} />
+                               {open ? <Addmetalprice isadd={open} refetch = {refetch} metals={metalmaster} purities={puritymaster} save={handleAdd} actionclose={handleClose}/> : null} 
+
                               { data.allGoldPriceSettings.nodes.map((row, index) => (
                                   <TableRow key={row.material}>
                                   <TableCell component="th" scope="row">
@@ -668,7 +691,7 @@ const   AddContact=(props)=> {
                                       <TableCell align="center" style = {{width: 170}}>
                                         <Button onClick={(e) => handleEdit(row)}><EditIcon />
                                         </Button>
-                                        <Button onClick={(e) => handleDelete(row)}><DeleteIcon />
+                                        <Button onClick={(e) => handleDelete(row, refetch)}><DeleteIcon />
                                         </Button>
                                       </TableCell>
                                   }
@@ -708,7 +731,6 @@ const   AddContact=(props)=> {
         </Table> 
 
       </div>
-     {open ? <Addmetalprice isadd={open} metals={metalmaster} purities={puritymaster} save={handleAdd} actionclose={handleClose}/> : null} 
     </Paper>
     </>
   );
