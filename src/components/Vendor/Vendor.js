@@ -27,7 +27,7 @@ import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {VENDORLISTS,PRODUCTCATEGORY,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
-import { Button, Switch, FormControlLabel } from '@material-ui/core';
+import { Button,Grid, Switch, FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
 import {BASE_URL} from '../../config'
@@ -322,15 +322,25 @@ const   Vendor=(props)=> {
   const [searchtext,setSearchtext] = React.useState('')
   const [editcontent,setEditcontent] = React.useState({})
   const [add,setAdd] = React.useState(false)
+  const [isadd,setIsadd] = React.useState(false)
+  const [newvendorcode, setNewvendorcode] = React.useState("")
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
   })
-  function Cancelcreate() {
-    setBtnEdit({ ...btnEdit, id:'', action: false })    
-    props.onCancel();
+  async function addnewvendor()
+  {
 
+    let response =  await sendNetworkRequest('/getnewvendorcode', {}, {})
+    setIsadd(true)
+    setNewvendorcode(response.newvendorcode)
+  }
+  function Cancelcreate(refetch) {
+    setIsadd(false)
+    setBtnEdit({ ...btnEdit, id:'', action: false }) 
+    refetch()   
+    // props.onCancel();
   }
   function Editvendor(vendordata) {
     setEditcontent({
@@ -380,12 +390,12 @@ const   Vendor=(props)=> {
   function handleChangePage(event, newPage) {
     setPage(newPage);
     setOffsetValue(newPage*rowsPerPage)
-    getproductlist("","","","",newPage)
+   // getproductlist("","","","",newPage)
 
   }
   useEffect( () => {
 
-    getproductlist("","","","","",order,orderBy)
+   // getproductlist("","","","","",order,orderBy)
   const query = props.client.query
     query({
       query: PRODUCTFILTERMASTER,
@@ -469,6 +479,20 @@ function applyfilter(searchtext, categoryname, typename)
   // }
   return (
     <Paper className={classes.root}>
+      <Grid container item xs={12} sm={12} alignItems={"flex-end"} >
+            <Grid fullwidth item xs={6} sm={6}>
+
+            <Typography component="h6" variant="h6">
+            Vendors
+          </Typography>
+          </Grid>
+          <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right","padding":"8px"} } >
+          <Button variant="outlined" onClick={() => addnewvendor()}  color="primary" >
+          Add New Vendor
+        </Button>
+        
+        </Grid>
+    </Grid>
       {/* <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} /> */}
       <div className={classes.tableWrapper}>
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -509,7 +533,7 @@ function applyfilter(searchtext, categoryname, typename)
                            return <> 
                               {data.allMasterVendors.nodes.map((row, index) => (
                            <>
-                           {index == 0 && props.isadd ? 
+                           {index == 0 && isadd ? 
                            <TableRow key={row.name}>
                            <TableCell align="left">
                            <TextField
@@ -518,7 +542,7 @@ function applyfilter(searchtext, categoryname, typename)
                               contentEditable={false}
                               id="vendordeliverydays"
                               name="vendordeliverydays"
-                              value={props.newvendorcode}
+                              value={newvendorcode}
                               onChange={handleInputChange('shortCode')}
 
                               label="Vendor Code"
@@ -598,10 +622,10 @@ function applyfilter(searchtext, categoryname, typename)
                     <TableCell  style = {{width: 20}} align="center">
                       <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
                       </Button>
-                      <Button onClick={(e) => Cancelcreate()}><CancelIcon />
+                      <Button onClick={(e) => Cancelcreate(refetch)}><CancelIcon />
                       </Button>
                     </TableCell>
-                           </TableRow> : null}
+                           </TableRow> : null }
                               
                                 
                                 <TableRow key={row.name}>
@@ -609,7 +633,7 @@ function applyfilter(searchtext, categoryname, typename)
                                     {row.shortCode}
                                   </TableCell>
                 {
-                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                  btnEdit.action && btnEdit.id == row.shortCode && !isadd ? 
                   <TableCell align="left">
                   <TextField
                         variant="outlined"
@@ -623,7 +647,7 @@ function applyfilter(searchtext, categoryname, typename)
                         /> </TableCell> :  <TableCell align="left">{row.name} 
                            </TableCell> }
                            {
-                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                  btnEdit.action && btnEdit.id == row.shortCode && !isadd ? 
                   <TableCell align="left">
                   <TextField
                         variant="outlined"
@@ -637,7 +661,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }
 
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -653,7 +677,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }
                                   
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -669,7 +693,7 @@ function applyfilter(searchtext, categoryname, typename)
                            </TableCell> }  
 
                            {
-                        btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ? 
+                        btnEdit.action && btnEdit.id == row.shortCode && !isadd ? 
                         <TableCell align="left">
                         <TextField
                               variant="outlined"
@@ -690,7 +714,7 @@ function applyfilter(searchtext, categoryname, typename)
                                   </Moment>
                                   </TableCell>
                                   {
-                  btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ?
+                  btnEdit.action && btnEdit.id == row.shortCode && !isadd ?
                     <TableCell  style = {{width: 20}} align="center">
                       <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
                       </Button>

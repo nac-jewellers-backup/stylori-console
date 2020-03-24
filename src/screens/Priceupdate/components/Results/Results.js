@@ -178,7 +178,7 @@ const Results = props => {
                       </TableCell>
                      
                       <TableCell align="center">
-                      <Button color="primary" disabled onClick={(e) => handledownload()} size="small">
+                      <Button color="primary"  onClick={(e) => handledownload()} size="small">
                         Download
                       </Button>
                       </TableCell>

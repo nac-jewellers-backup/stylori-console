@@ -379,7 +379,10 @@ const   AddContact=(props)=> {
   }
 
 
-
+  function updatemarkup(markupcontent)
+  {
+    alert(JSON.stringify(markupcontent))
+  }
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -474,7 +477,7 @@ const   AddContact=(props)=> {
        />
        </Grid> */}
        <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="outlined"   size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -673,7 +676,7 @@ const   AddContact=(props)=> {
       onCancel={hidedeleteconformation}
       isshow={isconformation} />
       </div>
-      {open ? <Addmarkup isadd={open} category={props.categories} producttype={props.producttypes} title={props.title} actionclose={handleClose}/> : null} 
+      {open ? <Addmarkup isadd={open} actionSave={updatemarkup} category={props.categories} producttype={props.producttypes} title={props.title} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>

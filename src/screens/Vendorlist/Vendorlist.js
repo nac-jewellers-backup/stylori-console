@@ -15,16 +15,9 @@ import { NetworkContext } from '../../context/NetworkContext';
 export const Vendorlist = withRouter(props => {
   const [isadd, setIsadd] = React.useState(false)
   const { sendNetworkRequest } = React.useContext(NetworkContext);
-  const [newvendorcode, setNewvendorcode] = React.useState("")
 
   
- async function addnewvendor()
-  {
-
-    let response =  await sendNetworkRequest('/getnewvendorcode', {}, {})
-    setIsadd(true)
-    setNewvendorcode(response.newvendorcode)
-  }
+ 
   function cancelvendorcreation()
   {
     setIsadd(false)
@@ -36,21 +29,8 @@ export const Vendorlist = withRouter(props => {
     {/* <Newvendor title={'Add new Vendor'} isopen={isadd}/> */}
     <Grid container  spacing={2}>  
     
-    <Grid container item xs={12} sm={12} alignItems={"flex-end"}>
-        <Grid fullwidth item xs={6} sm={6}>
-
-            <Typography component="h6" variant="h6">
-            Vendors
-          </Typography>
-          </Grid>
-          <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
-          <Button variant="outlined"  onClick={()=>addnewvendor() } color="primary" >
-          Add New Vendor
-        </Button>
-        
-        </Grid>
-    </Grid>
-    <Vendor  onCancel={cancelvendorcreation} isadd={isadd} newvendorcode={newvendorcode} />
+    
+    <Vendor  onCancel={cancelvendorcreation}  />
    
     </Grid>
     </>

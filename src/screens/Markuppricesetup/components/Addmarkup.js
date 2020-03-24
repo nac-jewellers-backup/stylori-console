@@ -57,8 +57,7 @@ export default function Addmarkup(props) {
   const [markup, setMarkup] = React.useState({});
 
   const handleSave = () => {
-    alert(JSON.stringify(markup))
-    //props.actionclose()
+    props.actionSave(markup)
   };
   const handleoptionChange = type => (event, value) => {
     setMarkup({ ...markup, [type]: value})
