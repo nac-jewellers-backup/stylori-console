@@ -204,6 +204,8 @@ function handleDelete(diamondData) {
                                  <>
 
                                   <TableRow key={row.name}>
+                                  <TableCell align="left">{row.discountName} 
+                                              </TableCell>
                                     <TableCell align="left">{row.components.join(' , ')} 
                                               </TableCell>
                                               <TableCell align="left">{row.discountType == 2 ? row.discountValue+'%' : row.discountValue} 

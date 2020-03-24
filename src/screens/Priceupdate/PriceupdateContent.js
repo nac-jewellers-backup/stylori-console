@@ -19,7 +19,7 @@ const rows = [
   { id: 'Diamond', label: 'Diamond' },
   { id: 'Gemstone', label: 'Gemstone' },
   { id: 'Metal & Making Charge', label: 'Gold' },
-  { id: 'Price Update', label: 'updateskuprice' }
+  { id: 'Markup & Discount price update', label: 'updateskuprice' }
 ];
 const useStyles = makeStyles(theme => ({
   root: {

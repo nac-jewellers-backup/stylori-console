@@ -77,25 +77,42 @@ export default function Salediscountcontent() {
 
   async function creatediscount()
   {
+    if(errorskus.length > 0 )
+    {
+      alert("Some skus are overlapping")
+    }else{
+
+    
     setIsloading(true)
 
     let bodydata = {
       discountvalue: parseFloat(attributeobj.discountvalue),
       discounttype : attributeobj.discounttype,
       componenets : attributeobj.componenets,
+      discountname : attributeobj.discountname,
       product_attributes: productattr,
       product_attributes_text : productattrtext,
-      skus : skus
+      skus : products
     }
     console.log(JSON.stringify(productattr))
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
     window.location='/salediscountlist'
+  }
 }
 const handleDelete = chipToDelete => () => {
   //setProducts([]) 
-
+  let errorindex =  errorskus.indexOf(chipToDelete)
+  if(errorindex > -1)
+  {
+    errorskus.splice(errorindex,1)
+    var erroritems = []
+    errorskus.forEach(itemname =>{
+      erroritems.push(itemname)
+    })
+   setErrorskus(erroritems) 
+  }
   let index = products.indexOf(chipToDelete)
   products.splice(index,1)
   var items = []

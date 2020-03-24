@@ -404,7 +404,7 @@ const AboutVoucher = props => {
                 <CardActions>
 
             <Radio
-              checked={isonce}
+              checked={voucherCtx.isonce}
               className={classes.optionRadio}
               color="primary"
               label

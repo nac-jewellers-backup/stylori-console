@@ -153,15 +153,22 @@ function SideBar() {
               <ListItemText primary={"Configuration"} />
             </ListItem>
             </Link>
+            <Link underline='none' component={RouterLink} to={'/voucherdiscountlist'}>
 
-       <ListItem button onClick={handleClick('Discounts')}>
+                <ListItem button key={"Vouchers"}  >
+                <ListItemIcon><InboxIcon /> </ListItemIcon>
+
+                  <ListItemText primary={"Vouchers"} />
+                </ListItem>
+                </Link>
+       {/* <ListItem button onClick={handleClick('Discounts')}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
         <ListItemText primary="Discounts" />
         {globalCtx.isExpand && globalCtx.optionname === 'Discounts' ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={globalCtx.isExpand && globalCtx.optionname === 'Discounts'} timeout="auto" unmountOnExit>
+      </ListItem> */}
+      {/* <Collapse in={globalCtx.isExpand && globalCtx.optionname === 'Discounts'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>
 
@@ -172,7 +179,7 @@ function SideBar() {
             <ListItemText primary="Sales Discount" />
           </ListItem>
           </Link>
-          <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>
+          <Link underline='none' component={RouterLink} to={'/voucherdiscountlist'}>
 
           <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 2} onClick={event => handleListItemClick(event, 2)}>
             <ListItemIcon>
@@ -182,7 +189,7 @@ function SideBar() {
           </ListItem>
           </Link>
         </List>
-      </Collapse>
+      </Collapse> */}
 
 
         </List>

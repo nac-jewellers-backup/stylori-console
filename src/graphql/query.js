@@ -442,6 +442,7 @@ query  {
   allSaleDiscounts {
     nodes {
       id
+      discountName
       discountType
       discountValue
       components
@@ -454,6 +455,24 @@ query  {
   }
 }
 `;
+
+
+const VOUCHERDISCOUNTS =gql`
+query  {
+  allVouchers {
+    nodes {
+      id
+      name
+      code
+      description
+      
+    }
+
+    totalCount
+  }
+}
+`;
+
 
 
 
@@ -613,6 +632,14 @@ mutation MyMutation($elementId:UUID!) {
 }
 `;
 
+const DELETEVOUCHERDISCOUNT = gql`
+mutation MyMutation($elementId:UUID!) {
+  __typename
+  deleteVoucherById(input: {id: $elementId}) {
+    clientMutationId
+  }
+}
+`;
 
 const DELETEMAKINGCHARGE = gql`
 mutation MyMutation($elementId:UUID!) {
@@ -819,5 +846,7 @@ query MyQuery($productId: String!) {
     MATERIALMASTER,
     MASTERCOLORS,
     MASTERPURITIES,
-    SALEDISCOUNTS
+    SALEDISCOUNTS,
+    VOUCHERDISCOUNTS,
+    DELETEVOUCHERDISCOUNT
   }

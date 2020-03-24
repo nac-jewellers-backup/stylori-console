@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 let colimns = [
+  "Name",
   "Components",
   "discount_value",
   "product attributes",
