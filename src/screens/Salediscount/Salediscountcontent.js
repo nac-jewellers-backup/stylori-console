@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+
 import { VoucherContext } from '../../context';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -9,7 +10,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import {palette} from '../../theme'
 import Page from '../../components/Page'
 import { Header, Results,AboutVoucher ,VoucherComponent} from './components';
 import { Button, Grid,Typography } from '@material-ui/core';
@@ -33,9 +34,16 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0.5),
     marginTop: theme.spacing(1)
   },
+  errorchip: {
+    margin: theme.spacing(0.5),
+    backgroundColor: theme.palette.error.dark,
+    textColor : theme.palette.white
+  },
   chip: {
     margin: theme.spacing(0.5),
-  },
+   
+  }
+
 }));
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -44,11 +52,14 @@ function Alert(props) {
 export default function Salediscountcontent() {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
+  const [deletedids, setDeletedids] = useState([]);
+
   const [skus, setSkus] = useState([]);
   const [isloading, setIsloading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [productattr, setProductattr] = useState({});
   const [productattrtext, setProductattrtext] = useState("");
+  const [errorskus, setErrorskus] = useState([]);
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -83,7 +94,17 @@ export default function Salediscountcontent() {
     window.location='/salediscountlist'
 }
 const handleDelete = chipToDelete => () => {
- // setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
+  //setProducts([]) 
+
+  let index = products.indexOf(chipToDelete)
+  products.splice(index,1)
+  var items = []
+  products.forEach(itemname =>{
+    items.push(itemname)
+  })
+ setProducts(items) 
+
+  //setProducts(porudcts)  //setProducts(chips => chips.filter(chip => chip.key !== chipToDelete.key));
 };
 
 async function filterapllied(value)
@@ -94,7 +115,8 @@ async function filterapllied(value)
 
     let response = await sendNetworkRequest('/getaliasproduct', {}, value, false)
    setProducts(response.products)
-   setSkus(response.products)
+   setSkus(response.skus)
+   setErrorskus(response.eror_skus)
    setIsloading(false)
 
     
@@ -103,6 +125,7 @@ async function filterapllied(value)
   {
   let componentsstring = {}
   let attrs = []
+  let display_arr = []
     let keys = Object.keys(value);
     keys.forEach(key => {
       let values = []
@@ -116,9 +139,11 @@ async function filterapllied(value)
         values : values,
         alias : alias_arr
       }
+      let displaytext = key + ' : ' + attrs.join(' , ')
+      display_arr.push(displaytext)
     })
     setProductattr(componentsstring)
-    setProductattrtext(attrs.join(' , '))
+    setProductattrtext(display_arr.join(' | '))
    //alert(JSON.stringify(componentsstring))
     setIsloading(true)
     //setAttributeobj(value)
@@ -164,30 +189,25 @@ async function filterapllied(value)
     title="Orders Management List"
   >
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
-   {products.length > 0 ? <Paper className={classes.productcontent}>
-    <Typography variant="h5" component="h2">
+  <Paper className={classes.productcontent}>
+     <Typography variant="h5" component="h2">
         {products.length} Products and {skus.length} skus
       </Typography>
 
-      {products.map(data => {
-        let icon;
+     
+    </Paper> 
+    {products.map(data => (
+        <Chip
+        key={data}
+        label={data}
+        variant="outlined"
+        color={errorskus.indexOf(data) > -1 ?  "secondary" : "primary"}
+        onDelete={handleDelete(data)}
+        className={classes.chip}
+      />
 
-        // if (data.label === 'React') {
-        //   icon = <TagFacesIcon />;
-        // }
-
-        return (
-          <Chip
-            key={data}
-            icon={icon}
-            label={data}
-            variant="outlined"
-             onDelete={handleDelete(data)}
-            className={classes.chip}
-          />
-        );
-      })}
-    </Paper> : null }
+      
+      ))}
     <AboutVoucher className={classes.aboutvoucher} onAdded={valuechange} categories={['Fixed Amount','percentage']} />
     
     

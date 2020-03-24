@@ -170,7 +170,21 @@ const AboutVoucher = props => {
       <CardHeader title="General Information" />
       <Divider />
       <CardContent className={classes.cardcontent}>
-      <Grid container  spacing={2}>  
+      <Grid container  spacing={2}> 
+      <Grid item xs={12} sm={12} spacing={1}>
+
+        <TextField
+          variant="outlined"
+          margin="dense"
+          
+          value={discountobj.discountname}
+          onChange={handleInputChange("discountname")}
+          id="discountname"
+          name="discountname"
+          label="Name"
+          />
+        </Grid>
+ 
       <Grid   item xs={6} sm={6} >
               
                        
