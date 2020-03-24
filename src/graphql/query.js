@@ -338,7 +338,7 @@ query MyQuery($vendorCode: String!) {
 
 const DIAMONDMARKUP = gql`
 query MyQuery($vendorCode: String!) {
-  allPricingMarkups(condition: {material: $vendorCode}) {
+  allPricingMarkups(condition: {material: $vendorCode},orderBy: UPDATED_AT_DESC) {
     nodes {
       updatedAt
       sellingPriceMin

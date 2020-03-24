@@ -57,7 +57,7 @@ export default function Addmarkup(props) {
   const [markup, setMarkup] = React.useState({});
 
   const handleSave = () => {
-    props.actionSave(markup)
+    props.actionSave(markup,props.refetch)
   };
   const handleoptionChange = type => (event, value) => {
     setMarkup({ ...markup, [type]: value})
@@ -80,7 +80,7 @@ const handleinputChange =type => e => {
   
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-         Add Markup Price
+         Add Markup Price For {props.material}
         </DialogTitle>
         <DialogContent dividers>
         <Grid container spacing={2}>

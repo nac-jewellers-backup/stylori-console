@@ -45,6 +45,7 @@ import {BASE_URL} from '../../../config'
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Filterandsearch from './../../../screens/Productlist/filterandsearch';
 const columns = [
+  { id: 'Component', label: 'Components' },
   { id: 'Product Category', label: 'product Category' },
   { id: 'Product Type', label: 'Product Type' },
   { id: 'Selling Price Min', label: 'Selling Price Min' },
@@ -327,6 +328,7 @@ const   AddContact=(props)=> {
   const [deleteid,setDeleteid] = React.useState("")
   const [refetch,setRefetch] = React.useState(null)
   const [isdelete, setIsdelete] = React.useState(false);
+  const [pricecomponent, setPriceomponent] = React.useState("Diamond");
 
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -374,14 +376,26 @@ const   AddContact=(props)=> {
   }
   function handleDelete(diamondData, refetch) {
     setDeleteid(diamondData.id)
-    setRefetch(refetch)
+    
     setIsconformation(true);
   }
 
 
-  function updatemarkup(markupcontent)
+ async function updatemarkup(markupcontent,refetch)
   {
-    alert(JSON.stringify(markupcontent))
+    var bodydata = {}
+    bodydata['category'] = markupcontent.category.name;
+    bodydata['producttype'] = markupcontent.producttype.name;
+    bodydata['sellingPriceMin'] = markupcontent.sellpricemin
+    bodydata['sellingPriceMax'] = markupcontent.sellpricemax
+    bodydata['markuptype'] = markupcontent.markuptype.label
+    bodydata['markupValue'] = markupcontent.markup
+    bodydata['material'] = pricecomponent
+    console.log("XXXXXXXX")
+    await sendNetworkRequest('/addmarkup', {}, bodydata)
+    setOpen(false)
+     setBtnEdit({ ...btnEdit, id:"", action: false })
+     refetch()
   }
 
   function handleChangePage(event, newPage) {
@@ -424,6 +438,10 @@ const   AddContact=(props)=> {
   const handleoptionChange = type => (event, value) => {
     setEditmarkup({ ...editmarkup, [type]: value})
 }
+const handlecomponentChange = type => (event, value) => {
+  
+  setPriceomponent(value)
+}
   const handleinputChange =type => e => {
    setEditmarkup({
      ...editmarkup,
@@ -460,24 +478,39 @@ const   AddContact=(props)=> {
       
     <Card className={classes.cardcontent} > 
      <Grid container justify="left"   alignItems="center" className={classes.cardroot} spacing={4}>
-     <Grid item xs={6}>
+     <Grid item xs={3}>
        <Typography variant="h6"> 
          {"Selling Price Markup Setup"}
        </Typography> 
        </Grid>
-       {/* <Grid item> 
-       <TextField
-           variant="outlined"
-           margin="dense"
-           label="Search"
-           className={classes.helperinput}
-           onChange={handleinputChange('weight_start')}
-           id="productvendorcode"
-           name="Cost Price"
-       />
-       </Grid> */}
+     <Grid item xs={3}> 
+          
+     <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                     defaultValue={pricecomponent}
+                    options={["Diamond","Gem Stone","Gold","Making Charge"]}
+                    onChange={handlecomponentChange('earringbacking')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Pricing Components"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    // error = {productCtx.error_message.earringbacking}
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />
+       </Grid> 
        <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"   size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="outlined"   size="small"   style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -505,7 +538,7 @@ const   AddContact=(props)=> {
           <Query
               query={DIAMONDMARKUP}
               onCompleted={data => setPageCount( data.allPricingMarkups.totalCount )}
-              variables={{ "vendorCode": props.vendor}}>
+              variables={{ "vendorCode": pricecomponent}}>
               {
                   ({ data, loading, error, refetch }) => {
                     debugger
@@ -519,8 +552,24 @@ const   AddContact=(props)=> {
                       if (data) {
                         setGoldpricelist(data)
                           return <>
+                           <ConformationAlert 
+                                title={"Are you sure to delete?"} 
+                                positivebtn={"Yes"} 
+                                negativebtn={"No"} 
+                                message={""} 
+                                refetch={refetch}
+                                onSuccess={handledelete}
+                                onCancel={hidedeleteconformation}
+                                isshow={isconformation} />
+                                {open ? <Addmarkup isadd={open} material={pricecomponent} refetch={refetch} actionSave={updatemarkup} category={props.categories} producttype={props.producttypes} title={props.title} actionclose={handleClose}/> : null} 
+
                               { data.allPricingMarkups.nodes.map((row, index) => (
+                                <>
                                   <TableRow key={row.category}>
+                                      <TableCell component="th" scope="row">
+                                     {row.material}
+                                    
+                                  </TableCell>
                                   <TableCell component="th" scope="row">
                                      {row.category}
                                     
@@ -633,6 +682,7 @@ const   AddContact=(props)=> {
                                       </TableCell>
                                   }
                                 </TableRow>
+                                </>
                               ))}
                           </>
                       }
@@ -666,17 +716,8 @@ const   AddContact=(props)=> {
             </TableRow>
           </TableFooter>*/}
         </Table> 
-        <ConformationAlert 
-      title={"Are you sure to delete?"} 
-      positivebtn={"Yes"} 
-      negativebtn={"No"} 
-      message={""} 
-      refetch={refetch}
-      onSuccess={handledelete}
-      onCancel={hidedeleteconformation}
-      isshow={isconformation} />
+       
       </div>
-      {open ? <Addmarkup isadd={open} actionSave={updatemarkup} category={props.categories} producttype={props.producttypes} title={props.title} actionclose={handleClose}/> : null} 
 
     </Paper>
     </>
