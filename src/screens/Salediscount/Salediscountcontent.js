@@ -63,7 +63,7 @@ export default function Salediscountcontent(props) {
   const [productattrtext, setProductattrtext] = useState("");
   const [errorskus, setErrorskus] = useState([]);
   const [isloaded, setIsloaded] = useState(false);
-  const [isshowpriceupdate, setIsshowpriceupdate] = useState(false);
+  const [isshowpriceupdate, setIsshowpriceupdate] = useState(true);
   const [statusmessage, setStatusmessage] = useState("");
 
   const [attributeobj, setAttributeobj] = useState({});

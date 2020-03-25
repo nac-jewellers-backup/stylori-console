@@ -119,11 +119,11 @@ const handleDelete = chipToDelete => () => {
         <Grid container spacing={2}>
         {props.products.map(data => (
         <Chip
-        key={data}
-        label={data}
+        key={data.generated_sku}
+        label={data.generated_sku}
         variant="outlined"
         // color={errorskus.indexOf(data) > -1 ?  "secondary" : "primary"}
-         onDelete={handleDelete(data)}
+         onDelete={handleDelete(data.generated_sku)}
         className={classes.chip}
       />
 

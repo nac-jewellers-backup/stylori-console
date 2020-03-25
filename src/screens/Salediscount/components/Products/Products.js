@@ -58,6 +58,7 @@ const Products = props => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
+  const [selectskus, setSelectskus] = useState([]);
 
   const handleSelectAll = event => {
     const selectedOrders = event.target.checked
@@ -97,9 +98,10 @@ const Products = props => {
   function handlecancel(){
     setOpen(false)
   }
-  function handleOpen()
+  function handleOpen(prodskus)
   {
     setOpen(true)
+    setSelectskus(prodskus)
   }
   const paymentStatusColors = {
     canceled: colors.grey[600],
@@ -113,7 +115,7 @@ const Products = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-    {open ? <Viewsku isadd={open} products={props.products}  actionclose={handlecancel}/> : null} 
+    {open ? <Viewsku isadd={open} products={selectskus}  actionclose={handlecancel}/> : null} 
 
       {/* <Typography
         color="textSecondary"
@@ -153,9 +155,9 @@ const Products = props => {
                       
                      
 
-                      <TableCell >{order}</TableCell>
-                      <TableCell align="center">243 SkUS
-                      <IconButton aria-label="delete"  onClick={handleOpen}  color="primary">
+                      <TableCell >{order.product_id}</TableCell>
+                      <TableCell align="center">{order.skus.length} skus
+                      <IconButton aria-label="delete"  onClick={() => handleOpen(order.skus)}  color="primary">
                           <VisibilityIcon />
                       </IconButton>
                       </TableCell>
