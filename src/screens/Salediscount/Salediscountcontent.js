@@ -49,7 +49,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function Salediscountcontent() {
+export default function Salediscountcontent(props) {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [deletedids, setDeletedids] = useState([]);
@@ -60,6 +60,7 @@ export default function Salediscountcontent() {
   const [productattr, setProductattr] = useState({});
   const [productattrtext, setProductattrtext] = useState("");
   const [errorskus, setErrorskus] = useState([]);
+  const [isloaded, setIsloaded] = useState(false);
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -67,6 +68,8 @@ export default function Salediscountcontent() {
     message:"Created Successfully",
     severity:"Success"
   });
+ 
+  
   const { voucherCtx, setVoucherCtx ,materialMaster} = React.useContext(VoucherContext);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -74,7 +77,31 @@ export default function Salediscountcontent() {
     }
     setOpen(false);
   };
-
+  var discount_id = "";
+  
+  async function getdiscountvalue(discount_id)
+  {
+    let bodydata = {
+      discountid : discount_id
+      }
+    let response = await sendNetworkRequest('/getdiscount', {}, bodydata, false)
+    let comparr = [];
+    response.discunt.components.forEach(comp => {
+      comparr.push({
+        name: comp
+      })
+    })
+    alert(JSON.stringify(comparr))
+    setProducts(response.discunt.product_ids)
+    setAttributeobj({
+      ...setAttributeobj,
+      discountname:response.discunt.discount_name,
+      discountvalue:response.discunt.discount_value,
+      discounttype:response.discunt.discounttype,
+      componenets: comparr
+    })
+    setIsloaded(true)
+  }
   async function creatediscount()
   {
     if(errorskus.length > 0 )
@@ -184,7 +211,12 @@ async function filterapllied(value)
       
     };
     fetchOrders();
+    if(props.location.pathname && props.location.pathname.split('/').length > 2 )
+  {
+     discount_id = props.location.pathname.split('/')[2];
+    getdiscountvalue(discount_id)
 
+  }
     return () => {
       mounted = false;
     };
@@ -225,7 +257,7 @@ async function filterapllied(value)
 
       
       ))}
-    <AboutVoucher className={classes.aboutvoucher} onAdded={valuechange} categories={['Fixed Amount','percentage']} />
+    {isloaded || !discount_id ? <AboutVoucher discountcontent= {attributeobj} className={classes.aboutvoucher} onAdded={valuechange} categories={['Fixed Amount','percentage']} /> : null}
     
     
     {/* <ProductsListing className={classes.aboutvoucher}  products={[]} /> */}

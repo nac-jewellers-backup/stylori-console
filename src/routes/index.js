@@ -52,6 +52,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.voucherdiscountlist} component={VoucherdiscountListing} />
 
                     
+                    <PrivateRoute exact path={route.editdiscount} component={Salediscount} />  
 
                      <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />            

@@ -3,8 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // import moment from 'moment';
 import { Query, withApollo } from 'react-apollo';
-import {SALEDISCOUNTS,DELETESALEDISCOUNT} from '../../../../graphql/query'
+import {SALEDISCOUNTS,DELETESALEDISCOUNT, DISCOUNTSTATUSEDIT} from '../../../../graphql/query'
 import ConformationAlert from '../../../../components/ConformationAlert'
+import { useHistory } from "react-router-dom";
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -18,6 +19,8 @@ import {
   Button,
   Card,
   CardActions,
+  FormControlLabel,
+  Switch,
   CardContent,
   CardHeader,
   Divider,
@@ -53,6 +56,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
+  let history = useHistory();
+
   const { className, orders, ...rest } = props;
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
@@ -95,6 +100,11 @@ function handleDelete(diamondData) {
     })
     setIsconformation(false);
 
+  }
+  function DiscountEdit(id){
+    // localStorage.setItem('productEditId',id);
+   // history.push(`product_attributes/${id}`)
+   history.push(`salediscount/${id}`)
   }
   function Editvendor(vendordata) {
     setEditcontent({
@@ -142,6 +152,24 @@ function handleDelete(diamondData) {
     })
     setIsconformation(false);
 
+  }
+  function handleChange(event,voucherid, refetch)
+  {
+    handlestatusChange(voucherid,event.target.checked, refetch)
+  }
+
+  async function handlestatusChange(id,isactive,refetch){
+    let variables ={
+      discountId:id,
+      isActive:isactive
+    }
+    await props.client.mutate({mutation:DISCOUNTSTATUSEDIT,variables}).then(res=>{
+
+      if(res!==null){
+        refetch();
+      }
+    }).catch(console.error)
+  
   }
   const paymentStatusColors = {
     canceled: colors.grey[600],
@@ -213,8 +241,21 @@ function handleDelete(diamondData) {
                                               <TableCell align="left">{row.productAttributesText ? row.productAttributesText : ""
                                               } 
                                               </TableCell>
-                                    <TableCell align="center" onClick={(e) => handleDelete(row,refetch)} style = {{width: 20}}>
-                                      <Button ><DeleteIcon />
+                                              <TableCell align="left"> <FormControlLabel
+                                                    label={row.isActive ? "" : ""}
+
+                                                    control={
+                                                      <Switch checked={row.isActive}  value="checkedA"
+                                                      onChange={(event) => handleChange(event,row.id,refetch)}
+                                                      />
+                                                    }
+                                                  /></TableCell>
+                                    {/* <TableCell align="center" onClick={(e) => handleDelete(row,refetch)} style = {{width: 20}}>
+                                      <Button ><EditIcon />
+                                      </Button>
+                                    </TableCell> */}
+                                    <TableCell align="center"  style = {{width: 20}}>
+                                      <Button onClick={(e) => DiscountEdit(row.id)}><EditIcon />
                                       </Button>
                                     </TableCell>
                                     </TableRow>
@@ -236,7 +277,7 @@ function handleDelete(diamondData) {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={orders.length}
+            count={pageCount}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}

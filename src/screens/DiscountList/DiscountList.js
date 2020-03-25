@@ -24,6 +24,7 @@ let colimns = [
   "Components",
   "discount_value",
   "product attributes",
+  "Active",
   "actions"
 ]
 export const DiscountList = withRouter(props => {

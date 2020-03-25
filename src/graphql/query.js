@@ -447,6 +447,7 @@ query  {
       discountValue
       components
       attributes
+      isActive
       productAttributes
       productAttributesText
     }
@@ -464,6 +465,10 @@ query  {
       id
       name
       code
+      uses
+      maxUses
+      isActive
+
       description
       
     }
@@ -601,6 +606,30 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
     clientMutationId
     productList {
       isactive
+    }
+  }
+}
+`;
+
+const VOUCHERSTATUSEDIT = gql`
+mutation MyMutation($voucherId:UUID!,$isActive:Boolean!) {
+  __typename
+  updateVoucherById(input: {id: $voucherId, voucherPatch: {isActive: $isActive}}) {
+    clientMutationId
+    voucher {
+      isActive
+    }
+  }
+}
+`;
+
+const DISCOUNTSTATUSEDIT = gql`
+mutation MyMutation($discountId:UUID!,$isActive:Boolean!) {
+  __typename
+  updateSaleDiscountById(input: {id: $discountId, saleDiscountPatch: {isActive: $isActive}}) {
+    clientMutationId
+    saleDiscount {
+      isActive
     }
   }
 }
@@ -848,5 +877,7 @@ query MyQuery($productId: String!) {
     MASTERPURITIES,
     SALEDISCOUNTS,
     VOUCHERDISCOUNTS,
-    DELETEVOUCHERDISCOUNT
+    DELETEVOUCHERDISCOUNT,
+    VOUCHERSTATUSEDIT,
+    DISCOUNTSTATUSEDIT
   }

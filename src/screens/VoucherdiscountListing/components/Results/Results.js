@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // import moment from 'moment';
 import { Query, withApollo } from 'react-apollo';
-import {VOUCHERDISCOUNTS,DELETEVOUCHERDISCOUNT} from '../../../../graphql/query'
+import {VOUCHERDISCOUNTS,DELETEVOUCHERDISCOUNT,VOUCHERSTATUSEDIT} from '../../../../graphql/query'
 import ConformationAlert from '../../../../components/ConformationAlert'
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
@@ -25,6 +25,8 @@ import {
   Typography,
   Table,
   TextField,
+  FormControlLabel,
+  Switch,
   TableBody,
   TableCell,
   TableHead,
@@ -143,6 +145,24 @@ function handleDelete(diamondData) {
     setIsconformation(false);
 
   }
+  function handleChange(event,voucherid, refetch)
+  {
+    handlestatusChange(voucherid,event.target.checked, refetch)
+  }
+
+  async function handlestatusChange(id,isactive,refetch){
+    let variables ={
+      voucherId:id,
+      isActive:isactive
+    }
+    await props.client.mutate({mutation:VOUCHERSTATUSEDIT,variables}).then(res=>{
+
+      if(res!==null){
+        refetch();
+      }
+    }).catch(console.error)
+  
+  }
   const paymentStatusColors = {
     canceled: colors.grey[600],
     pending: colors.orange[600],
@@ -176,7 +196,7 @@ function handleDelete(diamondData) {
                 <TableBody>
                 { <Query
                     query={VOUCHERDISCOUNTS}
-                    onCompleted={data => setPageCount( data.allVouchers.totalCount )}
+                    onCompleted={data => setPageCount( data.allVouchers.totalCount)}
                     variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
                     {
                         ({ data, loading, error, refetch }) => {
@@ -199,7 +219,7 @@ function handleDelete(diamondData) {
                                     onSuccess={handledelete}
                                     onCancel={hidedeleteconformation}
                                     isshow={isconformation} />
-                                {data.allVouchers.nodes.map((row, index) => (
+                                {data.allVouchers.nodes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                                  <>
                                   <TableRow key={row.name}>
                                     <TableCell align="left">
@@ -211,8 +231,20 @@ function handleDelete(diamondData) {
                                               <TableCell align="left">
                                               {row.description}
                                               </TableCell>
+                                              <TableCell align="left">
+                                              {row.uses} / {row.maxUses}
+                                              </TableCell>
+                                              <TableCell align="left"> <FormControlLabel
+                                                    label={row.isActive ? "" : ""}
+
+                                                    control={
+                                                      <Switch checked={row.isActive}  name="checkedA" 
+                                                      onChange={(event) => handleChange(event,row.id,refetch)} 
+                                                      />
+                                                    }
+                                                  /></TableCell>
                                     <TableCell align="center" onClick={(e) => handleDelete(row,refetch)} style = {{width: 20}}>
-                                      <Button ><DeleteIcon />
+                                      <Button ><EditIcon />
                                       </Button>
                                     </TableCell>
                                     </TableRow>
@@ -234,7 +266,7 @@ function handleDelete(diamondData) {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={orders.length}
+            count={pageCount}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}

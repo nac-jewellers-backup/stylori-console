@@ -28,7 +28,9 @@ const route = {
     editCategory:'/editcategory',
     vendorPrice:'/vendorpricesetup',
     markupPrice: '/markuppricesetup',
-    taxsetup: '/taxsetup'
+    taxsetup: '/taxsetup',
+    editdiscount: '/salediscount/:id'
+
 
 }
 

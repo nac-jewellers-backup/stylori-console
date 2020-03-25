@@ -109,6 +109,15 @@ const AboutVoucher = props => {
 
   const classes = useStyles();
 
+React.useEffect(() => {
+  setDiscountobj({
+    ...discountobj,
+    "discountname": props.discountcontent.discountname,
+    "discountvalue":  props.discountcontent.discountvalue,
+    "discounttype" : props.discountcontent.discounttype === 1 ? "Fixed Amount" : "percentage",
+    "componenets":props.discountcontent.componenets
+  })
+},[])
   const [selected, setSelected] = useState(1);
   const [selectedDate, handleDateChange] = useState(new Date());
 
@@ -192,6 +201,7 @@ const AboutVoucher = props => {
         <Autocomplete
                        id="free-solo-2-demo"
                        multiple
+                       defaultValue={discountobj.componenets}
                        value={discountobj.componenets}
                        className={classes.fixedTag}
                        fullWidth

@@ -23,6 +23,8 @@ let colimns = [
   "Name",
   "code",
   "description",
+  "uses/Max usage",
+  "Active",
   "actions"
 ]
 export const VoucherdiscountListing = withRouter(props => {
