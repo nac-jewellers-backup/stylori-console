@@ -176,106 +176,125 @@ React.useEffect(() => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <CardHeader title="General Information" />
-      <Divider />
+      {/* <CardHeader title="General Information" />
+      <Divider /> */}
       <CardContent className={classes.cardcontent}>
       <Grid container  spacing={2}> 
-      <Grid item xs={12} sm={12} spacing={1}>
+      <Grid container item xs={12} sm={6}  spacing={2}> 
 
-        <TextField
-          variant="outlined"
-          margin="dense"
-          
-          value={discountobj.discountname}
-          onChange={handleInputChange("discountname")}
-          id="discountname"
-          name="discountname"
-          label="Name"
-          />
-        </Grid>
- 
-      <Grid   item xs={6} sm={6} >
-              
-                       
-      
-        <Autocomplete
-                       id="free-solo-2-demo"
-                       multiple
-                       defaultValue={discountobj.componenets}
-                       value={discountobj.componenets}
-                       className={classes.fixedTag}
-                       fullWidth
-                       getOptionLabel={option => option.name}
-                       options={voucherCtx.voucherMaster.pricing_components}
-                       onChange={handleoptionChange('componenets')}
-                       renderTags={(value, getTagProps) =>
-                       value.map((option, index) => (
-                       <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
-                       ))
-                       }
-                       renderInput={params => (
-                       <TextField
-                       {...params}
-                       label="Pricing Components"
-                       margin="dense"
-                       variant="outlined"
-                       fullWidth
-                      //  error = {productCtx.error_message.selected_sizes}
 
-                      //  InputProps={{ ...params.InputProps, type: 'search' }}
-                       />
-                       )}
-                       />
+<Grid item xs={12} sm={6} spacing={1}>
 
-      
+  <TextField
+    variant="outlined"
+    margin="dense"
+    fullWidth
+    value={discountobj.discountname}
+    onChange={handleInputChange("discountname")}
+    id="discountname"
+    name="discountname"
+    label="Name"
+    />
+  </Grid>
+  <Grid item xs={12} sm={6} spacing={1}>
+
+    <TextField
+      variant="outlined"
+      margin="dense"
+      fullWidth
+      value={discountobj.discounttitle}
+      onChange={handleInputChange("discounttitle")}
+      id="discounttitle"
+      name="discounttitle"
+      label="Title"
+      />
+    </Grid>
+<Grid   item xs={12} sm={12} >
+        
+                 
+
+  <Autocomplete
+                 id="free-solo-2-demo"
+                 multiple
+                 defaultValue={discountobj.componenets}
+                 value={discountobj.componenets}
+                 className={classes.fixedTag}
+                 fullWidth
+                 getOptionLabel={option => option.name}
+                 options={voucherCtx.voucherMaster.pricing_components}
+                 onChange={handleoptionChange('componenets')}
+                 renderTags={(value, getTagProps) =>
+                 value.map((option, index) => (
+                 <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                 ))
+                 }
+                 renderInput={params => (
+                 <TextField
+                 {...params}
+                 label="Pricing Components"
+                 margin="dense"
+                 variant="outlined"
+                 fullWidth
+                //  error = {productCtx.error_message.selected_sizes}
+
+                //  InputProps={{ ...params.InputProps, type: 'search' }}
+                 />
+                 )}
+                 />
+
+
+
+
+
     
-      
-      
-          
 
-        </Grid>
-        
-       
-       
-     
-        <Grid container item xs={12} sm={12} spacing={1}>
-        <Grid  item xs={12} sm={12} spacing={1}>
+  </Grid>
+  
+ 
+ 
 
-      <Typography
-        gutterBottom
-        variant="h5"
-      >
-      Discount Type
-      </Typography>
+  <Grid container item xs={12} sm={12} spacing={1}>
+  <Grid  item xs={12} sm={6} spacing={1}>
+
+<Typography
+  gutterBottom
+  variant="h5"
+>
+Discount Type
+</Typography>
+</Grid>
+<ButtonGroup fullWidth color="primary" aria-label="outlined primary button group">
+
+  {props.categories.map(option => (
+    
+  <Button onClick={()=> changediscountype(option)} variant={discountobj.discounttype == option ? "contained" : "outlined" }>{option}</Button>
+    
+  ))}
+  </ButtonGroup>
+
+  </Grid>
+  <Grid item xs={12} sm={6} spacing={1}>
+
+  <TextField
+    variant="outlined"
+    margin="dense"
+    fullWidth
+    value={discountobj.discountvalue}
+    onChange={handleInputChange("discountvalue")}
+    id="discountvalue"
+    name="discountvalue"
+    label="Discount Value"
+    />
+  </Grid>
+
+  <Grid container item xs={12} sm={12} spacing={1}>
+  
+    </Grid>
+         </Grid> 
+  
+      <Grid container item xs={12} sm={6}  spacing={2}> 
       </Grid>
-      <ButtonGroup color="primary" aria-label="outlined primary button group">
-
-        {props.categories.map(option => (
-          
-        <Button onClick={()=> changediscountype(option)} variant={discountobj.discounttype == option ? "contained" : "outlined" }>{option}</Button>
-          
-        ))}
-        </ButtonGroup>
-
-        </Grid>
-        <Grid item xs={12} sm={12} spacing={1}>
-
-        <TextField
-          variant="outlined"
-          margin="dense"
-          value={discountobj.discountvalue}
-          onChange={handleInputChange("discountvalue")}
-          id="discountvalue"
-          name="discountvalue"
-          label="Discount Value"
-          />
-        </Grid>
-
-        <Grid container item xs={12} sm={12} spacing={1}>
-        
-          </Grid>
-                
-        </Grid>
+     </Grid>
       </CardContent>
     </Card>
   );

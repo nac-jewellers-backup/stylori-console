@@ -76,6 +76,9 @@ const VoucherComponent = props => {
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
   const [attrobj, setAttrobj] = useState({});
+  const [isgold, setIsgold] = useState(false);
+  const [isdiamond, setIsdiamond] = useState(false);
+
   const [tabnames, setTabnames] = useState([
     "Category",
     "Producttype",
@@ -98,7 +101,29 @@ const VoucherComponent = props => {
     props.onAdded(attrobj)
   }
   const handleoptionChange = type => (event, value) => {
+      if(type === 'materials')
+      {
+        let elements_arr = []
+        value.forEach(element => {
+          elements_arr.push(element.name)
+          
+        });
+        if(elements_arr.indexOf("Gold") > -1)
+        {
+          setIsgold(true)
+        }else
+        {
+          setIsgold(false)
+        }
 
+        if(elements_arr.indexOf("Diamond") > -1)
+        {
+          setIsdiamond(true)
+        }else
+        {
+          setIsdiamond(false)
+        }
+      }
       setAttrobj({
         ...attrobj,
         [type]: value
@@ -221,37 +246,40 @@ const VoucherComponent = props => {
            )}
            />
 </Grid>
-{/* <Grid   item xs={4} sm={4} >
+{isgold ? 
+  <Grid   item xs={4} sm={4} >
             
-            <Autocomplete
-           id="free-solo-2-demo"
-           multiple
-          //  value={attrobj.componenets}
-           className={classes.fixedTag}
-           fullWidth
-           options={voucherCtx.voucherMaster.purities}
-           onChange={handleoptionChange('purities')}
-           getOptionLabel={option => option.name}
-           value={attrobj.purities}
-           renderTags={(value, getTagProps) =>
-           value.map((option, index) => (
-           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
-           ))
-           }
-           renderInput={params => (
-           <TextField
-           {...params}
-           label="Purity"
-           margin="dense"
-           variant="outlined"
-           fullWidth
-          //  error = {productCtx.error_message.selected_sizes}
+  <Autocomplete
+ id="free-solo-2-demo"
+ multiple
+//  value={attrobj.componenets}
+ className={classes.fixedTag}
+ fullWidth
+ options={voucherCtx.voucherMaster.purities}
+ onChange={handleoptionChange('purities')}
+ getOptionLabel={option => option.name}
+ value={attrobj.purities}
+ renderTags={(value, getTagProps) =>
+ value.map((option, index) => (
+ <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+ ))
+ }
+ renderInput={params => (
+ <TextField
+ {...params}
+ label="Purity"
+ margin="dense"
+ variant="outlined"
+ fullWidth
+//  error = {productCtx.error_message.selected_sizes}
 
-          //  InputProps={{ ...params.InputProps, type: 'search' }}
-           />
-           )}
-           />
-</Grid>  
+//  InputProps={{ ...params.InputProps, type: 'search' }}
+ />
+ )}
+ />
+</Grid>  : null
+}
+{isdiamond ? 
 <Grid   item xs={4} sm={4} >
             
             <Autocomplete
@@ -260,11 +288,11 @@ const VoucherComponent = props => {
           //  value={attrobj.componenets}
            className={classes.fixedTag}
            fullWidth
-           options={voucherCtx.voucherMaster.pricing_components.map(option => option.name)}
+           options={voucherCtx.voucherMaster.diamondtypes.map(option => option.diamondtype)}
            onChange={handleoptionChange('componenets')}
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
-           <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+           <Chip variant="outlined" size="small" label={option.diamondtype} {...getTagProps({ index })} />
            ))
            }
            renderInput={params => (
@@ -280,7 +308,7 @@ const VoucherComponent = props => {
            />
            )}
            />
-</Grid>   */}
+</Grid>  : null }
 <Grid   item xs={4} sm={4} >
             
             <Autocomplete

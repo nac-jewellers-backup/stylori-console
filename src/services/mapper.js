@@ -215,6 +215,11 @@ export const materialMaster = {
         const occations = response.allMasterOccasions.nodes.map(_ => ({
             ..._
         }))
+        const diamondtypes = response.allMasterDiamondTypes.nodes.map(_ => ({
+            ..._,
+            "diamondtype":_.diamondColor+'-'+_.diamondClarity
+        }))
+        
 
         
         // alert(JSON.stringify(product_types))
@@ -228,7 +233,8 @@ export const materialMaster = {
             purities,
             styles,
             themes,
-            occations
+            occations,
+            diamondtypes
         }
     }
 

@@ -18,6 +18,7 @@ import {
   CardActionArea,
   CardActions,
   Radio,
+  Switch,
   Button,
   Grid,
   Chip,
@@ -323,7 +324,22 @@ const AboutVoucher = props => {
      
         <Grid container item xs={12} sm={12} spacing={1}>
         <Grid  item xs={12} sm={12} spacing={1}>
+        <FormControlLabel
+        control={
+          <Switch
+            // checked={state.checkedB}
+            // onChange={handleChange}
+            name="checkedB"
+            color="primary"
+          />
+        }
+        labelPlacement="start"
 
+        label="Applicable for loggedin user"
+      />  
+      </Grid>
+        <Grid  item xs={12} sm={12} spacing={1}>
+                      
       <Typography
         gutterBottom
         variant="h5"
@@ -342,8 +358,21 @@ const AboutVoucher = props => {
             ))}
             </ButtonGroup>
         </Grid>
-         {voucherCtx.discounttype === 'Free Shipping' || voucherCtx.discounttype === "" ? null :  
-        <Grid item xs={12} sm={12} spacing={1}>
+         {voucherCtx.discounttype === 'Free Shipping' || voucherCtx.discounttype === "" ?  <Grid container item xs={12} sm={12} spacing={1}>
+        <Grid item xs={6} sm={6} spacing={1}>
+            <TextField
+          variant="outlined"
+          margin="dense"
+          fullWidth
+          id="orderqty"
+          name="orderqty"
+          label="Minimum order Quantity"
+          onChange={handlevaluechange('minimumqty')}
+          value={voucherCtx.voucherdiscount}
+          />
+        </Grid> </Grid> :  
+        <Grid container item xs={12} sm={12} spacing={1}>
+        <Grid item xs={6} sm={6} spacing={1}>
 
         <TextField
           variant="outlined"
@@ -355,6 +384,20 @@ const AboutVoucher = props => {
           onChange={handlevaluechange('voucherdiscount')}
           value={voucherCtx.voucherdiscount}
           />
+          </Grid>
+          {voucherCtx.discounttype === 'percentage' ?  <Grid  item xs={6} sm={6} spacing={1}>
+          <TextField
+          variant="outlined"
+          margin="dense"
+          fullWidth
+          id="discountvalue"
+          name="discountvalue"
+          label="Maximun Discount Value"
+          onChange={handlevaluechange('maxvoucherdiscount')}
+          value={voucherCtx.voucherdiscount}
+          />
+          </Grid> : null}
+
         </Grid>
 }
         <Grid container item xs={12} sm={12} spacing={1}>
@@ -390,8 +433,20 @@ const AboutVoucher = props => {
       />
       </Grid>
           </Grid>
-        <Grid  item xs={12} sm={12} spacing={1}>
-        <CardActionArea>
+        <Grid  item xs={6} sm={6} spacing={1}>
+        <TextField
+          variant="outlined"
+          margin="dense"
+          fullWidth
+          id="discountvalue"
+          name="discountvalue"
+          label="Discount Value"
+          defaultValue="1"
+          helperText="One User can use how many times"
+          onChange={handlevaluechange('isonce')}
+          value={voucherCtx.voucherdiscount}
+          />
+        {/* <CardActionArea>
 
         <div
             className={clsx(classes.option, {
@@ -427,10 +482,10 @@ const AboutVoucher = props => {
               </div>
             
           </div>
-          </CardActionArea>
+          </CardActionArea> */}
           </Grid>
          
-          <Grid item xs={12} sm={12} spacing={1}>
+          <Grid item xs={6} sm={6} spacing={1}>
         <TextField
           variant="outlined"
           margin="dense"
@@ -440,10 +495,12 @@ const AboutVoucher = props => {
           id="discountvalue"
           name="discountvalue"
           label="Limit of uses"
+          helperText="How may times we can  use this"
+
           />
         
         </Grid>
-          <Grid container item xs={12} sm={12} spacing={1}>
+          {/* <Grid container item xs={12} sm={12} spacing={1}>
         <Grid  item xs={12} sm={12} spacing={1}>
 
       <Typography
@@ -462,7 +519,7 @@ const AboutVoucher = props => {
             ))}
             </ButtonGroup>
         
-        </Grid>
+        </Grid> */}
 
 
 
@@ -471,7 +528,7 @@ const AboutVoucher = props => {
 
 
         <Grid item xs={12} sm={12} spacing={1}>
-        {voucherCtx.minimumreq === 'None' || !voucherCtx.minimumreq  ? null :
+        {/* {voucherCtx.minimumreq === 'None' || !voucherCtx.minimumreq  ? null : */}
         <TextField
           variant="outlined"
           margin="dense"
@@ -482,7 +539,7 @@ const AboutVoucher = props => {
           value={voucherCtx.minorder}
           label={minreq === 'Minimum Order Value' ? 'Minimun Order' : 'Minimum Quantity'}
           />
-        }
+        {/* } */}
         </Grid>
        
         <Grid container item xs={12} sm={12} spacing={1}>

@@ -211,7 +211,14 @@ export const VOUCHERMASTER = gql`query {
       alias
     }
   }
-
+  allMasterDiamondTypes {
+    nodes {
+      shortCode
+      diamondColor
+      diamondClarity
+      id
+    }
+  }
   allMasterOccasions {
     nodes {
       name

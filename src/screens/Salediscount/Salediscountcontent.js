@@ -4,15 +4,17 @@ import clsx from 'clsx';
 import { VoucherContext } from '../../context';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import Chip from '@material-ui/core/Chip';
+import {Chip,IconButton} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import RefreshIcon from '@material-ui/icons/Refresh';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import {palette} from '../../theme'
 import Page from '../../components/Page'
-import { Header, Results,AboutVoucher ,VoucherComponent} from './components';
+import { Header, Results, Products,AboutVoucher ,VoucherComponent} from './components';
 import { Button, Grid,Typography } from '@material-ui/core';
 import { NetworkContext } from '../../context/NetworkContext';
 import FullLoader from '../../components/Loader'
@@ -61,6 +63,8 @@ export default function Salediscountcontent(props) {
   const [productattrtext, setProductattrtext] = useState("");
   const [errorskus, setErrorskus] = useState([]);
   const [isloaded, setIsloaded] = useState(false);
+  const [isshowpriceupdate, setIsshowpriceupdate] = useState(false);
+  const [statusmessage, setStatusmessage] = useState("");
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -91,7 +95,6 @@ export default function Salediscountcontent(props) {
         name: comp
       })
     })
-    alert(JSON.stringify(comparr))
     setProducts(response.discunt.product_ids)
     setAttributeobj({
       ...setAttributeobj,
@@ -102,7 +105,7 @@ export default function Salediscountcontent(props) {
     })
     setIsloaded(true)
   }
-  async function creatediscount()
+  async function creatediscount(ispricerun)
   {
     if(errorskus.length > 0 )
     {
@@ -117,6 +120,7 @@ export default function Salediscountcontent(props) {
       discounttype : attributeobj.discounttype,
       componenets : attributeobj.componenets,
       discountname : attributeobj.discountname,
+      discounttitle : attributeobj.discounttitle,
       product_attributes: productattr,
       product_attributes_text : productattrtext,
       skus : products
@@ -125,7 +129,14 @@ export default function Salediscountcontent(props) {
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
-    window.location='/salediscountlist'
+    setIsshowpriceupdate(true)
+    if(ispricerun)
+    {
+      updateprices()
+    }else{
+     window.location='/salediscountlist'
+
+    }
   }
 }
 const handleDelete = chipToDelete => () => {
@@ -156,15 +167,30 @@ async function filterapllied(value)
     var  bodydata = {}
   
     let product_ids = []
-
     let response = await sendNetworkRequest('/getaliasproduct', {}, value, false)
    setProducts(response.products)
    setSkus(response.skus)
    setErrorskus(response.eror_skus)
    setIsloading(false)
-
     
   }
+  async function updateprices()
+  {
+    var  bodydata = {}
+    bodydata = {
+      pricingcomponent: "updateskuprice",
+      req_product_id : products
+    }
+    let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
+  }
+  async function handlestatus(e) {
+    let bodydata = {
+     "component":"updateskuprice"
+    }
+   let response = await sendNetworkRequest('/getcomponentpricestatus', {}, bodydata, false)
+ 
+   setStatusmessage(response.message)
+   }
   function attributeadded( value)
   {
   let componentsstring = {}
@@ -238,7 +264,8 @@ async function filterapllied(value)
     title="Orders Management List"
   >
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
-  <Paper className={classes.productcontent}>
+    {products.length > 0 ? <Products  products={products} /> : null }
+  {/* <Paper className={classes.productcontent}>
      <Typography variant="h5" component="h2">
         {products.length} Products and {skus.length} skus
       </Typography>
@@ -256,7 +283,7 @@ async function filterapllied(value)
       />
 
       
-      ))}
+      ))} */}
     {isloaded || !discount_id ? <AboutVoucher discountcontent= {attributeobj} className={classes.aboutvoucher} onAdded={valuechange} categories={['Fixed Amount','percentage']} /> : null}
     
     
@@ -264,8 +291,20 @@ async function filterapllied(value)
 
     <Grid container xs={12} spacing={2} style={{textAlign:"center"}} >
     <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+      {statusmessage}
+          {isshowpriceupdate ? <>
+                        
+                        <IconButton aria-label="delete"  onClick={(e) => handlestatus()} color="primary">
+                            <RefreshIcon />
+                          </IconButton></> : null
+                        }
+      </Grid>
+    <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} spacing={2} >
+   
+      <Button onClick={() => creatediscount(false)} color="primary" style={{margin:16}} variant="contained">Submit</Button>
+         
+      <Button onClick={() => creatediscount(true)} color="primary" variant="contained">Create and Price Run</Button>
 
-      <Button onClick={() => creatediscount()} color="primary" variant="contained">Submit</Button>
     </Grid>
     </Grid>
   </Page>
