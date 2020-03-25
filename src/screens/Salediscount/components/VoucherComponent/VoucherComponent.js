@@ -288,8 +288,10 @@ const VoucherComponent = props => {
           //  value={attrobj.componenets}
            className={classes.fixedTag}
            fullWidth
-           options={voucherCtx.voucherMaster.diamondtypes.map(option => option.diamondtype)}
-           onChange={handleoptionChange('componenets')}
+           getOptionLabel={option => option.diamondtype}
+           options={voucherCtx.voucherMaster.diamondtypes}
+           onChange={handleoptionChange('diamondtype')}
+           value={attrobj.diamondtype}
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.diamondtype} {...getTagProps({ index })} />

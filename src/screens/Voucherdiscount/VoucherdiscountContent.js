@@ -62,26 +62,41 @@ export default function Voucherdiscountcontent() {
   async function creatediscount()
   {
     setIsloading(true)
-
+    var discounttype = 2;
+    if(voucherCtx.discounttype === 'Free Shipping')
+    {
+      discounttype = 3
+    }
+  else if(voucherCtx.discounttype === 'percentage')
+    {
+      discounttype =2
+    }
+else    {
+      discounttype = 1
+    }
     let bodydata = {}
     bodydata['vouchername'] = voucherCtx.vouchername;
     bodydata['vouchercodes'] = voucherCtx.vouchercodes;
-
-    
     bodydata['description'] = voucherCtx.voucherdescription;
-    bodydata['discounttype'] = voucherCtx.discounttype;
+    bodydata['isloggedin'] = voucherCtx.isloggedin;
+    bodydata['discounttype'] = discounttype;
     bodydata['discount'] = voucherCtx.voucherdiscount;
+    bodydata['maxdiscount'] = voucherCtx.maxvoucherdiscount ;
+    bodydata['minorderqty'] = voucherCtx.minimumqty;
     bodydata['isonce'] = voucherCtx.isonce;
     bodydata['limittouse'] = voucherCtx.limittouse;
-    bodydata['minimumreq'] = voucherCtx.minimumreq;
     bodydata['minorder'] = voucherCtx.minorder;
     bodydata['attributes'] = attributes;
     bodydata['startdate'] = voucherCtx.startdate;
     bodydata['enddate'] = voucherCtx.enddate;
 
+    console.log(JSON.stringify(bodydata))
     let response = await sendNetworkRequest('/createvoucher', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
+
+    window.location='/voucherdiscountlist'
+
   }
 
   async function filterapllied(value)

@@ -163,13 +163,19 @@ const AboutVoucher = props => {
   const handlevouchername = type => e => {
     setVoucherCtx({
       ...voucherCtx,
-      [type]: e.target.value.toUpperCase()
+      [type]: e.target.value
     })
   }
   const handlevaluechange = type => e => {
     setVoucherCtx({
       ...voucherCtx,
       [type]: e.target.value
+    })
+  }
+  const handleisloggedin = type => e => {
+    setVoucherCtx({
+      ...voucherCtx,
+      [type]: e.target.checked
     })
   }
   const handleCountChange = type => e => {
@@ -327,8 +333,8 @@ const AboutVoucher = props => {
         <FormControlLabel
         control={
           <Switch
-            // checked={state.checkedB}
-            // onChange={handleChange}
+             checked={voucherCtx.isloggedin}
+             onChange={handleisloggedin('isloggedin')}
             name="checkedB"
             color="primary"
           />
@@ -368,7 +374,7 @@ const AboutVoucher = props => {
           name="orderqty"
           label="Minimum order Quantity"
           onChange={handlevaluechange('minimumqty')}
-          value={voucherCtx.voucherdiscount}
+          value={voucherCtx.minimumqty}
           />
         </Grid> </Grid> :  
         <Grid container item xs={12} sm={12} spacing={1}>
@@ -394,45 +400,13 @@ const AboutVoucher = props => {
           name="discountvalue"
           label="Maximun Discount Value"
           onChange={handlevaluechange('maxvoucherdiscount')}
-          value={voucherCtx.voucherdiscount}
+          value={voucherCtx.maxvoucherdiscount}
           />
           </Grid> : null}
 
         </Grid>
 }
-        <Grid container item xs={12} sm={12} spacing={1}>
-        <Grid  item xs={12} sm={12} spacing={1}>
-
-          <Typography
-            gutterBottom
-            variant="h5"
-          >
-            Active Date
-            </Typography>
-          </Grid>
-          <Grid  item xs={6} sm={6} spacing={1}>
-
-          <DateTimePicker
-            label="Start Date"
-            fullWidth
-            inputVariant="outlined"
-            value={selectedDate}
-            minDate={new Date()}    
-            onChange={handleDateChange}
-          />
-      </Grid>
-              <Grid  item xs={6} sm={6} spacing={1}>
-              <DateTimePicker
-        label="End Date"
-        fullWidth
-        inputVariant="outlined"
-        value={selectedendDate}
-        minDate={selectedDate}
-        strictCompareDates={true}
-        onChange={handleendDateChange}
-      />
-      </Grid>
-          </Grid>
+      
         <Grid  item xs={6} sm={6} spacing={1}>
         <TextField
           variant="outlined"
@@ -440,11 +414,11 @@ const AboutVoucher = props => {
           fullWidth
           id="discountvalue"
           name="discountvalue"
-          label="Discount Value"
+          label="Uses per user"
           defaultValue="1"
           helperText="One User can use how many times"
           onChange={handlevaluechange('isonce')}
-          value={voucherCtx.voucherdiscount}
+          value={voucherCtx.isonce}
           />
         {/* <CardActionArea>
 
@@ -634,7 +608,31 @@ const AboutVoucher = props => {
         </Grid>
   </Grid> */}
           </Grid>
-         
+          <Grid container item xs={12} sm={12} spacing={1}>
+        
+        <Grid  item xs={6} sm={6} spacing={1}>
+
+        <DateTimePicker
+          label="Start Date"
+          fullWidth
+          inputVariant="outlined"
+          value={selectedDate}
+          minDate={new Date()}    
+          onChange={handleDateChange}
+        />
+    </Grid>
+            <Grid  item xs={6} sm={6} spacing={1}>
+            <DateTimePicker
+      label="End Date"
+      fullWidth
+      inputVariant="outlined"
+      value={selectedendDate}
+      minDate={selectedDate}
+      strictCompareDates={true}
+      onChange={handleendDateChange}
+    />
+    </Grid>
+        </Grid>
         </Grid>
       </CardContent>
     </Card>

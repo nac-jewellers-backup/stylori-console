@@ -101,7 +101,7 @@ const AboutVoucher = props => {
   const [vouchercount, setVouchercount] = useState("");
   const [voucherprefix, setVoucherprefix] = useState("");
 
-  const [discounttype, setDiscounttype] = useState("");
+  const [discounttype, setDiscounttype] = useState(1);
   const [minreq, setMinreq] = useState("None");
   const [usagelimit, setUsagelimit] = useState("once");
 
@@ -110,13 +110,13 @@ const AboutVoucher = props => {
   const classes = useStyles();
 
 React.useEffect(() => {
-  setDiscountobj({
-    ...discountobj,
-    "discountname": props.discountcontent.discountname,
-    "discountvalue":  props.discountcontent.discountvalue,
-    "discounttype" : props.discountcontent.discounttype === 1 ? "Fixed Amount" : "percentage",
-    "componenets":props.discountcontent.componenets
-  })
+  // setDiscountobj({
+  //   ...discountobj,
+  //   "discountname": props.discountcontent.discountname,
+  //   "discountvalue":  props.discountcontent.discountvalue,
+  //   "discounttype" : props.discountcontent.discounttype === 1 ? "Fixed Amount" : "percentage",
+  //   "componenets":props.discountcontent.componenets
+  // })
 },[])
   const [selected, setSelected] = useState(1);
   const [selectedDate, handleDateChange] = useState(new Date());

@@ -63,8 +63,9 @@ export default function Salediscountcontent(props) {
   const [productattrtext, setProductattrtext] = useState("");
   const [errorskus, setErrorskus] = useState([]);
   const [isloaded, setIsloaded] = useState(false);
-  const [isshowpriceupdate, setIsshowpriceupdate] = useState(true);
+  const [isshowpriceupdate, setIsshowpriceupdate] = useState(false);
   const [statusmessage, setStatusmessage] = useState("");
+  const [titlecontent, setTitlecontent] = useState("");
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -123,17 +124,19 @@ export default function Salediscountcontent(props) {
       discounttitle : attributeobj.discounttitle,
       product_attributes: productattr,
       product_attributes_text : productattrtext,
-      skus : products
+      skus : skus
     }
     console.log(JSON.stringify(productattr))
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
     setIsloading(false)
     setOpen(true)
-    setIsshowpriceupdate(true)
     if(ispricerun)
     {
+      setIsshowpriceupdate(true)
       updateprices()
     }else{
+      setIsshowpriceupdate(false)
+
      window.location='/salediscountlist'
 
     }
@@ -172,6 +175,7 @@ async function filterapllied(value)
    setSkus(response.skus)
    setErrorskus(response.eror_skus)
    setIsloading(false)
+   setTitlecontent(response.title)
     
   }
   async function updateprices()
@@ -264,7 +268,7 @@ async function filterapllied(value)
     title="Orders Management List"
   >
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
-    {products.length > 0 ? <Products  products={products} /> : null }
+    {products.length > 0 ? <Products  title={titlecontent} products={errorskus} /> : null }
   {/* <Paper className={classes.productcontent}>
      <Typography variant="h5" component="h2">
         {products.length} Products and {skus.length} skus
@@ -300,11 +304,11 @@ async function filterapllied(value)
                         }
       </Grid>
     <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} spacing={2} >
-   
+    {!isshowpriceupdate ? <>
       <Button onClick={() => creatediscount(false)} color="primary" style={{margin:16}} variant="contained">Submit</Button>
          
       <Button onClick={() => creatediscount(true)} color="primary" variant="contained">Create and Price Run</Button>
-
+      </>:null} 
     </Grid>
     </Grid>
   </Page>

@@ -127,7 +127,7 @@ const Products = props => {
       </Typography> */}
       <Card>
         <CardHeader
-          title =  {props.products.length} 
+          title =  {props.title} 
 
          
         />
@@ -155,8 +155,8 @@ const Products = props => {
                       
                      
 
-                      <TableCell >{order.product_id}</TableCell>
-                      <TableCell align="center">{order.skus.length} skus
+                      <TableCell >{order}</TableCell>
+                      <TableCell align="center"> 
                       <IconButton aria-label="delete"  onClick={() => handleOpen(order.skus)}  color="primary">
                           <VisibilityIcon />
                       </IconButton>
