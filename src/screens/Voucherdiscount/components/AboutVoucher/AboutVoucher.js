@@ -537,7 +537,7 @@ const AboutVoucher = props => {
           id="discountvalue"
           name="discountvalue"
           value={voucherCtx.minorder}
-          label={minreq === 'Minimum Order Value' ? 'Minimun Order' : 'Minimum Quantity'}
+          label={minreq === 'Minimum Order Value'}
           />
         {/* } */}
         </Grid>
