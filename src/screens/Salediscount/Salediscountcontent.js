@@ -259,6 +259,9 @@ async function filterapllied(value)
      discount_id = props.location.pathname.split('/')[2];
     getdiscountvalue(discount_id)
 
+  }else
+  {
+    setIsloaded(true)
   }
     return () => {
       mounted = false;
@@ -280,7 +283,7 @@ async function filterapllied(value)
     className={classes.root}
     title="Orders Management List"
   >
-    {discount_id ?
+    {!discount_id ?
     <>
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
     {products.length > 0 ? <Products  title={titlecontent} products={errorskus} /> : null }
@@ -314,7 +317,7 @@ async function filterapllied(value)
     {!isshowpriceupdate ? <>
       <Button onClick={() => creatediscount(false)} color="primary" style={{margin:16}} variant="contained">Submit</Button>
          
-      <Button onClick={() => creatediscount(true)} color="primary" variant="contained">Create and Price Run</Button>
+      {/* <Button onClick={() => creatediscount(true)} color="primary" variant="contained">Create and Price Run</Button> */}
       </>:null} 
     </Grid>
     </Grid>
@@ -388,7 +391,7 @@ async function filterapllied(value)
                         </Typography>
                        </Grid>
             </Grid> : null}
-                      {/* <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+                      <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
                       {!isshowpriceupdate ? <>
          
       <Button onClick={() => updateprices()} color="primary" variant="contained">Price Run</Button>
@@ -397,7 +400,7 @@ async function filterapllied(value)
                           </IconButton></>} 
                         
                         
-      </Grid> */}
+      </Grid>
       </Grid>
 } 
   </Page>
