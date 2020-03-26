@@ -22,9 +22,10 @@ export default function Producttypecontent() {
   const [orders, setOrders] = useState([]);
   const { orderCtx, setOrderCtx ,orderMaster} = React.useContext(OrderContext);
   const [columnnames, setColumnnames] = useState(Columns.columns);
+
   const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
   const [displaycolumns, setDisplaycolumns] = useState(Columns.defaultcolumnnames);
-
+  
   function columnchanged(columnnames){
     let displycolumns = [];
     columnnames.forEach(element => {
@@ -32,6 +33,12 @@ export default function Producttypecontent() {
     })
     setDisplaycolumns(columnnames)
     setDisplaycolumnnames(displycolumns)
+  }
+  function searchorder(searchtext)
+  {
+
+    var data_filter = orderCtx.orderMaster.orders.filter( element => element.shoppingCartByCartId.userProfileByUserprofileId.email =="test@crayond.com")
+    alert(JSON.stringify(data_filter))
   }
   useEffect(() => {
     let mounted = true;
@@ -67,7 +74,7 @@ export default function Producttypecontent() {
     className={classes.root}
     title="Orders Management List"
   >
-    <Header getColumnnames={columnchanged} columns={columnnames}/>
+    <Header getColumnnames={columnchanged} onSearch={searchorder}  columns={columnnames}/>
     <Results
       className={classes.results}
      orders={orderCtx.orderMaster.orders}
