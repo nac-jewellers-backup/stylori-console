@@ -468,7 +468,7 @@ query  {
       uses
       maxUses
       isActive
-
+      voucherCodes
       description
       
     }

@@ -233,7 +233,7 @@ function handleDelete(diamondData) {
                                     {row.name}
                                               </TableCell>
                                               <TableCell align="left">
-                                              {row.code}
+                                              {row.voucherCodes ? row.voucherCodes.length : row.code}
                                               </TableCell>
                                               <TableCell align="left">
                                               {row.description}
