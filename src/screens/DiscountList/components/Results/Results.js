@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
-import EditIcon from '@material-ui/icons/Edit';
+import VisibileIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 // import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -255,7 +255,7 @@ function handleDelete(diamondData) {
                                       </Button>
                                     </TableCell> */}
                                     <TableCell align="center"  style = {{width: 20}}>
-                                      <Button onClick={(e) => DiscountEdit(row.id)}><EditIcon />
+                                      <Button onClick={(e) => DiscountEdit(row.id)}><VisibileIcon />
                                       </Button>
                                     </TableCell>
                                     </TableRow>

@@ -50,6 +50,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.masterpurities} component={Masterpurities} />
                     <PrivateRoute  path={route.salediscountlist} component={DiscountList} />
                     <PrivateRoute  path={route.voucherdiscountlist} component={VoucherdiscountListing} />
+                    <PrivateRoute  path={route.editvoucher} component={Voucherdiscount} />
 
                     
                     <PrivateRoute exact path={route.editdiscount} component={Salediscount} />  

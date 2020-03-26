@@ -141,9 +141,9 @@ const Products = props => {
                     
                     <TableCell>Product ID</TableCell>
                     
-                    <TableCell align="center">SKU Count</TableCell>
+                    {/* <TableCell align="center">SKU Count</TableCell>
 
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">Actions</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -156,7 +156,7 @@ const Products = props => {
                      
 
                       <TableCell >{order}</TableCell>
-                      <TableCell align="center"> 
+                      {/* <TableCell align="center"> 
                       <IconButton aria-label="delete"  onClick={() => handleOpen(order.skus)}  color="primary">
                           <VisibilityIcon />
                       </IconButton>
@@ -167,7 +167,7 @@ const Products = props => {
                         <IconButton aria-label="add to favorites">
                         <DeleteIcon />
                         </IconButton>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>

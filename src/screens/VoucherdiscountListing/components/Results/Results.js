@@ -5,10 +5,11 @@ import clsx from 'clsx';
 import { Query, withApollo } from 'react-apollo';
 import {VOUCHERDISCOUNTS,DELETEVOUCHERDISCOUNT,VOUCHERSTATUSEDIT} from '../../../../graphql/query'
 import ConformationAlert from '../../../../components/ConformationAlert'
+import { useHistory } from "react-router-dom";
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
-import EditIcon from '@material-ui/icons/Edit';
+import VisibleIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 // import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -58,6 +59,8 @@ const Results = props => {
   const { className, orders, ...rest } = props;
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
+  let history = useHistory();
+
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
@@ -75,6 +78,10 @@ const Results = props => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleInputChange = type => e => {
     setEditcontent({ ...editcontent, [type]: e.target.value  })
+}
+function handleEdit(diamondData) {
+
+history.push(`voucherdiscount/${diamondData.id}`)
 }
 function handleDelete(diamondData) {
 
@@ -243,8 +250,8 @@ function handleDelete(diamondData) {
                                                       />
                                                     }
                                                   /></TableCell>
-                                    <TableCell align="center" onClick={(e) => handleDelete(row,refetch)} style = {{width: 20}}>
-                                      <Button ><EditIcon />
+                                    <TableCell align="center" onClick={(e) => handleEdit(row,refetch)} style = {{width: 20}}>
+                                      <Button ><VisibleIcon />
                                       </Button>
                                     </TableCell>
                                     </TableRow>

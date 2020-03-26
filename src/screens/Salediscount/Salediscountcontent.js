@@ -91,18 +91,28 @@ export default function Salediscountcontent(props) {
       }
     let response = await sendNetworkRequest('/getdiscount', {}, bodydata, false)
     let comparr = [];
+    let displyarr = [];
     response.discunt.components.forEach(comp => {
       comparr.push({
         name: comp
       })
     })
+    // alert(JSON.stringify(response.discunt))
+
+    // alert(Object.keys(response.discunt.product_attributes))
+
     setProducts(response.discunt.product_ids)
     setAttributeobj({
       ...setAttributeobj,
       discountname:response.discunt.discount_name,
       discountvalue:response.discunt.discount_value,
-      discounttype:response.discunt.discounttype,
-      componenets: comparr
+      discounttype:response.discunt.discount_type,
+      discounttitle:response.discunt.discount_title,
+      componenets: comparr,
+      skucount: response.discunt.product_ids.length,
+      displaycomp: response.discunt.components,
+      attributes: response.discunt.product_attributes,
+      allkeys: Object.keys(response.discunt.product_attributes)
     })
     setIsloaded(true)
   }
@@ -180,11 +190,14 @@ async function filterapllied(value)
   }
   async function updateprices()
   {
+    alert('i am here')
     var  bodydata = {}
     bodydata = {
       pricingcomponent: "updateskuprice",
       req_product_id : products
     }
+    setIsshowpriceupdate(true)
+
     let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
   }
   async function handlestatus(e) {
@@ -267,6 +280,8 @@ async function filterapllied(value)
     className={classes.root}
     title="Orders Management List"
   >
+    {discount_id ?
+    <>
     <VoucherComponent onAdded={attributeadded} className={classes.aboutvoucher} />
     {products.length > 0 ? <Products  title={titlecontent} products={errorskus} /> : null }
   {/* <Paper className={classes.productcontent}>
@@ -294,15 +309,7 @@ async function filterapllied(value)
     {/* <ProductsListing className={classes.aboutvoucher}  products={[]} /> */}
 
     <Grid container xs={12} spacing={2} style={{textAlign:"center"}} >
-    <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
-      {statusmessage}
-          {isshowpriceupdate ? <>
-                        
-                        <IconButton aria-label="delete"  onClick={(e) => handlestatus()} color="primary">
-                            <RefreshIcon />
-                          </IconButton></> : null
-                        }
-      </Grid>
+   
     <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} spacing={2} >
     {!isshowpriceupdate ? <>
       <Button onClick={() => creatediscount(false)} color="primary" style={{margin:16}} variant="contained">Submit</Button>
@@ -311,6 +318,88 @@ async function filterapllied(value)
       </>:null} 
     </Grid>
     </Grid>
+    </> : 
+        <Grid container xs={12} spacing={2} >
+            <Grid item xs={6} style={{marginTop:16}} >
+            <Grid item xs={12} style={{marginTop:16}} >
+              
+              <Typography variant="body2" component="body2">
+              Discount Name
+
+            </Typography>
+            <Typography variant="h5" component="h5">
+            {attributeobj.discountname}
+
+            </Typography>
+            </Grid>
+            <Grid item xs={12} style={{marginTop:16}} >
+              
+              <Typography variant="body2" component="body2">
+              Discount Title
+
+            </Typography>
+            <Typography variant="h5" component="h5">
+            {attributeobj.discounttitle}
+
+
+            </Typography>
+            </Grid>
+            <Grid item xs={6} style={{marginTop:16}} >
+              
+              <Typography variant="body2" component="body2">
+              Discount Value
+
+            </Typography>
+            <Typography variant="h5" component="h5">
+            {attributeobj.discounttype == 2 ? attributeobj.discountvalue+ "%" : attributeobj.discountvalue}
+
+            </Typography>
+            </Grid>
+            <Grid item xs={6} style={{marginTop:16}} >
+              
+              <Typography variant="body2" component="body2">
+              Pricing Compponent
+
+            </Typography>
+            <Typography variant="h5" component="h5">
+            {attributeobj.displaycomp}
+
+            </Typography>
+            </Grid>
+            </Grid>
+            
+            {attributeobj.allkeys ? <Grid item xs={6} style={{marginTop:16}} >
+                   {attributeobj.allkeys.map((row, index) => (
+                     <Grid item xs={12} style={{marginTop:16}} >
+                       <Typography variant="body2" component="body2">
+                          {row}
+                        </Typography>
+                        <Typography variant="h5" component="h5">
+                          {attributeobj.attributes[row].values}
+                        </Typography>
+                       </Grid>
+                  ))}  
+                  <Grid item xs={12} style={{marginTop:16}} >
+                       <Typography variant="body2" component="body2">
+                          Total Sku
+                        </Typography>
+                        <Typography variant="h5" component="h5">
+                          {attributeobj.skucount}
+                        </Typography>
+                       </Grid>
+            </Grid> : null}
+                      {/* <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+                      {!isshowpriceupdate ? <>
+         
+      <Button onClick={() => updateprices()} color="primary" variant="contained">Price Run</Button>
+      </>:<> {statusmessage}<IconButton aria-label="delete"  onClick={(e) => handlestatus()} color="primary">
+                            <RefreshIcon />
+                          </IconButton></>} 
+                        
+                        
+      </Grid> */}
+      </Grid>
+} 
   </Page>
   </MuiPickersUtilsProvider>
   </>

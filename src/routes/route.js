@@ -29,7 +29,8 @@ const route = {
     vendorPrice:'/vendorpricesetup',
     markupPrice: '/markuppricesetup',
     taxsetup: '/taxsetup',
-    editdiscount: '/salediscount/:id'
+    editdiscount: '/salediscount/:id',
+    editvoucher: '/voucherdiscount/:id'
 
 
 }

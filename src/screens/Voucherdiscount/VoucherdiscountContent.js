@@ -31,7 +31,7 @@ function Alert(props) {
 }
 
   
-export default function Voucherdiscountcontent() {
+export default function Voucherdiscountcontent(props) {
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const [attributes, setAttributes] = useState({});
@@ -40,6 +40,9 @@ export default function Voucherdiscountcontent() {
   const [isloading, setIsloading] = useState(false);
   const {sendNetworkRequest} = React.useContext(NetworkContext)
   const [open, setOpen] = React.useState(false);
+  const [discountid, setDiscountid] = React.useState("");
+  const [isloaded, setIsloaded] = useState(false);
+
   const [snackMessage,setSnackMessage] = React.useState({
     message:"Created Successfully",
     severity:"Success"
@@ -112,29 +115,53 @@ else    {
 
     
   }
+  async function getdiscountvalue(discount_id)
+  {
+    let bodydata = {
+      id : discount_id
+      }
+    let response = await sendNetworkRequest('/getvoucher', {}, bodydata, false)
+    let voucherobj = response.response
+    let discounttype = voucherobj.discounttype
+    var discounttypeval = "percentage"
+    if(discounttype === 1)
+    {
+      discounttypeval = 'Fixed'
+    }else if(discounttype === 3)
+    {
+      discounttypeval = 'Free Shipping'
+
+    }
+    setVoucherCtx({
+      ...voucherCtx,
+      vouchername: voucherobj.name,
+      voucherdescription : voucherobj.description,
+      isloggedin: voucherobj.isloginneeded,
+      discounttype: discounttypeval,
+      minimumqty:0,
+      maxvoucherdiscount:voucherobj.max_discount,
+      isonce: voucherobj.max_uses_user,
+      limittouse:voucherobj.max_uses,
+      voucherdiscount:voucherobj.discount_amount,
+      minorder: voucherobj.min_cart_value
+    })
+    setIsloaded(true)
+    }
   useEffect(() => {
     let mounted = true;
     const fetchOrders = () => {
 
-      setOrders( [
-        {
-          id: uuid(),
-          created_at: "test",
-          customer: {
-            name: 'Ekaterina Tankova'
-          },
-          payment: {
-            ref: 'FAD103',
-            method: 'CreditCard',
-            total: '500.00',
-            currency: '$',
-            status: 'pending'
-          },
-          status: 'inactive'
-        }])
+      
     };
     fetchOrders();
-
+    if(props.location.pathname && props.location.pathname.split('/').length > 2 )
+    {
+       setDiscountid( props.location.pathname.split('/')[2]);
+      getdiscountvalue(props.location.pathname.split('/')[2])
+  
+    }else{
+      setIsloaded(true)
+    }
     return () => {
       mounted = false;
     };
@@ -154,21 +181,22 @@ else    {
     className={classes.root}
     title="Orders Management List"
   >
-
+   {isloaded ? <>
     <AboutVoucher className={classes.aboutvoucher} categories={['Fixed Amount','percentage','Free Shipping']} />
-    <VoucherComponent className={classes.aboutvoucher} onAdded={attributesadded}/>
+    {!discountid ? <VoucherComponent className={classes.aboutvoucher} onAdded={attributesadded}/> : null }
     {products.length > 0 ? <> <Grid item xs={12} style={{marginTop:32, textAlign:"center"}} >
 
-<Typography variant="h5" component="h2">
+    <Typography variant="h5" component="h2">
     {products.length} Products and {skus.length} skus
   </Typography>
           </Grid>
           
-          <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+          {!discountid ?  <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
 
           <Button onClick={()=> creatediscount()} color="primary" variant="contained">Create Voucher</Button>
-          </Grid> </>
+          </Grid>:null} </>
           : null }
+          </>:null}
     
    
   </Page>

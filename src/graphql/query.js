@@ -822,6 +822,7 @@ query MyQuery($productId: String!) {
         markupPrice
         markupPriceTax
         sellingPrice
+        discountDesc
         sellingPriceTax
         isReadyToShip
         discount

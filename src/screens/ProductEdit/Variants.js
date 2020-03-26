@@ -241,6 +241,7 @@ export default function Variants(props) {
     setProductCtx({
       ...productCtx,
       editleadtime:diamondData.vendorDeliveryTime,
+      discount:diamondData.discountDesc,
       editreadytoship: diamondData.isReadyToShip,
       editisdefault:diamondData.isdefault,
       editisactive:diamondData.isActive
@@ -258,11 +259,15 @@ export default function Variants(props) {
           skulistdata.isdefault = productCtx.editisdefault;
           skulistdata.isActive =  productCtx.editisactive;
           skulistdata.isReadyToShip = productCtx.editreadytoship
+
+          skulistdata.discountDesc =  productCtx.discount;
           // diamondListData.stoneCount = productCtx.diamondcount;
           // diamondListData.stoneWeight = productCtx.diamondweight;
            bodydata['vendorDeliveryTime'] = productCtx.editleadtime
            bodydata['isdefault'] = productCtx.editisdefault
            bodydata['isActive'] = productCtx.editisactive;
+           bodydata['discount'] = productCtx.discount;
+
            bodydata['isReadyToShip'] = productCtx.editreadytoship;
            bodydata['generatedSku'] = id;
           console.log(JSON.stringify(bodydata))
@@ -341,6 +346,28 @@ export default function Variants(props) {
                     
                     
                     <Typography className={classes.heading}>{row.vendorDeliveryTime}</Typography>
+
+                  } </TableCell> : null }
+
+{props.displycolumns.indexOf('Discount') > -1 ? <TableCell align="center" style = {{width: 40}} component="th" scope="row">
+                  {btnEdit.action && btnEdit.id == row.generatedSku  ?  <Input
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    style = {{width: 40}}
+                    value={productCtx.discount}
+                    id="productname"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="productname"
+                    label="Discount"
+                    //onInput={keyPress.bind(this)}
+                    onChange={handleinputChange('discount')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  /> :
+                    
+                    
+                    <Typography className={classes.heading}>{row.discountDesc}</Typography>
 
                   } </TableCell> : null }
                 {props.displycolumns.indexOf('Ready To Ship') > -1 ? 

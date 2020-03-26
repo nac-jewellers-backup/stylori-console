@@ -313,14 +313,17 @@ async function saveProductEditItem() {
             sizes_arr.push(element)
           });
         }
-        genders = genders.split(',')
         let gender_arr = []
+        if(genders)
+        {
+        genders = genders.split(',')
         genders.forEach(element => {
           let gender_obj = {
             label: element
           }
           gender_arr.push(gender_obj)
         });
+      }
         let defaultcolour = "";
        var images_arr = fatchvalue.data.productListByProductId.productImagesByProductId.nodes
        images_arr.forEach(element => {
