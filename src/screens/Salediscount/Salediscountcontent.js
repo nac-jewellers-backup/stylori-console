@@ -66,6 +66,7 @@ export default function Salediscountcontent(props) {
   const [isshowpriceupdate, setIsshowpriceupdate] = useState(false);
   const [statusmessage, setStatusmessage] = useState("");
   const [titlecontent, setTitlecontent] = useState("");
+  const [discount_id, setDiscount_id] = useState("");
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -82,7 +83,6 @@ export default function Salediscountcontent(props) {
     }
     setOpen(false);
   };
-  var discount_id = "";
   
   async function getdiscountvalue(discount_id)
   {
@@ -256,7 +256,8 @@ async function filterapllied(value)
     fetchOrders();
     if(props.location.pathname && props.location.pathname.split('/').length > 2 )
   {
-     discount_id = props.location.pathname.split('/')[2];
+    let discount_id = props.location.pathname.split('/')[2];
+    setDiscount_id(discount_id)
     getdiscountvalue(discount_id)
 
   }else
@@ -394,7 +395,7 @@ async function filterapllied(value)
                       <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
                       {!isshowpriceupdate ? <>
          
-      <Button onClick={() => updateprices()} color="primary" variant="contained">Price Run</Button>
+      {/* <Button onClick={() => updateprices()} color="primary" variant="contained">Price Run</Button> */}
       </>:<> {statusmessage}<IconButton aria-label="delete"  onClick={(e) => handlestatus()} color="primary">
                             <RefreshIcon />
                           </IconButton></>} 
