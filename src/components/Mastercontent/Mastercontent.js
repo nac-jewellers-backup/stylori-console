@@ -27,7 +27,7 @@ import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {TaxList,VENDORLISTS,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
-import { Button, Switch, FormControlLabel } from '@material-ui/core';
+import { Button, Switch,Grid,FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
 import {BASE_URL} from '../../config'
@@ -272,44 +272,62 @@ const   Vendor=(props)=> {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext,setSearchtext] = React.useState('')
   const [editcontent,setEditcontent] = React.useState({})
-  const [add,setAdd] = React.useState(props.isadd)
+  const [isadd,setIsadd] = React.useState(false)
   const [isedit,setIsedit] = React.useState(false)
 
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
   })
-
-  function Editvendor(vendordata) {
+  function addnewvendor()
+  {
     setEditcontent({
       ...editcontent,
-      id : vendordata.id,
-      hsnNumber : vendordata.hsnNumber,
-      taxName : vendordata.taxName,
-      taxValue : vendordata.taxValue,
-      updatedAt : vendordata.updatedAt,
+      isedit : false
+    })
+     setIsadd(true)
+  }
+  function Editvendor(vendordata) {
+    delete vendordata['action'];
+
+    
+    setEditcontent({
+      ...editcontent,
+      ...vendordata,
       isedit : true
     })
-  
+
     setBtnEdit({ ...btnEdit, id:vendordata.id, action: true })
 
   }
   async function Savevendor(refetch) {
-    let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
-
+      props.onCreate(editcontent)
+      setIsadd(false)
+  //  let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
     setBtnEdit({ ...btnEdit, id:'', action: false })
-    refetch()
+   // refetch()
   }
   function Cancelcreate() {
+
     props.onCancel();
     setBtnEdit({ ...btnEdit, id:'', action: false })
   }
+  function searrchcontent()
+  {
+    props.onSearch(editcontent.searchcontent)
+
+  }
   function CancelEdit(diamondData) {
-    
+   
+      setIsadd(false)
+    setEditcontent({})
     setBtnEdit({ ...btnEdit, id:'', action: false })
   }
   const handleInputChange = type => e => {
     setEditcontent({ ...editcontent, [type]: e.target.value  })
+}
+const handleSearchChange = type => e => {
+  props.onSearch(e.target.value)
 }
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
@@ -338,36 +356,41 @@ const   Vendor=(props)=> {
 
 
   };
-  function searchproduct(searchtext, productcategory, producttype)
-  {
-    let products = allproductlists.filter(l => {
-      return l.productId.toLowerCase().match( searchtext.toLowerCase()) || l.productName.toLowerCase().match( searchtext.toLowerCase());
-    });
-    setProductlists(products)
-  }
-  async function getproductlist(searchtext,productcategory,producttype,pagesize,offsetvalue,sort,orderby)
-{
-  let bodydata = {
-    size : pagesize ? pagesize : rowsPerPage,
-    offset : offsetValue,
-    searchtext: searchtext,
-    productcategory: productcategory,
-    producttype: producttype,
-    order: sort ? sort : order,
-    orderby : orderby ? orderby : orderBy
-  }
-
-  let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
-  setProductlists(response.products.rows)
- // setPageCount(response.products.count)
-}
-function applyfilter(searchtext, categoryname, typename)
-{
-  getproductlist(searchtext,categoryname,typename)
-}
-
+  
   return (
     <Paper className={classes.root}>
+       <Grid container item xs={12} style={{padding: "16px"}} sm={12} alignItems={"flex-end"}>
+        <Grid fullwidth item xs={3} sm={3}>
+
+            <Typography component="h6" variant="h6">
+            {props.title}
+
+          </Typography>
+          </Grid>
+          <Grid fullwidth item xs={3} sm={3} style={{"text-align":"right"}} >
+          <TextField
+                      variant="outlined"
+                      margin="dense"
+                      
+                      id="vendordeliverydays"
+                      name="vendordeliverydays"
+                      // value={editcontent[columnname.key]}
+                       onChange={handleSearchChange("searchcontent")}
+  
+                      label="Search text"
+                     />
+          {/* <Button variant="outlined"  onClick={()=>searrchcontent() } color="primary" >
+            Search
+        </Button> */}
+        
+        </Grid>
+          <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
+          <Button variant="outlined"  onClick={()=>addnewvendor() } color="primary" >
+           {props.button_title}
+        </Button>
+        
+        </Grid>
+    </Grid>
       {/* <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} /> */}
       <div className={classes.tableWrapper}>
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
@@ -392,117 +415,83 @@ function applyfilter(searchtext, categoryname, typename)
               onRequestSort={handleRequestSort}
             />
           <TableBody>
-          { <Query
-              query={TaxList}
-              onCompleted={data => setPageCount( data.allMasterTaxSettings.totalCount )}
-              >
-              {
-                  ({ data, loading, error, refetch }) => {
-                    debugger
-                      if (loading) {
-                          // return <Loader />
-                      }
-                      if (error) {
-                        return <div>{error}</div>
-                          // return false
-                      }
-                      if (data) { 
-                           return <> 
-                              {data.allMasterTaxSettings.nodes.map((row, index) => (
-                           <>
-                           {index == 0 && props.isadd ? <TableRow key={row.name}>
-                           <TableCell align="left">
-                           <TextField
-                              variant="outlined"
-                              margin="dense"
-                              
-                              id="vendordeliverydays"
-                              name="vendordeliverydays"
-                              value={editcontent.hsnNumber}
-                              onChange={handleInputChange('hsnNumber')}
+          {props.values.map((row, index) => (
+            <>
+            {index === 0 && isadd ? <TableRow>
 
-                              label="HSN Number"
-                             />
-                           </TableCell>
-                           <TableCell align="left">
-                           <TextField
-                              variant="outlined"
-                              margin="dense"
-                              
-                              id="vendordeliverydays"
-                              name="vendordeliverydays"
-                              value={editcontent.taxValue}
-                              onChange={handleInputChange('taxValue')}
+              {props.columns.map((columnname, index) => (
+                <>
+                {columnname.key === 'action' ?                  
+                <TableCell align="center" style = {{width: 20}}>
+                 <Button  onClick={(e) => Savevendor()}><SaveIcon />
+                     </Button>
+                     <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                     </Button>
+                    
+              </TableCell> :
+                <>
+                <TableCell align="left">
+                <TextField
+                      variant="outlined"
+                      margin="dense"
+                      
+                      id="vendordeliverydays"
+                      name="vendordeliverydays"
+                      value={editcontent[columnname.key]}
+                      onChange={handleInputChange(columnname.key)}
+  
+                      label="Vendor Delivery Days"
+                     /> </TableCell>
+                    </>
+                
 
-                              label="Tax %"
-                             />
-                           </TableCell>
-                           <TableCell  style = {{width: 20}} align="center">
-                      <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
-                      </Button>
-                      <Button onClick={(e) => Cancelcreate()}><CancelIcon />
-                      </Button>
-                    </TableCell>
-                           </TableRow> : null}
-                          
-                           <TableRow key={row.name}>
-                        {
-                        btnEdit.action && btnEdit.id == row.id && !props.isadd ? 
-                        <TableCell align="left">
-                        <TextField
-                              variant="outlined"
-                              margin="dense"
-                              
-                              id="vendordeliverydays"
-                              name="vendordeliverydays"
-                              value={editcontent.hsnNumber}
-                              onChange={handleInputChange('hsnNumber')}
-
-                              label="Vendor Delivery Days"
-                             /> </TableCell> :  <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
-                             {row.hsnNumber}
-                           </TableCell> }
-                           {
-                        btnEdit.action && btnEdit.id == row.id && !props.isadd ? 
-                        <TableCell align="left">
-                        <TextField
-                              variant="outlined"
-                              margin="dense"
-                              
-                              id="vendordeliverydays"
-                              name="vendordeliverydays"
-                              value={editcontent.taxValue}
-                              onChange={handleInputChange('taxValue')}
-
-                              label="Vendor Delivery Days"
-                             /> </TableCell> :  <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
-                             {row.taxValue}
-                           </TableCell> }
-                                      {
-                  btnEdit.action && btnEdit.id == row.id && !props.isadd ?
-                    <TableCell  style = {{width: 20}} align="center">
-                      <Button  onClick={(e) => Savevendor(refetch)}><SaveIcon />
-                      </Button>
-                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
-                      </Button>
-                    </TableCell> :
-                    <TableCell align="center" onClick={(e) => Editvendor(row)} style = {{width: 20}}>
-                      <Button ><EditIcon />
-                      </Button>
-                    </TableCell>
                 }
-                                  
-                                                    
-                                                  </TableRow>
-                                                  </>
-                                                ))}
-                         </> 
-                       }
-                      else{
-                      return <div>{"Fetch Products"}</div>
-                     
-                 } } }
-                </Query>  }
+                </>
+              ))}
+            </TableRow> : null
+
+            } 
+            
+            <TableRow>
+              {props.columns.map((columnname, index) => (
+                <>
+                {columnname.key === 'action' ?                  
+                <TableCell align="center" style = {{width: 20}}>
+                   {
+                     btnEdit.action && btnEdit.id == row.id  ?  <><Button  onClick={(e) => Savevendor()}><SaveIcon />
+                     </Button>
+                     <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
+                     </Button></> : <Button onClick={(e) => Editvendor(row)} ><EditIcon />
+                </Button>
+                    } 
+              </TableCell> :
+                <>
+                {btnEdit.action && btnEdit.id == row.id  ?
+                <TableCell align="left">
+                <TextField
+                      variant="outlined"
+                      margin="dense"
+                      
+                      id="vendordeliverydays"
+                      name="vendordeliverydays"
+                      value={editcontent[columnname.key]}
+                      onChange={handleInputChange(columnname.key)}
+  
+                      label="Vendor Delivery Days"
+                     /> </TableCell> :
+                   <TableCell>{row[columnname.key]}</TableCell>
+                }
+                    </>
+                
+
+                }
+                </>
+              ))}
+            </TableRow>
+            </>
+          ))}
+
+          
           {/* {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
@@ -514,7 +503,7 @@ function applyfilter(searchtext, categoryname, typename)
               <TablePagination
                 rowsPerPageOptions={[50,100,200,500]}
                 colSpan={5}
-                count={pageCount}
+                count={[props.values.length]}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

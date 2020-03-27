@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // import moment from 'moment';
 import { Query, withApollo } from 'react-apollo';
-import {MASTERPURITIES} from '../../../../graphql/query'
+import {MATERIALMASTER} from '../../../../graphql/query'
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
@@ -129,8 +129,8 @@ const Results = props => {
                 </TableHead>
                 <TableBody>
                 { <Query
-                    query={MASTERPURITIES}
-                    onCompleted={data => setPageCount( data.allMasterMetalsColors.totalCount )}
+                    query={MATERIALMASTER}
+                    onCompleted={data => setPageCount( data.allMasterMaterials.totalCount )}
                     variables={{ "Veiw": rowsPerPage, "Offset": offsetValue}}>
                     {
                         ({ data, loading, error, refetch }) => {
@@ -142,10 +142,9 @@ const Results = props => {
                                 // return false
                             }
                             if (data) { 
-                              alert(JSON.stringify(data))
                                 return <> 
 
-                                {data.allMasterMetalsColors.nodes.map((row, index) => (
+                                {data.allMasterMaterials.nodes.map((row, index) => (
                                  <>
                                  {index == 0 && props.isadd ? 
                                  <TableRow key={row.name}>

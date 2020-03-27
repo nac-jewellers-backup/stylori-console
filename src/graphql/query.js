@@ -276,7 +276,22 @@ query  {
 }
 `;
 
-const TaxList = gql`
+const TaxList_1 = gql`
+query  {
+  allMasterTaxSettings {
+    nodes {
+      hsnNumber
+      taxName
+      taxValue
+      updatedAt
+      id
+    }
+    totalCount
+  }
+}
+`;/*********** configuration query */
+
+const TaxList =`
 query  {
   allMasterTaxSettings {
     nodes {
@@ -292,6 +307,91 @@ query  {
 `;
 
 
+const MASTERMATERIAL =`
+query  {
+  allMasterMaterials {
+    nodes {
+      id
+      name
+    }
+  }
+}
+`;
+const MASTERMATERIALCOLORS =`
+query  {
+  allMasterMetalsColors {
+    nodes {
+      name
+      alias
+      id
+    }
+  }
+}
+`;
+
+const MASTERPRODUCTPURITIES =`
+query  {
+  allMasterMetalsPurities {
+    nodes {
+      name
+      id
+    }
+  }
+}
+`;
+const DESIGNMASTER =`
+query  {
+allMasterDesigns {
+  nodes {
+    name
+    id
+  }
+}
+}`;
+const COLLECTIONMASTER =`
+query  {
+  allMasterCollections {
+    nodes {
+      name
+      id
+    }
+  }
+}
+`;
+
+const DIAMONDMASTER =`
+query  {
+allMasterDiamondTypes {
+  nodes {
+    diamondClarity
+    diamondColor
+    id
+  }
+}
+}
+`;
+const DIAMONDSETTINGS =`
+query  {
+allMasterDiamondsSettings {
+  nodes {
+    name
+    id
+  }
+}
+}
+`;
+const DIAMONDSHAPES =`
+query  {
+  allMasterDiamondsShapes {
+    nodes {
+      name
+      id
+    }
+  }
+}
+`;
+
+/**************** */
 
 
 // const PRODUCTLIST  = (category) =>  gql`
@@ -880,5 +980,12 @@ query MyQuery($productId: String!) {
     VOUCHERDISCOUNTS,
     DELETEVOUCHERDISCOUNT,
     VOUCHERSTATUSEDIT,
-    DISCOUNTSTATUSEDIT
-  }
+    DISCOUNTSTATUSEDIT,
+    MASTERMATERIAL,
+    MASTERMATERIALCOLORS,
+    MASTERPRODUCTPURITIES,
+    COLLECTIONMASTER,
+    DESIGNMASTER,
+    DIAMONDMASTER,
+    DIAMONDSETTINGS,
+    DIAMONDSHAPES  }

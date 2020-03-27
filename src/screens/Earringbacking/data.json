@@ -1,0 +1,22 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name"
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

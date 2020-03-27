@@ -4,8 +4,8 @@ import ApolloClient from 'apollo-boost';
 import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
-     Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities
-     ,Voucherdiscount, Salediscount, OrderList, Taxsetup, DiscountList,VoucherdiscountListing } from '../screens';
+     Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
+     ,Voucherdiscount, Salediscount, OrderList, Earringbacking, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -51,6 +51,12 @@ const MainApp = () => {
                     <PrivateRoute  path={route.salediscountlist} component={DiscountList} />
                     <PrivateRoute  path={route.voucherdiscountlist} component={VoucherdiscountListing} />
                     <PrivateRoute  path={route.editvoucher} component={Voucherdiscount} />
+                    <PrivateRoute  path={route.mastercollections} component={Mastercollections} />
+                    <PrivateRoute  path={route.masterdesigns} component={Masterdesigns} />
+                    <PrivateRoute  path={route.masterdiamonds} component={Masterdiamonds} />
+                    <PrivateRoute  path={route.diamondsettings} component={Masterdiamondsettings} />
+                    <PrivateRoute  path={route.diamondshapes} component={Masterdiamondshapes} />
+                    <PrivateRoute  path={route.earringbacking} component={Earringbacking} />
 
                     
                     <PrivateRoute exact path={route.editdiscount} component={Salediscount} />  

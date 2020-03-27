@@ -30,8 +30,18 @@ const route = {
     markupPrice: '/markuppricesetup',
     taxsetup: '/taxsetup',
     editdiscount: '/salediscount/:id',
-    editvoucher: '/voucherdiscount/:id'
+    editvoucher: '/voucherdiscount/:id',
 
+    mastercollections: '/collections',
+    masterdesigns: '/designs',
+    
+    masterdiamonds: '/diamonds',
+    diamondsettings: '/diamondsettings',
+    diamondshapes: '/diamondshapes',
+    earringbacking: '/earringbacking'
+
+    
+    
 
 }
 

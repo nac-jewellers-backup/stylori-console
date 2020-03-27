@@ -25,7 +25,7 @@ export default function Producttypecontent() {
 
   const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
   const [displaycolumns, setDisplaycolumns] = useState(Columns.defaultcolumnnames);
-  
+
   function columnchanged(columnnames){
     let displycolumns = [];
     columnnames.forEach(element => {
@@ -37,31 +37,16 @@ export default function Producttypecontent() {
   function searchorder(searchtext)
   {
 
-    var data_filter = orderCtx.orderMaster.orders.filter( element => element.shoppingCartByCartId.userProfileByUserprofileId.email =="test@crayond.com")
-    alert(JSON.stringify(data_filter))
+    var data_filter = orderCtx.orderMaster.orders.filter( element => element.shoppingCartByCartId.userProfileByUserprofileId.email.match(searchtext+'.*'))
+    setOrders(data_filter)
   }
   useEffect(() => {
     let mounted = true;
     const fetchOrders = () => {
 
-      setOrders( [
-        {
-          id: uuid(),
-          created_at: "test",
-          customer: {
-            name: 'Ekaterina Tankova'
-          },
-          payment: {
-            ref: 'FAD103',
-            method: 'CreditCard',
-            total: '500.00',
-            currency: '$',
-            status: 'pending'
-          },
-          status: 'inactive'
-        }])
+     
     };
-   
+    setOrders(orderCtx.orderMaster.orders)
     fetchOrders();
 
     return () => {
@@ -77,7 +62,7 @@ export default function Producttypecontent() {
     <Header getColumnnames={columnchanged} onSearch={searchorder}  columns={columnnames}/>
     <Results
       className={classes.results}
-     orders={orderCtx.orderMaster.orders}
+     orders={orders}
      showcolumns={displaycolumnnames}
      columnobjs={displaycolumns}
 

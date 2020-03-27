@@ -217,7 +217,8 @@ export const materialMaster = {
         }))
         const diamondtypes = response.allMasterDiamondTypes.nodes.map(_ => ({
             ..._,
-            "diamondtype":_.diamondColor+'-'+_.diamondClarity
+            "alias": _.shortCode,
+            "diamondtype":_.diamondColor+_.diamondClarity
         }))
         
 

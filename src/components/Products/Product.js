@@ -308,8 +308,8 @@ const   AddContact=(props)=> {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [selected, setSelected] = React.useState([]);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('product_id');
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('updatedAt');
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
@@ -462,10 +462,10 @@ function applyfilter(searchtext, categoryname, typename)
                                   </Button>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                     <Link target='blank_' href={row.trans_sku_lists.length > 0 ? BASE_URL+row.trans_sku_lists[0].sku_url : '-'}  variant="body2">
+                                     {/* <Link target='blank_' href={row.trans_sku_lists.length > 0 ? BASE_URL+row.trans_sku_lists[0].sku_url : '-'}  variant="body2"> */}
                                     {row.product_name}
 
-                                    </Link> 
+                                    {/* </Link>  */}
                                   </TableCell>
                                   <TableCell align="left">{row.product_type}</TableCell>
                                   <TableCell align="left">{row.product_category}</TableCell>

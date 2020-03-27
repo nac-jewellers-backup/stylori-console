@@ -1,0 +1,27 @@
+{
+    "columns": [
+        
+        {
+            "label": "Clarity",
+            "key":"diamondClarity",
+            "id": "Clarity"
+        },
+        {
+            "label": "Colour",
+            "key":"diamondColor",
+            "id": "Colour"
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

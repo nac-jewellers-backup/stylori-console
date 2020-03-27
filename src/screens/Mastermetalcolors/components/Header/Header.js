@@ -79,7 +79,7 @@ const Header = props => {
             onClick={()=>props.onAdd()}
 
           >
-            Add New 12
+            Add New 
           </Button>
          
         </Grid>
