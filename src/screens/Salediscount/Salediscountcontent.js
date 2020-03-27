@@ -67,6 +67,7 @@ export default function Salediscountcontent(props) {
   const [statusmessage, setStatusmessage] = useState("");
   const [titlecontent, setTitlecontent] = useState("");
   const [discount_id, setDiscount_id] = useState("");
+  const [loadingtitle, setLoadingtitle] = useState("");
 
   const [attributeobj, setAttributeobj] = useState({});
   const {sendNetworkRequest} = React.useContext(NetworkContext)
@@ -118,14 +119,22 @@ export default function Salediscountcontent(props) {
   }
   async function creatediscount(ispricerun)
   {
+   let skuarray  = []
+    while(skus.length > 0)
+    {
+        let sku_content = skus.splice(0,25000)
+        skuarray.push(sku_content)
+    }
     if(errorskus.length > 0 )
     {
       alert("Some skus are overlapping")
     }else{
-
-    
-    setIsloading(true)
-
+     
+    let discount_count = 0
+   setIsloading(true)
+      updatediscount(discount_count)
+     async function updatediscount()
+      {
     let bodydata = {
       discountvalue: parseFloat(attributeobj.discountvalue),
       discounttype : attributeobj.discounttype,
@@ -134,22 +143,25 @@ export default function Salediscountcontent(props) {
       discounttitle : attributeobj.discounttitle,
       product_attributes: productattr,
       product_attributes_text : productattrtext,
-      skus : skus
+      skus : skuarray[discount_count]
     }
     console.log(JSON.stringify(productattr))
     let response = await sendNetworkRequest('/creatediscount', {}, bodydata, false)
-    setIsloading(false)
-    setOpen(true)
-    if(ispricerun)
+   
+    discount_count = discount_count + 1
+    if(skuarray.length > discount_count)
     {
-      setIsshowpriceupdate(true)
-      updateprices()
+      setLoadingtitle(skus.length+" Left")
+      updatediscount(discount_count)
     }else{
+      setIsloading(false)
+      setOpen(true)
       setIsshowpriceupdate(false)
 
      window.location='/salediscountlist'
 
     }
+  }
   }
 }
 const handleDelete = chipToDelete => () => {
@@ -272,7 +284,7 @@ async function filterapllied(value)
   return (
 
     <>
-     <FullLoader title="" isopen={isloading}/>
+     <FullLoader title={loadingtitle} isopen={isloading}/>
      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={snackMessage.severity}>
           {snackMessage.message}

@@ -227,7 +227,7 @@ function handleDelete(diamondData) {
                                     onSuccess={handledelete}
                                     onCancel={hidedeleteconformation}
                                     isshow={isconformation} />
-                                {data.allSaleDiscounts.nodes.map((row, index) => (
+                                {data.allSaleDiscounts.nodes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                                   
                                  <>
 
