@@ -1,0 +1,42 @@
+{
+    "columns": [
+        {
+            "label": "Attribute Name",
+            "key":"attributeName",
+            "id": "Attribute Name"
+        },
+        {
+            "label": "Attriebute Vale",
+            "key":"attributeValue",
+            "id": "Attriebute Vale"
+        },
+        {
+            "label": "Priority",
+            "key":"priority",
+            "id": "Priority"
+        },
+        {
+            "label": "SEO Text",
+            "key":"seoText",
+            "id": "SEO Text"
+        },
+        {
+            "label": "SEO Url",
+            "key":"seoUrl",
+            "id": "SEO Url"
+        },
+        
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

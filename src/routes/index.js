@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
-     ,Voucherdiscount, Salediscount, OrderList, Earringbacking, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
+     ,Voucherdiscount, Salediscount, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -37,7 +37,7 @@ const MainApp = () => {
                     <PrivateRoute  path={route.materiallist} component={CategoryList} />
                     <PrivateRoute  path={route.editCategory} component={Editcategory} />
                     <PrivateRoute  path={route.materiallistpage} component={newmaterial}/>
-                    {/* <PrivateRoute  path={route.producttypes} component={ProducttypeList} /> */}
+                   <PrivateRoute  path={route.producttypes} component={Masterproducttypes} /> 
                     <PrivateRoute  path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute  path={route.priceupdate} component={Priceupdate} />
                     <PrivateRoute  path={route.orderlist} component={OrderList} />
@@ -57,8 +57,15 @@ const MainApp = () => {
                     <PrivateRoute  path={route.diamondsettings} component={Masterdiamondsettings} />
                     <PrivateRoute  path={route.diamondshapes} component={Masterdiamondshapes} />
                     <PrivateRoute  path={route.earringbacking} component={Earringbacking} />
+                    <PrivateRoute  path={route.gemsettings} component={Mastergemsettings} />
+                    <PrivateRoute  path={route.gemshapes} component={Mastergemshapes} />
+                    
+                    <PrivateRoute  path={route.gender} component={Mastergenders} />
+                    <PrivateRoute  path={route.seo} component={Seopriority} />
 
                     
+                    <PrivateRoute  path={route.gemtypes} component={Mastergemtypes} />
+
                     <PrivateRoute exact path={route.editdiscount} component={Salediscount} />  
 
                      <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />  

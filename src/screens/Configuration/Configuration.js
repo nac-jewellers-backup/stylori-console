@@ -16,8 +16,9 @@ import "./Configuration.css"
 export const Configuration = withRouter(props => {
   const master_options = ['Tax','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Master Collections','Master Designs','Master Diamond Types',
 'Master Diamond Settings','Master Diamond Shapes','Master Earring Backings','Master Gemstone Settings','Master Gemstone Shapes','Master Gemstone Types',
-'Master Gender','Master Materials']
-  const master_options_url = ['Taxsetup','material','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking']
+'Master Gender','SEO Priorities']
+  const master_options_url = ['Taxsetup','material','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking',
+  'gemstonesettings','gemstoneshapes','gemstonetypes','genders','seopriority']
 
   const [raised, setRaised] = React.useState(false);
   const [cardindex, setCardindex] = React.useState(-1);

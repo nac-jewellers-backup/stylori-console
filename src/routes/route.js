@@ -38,8 +38,13 @@ const route = {
     masterdiamonds: '/diamonds',
     diamondsettings: '/diamondsettings',
     diamondshapes: '/diamondshapes',
-    earringbacking: '/earringbacking'
+    earringbacking: '/earringbacking',
 
+    gemsettings: '/gemstonesettings',
+    gemshapes: '/gemstoneshapes',
+    gemtypes: '/gemstonetypes',
+    gender: '/genders',
+    seo: '/seopriority'
     
     
 

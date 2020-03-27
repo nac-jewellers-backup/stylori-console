@@ -390,7 +390,68 @@ query  {
   }
 }
 `;
+const MASTERPRODUCTTYPES =`
+query  {
+allMasterProductTypes {
+  nodes {
+    name
+    id
+    shortCode
+  }
+}
+}`;
 
+const MASTERGEMSETTINGS =`
+query  {
+  allMasterGemstonesSettings {
+    nodes {
+      name
+      id
+    }
+  }
+}`;
+
+const MASTERGEMSHAPES =`
+query  {
+  allMasterGemstonesShapes {
+    nodes {
+      name
+      alias
+    }
+  }
+}`;
+const MASTERGEMTYPES =`
+query  {
+  allMasterGemstonesTypes {
+    nodes {
+      name
+      colorCode
+    }
+  }
+}`;
+const MASTERGENDER =`
+query  {
+  allMasterGenders {
+    nodes {
+      name
+      alias
+      id
+    }
+  }
+}`;
+const SEOPRIORITIES =`
+query  {
+  allSeoUrlPriorities {
+    nodes {
+      priority
+      seoText
+      seoUrl
+      id
+      attributeName
+      attributeValue
+    }
+  }
+}`;
 /**************** */
 
 
@@ -988,4 +1049,10 @@ query MyQuery($productId: String!) {
     DESIGNMASTER,
     DIAMONDMASTER,
     DIAMONDSETTINGS,
-    DIAMONDSHAPES  }
+    DIAMONDSHAPES,
+    MASTERPRODUCTTYPES,
+    MASTERGEMSETTINGS,
+    MASTERGEMSHAPES ,
+    MASTERGEMTYPES,
+    MASTERGENDER ,
+    SEOPRIORITIES}
