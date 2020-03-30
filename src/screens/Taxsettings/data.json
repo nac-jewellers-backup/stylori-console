@@ -1,0 +1,34 @@
+{
+    "columns": [
+        
+        {
+            "label": "Attribute Name",
+            "key":"name",
+            
+            "id": "Attribute Name"
+        },
+        {
+            "label": "Attribute Value",
+            "key":"value",
+            "id": "Attribute Value"
+        },
+        {
+            "label": "HSN Code",
+            "key":"hsnCode",
+            "id": "HSN Code"
+        },
+       
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

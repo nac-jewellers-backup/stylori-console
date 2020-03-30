@@ -44,9 +44,11 @@ const route = {
     gemshapes: '/gemstoneshapes',
     gemtypes: '/gemstonetypes',
     gender: '/genders',
-    seo: '/seopriority'
-    
-    
+    seo: '/seopriority',
+    taxsettings: '/taxsettings',
+
+    category: '/categories',
+
 
 }
 

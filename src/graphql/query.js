@@ -307,7 +307,18 @@ query  {
   }
 }
 `;
-
+const TaxSettingList =`
+query  {
+  allTaxsettings(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      name
+      value
+      hsnCode
+      id
+    }
+  }
+}
+`;
 
 const MASTERMATERIAL =`
 query  {
@@ -402,7 +413,17 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   }
 }
 }`;
-
+const MASTERCATEGORIES =`
+query  {
+  allMasterProductCategories(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      alias
+      id
+      name
+      shortCode
+    }
+  }
+}`;
 const MASTERGEMSETTINGS =`
 query  {
   allMasterGemstonesSettings(orderBy: UPDATED_AT_DESC) {
@@ -1070,5 +1091,7 @@ query MyQuery($productId: String!) {
     MASTERGEMTYPES,
     MASTERGENDER ,
     SEOPRIORITIES,
-    CREATETAXSETUP
+    CREATETAXSETUP,
+    TaxSettingList,
+    MASTERCATEGORIES
   }

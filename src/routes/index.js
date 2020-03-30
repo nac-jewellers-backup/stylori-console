@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
-     ,Voucherdiscount, Salediscount, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
+     ,Voucherdiscount, Salediscount,Taxsettings,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -45,6 +45,10 @@ const MainApp = () => {
                     <PrivateRoute  path={route.markupPrice} component={Markupprice} />
                     <PrivateRoute  path={route.salediscount} component={Salediscount} />
                     <PrivateRoute  path={route.taxsetup} component={Taxsetup} />
+                    <PrivateRoute  path={route.taxsettings} component={Taxsettings} />
+                    <PrivateRoute  path={route.category} component={Mastercategories} />
+
+                    
                     <PrivateRoute  path={route.mastermaterial} component={Materialmaster} />
                     <PrivateRoute  path={route.mastercolors} component={Mastermetalcolors} />
                     <PrivateRoute  path={route.masterpurities} component={Masterpurities} />

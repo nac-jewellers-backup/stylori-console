@@ -29,5 +29,7 @@ export * from "./Mastergemshapes"
 export * from "./Mastergemtypes"
 export * from "./Mastergenders"
 export * from "./Seopriority"
+export * from "./Taxsettings"
+export * from "./Mastercategories"
 
 
