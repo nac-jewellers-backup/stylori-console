@@ -48,7 +48,6 @@ export const Masterstoneshapes = withRouter(props => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: MASTERSTONESHAPES  })
     };
-    // console.log("helo",setProductCtx)
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
