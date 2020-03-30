@@ -32,5 +32,9 @@ export * from "./Seopriority"
 export * from "./Taxsettings"
 export * from "./Mastercategories"
 export * from "./Masterattribute"
+export * from "./Masterstones"
+export * from "./Masterstonecolors"
+export * from "./Masterstoneshapes"
+
 
 

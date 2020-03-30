@@ -407,6 +407,7 @@ const MASTERPRODUCTTYPES =`
 query  {
 allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
+    certificate
     name
     id
     shortCode
@@ -437,6 +438,45 @@ query  {
     }
   }
 }`;
+
+
+
+
+const MASTERSTONES =`
+query  {
+  allMasterStones(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      alias
+      id
+      name
+    }
+  }
+}`;
+
+const MASTERSTONECOLORS =`
+query  {
+  allMasterStonesColors(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      alias
+      name
+      id
+    }
+  }
+}`;
+
+const MASTERSTONESHAPES =`
+query  {
+  allMasterStonesShapes(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      name
+      createdAt
+      alias
+      updatedAt
+    }
+  }
+}`;
+
+
 const MASTERATTRIBUTES =`
 query  {
 allAttributeMasters {
@@ -1127,5 +1167,8 @@ query MyQuery($productId: String!) {
     TaxSettingList,
     MASTERCATEGORIES,
     EARRINGBACKING,
-    MASTERATTRIBUTES
+    MASTERATTRIBUTES,
+    MASTERSTONESHAPES,
+    MASTERSTONECOLORS,
+    MASTERSTONES
   }

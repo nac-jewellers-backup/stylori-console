@@ -48,6 +48,11 @@ const route = {
     taxsettings: '/taxsettings',
     masterattributes: '/masterattributes',
 
+    masterstones: '/masterstones',
+    masterstonecolors: '/masterstonecolors',
+    masterstoneshapes: '/masterstoneshapes',
+
+
     category: '/categories',
     
 

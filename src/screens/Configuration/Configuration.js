@@ -22,11 +22,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export const Configuration = withRouter(props => {
-  const master_options = ['Attribute Master','Tax Settings 1','Tax Settings 2','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Master Collections','Master Designs','Master Diamond Types',
-'Master Diamond Settings','Master Diamond Shapes','Master Earring Backings','Master Gemstone Settings','Master Gemstone Shapes','Master Gemstone Types',
-'Master Gender','SEO Priorities']
-  const master_options_url = ['taxsettings','Taxsetup','taxsettings','categories','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking',
-  'gemstonesettings','gemstoneshapes','gemstonetypes','genders','seopriority']
+  const master_options = ['Attribute Master','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Master Collections','Master Designs','Master Diamond Types',
+'Master Diamond Settings','Master Diamond Shapes','Master Earring Backings','Master Gemstone Settings','Master Gemstone Shapes','Master Gemstone Types','Master Stones','Master Stone Colours','Master Stone Shapes',
+'Master Gender','SEO Priorities','Tax Settings 1','Tax Settings 2']
+  const master_options_url = ['taxsettings','categories','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking',
+  'gemstonesettings','gemstoneshapes','gemstonetypes','masterstones','masterstonecolors','masterstoneshapes','genders','seopriority','Taxsetup','taxsettings',]
 
   const [raised, setRaised] = React.useState(false);
   const [cardindex, setCardindex] = React.useState(-1);

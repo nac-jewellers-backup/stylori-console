@@ -12,6 +12,11 @@
             "id": "short code"
         },
         {
+            "label": "Certificate",
+            "key":"certificate",
+            "id": "Certificate"
+        },
+        {
             "label": "Actions",
             "key":"action",
             "id": "Actions"

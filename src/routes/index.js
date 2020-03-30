@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
-     ,Voucherdiscount, Salediscount,Taxsettings,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
+     ,Voucherdiscount, Salediscount,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -48,6 +48,9 @@ const MainApp = () => {
                     <PrivateRoute  path={route.taxsettings} component={Taxsettings} />
                     <PrivateRoute  path={route.category} component={Mastercategories} />
                     <PrivateRoute  path={route.masterattributes} component={Masterattribute} />
+                    <PrivateRoute  path={route.masterstones} component={Masterstones} />
+                    <PrivateRoute  path={route.masterstonecolors} component={Masterstonecolors} />
+                    <PrivateRoute  path={route.masterstoneshapes} component={Masterstoneshapes} />
 
                     
                     
