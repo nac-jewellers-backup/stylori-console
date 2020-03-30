@@ -37,7 +37,7 @@ export const Masterstones = withRouter(props => {
   async function createtax(taxcontent)
   {
 
-    let response =  await sendNetworkRequest('/managemetalcolors', {}, taxcontent)
+    let response =  await sendNetworkRequest('/managestones', {}, taxcontent)
      getmaster()
   }
   async function getmaster()

@@ -37,7 +37,7 @@ export const Masterstoneshapes = withRouter(props => {
   async function createtax(taxcontent)
   {
 
-    let response =  await sendNetworkRequest('/managemetalcolors', {}, taxcontent)
+    let response =  await sendNetworkRequest('/managestoneshapes', {}, taxcontent)
      getmaster()
   }
   async function getmaster()

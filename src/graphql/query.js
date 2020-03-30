@@ -468,6 +468,7 @@ const MASTERSTONESHAPES =`
 query  {
   allMasterStonesShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
+      id
       name
       createdAt
       alias

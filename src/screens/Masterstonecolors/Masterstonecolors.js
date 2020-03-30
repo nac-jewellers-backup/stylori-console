@@ -37,7 +37,7 @@ export const Masterstonecolors = withRouter(props => {
   async function createtax(taxcontent)
   {
 
-    let response =  await sendNetworkRequest('/managemetalcolors', {}, taxcontent)
+    let response =  await sendNetworkRequest('/managestonecolors', {}, taxcontent)
      getmaster()
   }
   async function getmaster()
@@ -52,6 +52,7 @@ export const Masterstonecolors = withRouter(props => {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
+       
         setMastervalue(fatchvalue.data.allMasterStonesColors.nodes)
         setFiltervalue(fatchvalue.data.allMasterStonesColors.nodes)
       })
