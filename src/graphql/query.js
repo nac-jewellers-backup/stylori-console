@@ -424,6 +424,36 @@ query  {
     }
   }
 }`;
+
+const EARRINGBACKING =`
+query  {
+  allMasterEarringBackings(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      id
+      name
+      alias
+      updatedAt
+      createdAt
+    }
+  }
+}`;
+const MASTERATTRIBUTES =`
+query  {
+allAttributeMasters {
+  nodes {
+    name
+    isFilter
+    id
+    isSearch
+    isActive
+    filterPosition
+    createdAt
+    shortCode
+    updatedAt
+  }
+}
+}`;
+
 const MASTERGEMSETTINGS =`
 query  {
   allMasterGemstonesSettings(orderBy: UPDATED_AT_DESC) {
@@ -438,6 +468,7 @@ const MASTERGEMSHAPES =`
 query  {
   allMasterGemstonesShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
+      id
       name
       alias
     }
@@ -447,6 +478,7 @@ const MASTERGEMTYPES =`
 query  {
   allMasterGemstonesTypes(orderBy: UPDATED_AT_DESC) {
     nodes {
+      id
       name
       colorCode
     }
@@ -1093,5 +1125,7 @@ query MyQuery($productId: String!) {
     SEOPRIORITIES,
     CREATETAXSETUP,
     TaxSettingList,
-    MASTERCATEGORIES
+    MASTERCATEGORIES,
+    EARRINGBACKING,
+    MASTERATTRIBUTES
   }

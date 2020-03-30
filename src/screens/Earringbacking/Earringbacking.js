@@ -9,10 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Mastercontent from '../../components/Mastercontent/Mastercontent';
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
-import { DIAMONDSHAPES, PRODUCTDIAMONDTYPES } from '../../graphql/query';
+import { EARRINGBACKING, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
 import Page from '../../components/Page'
-import { Header, Results } from './components';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const useStyles = makeStyles(theme => ({
@@ -39,7 +38,7 @@ export const Earringbacking = withRouter(props => {
   async function createtax(taxcontent)
   {
 
-    let response =  await sendNetworkRequest('/managematerials', {}, taxcontent)
+    let response =  await sendNetworkRequest('/manageearring', {}, taxcontent)
      getmaster()
   }
   async function getmaster()
@@ -48,14 +47,15 @@ export const Earringbacking = withRouter(props => {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: DIAMONDSHAPES  })
+      body: JSON.stringify({ query: EARRINGBACKING  })
     };
     // console.log("helo",setProductCtx)
+    
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-        setMastervalue(fatchvalue.data.allMasterDiamondsShapes.nodes)
-        setFiltervalue(fatchvalue.data.allMasterDiamondsShapes.nodes)
+        setMastervalue(fatchvalue.data.allMasterEarringBackings.nodes)
+        setFiltervalue(fatchvalue.data.allMasterEarringBackings.nodes)
       })
       .catch(console.error)
   }

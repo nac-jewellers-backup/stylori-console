@@ -12,12 +12,11 @@ import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import { MASTERMATERIAL, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
 import Page from '../../components/Page'
-import { Header, Results } from './components';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
-  //  padding: theme.spacing(3)
+    
   },
   results: {
     marginTop: theme.spacing(3)

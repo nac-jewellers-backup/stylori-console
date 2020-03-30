@@ -1,0 +1,43 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name",
+            "type":1
+
+        },
+        
+        {
+            "label": "Filter Position",
+            "key":"filterPosition",
+            "id": "Filter Position",
+            "type":1
+        },
+        {
+            "label": "Filter Include",
+            "key":"isFilter",
+            "id": "Filter Include",
+            "type":2
+        },
+        {
+            "label": "Search Include",
+            "key":"isSearch",
+            "id": "Search Include",
+            "type":2
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

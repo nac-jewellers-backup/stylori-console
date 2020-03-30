@@ -12,7 +12,6 @@ import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import { DIAMONDSETTINGS, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
 import Page from '../../components/Page'
-import { Header, Results } from './components';
 import { NetworkContext } from '../../context/NetworkContext';
 
 const useStyles = makeStyles(theme => ({
@@ -94,7 +93,7 @@ export const Masterdiamondsettings = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Material List"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title= {"Diamond Settings"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>
     </>

@@ -46,9 +46,10 @@ const route = {
     gender: '/genders',
     seo: '/seopriority',
     taxsettings: '/taxsettings',
+    masterattributes: '/masterattributes',
 
     category: '/categories',
-
+    
 
 }
 

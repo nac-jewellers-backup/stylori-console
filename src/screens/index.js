@@ -31,5 +31,6 @@ export * from "./Mastergenders"
 export * from "./Seopriority"
 export * from "./Taxsettings"
 export * from "./Mastercategories"
+export * from "./Masterattribute"
 
 

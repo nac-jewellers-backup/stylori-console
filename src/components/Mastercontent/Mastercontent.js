@@ -329,6 +329,10 @@ const   Vendor=(props)=> {
 const handleSearchChange = type => e => {
   props.onSearch(e.target.value)
 }
+const handleChange = type => (event) => {
+  setEditcontent({ ...editcontent, [type]: event.target.checked  })
+
+};
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('hsnNumber');
@@ -431,7 +435,15 @@ const handleSearchChange = type => e => {
               </TableCell> :
                 <>
                 <TableCell align="left">
-                <TextField
+                {columnname.type === 2 ?  <Switch
+       
+                    color="primary"
+                    name="checkedB"
+                    value={editcontent[columnname.key]}
+                      onChange={handleChange(columnname.key)}
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  /> : null} 
+                {!columnname.type || columnname.type === 1 ?  <TextField
                       variant="outlined"
                       margin="dense"
                       
@@ -441,7 +453,7 @@ const handleSearchChange = type => e => {
                       onChange={handleInputChange(columnname.key)}
   
                       label={columnname.label}
-                     /> </TableCell>
+                     /> : null } </TableCell>
                     </>
                 
 
@@ -458,7 +470,7 @@ const handleSearchChange = type => e => {
                 {columnname.key === 'action' ?                  
                 <TableCell align="center" style = {{width: 20}}>
                    {
-                     btnEdit.action && btnEdit.id == row.id  ?  <><Button  onClick={(e) => Savevendor()}><SaveIcon />
+                    btnEdit.action && btnEdit.id == row.id  ?  <><Button  onClick={(e) => Savevendor()}><SaveIcon />
                      </Button>
                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                      </Button></> : <Button onClick={(e) => Editvendor(row)} ><EditIcon />
@@ -468,7 +480,14 @@ const handleSearchChange = type => e => {
                 <>
                 {btnEdit.action && btnEdit.id == row.id  ?
                 <TableCell align="left">
-                <TextField
+                {columnname.type === 2 ?  <Switch
+                  onChange={handleChange(columnname.key)}
+                  checked={editcontent[columnname.key]}
+                  color="primary"
+                  name="checkedB"
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                /> : null}  
+                {!columnname.type || columnname.type == 1 ? <TextField
                       variant="outlined"
                       margin="dense"
                       
@@ -478,8 +497,17 @@ const handleSearchChange = type => e => {
                       onChange={handleInputChange(columnname.key)}
   
                       label={columnname.label}
-                     /> </TableCell> :
-                   <TableCell>{row[columnname.key]}</TableCell>
+                     />:null }  </TableCell>  :
+                   <TableCell>
+                      {columnname.type === 2 ?  <Switch
+                        color="primary"
+                        name="checkedB"
+                        checked={row[columnname.key]}
+
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                      /> : <Typography> {row[columnname.key]}</Typography>}  
+                     
+                    </TableCell>
                 }
                     </>
                 

@@ -12,16 +12,25 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import "./Configuration.css"
 
-
+const useStyles = makeStyles(() => ({
+  root: {},
+  contantview: {
+   
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+}));
 export const Configuration = withRouter(props => {
-  const master_options = ['Tax Settings 1','Tax Settings 2','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Master Collections','Master Designs','Master Diamond Types',
+  const master_options = ['Attribute Master','Tax Settings 1','Tax Settings 2','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Master Collections','Master Designs','Master Diamond Types',
 'Master Diamond Settings','Master Diamond Shapes','Master Earring Backings','Master Gemstone Settings','Master Gemstone Shapes','Master Gemstone Types',
 'Master Gender','SEO Priorities']
-  const master_options_url = ['Taxsetup','taxsettings','material','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking',
+  const master_options_url = ['taxsettings','Taxsetup','taxsettings','categories','producttypes', 'materialmaster','mastercolors','masterpurities','collections','designs','diamonds','diamondsettings','diamondshapes','earringbacking',
   'gemstonesettings','gemstoneshapes','gemstonetypes','genders','seopriority']
 
   const [raised, setRaised] = React.useState(false);
   const [cardindex, setCardindex] = React.useState(-1);
+  const classes = useStyles();
 
   const onMouseOver = () => 
   {
@@ -34,7 +43,7 @@ export const Configuration = withRouter(props => {
 
   }
 
-   
+  
   return (
     <Grid container  spacing={3}>  
     {/* <AddContact contactlist={[]}/> */}
@@ -45,18 +54,18 @@ export const Configuration = withRouter(props => {
     </Grid>
     
     {master_options.map((text, index) => (
-    <Grid  item xs={6} sm={4} lg={3}  >
+    <Grid  item xs={6} sm={4} lg={3} >
     <Link underline='none' component={RouterLink} to={master_options_url[index]}>
      <Card fullwidth
      className="card2">
         <CardContent >
-          <Typography style={{textAlign: "center"}} component="h6" variant="h5">
+          <Typography style={{textAlign: "center",marginTop:8}} component="h6" variant="h5">
             {text}
           </Typography>
           
-          <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
+          {/* <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
             Lorem Ipsum
-          </Typography>
+          </Typography> */}
         </CardContent>
         
      
