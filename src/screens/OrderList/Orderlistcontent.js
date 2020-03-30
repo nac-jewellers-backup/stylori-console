@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
   },
   results: {
     marginTop: theme.spacing(3)
-  }
+  },
+  
 }));
   
 export default function Producttypecontent() {
@@ -37,7 +38,9 @@ export default function Producttypecontent() {
   function searchorder(searchtext)
   {
 
-    var data_filter = orderCtx.orderMaster.orders.filter( element => element.shoppingCartByCartId.userProfileByUserprofileId.email.match(searchtext+'.*'))
+    var data_filter = orderCtx.orderMaster.orders.filter( element => 
+      element.shoppingCartByCartId.userProfileByUserprofileId.email.match(searchtext+'.*')
+      )
     setOrders(data_filter)
   }
   useEffect(() => {

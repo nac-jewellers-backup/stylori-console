@@ -7,7 +7,13 @@ import { Grid, Typography, Button,TextField } from '@material-ui/core';
 import SortHeader from './SortHeader';
 
 const useStyles = makeStyles(() => ({
-  root: {}
+  root: {},
+  contantview: {
+   
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
 }));
 
 const Header = props => {
@@ -33,6 +39,7 @@ const Header = props => {
   }
   const handleinputChange =type => e => {
     setSearchtext(e.target.value)
+    props.onSearch(e.target.value)
   }
   const classes = useStyles();
 
@@ -47,7 +54,7 @@ const Header = props => {
         justify="space-between"
         spacing={3}
       >
-        <Grid item xs={3}>
+        <Grid item xs={3} className={classes.contantview}>
           {/* <Typography
             component="h2"
             gutterBottom
@@ -63,7 +70,7 @@ const Header = props => {
           </Typography> 
         </Grid>
         <Grid container xs={3} item spacing={2}>
-        <Grid xs={9} item>
+        <Grid xs={9} item className={classes.contantview}>
                <TextField
                     className={classes.helperinput}
                     variant="outlined"
@@ -80,14 +87,14 @@ const Header = props => {
                   />
 
           </Grid>
-        <Grid xs={3} item>
+        <Grid xs={3} item className={classes.contantview}>
         <Button variant= "contained" onClick={() => handlesearch()}>Search</Button>
 
           </Grid>
 
 
         </Grid>
-        <Grid item>
+        <Grid item className={classes.contantview}>
 
           <SortHeader columnnames={props.columns} getColumnnames={props.getColumnnames}/>
          

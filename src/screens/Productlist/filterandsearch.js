@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   typography: {
     padding: theme.spacing(2),
   },
+ 
 
 }));
 
@@ -69,9 +70,13 @@ export default function FormPropsTextFields(props) {
   }
   const handlecategoryChange = type => (event, value) => {
     setCategory( value.name)
+    props.applyfilter(searchtext, value.name, producttype)
+
 }
 const handletypeChange = type => (event, value) => {
   setProducttype(value.name)
+  props.applyfilter(searchtext, category, value.name  )
+
 }
   const handleMenuItemClick = (event, index) => {
     setAnchorEl(null);
@@ -89,7 +94,7 @@ const handletypeChange = type => (event, value) => {
 
   return (
     <div className="search" style={{ display: "flex", justifyContent: "space-around", background: "white", borderTop: "1px solid #e4e4e4", borderBottom: "1px solid #e4e4e4" }}>
-      <Grid lg={3} md={3} sm={3}>
+      <Grid lg={3} md={3} sm={3}  >
       <Autocomplete
                       
                       fullWidth
@@ -117,7 +122,7 @@ const handletypeChange = type => (event, value) => {
                       )}
                       />
       </Grid>
-      <Grid lg={3} md={3} sm={3}>
+      <Grid lg={3} md={3} sm={3} >
 
       <Autocomplete
                       id="free-solo-2-demo"

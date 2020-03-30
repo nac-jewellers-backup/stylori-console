@@ -36,22 +36,12 @@ export const Masterproducttypes = withRouter(props => {
 
   async function createtax(taxcontent)
   {
-    let response =  await sendNetworkRequest('/updatetax', {}, taxcontent)
 
+    let response =  await sendNetworkRequest('/manageproducttypes', {}, taxcontent)
+     getmaster()
   }
-  function applysearch(searchcontent)
+  async function getmaster()
   {
-    setSearchtext(searchcontent)
-  }
-  function addcategory()
-  {
-    setIsadd(true)
-  }
-  function cancelcreation()
-  {
-    setIsadd(false)
-  }
-  useEffect(() => {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
@@ -66,7 +56,24 @@ export const Masterproducttypes = withRouter(props => {
         setFiltervalue(fatchvalue.data.allMasterProductTypes.nodes)
       })
       .catch(console.error)
+  }
+  useEffect(() => {
+    getmaster()
   }, [])
+
+  function applysearch(searchcontent)
+  {
+    setSearchtext(searchcontent)
+  }
+  function addcategory()
+  {
+    setIsadd(true)
+  }
+  function cancelcreation()
+  {
+    setIsadd(false)
+  }
+
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 

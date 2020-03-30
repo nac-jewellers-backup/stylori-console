@@ -435,12 +435,12 @@ const handleSearchChange = type => e => {
                       variant="outlined"
                       margin="dense"
                       
-                      id="vendordeliverydays"
-                      name="vendordeliverydays"
+                      id={columnname.key}
+                      name={columnname.key}
                       value={editcontent[columnname.key]}
                       onChange={handleInputChange(columnname.key)}
   
-                      label="Vendor Delivery Days"
+                      label={columnname.label}
                      /> </TableCell>
                     </>
                 
@@ -472,12 +472,12 @@ const handleSearchChange = type => e => {
                       variant="outlined"
                       margin="dense"
                       
-                      id="vendordeliverydays"
-                      name="vendordeliverydays"
+                      id={columnname.key}
+                      name={columnname.key}
                       value={editcontent[columnname.key]}
                       onChange={handleInputChange(columnname.key)}
   
-                      label="Vendor Delivery Days"
+                      label={columnname.label}
                      /> </TableCell> :
                    <TableCell>{row[columnname.key]}</TableCell>
                 }

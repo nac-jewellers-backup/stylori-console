@@ -6,9 +6,9 @@
             "id": "Attribute Name"
         },
         {
-            "label": "Attriebute Vale",
+            "label": "Attriebute Value",
             "key":"attributeValue",
-            "id": "Attriebute Vale"
+            "id": "Attriebute Value"
         },
         {
             "label": "Priority",

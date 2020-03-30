@@ -7,6 +7,12 @@
             "id": "Name"
         },
         {
+            "label": "Colour Code",
+            "key":"colorCode",
+            "id": "Colour Code"
+        },
+        
+        {
             "label": "Actions",
             "key":"action",
             "id": "Actions"

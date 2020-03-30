@@ -24,7 +24,7 @@ export const Productlist = withRouter(props => {
         <Grid fullwidth item xs={6} sm={6}>
 
             <Typography component="h6" variant="h6">
-            Prodcuts
+            Products
           </Typography>
           </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >

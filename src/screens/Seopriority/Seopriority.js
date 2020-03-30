@@ -34,24 +34,15 @@ export const Seopriority = withRouter(props => {
 
   const [filtervalue, setFiltervalue] = React.useState([])
 
+ 
   async function createtax(taxcontent)
   {
-    let response =  await sendNetworkRequest('/updatetax', {}, taxcontent)
 
+    let response =  await sendNetworkRequest('/managematerials', {}, taxcontent)
+     getmaster()
   }
-  function applysearch(searchcontent)
+  async function getmaster()
   {
-    setSearchtext(searchcontent)
-  }
-  function addcategory()
-  {
-    setIsadd(true)
-  }
-  function cancelcreation()
-  {
-    setIsadd(false)
-  }
-  useEffect(() => {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
@@ -66,7 +57,23 @@ export const Seopriority = withRouter(props => {
         setFiltervalue(fatchvalue.data.allSeoUrlPriorities.nodes)
       })
       .catch(console.error)
+  }
+  useEffect(() => {
+    getmaster()
   }, [])
+  function applysearch(searchcontent)
+  {
+    setSearchtext(searchcontent)
+  }
+  function addcategory()
+  {
+    setIsadd(true)
+  }
+  function cancelcreation()
+  {
+    setIsadd(false)
+  }
+ 
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
@@ -88,7 +95,7 @@ export const Seopriority = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Material List"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title= {"Seo url Priorities"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>
     </>

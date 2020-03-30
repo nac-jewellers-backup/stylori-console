@@ -212,7 +212,7 @@ const Results = props => {
                                             value={editcontent.alias}
                                             onChange={handleInputChange('alias')}  
                                                                   label="alias"
-                                            /> </TableCell> :  <TableCell align="left">{row.alias} 
+                                            /> </TableCell> :  <TableCell align="left">{row.shortCode} 
                                               </TableCell> }
                                   {btnEdit.action && btnEdit.id == row.shortCode && !props.isadd ?
                                     <TableCell  style = {{width: 20}} align="center">

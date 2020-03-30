@@ -4,12 +4,28 @@
         {
             "label": "HSN Number",
             "key":"hsnNumber",
+            
             "id": "HSN Number"
         },
         {
-            "label": "Tax %",
+            "label": "Tax Name",
             "key":"taxName",
-            "id": "Tax %"
+            "id": "Tax Name"
+        },
+        {
+            "label": "IGST",
+            "key":"igst",
+            "id": "IGST"
+        },
+        {
+            "label": "CGST",
+            "key":"cgst",
+            "id": "CGST"
+        },
+        {
+            "label": "Tax Value",
+            "key":"taxValue",
+            "id": "Tax Value"
         },
         {
             "label": "Actions",

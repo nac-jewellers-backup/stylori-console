@@ -293,11 +293,13 @@ query  {
 
 const TaxList =`
 query  {
-  allMasterTaxSettings {
+  allMasterTaxSettings(orderBy: UPDATED_AT_DESC) {
     nodes {
       hsnNumber
       taxName
       taxValue
+      igst
+      cgst
       updatedAt
       id
     }
@@ -309,7 +311,7 @@ query  {
 
 const MASTERMATERIAL =`
 query  {
-  allMasterMaterials {
+  allMasterMaterials(orderBy: UPDATED_AT_DESC) {
     nodes {
       id
       name
@@ -319,7 +321,7 @@ query  {
 `;
 const MASTERMATERIALCOLORS =`
 query  {
-  allMasterMetalsColors {
+  allMasterMetalsColors(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       alias
@@ -331,7 +333,7 @@ query  {
 
 const MASTERPRODUCTPURITIES =`
 query  {
-  allMasterMetalsPurities {
+  allMasterMetalsPurities(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       id
@@ -341,7 +343,7 @@ query  {
 `;
 const DESIGNMASTER =`
 query  {
-allMasterDesigns {
+allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
     id
@@ -350,7 +352,7 @@ allMasterDesigns {
 }`;
 const COLLECTIONMASTER =`
 query  {
-  allMasterCollections {
+  allMasterCollections(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       id
@@ -361,7 +363,7 @@ query  {
 
 const DIAMONDMASTER =`
 query  {
-allMasterDiamondTypes {
+allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
     diamondClarity
     diamondColor
@@ -372,7 +374,7 @@ allMasterDiamondTypes {
 `;
 const DIAMONDSETTINGS =`
 query  {
-allMasterDiamondsSettings {
+allMasterDiamondsSettings(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
     id
@@ -382,7 +384,7 @@ allMasterDiamondsSettings {
 `;
 const DIAMONDSHAPES =`
 query  {
-  allMasterDiamondsShapes {
+  allMasterDiamondsShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       id
@@ -392,7 +394,7 @@ query  {
 `;
 const MASTERPRODUCTTYPES =`
 query  {
-allMasterProductTypes {
+allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
     id
@@ -403,7 +405,7 @@ allMasterProductTypes {
 
 const MASTERGEMSETTINGS =`
 query  {
-  allMasterGemstonesSettings {
+  allMasterGemstonesSettings(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       id
@@ -413,7 +415,7 @@ query  {
 
 const MASTERGEMSHAPES =`
 query  {
-  allMasterGemstonesShapes {
+  allMasterGemstonesShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       alias
@@ -422,7 +424,7 @@ query  {
 }`;
 const MASTERGEMTYPES =`
 query  {
-  allMasterGemstonesTypes {
+  allMasterGemstonesTypes(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       colorCode
@@ -431,7 +433,7 @@ query  {
 }`;
 const MASTERGENDER =`
 query  {
-  allMasterGenders {
+  allMasterGenders(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
       alias
@@ -441,7 +443,7 @@ query  {
 }`;
 const SEOPRIORITIES =`
 query  {
-  allSeoUrlPriorities {
+  allSeoUrlPriorities(orderBy: UPDATED_AT_DESC) {
     nodes {
       priority
       seoText
@@ -772,6 +774,18 @@ mutation MyMutation($productId:String!,$isActive:Boolean!) {
 }
 `;
 
+const CREATETAXSETUP = gql`
+mutation MyMutation($id:UUID!,$updatedAt:Date!,$createdAt:Date!,$taxValue:Double!,$taxName:String!,$hsnNumber:String!) {
+  __typename
+  createMasterTaxSetting(input: {masterTaxSetting: {id: $id, updatedAt: $updatedAt, createdAt: $createdAt, taxValue: $taxValue, taxName: $taxName, hsnNumber: $hsnNumber}}) {
+    clientMutationId
+  }
+}
+`;
+
+
+
+
 const VOUCHERSTATUSEDIT = gql`
 mutation MyMutation($voucherId:UUID!,$isActive:Boolean!) {
   __typename
@@ -1055,4 +1069,6 @@ query MyQuery($productId: String!) {
     MASTERGEMSHAPES ,
     MASTERGEMTYPES,
     MASTERGENDER ,
-    SEOPRIORITIES}
+    SEOPRIORITIES,
+    CREATETAXSETUP
+  }
