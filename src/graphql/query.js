@@ -463,6 +463,18 @@ query  {
     }
   }
 }`;
+const MASTERWEIGHTS =`
+query  {
+  allMasterWeights(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      alias
+      createdAt
+      name
+      id
+      updatedAt
+    }
+  }
+}`;
 
 const MASTERSTONESHAPES =`
 query  {
@@ -1171,5 +1183,6 @@ query MyQuery($productId: String!) {
     MASTERATTRIBUTES,
     MASTERSTONESHAPES,
     MASTERSTONECOLORS,
-    MASTERSTONES
+    MASTERSTONES,
+    MASTERWEIGHTS
   }

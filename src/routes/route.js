@@ -51,8 +51,9 @@ const route = {
     masterstones: '/masterstones',
     masterstonecolors: '/masterstonecolors',
     masterstoneshapes: '/masterstoneshapes',
+    weights: '/weights',
 
-
+    
     category: '/categories',
     
 

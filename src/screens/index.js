@@ -35,6 +35,8 @@ export * from "./Masterattribute"
 export * from "./Masterstones"
 export * from "./Masterstonecolors"
 export * from "./Masterstoneshapes"
+export * from "./Masterweights"
+
 
 
 

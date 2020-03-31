@@ -3,6 +3,7 @@
         {
             "id":1,
             "name":"Order ID",
+            "key":"orderid",
             "isActive": true,
             "disabled": true
 
@@ -10,54 +11,63 @@
         {
             "id":2,
             "name":"Order Date",
+            "key":"orderdate",
             "isActive": true,
             "disabled": false       
         },
         {
             "id":3,
             "name":"SKUs",
+            "key":"skus",
             "isActive": false,
             "disabled": false       
         },
         {
             "id":4,
             "name":"Customer Name",
+            "key":"username",
             "isActive":true,
             "disabled": false      
         },
         {
             "id":5,
             "name":"Email",
+            "key":"email",
             "isActive": true ,
             "disabled": false   
         },
         {
             "id":6,
             "name":"Phone Number",
+            "key":"mobile",
             "isActive":  true,
             "disabled": false       
         },
         {
             "id":7,
             "name":"Shipping Address",
+            "key":"address",
             "isActive": true,
             "disabled": false  
         },
         {
             "id":8,
             "name":"Gift Message",
+            "key":"giftmessage",
             "isActive":false,
             "disabled": false        
         },
         {
             "id":9,
-            "name": "Payment Type",
+            "name": "Payment Mode",
+            "key":"paymentmode",
             "isActive":true,
             "disabled": false        
         },
         {
             "id":10,
             "name":"Payment Status",
+            "key":"paymentstatus",
             "isActive":true,
             "disabled": false         
         },
@@ -84,57 +94,45 @@
     ],
     "defaultcolumnnames" : [
         {
-            "id":1,
             "name":"Order ID",
-            "isActive": true,
-            "disabled": true
+            "key":"orderid"
 
         },
         {
-            "id":2,
             "name":"Order Date",
-            "isActive": true,
-            "disabled": false       
+            "key":"orderdate"
+
         },
-       
         {
-            "id":4,
             "name":"Customer Name",
-            "isActive":true,
-            "disabled": false      
+            "key":"username"
+
         },
         {
-            "id":5,
             "name":"Email",
-            "isActive": true ,
-            "disabled": false   
+            "key":"email"
+
         },
         {
-            "id":6,
             "name":"Phone Number",
-            "isActive":  true,
-            "disabled": false       
+            "key":"mobile"
+
         },
         {
-            "id":7,
             "name":"Shipping Address",
-            "isActive": true,
-            "disabled": false  
-        },
-        
-        {
-            "id":9,
-            "name": "Payment Type",
-            "isActive":true,
-            "disabled": false        
+            "key":"address"
+
         },
         {
-            "id":10,
             "name":"Payment Status",
-            "isActive":false,
-            "disabled": false         
+            "key":"paymentstatus"
+
+        },
+        {
+            "name":"Payment Mode",
+            "key":"paymentmode"
+
         }
-      
       
         
     ],
@@ -145,7 +143,7 @@
         "Email",
         "Phone Number",
         "Shipping Address",
-        "Payment Type",
+        "Payment Mode",
         "Payment Status"
 
     ]

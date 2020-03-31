@@ -265,6 +265,8 @@ const   Vendor=(props)=> {
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
+  const [masterlist,setMasterlist] = React.useState(props.values)
+
   const [productlists,setProductlists] = React.useState([])
   const [allproductlists,setAllProductlists] = React.useState([])
   const [mastercategories,setMastercategories] = React.useState([])
@@ -285,8 +287,17 @@ const   Vendor=(props)=> {
       ...editcontent,
       isedit : false
     })
+    let masters = masterlist;
+    masters.insert(0, []);
+
+    setMasterlist(masters)
      setIsadd(true)
+     setBtnEdit({ ...btnEdit, id:null, action: true })
+
   }
+  Array.prototype.insert = function ( index, item ) {
+    this.splice( index, 0, item );
+};
   function Editvendor(vendordata) {
     delete vendordata['action'];
 
@@ -310,6 +321,7 @@ const   Vendor=(props)=> {
   function Cancelcreate() {
 
     props.onCancel();
+
     setBtnEdit({ ...btnEdit, id:'', action: false })
   }
   function searrchcontent()
@@ -317,8 +329,16 @@ const   Vendor=(props)=> {
     props.onSearch(editcontent.searchcontent)
 
   }
+  
   function CancelEdit(diamondData) {
-   
+   if(isadd)
+   {
+     let masters = masterlist;
+
+    masters.splice(0, 1)
+    setMasterlist(masterlist)
+
+   }
       setIsadd(false)
     setEditcontent({})
     setBtnEdit({ ...btnEdit, id:'', action: false })
@@ -341,10 +361,10 @@ const handleChange = type => (event) => {
     setOffsetValue(newPage*rowsPerPage)
 
   }
-  useEffect( () => {
 
-  
-  }, [])
+  useEffect( () => {
+    setMasterlist(props.values)
+  }, [props.values])
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -419,50 +439,9 @@ const handleChange = type => (event) => {
               onRequestSort={handleRequestSort}
             />
           <TableBody>
-          {props.values.map((row, index) => (
+          {masterlist.map((row, index) => (
             <>
-            {index === 0 && isadd ? <TableRow>
-
-              {props.columns.map((columnname, index) => (
-                <>
-                {columnname.key === 'action' ?                  
-                <TableCell align="center" style = {{width: 20}}>
-                 <Button  onClick={(e) => Savevendor()}><SaveIcon />
-                     </Button>
-                     <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
-                     </Button>
-                    
-              </TableCell> :
-                <>
-                <TableCell align="left">
-                {columnname.type === 2 ?  <Switch
-       
-                    color="primary"
-                    name="checkedB"
-                    value={editcontent[columnname.key]}
-                      onChange={handleChange(columnname.key)}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                  /> : null} 
-                {!columnname.type || columnname.type === 1 ?  <TextField
-                      variant="outlined"
-                      margin="dense"
-                      
-                      id={columnname.key}
-                      name={columnname.key}
-                      value={editcontent[columnname.key]}
-                      onChange={handleInputChange(columnname.key)}
-  
-                      label={columnname.label}
-                     /> : null } </TableCell>
-                    </>
-                
-
-                }
-                </>
-              ))}
-            </TableRow> : null
-
-            } 
+           
             
             <TableRow>
               {props.columns.map((columnname, index) => (

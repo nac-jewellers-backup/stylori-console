@@ -23,7 +23,7 @@ export const Taxsettings = withRouter(props => {
 
   async function createtax(taxcontent)
   {
-    let response =  await sendNetworkRequest('/managetaxsetup', {}, taxcontent)
+    let response =  await sendNetworkRequest('/managetaxsetup2', {}, taxcontent)
    // alert(JSON.stringify(response))
     getmaster()
   } 

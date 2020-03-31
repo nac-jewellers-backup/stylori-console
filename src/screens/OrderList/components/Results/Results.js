@@ -156,10 +156,12 @@ const Results = props => {
                       // key={order.id}
                       // selected={selectedOrders.indexOf(order.id) !== -1}
                     >
-                      
-                     
+                      {props.columnobjs.map(col => (
+                       
+                      <TableCell>{order[col.key]}</TableCell>
+                      ))}                      
 
-                      {props.showcolumns.indexOf('Order ID') > -1 ? <TableCell >{order.id}</TableCell> : null }
+                      {/* {props.showcolumns.indexOf('Order ID') > -1 ? <TableCell >{order.id}</TableCell> : null }
                       {props.showcolumns.indexOf('Order Date') > -1 ? <TableCell align="left" style = {{width: 120}}>            
                                   <Moment format="DD MMM YYYY hh:mm a">
                                   {order.createdAt}
@@ -175,7 +177,7 @@ const Results = props => {
                       {props.showcolumns.indexOf('Waybill No') > -1 ? <TableCell >{order.waybill}</TableCell> : null }
                       {props.showcolumns.indexOf('Comments') > -1 ? <TableCell >{order.comments}</TableCell> : null }
                       {props.showcolumns.indexOf('Pg Response') > -1 ? <TableCell >{order.pgresponse}</TableCell> : null }
-                      {props.showcolumns.indexOf('SKUs') > -1 ? <TableCell >{order.skus}</TableCell> : null }
+                      {props.showcolumns.indexOf('SKUs') > -1 ? <TableCell >{order.skus}</TableCell> : null } */}
 
                       {/* <TableCell align="center">
                       <IconButton aria-label="add to favorites">
