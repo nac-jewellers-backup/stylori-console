@@ -31,6 +31,8 @@ const route = {
     taxsetup: '/taxsetup',
     editdiscount: '/salediscount/:id',
     editvoucher: '/voucherdiscount/:id',
+    masterstyles: '/masterstyles',
+    masterthemes: '/masterthemes',
 
     mastercollections: '/collections',
     masterdesigns: '/designs',

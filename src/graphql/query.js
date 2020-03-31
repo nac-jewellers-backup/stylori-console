@@ -371,7 +371,30 @@ query  {
   }
 }
 `;
-
+const STYLEMASTER =`
+query  {
+allMasterStyles {
+  nodes {
+    alias
+    createdAt
+    name
+    id
+    updatedAt
+  }
+}
+}`;
+const THEMEMASTER =`
+query  {
+  allMasterThemes {
+    nodes {
+      createdAt
+      alias
+      id
+      name
+      updatedAt
+    }
+  }
+}`;
 const DIAMONDMASTER =`
 query  {
 allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
@@ -1184,5 +1207,7 @@ query MyQuery($productId: String!) {
     MASTERSTONESHAPES,
     MASTERSTONECOLORS,
     MASTERSTONES,
-    MASTERWEIGHTS
+    MASTERWEIGHTS,
+    THEMEMASTER,
+    STYLEMASTER
   }
