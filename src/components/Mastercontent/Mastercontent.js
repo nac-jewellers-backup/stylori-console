@@ -481,8 +481,8 @@ const handleChange = type => (event) => {
                       {columnname.type === 2 ?  <Switch
                         color="primary"
                         name="checkedB"
+                        onChange={handleInputChange(columnname.key)}
                         checked={row[columnname.key]}
-
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       /> : <Typography> {row[columnname.key]}</Typography>}  
                      

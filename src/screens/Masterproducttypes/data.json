@@ -17,6 +17,17 @@
             "id": "Certificate"
         },
         {
+            "label": "Filter Order",
+            "key":"displayOrder",
+            "id": "Filter Order"
+        },
+        {
+            "label": "Active",
+            "key":"isActive",
+            "id": "Active",
+            "type": 2
+        },
+        {
             "label": "Actions",
             "key":"action",
             "id": "Actions"

@@ -326,6 +326,9 @@ query  {
     nodes {
       id
       name
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -367,6 +370,19 @@ query  {
     nodes {
       name
       id
+    }
+  }
+}
+`;
+
+const OCCASSIONSMASTER =`
+query  {
+  allMasterOccasions {
+    nodes {
+      alias
+      id
+      name
+      updatedAt
     }
   }
 }
@@ -433,7 +449,9 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
     certificate
     name
     id
+    isActive
     shortCode
+    displayOrder
   }
 }
 }`;
@@ -1209,5 +1227,6 @@ query MyQuery($productId: String!) {
     MASTERSTONES,
     MASTERWEIGHTS,
     THEMEMASTER,
-    STYLEMASTER
+    STYLEMASTER,
+    OCCASSIONSMASTER
   }

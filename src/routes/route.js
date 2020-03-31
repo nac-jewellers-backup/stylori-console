@@ -33,6 +33,7 @@ const route = {
     editvoucher: '/voucherdiscount/:id',
     masterstyles: '/masterstyles',
     masterthemes: '/masterthemes',
+    masteroccassions: '/masteroccassions',
 
     mastercollections: '/collections',
     masterdesigns: '/designs',

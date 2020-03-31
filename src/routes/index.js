@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
-     ,Voucherdiscount,Masterstyles,Masterthemes, Salediscount,Masterweights,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
+     ,Voucherdiscount,Masterstyles,Masterthemes,Masteroccassions, Salediscount,Masterweights,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -52,7 +52,9 @@ const MainApp = () => {
                     <PrivateRoute  path={route.masterstonecolors} component={Masterstonecolors} />
                     <PrivateRoute  path={route.masterstoneshapes} component={Masterstoneshapes} />
                     <PrivateRoute  path={route.weights} component={Masterweights} />
+                    <PrivateRoute  path={route.masteroccassions} component={Masteroccassions} />
 
+                    
                     <PrivateRoute  path={route.masterstyles} component={Masterstyles} />
                     <PrivateRoute  path={route.masterthemes} component={Masterthemes} />
 
