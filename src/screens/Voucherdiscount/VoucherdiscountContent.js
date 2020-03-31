@@ -135,6 +135,7 @@ else    {
     setVoucherCtx({
       ...voucherCtx,
       vouchername: voucherobj.name,
+      vouchercode: voucherobj.voucher_codes,
       voucherdescription : voucherobj.description,
       isloggedin: voucherobj.isloginneeded,
       discounttype: discounttypeval,

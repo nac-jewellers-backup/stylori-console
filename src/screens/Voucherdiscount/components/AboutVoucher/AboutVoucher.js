@@ -269,8 +269,8 @@ const AboutVoucher = props => {
                        id="free-solo-2-demo"
                        multiple
                        freeSolo
-                       defaultValue={vouchercode}
-                       value={vouchercode}
+                       defaultValue={voucherCtx.vouchercode}
+                       value={vouchercode.length > 0 ? vouchercode : voucherCtx.vouchercode}
                        className={classes.fixedTag}
                        fullWidth
                        options={[]}
