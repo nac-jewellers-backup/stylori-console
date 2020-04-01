@@ -22,6 +22,12 @@
             "id": "Filter Order"
         },
         {
+            "label": "Include Filter",
+            "key":"isFilter",
+            "id": "Include Filter",
+            "type": 2
+        },
+        {
             "label": "Active",
             "key":"isActive",
             "id": "Active",

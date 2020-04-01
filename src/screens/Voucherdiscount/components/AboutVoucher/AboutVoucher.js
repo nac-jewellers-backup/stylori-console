@@ -270,7 +270,7 @@ const AboutVoucher = props => {
                        multiple
                        freeSolo
                        defaultValue={voucherCtx.vouchercode}
-                       value={vouchercode.length > 0 ? vouchercode : voucherCtx.vouchercode}
+                       value={props.isedit ? voucherCtx.vouchercode : vouchercode}
                        className={classes.fixedTag}
                        fullWidth
                        options={[]}
@@ -616,7 +616,7 @@ const AboutVoucher = props => {
           label="Start Date"
           fullWidth
           inputVariant="outlined"
-          value={selectedDate}
+          value={props.isedit ? voucherCtx.startdate : selectedDate} 
           minDate={new Date()}    
           onChange={handleDateChange}
         />
@@ -626,7 +626,7 @@ const AboutVoucher = props => {
       label="End Date"
       fullWidth
       inputVariant="outlined"
-      value={selectedendDate}
+      value={props.isedit ? voucherCtx.enddate : selectedendDate}
       minDate={selectedDate}
       strictCompareDates={true}
       onChange={handleendDateChange}

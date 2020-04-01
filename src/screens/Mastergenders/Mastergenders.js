@@ -94,7 +94,7 @@ export const Mastergenders = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Material List"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title= {"Genders"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>
     </>

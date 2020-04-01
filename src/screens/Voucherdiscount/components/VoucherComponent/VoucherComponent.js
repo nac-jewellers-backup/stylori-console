@@ -160,7 +160,7 @@ const VoucherComponent = props => {
                   <Autocomplete
                        id="free-solo-2-demo"
                        multiple
-                       value={attrobj.category}
+                       value={props.isedit ? voucherCtx.category : attrobj.category}
                        className={classes.fixedTag}
                        fullWidth
                        getOptionLabel={option => option.name}
@@ -187,13 +187,14 @@ const VoucherComponent = props => {
            <Autocomplete
            id="free-solo-2-demo"
            multiple
+
             value={attrobj.product_types}
            className={classes.fixedTag}
            fullWidth
            options={voucherCtx.voucherMaster.product_types}
            onChange={handleoptionChange('product_types')}
            getOptionLabel={option => option.name}
-           value={attrobj.product_types}
+           value={props.isedit ? voucherCtx.product_types : attrobj.product_types}
 
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
@@ -222,10 +223,10 @@ const VoucherComponent = props => {
           //  value={attrobj.componenets}
            className={classes.fixedTag}
            fullWidth
+           value={props.isedit ? voucherCtx.materials : attrobj.materials}
            options={voucherCtx.voucherMaster.materials}
            onChange={handleoptionChange('materials')}
            getOptionLabel={option => option.name}
-           value={attrobj.materials}
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -319,7 +320,9 @@ const VoucherComponent = props => {
            options={voucherCtx.voucherMaster.collections}
            onChange={handleoptionChange('collections')}
            getOptionLabel={option => option.name}
-           value={attrobj.collections}           renderTags={(value, getTagProps) =>
+           value={props.isedit ? voucherCtx.collections : attrobj.collections}
+
+                   renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
            ))
@@ -349,7 +352,8 @@ const VoucherComponent = props => {
            options={voucherCtx.voucherMaster.occations}
            onChange={handleoptionChange('occations')}
            getOptionLabel={option => option.name}
-           value={attrobj.occations} 
+           value={props.isedit ? voucherCtx.occations : attrobj.occations}
+
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -380,7 +384,8 @@ const VoucherComponent = props => {
            options={voucherCtx.voucherMaster.styles}
            onChange={handleoptionChange('styles')}
            getOptionLabel={option => option.name}
-           value={attrobj.styles}
+           value={props.isedit ? voucherCtx.styles : attrobj.styles}
+
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -411,7 +416,8 @@ const VoucherComponent = props => {
            options={voucherCtx.voucherMaster.themes}
            onChange={handleoptionChange('themes')}
            getOptionLabel={option => option.name}
-           value={attrobj.themes}
+           value={props.isedit ? voucherCtx.themes : attrobj.themes}
+
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -431,10 +437,10 @@ const VoucherComponent = props => {
            )}
            />
 </Grid> 
-      <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
+        {props.isedit ? null : <Grid item xs={12} style={{marginTop:16, textAlign:"center"}} >
 
           <Button onClick={() => props.onAdded(attrobj)} color="primary" variant="contained">Check Applicable Products</Button>
-        </Grid>
+           </Grid> }
         </Grid>    
      
       

@@ -12,6 +12,23 @@
             "id": "short code"
         },
         {
+            "label": "Filter order",
+            "key":"filterOrder",
+            "id": "Filter order"
+        },
+        {
+            "label": "Include Filter",
+            "key":"isFilter",
+            "id": "Include Filter",
+            "type": 2
+        },
+        {
+            "label": "Active",
+            "key":"isActive",
+            "id": "Active",
+            "type": 2
+        },
+        {
             "label": "Actions",
             "key":"action",
             "id": "Actions"

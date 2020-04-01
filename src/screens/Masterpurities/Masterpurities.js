@@ -94,7 +94,7 @@ export const Masterpurities = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Material List"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title= {"Metal Purity"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>
     </>

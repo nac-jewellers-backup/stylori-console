@@ -93,7 +93,7 @@ export const Masterstoneshapes = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Metal Colours"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title= {"Stone Shapes"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>
     </>
