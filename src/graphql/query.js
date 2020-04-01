@@ -340,6 +340,9 @@ query  {
       name
       alias
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -351,6 +354,9 @@ query  {
     nodes {
       name
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -370,6 +376,9 @@ query  {
     nodes {
       name
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -383,6 +392,9 @@ query  {
       id
       name
       updatedAt
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -396,6 +408,9 @@ allMasterStyles {
     name
     id
     updatedAt
+    isFilter
+    isActive
+    filterOrder
   }
 }
 }`;
@@ -408,6 +423,9 @@ query  {
       id
       name
       updatedAt
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -418,6 +436,9 @@ allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
     diamondClarity
     diamondColor
     id
+    isFilter
+    isActive
+    filterOrder
   }
 }
 }
@@ -428,6 +449,9 @@ allMasterDiamondsSettings(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
     id
+    isFilter
+    isActive
+    filterOrder
   }
 }
 }
@@ -438,6 +462,9 @@ query  {
     nodes {
       name
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }
@@ -450,6 +477,7 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
     name
     id
     isActive
+    isFilter
     shortCode
     displayOrder
   }
@@ -463,6 +491,9 @@ query  {
       id
       name
       shortCode
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -476,6 +507,9 @@ query  {
       alias
       updatedAt
       createdAt
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -490,6 +524,9 @@ query  {
       alias
       id
       name
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -501,6 +538,9 @@ query  {
       alias
       name
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -513,6 +553,9 @@ query  {
       name
       id
       updatedAt
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -526,6 +569,9 @@ query  {
       createdAt
       alias
       updatedAt
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -554,6 +600,9 @@ query  {
     nodes {
       name
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -565,6 +614,9 @@ query  {
       id
       name
       alias
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -575,6 +627,9 @@ query  {
       id
       name
       colorCode
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
@@ -585,6 +640,9 @@ query  {
       name
       alias
       id
+      isFilter
+      isActive
+      filterOrder
     }
   }
 }`;
