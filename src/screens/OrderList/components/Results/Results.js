@@ -141,7 +141,7 @@ const Results = props => {
 
   }
   function CancelEdit(diamondData) {
-    alert(diamondData.paymentstatus)
+  //  alert(diamondData.paymentstatus)
     // if(isadd)
     // {
     //   let masters = masterlist;
