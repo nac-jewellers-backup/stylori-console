@@ -92,6 +92,7 @@
         {
             "id":13,
             "name":"Pg Response",
+            "key":"pgresponse",
             "type":2,
             "isActive":false,
             "disabled": false         

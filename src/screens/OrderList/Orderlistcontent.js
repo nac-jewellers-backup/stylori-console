@@ -83,7 +83,9 @@ export default function Producttypecontent() {
         {
             let pgresponseobj = element.paymentDetailsByOrderId.nodes
             pgresponseobj.forEach(pgres => {
-                    orderobj['pgresponse'] = pgres.paymentResponse
+           let response_pg =   JSON.parse(pgres.paymentResponse)
+                    orderobj['pgresponse'] = response_pg.ipgTransactionId + ' \n'+response_pg.fail_reason+ ' \n'+response_pg.status
+
             } )
         }
         if(element.shoppingCartByCartId)
