@@ -59,6 +59,36 @@ export default function PriceupdateContent(props) {
   let response = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
   setOpen(false)
 }
+async function rerun(component)
+{
+  var  bodydata = {}
+  bodydata = {
+    component: component.label,
+    // req_product_id : products
+  }
+  let response = await sendNetworkRequest('/getincompletepricerun', {}, bodydata, false)
+  let history_id = response.id;
+  let update_products = response.products
+  if(response.products && response.products.length > 0)
+  {
+    setOpen(true)
+
+    var  bodydata = {}
+    bodydata = {
+      pricingcomponent: component.label,
+      req_product_id : update_products,
+      history_id : history_id
+    }
+    setStartrun(true)
+    let response1 = await sendNetworkRequest('/productpriceupdate', {}, bodydata, false)
+    setOpen(false)
+  }else
+  {
+    alert(" Doesn't have any incomplete products")
+  }
+  
+}
+
  async function filterapllied(filterdata, categories, producttypes)
   {
     var  bodydata = {}
@@ -113,7 +143,7 @@ export default function PriceupdateContent(props) {
   >
     <FullLoader title={"Run Diamond Price"} isopen={open} ></FullLoader>
      <AboutVoucher isdisabled={startrun} className={classes.aboutvoucher} apply={filterapllied} productids= {products.length > 0 ? products : []} categorylist={masters.category} producttypelist={masters.product_type} vendorlist={ masters.vendorcode} masterData= {masters} categories={['Fixed Amount','percentage','Free Shipping']} />
-    <Results products={products} pricingrows={rows} downloadlog={downloadlog} update={updateprices}/>
+    <Results products={products} pricingrows={rows} downloadlog={downloadlog} update={updateprices} resumeupdate={rerun}/>
   </Page>
   </MuiPickersUtilsProvider>
   );

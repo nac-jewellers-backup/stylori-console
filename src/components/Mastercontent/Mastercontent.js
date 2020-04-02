@@ -449,7 +449,8 @@ const handleChange = type => (event) => {
                 {columnname.key === 'action' ?                  
                 <TableCell align="center" style = {{width: 20}}>
                    {
-                    btnEdit.action && btnEdit.id == row.id  ?  <><Button  onClick={(e) => Savevendor()}><SaveIcon />
+                    btnEdit.action && btnEdit.id == row.id  ?  <>
+                    <Button  onClick={(e) => Savevendor()}><SaveIcon />
                      </Button>
                      <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                      </Button></> : <Button onClick={(e) => Editvendor(row)} ><EditIcon />

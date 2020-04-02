@@ -39,6 +39,8 @@ export * from "./Masterweights"
 export * from "./Masterstyles"
 export * from "./Masterthemes"
 export * from "./Masteroccassions"
+export * from "./Masterpaymentstatus"
+
 
 
 

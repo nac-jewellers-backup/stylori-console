@@ -443,6 +443,20 @@ allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
 }
 }
 `;
+
+const PAYMENTSTATUSMASTER =`
+query  {
+  allPaymentStatusMasters {
+    nodes {
+      createdAt
+      id
+      isActive
+      name
+      updatedAt
+    }
+  }
+}
+`;
 const DIAMONDSETTINGS =`
 query  {
 allMasterDiamondsSettings(orderBy: UPDATED_AT_DESC) {
@@ -1286,5 +1300,6 @@ query MyQuery($productId: String!) {
     MASTERWEIGHTS,
     THEMEMASTER,
     STYLEMASTER,
-    OCCASSIONSMASTER
+    OCCASSIONSMASTER,
+    PAYMENTSTATUSMASTER
   }

@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-// import moment from 'moment';
 import PropTypes from 'prop-types';
 // import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Moment from 'react-moment';
+import { TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/CancelOutlined';
+import EditIcon from '@material-ui/icons/Edit';
 
 import {
   Button,
   Card,
   CardActions,
   CardContent,
+  Chip,
   CardHeader,
   Divider,
   IconButton,
@@ -54,9 +59,13 @@ const useStyles = makeStyles(theme => ({
 
 const Results = props => {
   const { className, orders, ...rest } = props;
+  const [editcontent,setEditcontent] = React.useState({})
 
   const classes = useStyles();
-
+  const [btnEdit, setBtnEdit] = React.useState({
+    action: false,
+    id: ''
+  })
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -68,7 +77,13 @@ const Results = props => {
 
     setSelectedOrders(selectedOrders);
   };
+  const handleInputChange = type => e => {
+    setEditcontent({ ...editcontent, [type]: e.target.value  })
+  }
+  const handleoptionChange = type => (event, value) => {
+    setEditcontent({ ...editcontent, [type]: value  })
 
+  }
   const handleSelectOne = (event, id) => {
     const selectedIndex = selectedOrders.indexOf(id);
     let newSelectedOrders = [];
@@ -88,7 +103,14 @@ const Results = props => {
 
     setSelectedOrders(newSelectedOrders);
   };
-
+  async function Savevendor(refetch) {
+    props.onupdate(editcontent)
+   // setIsadd(false)
+  // alert(JSON.stringify(editcontent))
+//  let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
+  setBtnEdit({ ...btnEdit, id:'', action: false })
+ // refetch()
+}
   const handleChangePage = (event, page) => {
     setPage(page);
   };
@@ -96,7 +118,42 @@ const Results = props => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
+  function Editvendor(vendordata) {
+      let paymentstatusobj = {}
+      props.paymentstatus.forEach(element => {
+        if(vendordata.paymentstatus === element.name)
+        {
+          paymentstatusobj = element;
+        }
+      });
 
+     delete vendordata['action'];
+
+    
+    setEditcontent({
+      ...editcontent,
+      ...vendordata,
+      paymentstatus : paymentstatusobj,
+      isedit : true
+    })
+
+    setBtnEdit({ ...btnEdit, id:vendordata.orderid, action: true })
+
+  }
+  function CancelEdit(diamondData) {
+    alert(diamondData.paymentstatus)
+    // if(isadd)
+    // {
+    //   let masters = masterlist;
+ 
+    //  masters.splice(0, 1)
+    //  setMasterlist(masterlist)
+ 
+    // }
+    //    setIsadd(false)
+     setEditcontent({})
+     setBtnEdit({ ...btnEdit, id:'', action: false })
+   }
   const paymentStatusColors = {
     canceled: colors.grey[600],
     pending: colors.orange[600],
@@ -157,8 +214,55 @@ const Results = props => {
                       // selected={selectedOrders.indexOf(order.id) !== -1}
                     >
                       {props.columnobjs.map(col => (
+                        <>
+                        {col.key === 'action' ?   
+                        <TableCell align="center" style = {{width: 20}}>
+                        {
+                         btnEdit.action && btnEdit.id == order.orderid  ?  <>
+                         <Button  onClick={(e) => Savevendor()}><SaveIcon />
+                          </Button>
+                          <Button onClick={(e) => CancelEdit(order)}><CancelIcon />
+                          </Button></> : <Button onClick={(e) => Editvendor(order)} ><EditIcon />
+                     </Button>
+                         } 
+                   </TableCell> :
+                   <>
+                   {
+                    btnEdit.action && btnEdit.id == order.orderid  ?
+                        <TableCell>
+                          {!col.type ||  col.type == 1 ? <Typography> {order[col.key]}</Typography>:null } 
+                        { col.type == 2 ? <TextField
+                        variant="outlined"
+                        margin="dense"
+                        
+                        id={col.key}
+                        name={col.key}
+                        value={editcontent[col.key]}
+                        onChange={handleInputChange(col.key)}
+    
+                        label={col.label}
+                       />:null } 
+                       {col.type == 4 ? <Moment format="DD MMM YYYY hh:mm a">
+                                         {order[col.key]} 
+                                       </Moment>:null } 
+
+                  {col.type == 3 ? 
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={props.paymentstatus}
+                  margin="dense"
+                  fullWidth
+                  value={editcontent[col.key]}
+                  onChange={handleoptionChange(col.key)}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Payment Status" variant="outlined" />}
+                /> : null }
+                            
+                        </TableCell>  :  <TableCell align="center" style = {{width: 20}}> <Typography> {order[col.key]}</Typography> </TableCell> }
+                        </>
+                        }
                        
-                      <TableCell>{order[col.key]}</TableCell>
+                      </>
                       ))}                      
 
                       {/* {props.showcolumns.indexOf('Order ID') > -1 ? <TableCell >{order.id}</TableCell> : null }

@@ -39,6 +39,9 @@ export const ORDERS = gql`query {
       paymentStatus
       updatedAt
       createdAt
+      awbNumber
+      cartId
+      comments
       id
       shoppingCartByCartId {
         shoppingCartItemsByShoppingCartId {

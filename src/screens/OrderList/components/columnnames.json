@@ -11,6 +11,7 @@
         {
             "id":2,
             "name":"Order Date",
+            "type":4,
             "key":"orderdate",
             "isActive": true,
             "disabled": false       
@@ -54,6 +55,7 @@
             "id":8,
             "name":"Gift Message",
             "key":"giftmessage",
+            "type":2,
             "isActive":false,
             "disabled": false        
         },
@@ -67,6 +69,7 @@
         {
             "id":10,
             "name":"Payment Status",
+            "type":3,
             "key":"paymentstatus",
             "isActive":true,
             "disabled": false         
@@ -74,21 +77,33 @@
         {
             "id":11,
             "name":"Waybill No",
+            "type":2,
             "isActive":false,
             "disabled": false         
         },
         {
             "id":12,
             "name":"Comments",
+            "key":"comments",
+            "type":2,
             "isActive":false,
             "disabled": false         
         },
         {
             "id":13,
             "name":"Pg Response",
+            "type":2,
             "isActive":false,
             "disabled": false         
-        }   
+        },   
+        {
+            "id":14,
+            "name":"Actions",
+            "key":"action",
+            "type":3,
+            "isActive": true,
+            "disabled": true
+        }
       
         
     ],
@@ -100,8 +115,8 @@
         },
         {
             "name":"Order Date",
-            "key":"orderdate"
-
+            "key":"orderdate",
+            "type":4
         },
         {
             "name":"Customer Name",
@@ -125,12 +140,42 @@
         },
         {
             "name":"Payment Status",
-            "key":"paymentstatus"
+            "key":"paymentstatus",
+            "type":3
 
         },
         {
             "name":"Payment Mode",
             "key":"paymentmode"
+
+        },
+        {
+            "name":"AWB number",
+            "key":"awbNumber",
+            "type": 2
+
+        },
+        {
+            "name":"Comments",
+            "key":"comments",
+            "type": 2
+
+        },
+        {
+            "name":"Gift Message",
+            "key":"giftmessage",
+            "type":2
+               
+        },
+        {
+            "name":"Payment Mode",
+            "key":"paymentmode"
+
+        },
+        {
+            "name":"Actions",
+            "key":"action",
+            "type":3
 
         }
       
@@ -144,7 +189,10 @@
         "Phone Number",
         "Shipping Address",
         "Payment Mode",
-        "Payment Status"
+        "Payment Status",
+        "AWB Number",
+        "Comments",
+        "Actions"
 
     ]
     

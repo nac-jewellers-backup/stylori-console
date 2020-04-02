@@ -95,6 +95,12 @@ const Results = props => {
 
     props.update(e)
   }
+  function handleupdate(e) {
+    setStatus({...status, [e.id]:"0 out of "+props.products.length})
+
+    props.resumeupdate(e)
+  }
+  
 
   function handledownload(e) {
     props.downloadlog()
@@ -149,6 +155,8 @@ const Results = props => {
                     <TableCell align="center">Action</TableCell>
 
                     <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">Restart</TableCell>
+
                     <TableCell align="center">Log</TableCell>
 
                   </TableRow>
@@ -176,12 +184,17 @@ const Results = props => {
                           <RefreshIcon />
                         </IconButton>
                       </TableCell>
-                     
+                      <TableCell align="center">
+                      <Button color="primary"  onClick={(e) => handleupdate(order)} size="small">
+                        Resume
+                      </Button>
+                      </TableCell>
                       <TableCell align="center">
                       <Button color="primary"  onClick={(e) => handledownload()} size="small">
                         Download
                       </Button>
                       </TableCell>
+                     
                     </TableRow>
                   ))}
                 </TableBody>

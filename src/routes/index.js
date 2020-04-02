@@ -5,7 +5,7 @@ import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
      Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
-     ,Voucherdiscount,Masterstyles,Masterthemes,Masteroccassions, Salediscount,Masterweights,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
+     ,Voucherdiscount,Masterstyles,Masterthemes,Masteroccassions,Masterpaymentstatus, Salediscount,Masterweights,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
 import { GlobalContext } from '../context';
@@ -73,6 +73,8 @@ const MainApp = () => {
                     <PrivateRoute  path={route.earringbacking} component={Earringbacking} />
                     <PrivateRoute  path={route.gemsettings} component={Mastergemsettings} />
                     <PrivateRoute  path={route.gemshapes} component={Mastergemshapes} />
+                    <PrivateRoute  path={route.masterpaymentstatus} component={Masterpaymentstatus} />
+
                     
                     <PrivateRoute  path={route.gender} component={Mastergenders} />
                     <PrivateRoute  path={route.seo} component={Seopriority} />

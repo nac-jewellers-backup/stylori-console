@@ -44,10 +44,8 @@ const Header = props => {
   const classes = useStyles();
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div className="search" style={{ display: "flex", justifyContent: "space-around", background: "white", borderTop: "1px solid #e4e4e4", borderBottom: "1px solid #e4e4e4" }}>
+
       <Grid
         alignItems="flex-end"
         container
@@ -62,12 +60,12 @@ const Header = props => {
           >
             Management
           </Typography> */}
-           <Typography
+           {/* <Typography
             component="h1"
             variant="h5"
           >
              Order List
-          </Typography> 
+          </Typography>  */}
         </Grid>
         <Grid container xs={3} item spacing={2}>
         <Grid xs={9} item className={classes.contantview}>
@@ -88,13 +86,13 @@ const Header = props => {
 
           </Grid>
         <Grid xs={3} item className={classes.contantview}>
-        <Button variant= "contained" onClick={() => handlesearch()}>Search</Button>
+        {/* <Button variant= "contained" onClick={() => handlesearch()}>Search</Button> */}
 
           </Grid>
 
 
         </Grid>
-        <Grid item className={classes.contantview}>
+        <Grid item className={classes.contantview}   spacing={3}>
 
           <SortHeader columnnames={props.columns} getColumnnames={props.getColumnnames}/>
          

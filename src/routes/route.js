@@ -34,7 +34,7 @@ const route = {
     masterstyles: '/masterstyles',
     masterthemes: '/masterthemes',
     masteroccassions: '/masteroccassions',
-
+    masterpaymentstatus : '/paymentstatus',
     mastercollections: '/collections',
     masterdesigns: '/designs',
     
