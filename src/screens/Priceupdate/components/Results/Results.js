@@ -187,6 +187,7 @@ const Results = props => {
                       <TableCell align="center">
                       <Button color="primary"  onClick={(e) => handleupdate(order)} size="small">
                         Re Run
+                        
                       </Button>
                       </TableCell>
                       <TableCell align="center">
