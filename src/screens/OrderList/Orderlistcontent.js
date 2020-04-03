@@ -77,7 +77,8 @@ export default function Producttypecontent() {
        // orderobj['paymentstatusmaster'] = element.paymentStatus
        orderobj['awbNumber'] = element.awbNumber ? element.awbNumber : ""
        orderobj['comments'] = element.comments ? element.comments : ""
-
+       orderobj['orderstatus'] = element.orderStatus
+      
         orderobj['paymentstatus'] = element.paymentStatus
         if(element.paymentDetailsByOrderId)
         {
@@ -149,7 +150,7 @@ export default function Producttypecontent() {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-        setpaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes)
+        setpaymentstatus(fatchvalue.data.allOrderStatusMasters.nodes)
       })
       .catch(console.error)
   }
@@ -176,7 +177,7 @@ export default function Producttypecontent() {
     className={classes.root}
     title="Orders Management List"
   >
-    <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
+    {/* <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
         <Grid fullwidth item xs={6} sm={6}>
 
             <Typography component="h6" variant="h6">
@@ -184,11 +185,11 @@ export default function Producttypecontent() {
           </Typography>
           </Grid>
           
-    </Grid>
+    </Grid> */}
     <Header getColumnnames={columnchanged} onSearch={searchorder}  columns={columnnames}/>
     {filteredorder ? <Results
       className={classes.results}
-      paymentstatus={paymentstatus}
+      orderstatus={paymentstatus}
      orders={filteredorder}
      onupdate={updateorder}
      showcolumns={displaycolumnnames}

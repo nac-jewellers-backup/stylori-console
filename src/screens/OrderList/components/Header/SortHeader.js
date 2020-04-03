@@ -10,14 +10,14 @@ import Popover from '@material-ui/core/Popover';
 
 
 const useStyles = makeStyles(theme => ({
-    button: {
-        color:"#06847B",
-        border: "1px solid #7bbcb7",
-        '&:hover':{
-            backgroundColor: "rgba(6, 132, 123, 0.1)",
-            border: "1px solid #06847B",
-        }
-      },
+    // button: {
+    //     color:"#06847B",
+    //     border: "1px solid #7bbcb7",
+    //     '&:hover':{
+    //         backgroundColor: "rgba(6, 132, 123, 0.1)",
+    //         border: "1px solid #06847B",
+    //     }
+    //   },
 
 }));
 
@@ -38,17 +38,16 @@ function SortHeader(props){
      
         return(
             <Grid container lg={12} md={12} sm={12} xs={12} >
-                <Grid xl={8} lg={9} md={8} sm={7} xs={12}>
-                     {/* <h4 className="products">Variants Table</h4>    */}
-                </Grid>
-                <Grid container xl={4} lg={3} md={4} sm={5} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Grid className="column-btn" lg={5} md={5} sm={5} xs={5} style={{display: 'flex', justifyContent: 'flex-end'}}>
+               
+                <Grid container xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex',margin: '8px', justifyContent: 'flex-end'}}>
+                    <Grid className="column-btn" lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}} >
                         {/* <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button> */}
-                        <Button className="product" fullWidth size="large" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
+                        <Button className="product" fullWidth size="medium" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button>
+                        
                         <Popover
                             id={id}
                             open={open}

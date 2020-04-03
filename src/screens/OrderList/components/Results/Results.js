@@ -19,6 +19,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Grid,
   CardHeader,
   Divider,
   IconButton,
@@ -120,20 +121,20 @@ const Results = props => {
   };
   function Editvendor(vendordata) {
       let paymentstatusobj = {}
-      props.paymentstatus.forEach(element => {
-        if(vendordata.paymentstatus === element.name)
+      props.orderstatus.forEach(element => {
+        if(vendordata.orderstatus === element.name)
         {
           paymentstatusobj = element;
         }
       });
-
+      
      delete vendordata['action'];
 
     
     setEditcontent({
       ...editcontent,
       ...vendordata,
-      paymentstatus : paymentstatusobj,
+      orderstatus : paymentstatusobj,
       isedit : true
     })
 
@@ -162,22 +163,12 @@ const Results = props => {
   };
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      {/* <Typography
-        color="textSecondary"
-        gutterBottom
-        variant="body2"
-      >
-        {orders.length} Records found. Page {page + 1} of{' '}
-        {Math.ceil(orders.length / rowsPerPage)}
-      </Typography> */}
+    
       <Card>
-        
+       
         <CardContent className={classes.content}>
           {/* <PerfectScrollbar> */}
+          
             <div className={classes.tableWrapper}>
               <Table className={classes.table} border={1} borderColor={"#ddd"} size="small">
                 <TableHead>
@@ -249,7 +240,7 @@ const Results = props => {
                   {col.type == 3 ? 
                   <Autocomplete
                   id="combo-box-demo"
-                  options={props.paymentstatus}
+                  options={props.orderstatus}
                   margin="dense"
                   fullWidth
                   value={editcontent[col.key]}
@@ -310,8 +301,7 @@ const Results = props => {
           />
         </CardActions>
       </Card>
-      {/* <TableEditBar selected={selectedOrders} /> */}
-    </div>
+   
   );
 };
 

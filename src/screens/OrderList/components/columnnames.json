@@ -66,6 +66,7 @@
             "isActive":true,
             "disabled": false        
         },
+
         {
             "id":10,
             "name":"Payment Status",
@@ -73,6 +74,12 @@
             "key":"paymentstatus",
             "isActive":true,
             "disabled": false         
+        },
+        {
+            "name":"Order Status",
+            "key":"orderstatus",
+            "type": 3
+
         },
         {
             "id":11,
@@ -141,8 +148,7 @@
         },
         {
             "name":"Payment Status",
-            "key":"paymentstatus",
-            "type":3
+            "key":"paymentstatus"
 
         },
         {
@@ -151,9 +157,14 @@
 
         },
         {
-            "name":"AWB number",
-            "key":"awbNumber",
-            "type": 2
+            "name":"Payment Mode",
+            "key":"paymentmode"
+
+        },
+        {
+            "name":"Order Status",
+            "key":"orderstatus",
+            "type": 3
 
         },
         {
@@ -168,11 +179,7 @@
             "type":2
                
         },
-        {
-            "name":"Payment Mode",
-            "key":"paymentmode"
-
-        },
+       
         {
             "name":"Actions",
             "key":"action",

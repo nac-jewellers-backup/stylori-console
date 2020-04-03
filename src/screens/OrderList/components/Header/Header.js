@@ -9,10 +9,8 @@ import SortHeader from './SortHeader';
 const useStyles = makeStyles(() => ({
   root: {},
   contantview: {
-   
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
+    placeItems:"center",
   },
 }));
 
@@ -47,19 +45,17 @@ const Header = props => {
     <div className="search" style={{ display: "flex", justifyContent: "space-around", background: "white", borderTop: "1px solid #e4e4e4", borderBottom: "1px solid #e4e4e4" }}>
 
       <Grid
-        alignItems="flex-end"
+        className={classes.contantview}
         container
-        justify="space-between"
         spacing={3}
       >
-        <Grid item xs={3} className={classes.contantview}>
-          {/* <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
+        <Grid item xs={3} >
+           <Typography
+           variant="h4"
+           style={{margin: "8px"}}
           >
-            Management
-          </Typography> */}
+            Orders
+          </Typography>
            {/* <Typography
             component="h1"
             variant="h5"
@@ -67,8 +63,8 @@ const Header = props => {
              Order List
           </Typography>  */}
         </Grid>
-        <Grid container xs={3} item spacing={2}>
-        <Grid xs={9} item className={classes.contantview}>
+        <Grid container xs={3} item  >
+        <Grid xs={9} item >
                <TextField
                     className={classes.helperinput}
                     variant="outlined"
@@ -85,14 +81,14 @@ const Header = props => {
                   />
 
           </Grid>
-        <Grid xs={3} item className={classes.contantview}>
+        <Grid xs={3} item >
         {/* <Button variant= "contained" onClick={() => handlesearch()}>Search</Button> */}
 
           </Grid>
 
 
         </Grid>
-        <Grid item className={classes.contantview}   spacing={3}>
+        <Grid item    spacing={3} >
 
           <SortHeader columnnames={props.columns} getColumnnames={props.getColumnnames}/>
          

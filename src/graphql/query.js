@@ -446,7 +446,7 @@ allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
 
 const PAYMENTSTATUSMASTER =`
 query  {
-  allPaymentStatusMasters {
+  allOrderStatusMasters {
     nodes {
       createdAt
       id

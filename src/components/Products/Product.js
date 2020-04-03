@@ -41,7 +41,7 @@ const columns = [
   { id: 'product_type', label: 'product type' },
   { id: 'product_category', label: 'product category' },
   { id: 'isactive', label: 'active' },
-  { id: 'updatedAt', label: 'updated on' }
+  { id: 'updatedAt', label: 'Created on' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -479,7 +479,7 @@ function applyfilter(searchtext, categoryname, typename)
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  {row.updatedAt}
+                                  {row.createdAt}
                                   </Moment>
                                   </TableCell>
                                   

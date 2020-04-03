@@ -41,6 +41,7 @@ export const ORDERS = gql`query {
       createdAt
       awbNumber
       cartId
+      orderStatus
       comments
       id
       shoppingCartByCartId {

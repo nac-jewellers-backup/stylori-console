@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   inner: {
-    minWidth: 1150
+   // minWidth: 1150
+   overflowX: 'auto',
   },
   actions: {
     padding: theme.spacing(0, 1),
