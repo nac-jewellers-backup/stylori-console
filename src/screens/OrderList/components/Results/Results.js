@@ -237,6 +237,7 @@ const Results = props => {
                                          {order[col.key]} 
                                        </Moment>:null } 
 
+
                   {col.type == 3 ? 
                   <Autocomplete
                   id="combo-box-demo"
@@ -249,7 +250,14 @@ const Results = props => {
                   renderInput={(params) => <TextField {...params} label="Payment Status" variant="outlined" />}
                 /> : null }
                             
-                        </TableCell>  :  <TableCell align="center" style = {{width: 20}}> <Typography> {order[col.key]}</Typography> </TableCell> }
+                        </TableCell>  :  <TableCell align="center" style = {{width: 20}}>
+                          {col.type == 4 ? <Moment format="DD MMM YYYY hh:mm a">
+                                         {order[col.key]} 
+                             </Moment>: <Typography> {order[col.key]}</Typography> } 
+
+                          
+                           
+                           </TableCell> }
                         </>
                         }
                        

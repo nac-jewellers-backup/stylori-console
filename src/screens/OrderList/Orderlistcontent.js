@@ -47,7 +47,9 @@ export default function Producttypecontent() {
   {
 
     let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
-    getorders()
+    //window.location.reload();
+
+   // getorders()
   }
   function searchorder(searchtext)
   {
@@ -78,14 +80,21 @@ export default function Producttypecontent() {
        orderobj['awbNumber'] = element.awbNumber ? element.awbNumber : ""
        orderobj['comments'] = element.comments ? element.comments : ""
        orderobj['orderstatus'] = element.orderStatus
-      
+       if(element.paymentMode === 'COD')
+       {
         orderobj['paymentstatus'] = element.paymentStatus
+
+       }
         if(element.paymentDetailsByOrderId)
         {
             let pgresponseobj = element.paymentDetailsByOrderId.nodes
             pgresponseobj.forEach(pgres => {
            let response_pg =   JSON.parse(pgres.paymentResponse)
-                    orderobj['pgresponse'] = response_pg.ipgTransactionId + ' \n'+response_pg.fail_reason+ ' \n'+response_pg.status
+                    if(element.paymentMode === 'Prepaid')
+                    {
+                      orderobj['paymentstatus'] = response_pg.ipgTransactionId + ' \n'+response_pg.fail_reason+ ' \n'+response_pg.status
+
+                    }
 
             } )
         }

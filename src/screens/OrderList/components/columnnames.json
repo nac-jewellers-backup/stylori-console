@@ -84,6 +84,7 @@
         {
             "id":11,
             "name":"Waybill No",
+            "key": "awbNumber",
             "type":2,
             "isActive":false,
             "disabled": false         
@@ -96,14 +97,7 @@
             "isActive":false,
             "disabled": false         
         },
-        {
-            "id":13,
-            "name":"Pg Response",
-            "key":"pgresponse",
-            "type":2,
-            "isActive":false,
-            "disabled": false         
-        },   
+           
         {
             "id":14,
             "name":"Actions",
@@ -156,29 +150,8 @@
             "key":"paymentmode"
 
         },
-        {
-            "name":"Payment Mode",
-            "key":"paymentmode"
-
-        },
-        {
-            "name":"Order Status",
-            "key":"orderstatus",
-            "type": 3
-
-        },
-        {
-            "name":"Comments",
-            "key":"comments",
-            "type": 2
-
-        },
-        {
-            "name":"Gift Message",
-            "key":"giftmessage",
-            "type":2
-               
-        },
+        
+        
        
         {
             "name":"Actions",

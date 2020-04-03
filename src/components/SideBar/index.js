@@ -77,20 +77,20 @@ function SideBar() {
           
           <Link underline='none' component={RouterLink} to={'/productlist'}>
 
-            <ListItem button key={"Product List"}  >
+            <ListItem button key={"Product List"} selected={globalCtx.optionname === 'productlist'} onClick={handleClick('productlist')} >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
 
               <ListItemText primary={"Product List"} />
             </ListItem>
             </Link>
-            <ListItem button onClick={handleClick('Pricing')}>
+            <ListItem button  onClick={handleClick('Pricing')}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary="Pricing" />
-              {globalCtx.isExpand && globalCtx.optionname === 'Pricing' ? <ExpandLess /> : <ExpandMore />}
+              {globalCtx.optionname === 'Pricing' ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={globalCtx.isExpand  && globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
+            <Collapse in={globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/vendorpricesetup'}>
 
@@ -131,7 +131,7 @@ function SideBar() {
         </List>
       </Collapse>
           <Link underline='none' component={RouterLink} to={'/vendorlist'}>
-            <ListItem button key={"Vendorlist"}  >
+            <ListItem button key={"Vendorlist"} selected={globalCtx.optionname === 'vendorlist'} onClick={handleClick('vendorlist')}  >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
 
               <ListItemText primary={"Vendorlist"} />
@@ -139,15 +139,15 @@ function SideBar() {
             </Link>
             <Link underline='none' component={RouterLink} to={'/orderlist'}>
 
-            <ListItem button key={"Order List"}  >
+            <ListItem button key={"Order List"}  selected={globalCtx.optionname === 'orderlist'} onClick={handleClick('orderlist')} >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
 
               <ListItemText primary={"Order List"} />
             </ListItem>
             </Link>
-          <Link underline='none' component={RouterLink} to={'/configuration'}>
+          <Link underline='none' component={RouterLink} to={'/configuration'}  >
 
-            <ListItem button key={"Configuration"}  >
+            <ListItem button key={"Configuration"} selected={globalCtx.optionname === 'configuration'} onClick={handleClick('configuration')} >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
 
               <ListItemText primary={"Configuration"} />
@@ -155,7 +155,7 @@ function SideBar() {
             </Link>
             <Link underline='none' component={RouterLink} to={'/voucherdiscountlist'}>
 
-                <ListItem button key={"Vouchers"}  >
+                <ListItem button key={"Vouchers"}  selected={globalCtx.optionname === 'Vouchers'} onClick={handleClick('Vouchers')}>
                 <ListItemIcon><InboxIcon /> </ListItemIcon>
 
                   <ListItemText primary={"Vouchers"} />
