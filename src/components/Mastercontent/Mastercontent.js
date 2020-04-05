@@ -409,7 +409,7 @@ const handleChange = type => (event) => {
         
         </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
-          <Button variant="outlined"  onClick={()=>addnewvendor() } color="primary" >
+          <Button variant="contained"  onClick={()=>addnewvendor() } color="primary" >
            {props.button_title}
         </Button>
         

@@ -45,6 +45,14 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: 'auto',
+    overflowY: 'auto',
+    maxHeight: '100vh'
+  },
+  containergrid: {
+    overflowX: 'scroll',
+    width: 1000,
+    height: 20,
+    overflowY: 'hidden'
   },
   content: {
     padding: 0
@@ -169,7 +177,9 @@ const Results = props => {
         <CardContent className={classes.content}>
           {/* <PerfectScrollbar> */}
           
+         
             <div className={classes.tableWrapper}>
+              
               <Table className={classes.table} border={1} borderColor={"#ddd"} size="small">
                 <TableHead>
                   <TableRow>

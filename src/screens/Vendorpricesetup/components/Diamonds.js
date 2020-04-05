@@ -526,7 +526,7 @@ const   AddContact=(props)=> {
       />
       </Grid> */}
       <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="contained"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>

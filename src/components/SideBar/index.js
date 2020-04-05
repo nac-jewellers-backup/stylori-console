@@ -35,7 +35,14 @@ function SideBar() {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen })
   }
   const handleClick = type => e => {
-    setGlobalCtx({ ...globalCtx, "optionname": type , isExpand: !globalCtx.isExpand})
+    if(type === 'Pricing')
+    {
+      setGlobalCtx({ ...globalCtx, "optionname": type,selectedIndex: 1 , isExpand: !globalCtx.isExpand})
+
+    }else{
+      setGlobalCtx({ ...globalCtx, "optionname": type , isExpand: false})
+
+    }
 
   }
   // const handleClick  = type => e => {
@@ -45,7 +52,7 @@ function SideBar() {
   // }
   function handleListItemClick(event, index)
   {
-    setGlobalCtx({ ...globalCtx, selectedIndex: index,isExpand: !globalCtx.isExpand})
+    setGlobalCtx({ ...globalCtx, selectedIndex: index})
 
   }
 
@@ -88,9 +95,9 @@ function SideBar() {
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary="Pricing" />
-              {globalCtx.optionname === 'Pricing' ? <ExpandLess /> : <ExpandMore />}
+              {globalCtx.isExpand  && globalCtx.optionname === 'Pricing' ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
+            <Collapse in={globalCtx.isExpand  && globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/vendorpricesetup'}>
 

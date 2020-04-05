@@ -491,7 +491,7 @@ function applyfilter(searchtext, categoryname, typename)
           </Typography>
           </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right","padding":"8px"} } >
-            <Button variant="outlined" onClick={() => addnewvendor()}  color="primary" >
+            <Button variant="contained" onClick={() => addnewvendor()}  color="primary" >
               Add New Vendor
             </Button>
         
