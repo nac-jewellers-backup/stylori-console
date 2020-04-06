@@ -41,7 +41,7 @@ const columns = [
   { id: 'product_type', label: 'product type' },
   { id: 'product_category', label: 'product category' },
   { id: 'isactive', label: 'active' },
-  { id: 'updatedAt', label: 'Created on' }
+  { id: 'createdAt', label: 'Created on' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -357,7 +357,6 @@ const   AddContact=(props)=> {
   }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
-    
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
     getproductlist("","","","","",isAsc ? 'desc' : 'asc',property)
@@ -383,7 +382,6 @@ const   AddContact=(props)=> {
     order: sort ? sort : order,
     orderby : orderby ? orderby : orderBy
   }
-
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
   setProductlists(response.products.rows)
   setPageCount(response.products.count)

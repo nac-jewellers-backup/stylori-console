@@ -37,7 +37,7 @@ const Header = props => {
   }
   const handleinputChange =type => e => {
     setSearchtext(e.target.value)
-    props.onSearch(e.target.value)
+   //props.onSearch(e.target.value)
   }
   const classes = useStyles();
 
@@ -82,7 +82,7 @@ const Header = props => {
 
           </Grid>
         <Grid xs={3} item >
-        {/* <Button variant= "contained" onClick={() => handlesearch()}>Search</Button> */}
+        <Button variant= "contained" color="primary" onClick={() => handlesearch()} style={{ marginLeft: "10px", marginTop: "8px", marginBottom: "10px" }}>Search</Button> 
 
           </Grid>
 
