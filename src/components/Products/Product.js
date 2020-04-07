@@ -500,7 +500,6 @@ function applyfilter(searchtext, categoryname, typename)
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[50,100,200,500]}
-                colSpan={5}
                 count={pageCount}
                 rowsPerPage={rowsPerPage}
                 page={page}

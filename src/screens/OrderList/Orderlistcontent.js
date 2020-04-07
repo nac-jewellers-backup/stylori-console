@@ -29,6 +29,8 @@ export default function Producttypecontent() {
   const [columnnames, setColumnnames] = useState(Columns.columns);
   const [filteredorder, setFilteredorder] = useState([]);
   const [paymentstatus, setpaymentstatus] = useState([]);
+  const [orderstatus, setorderstatus] = useState([]);
+
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
@@ -45,9 +47,9 @@ export default function Producttypecontent() {
 
   async function updateorder(ordercontent)
   {
-
-    let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
-    //window.location.reload();
+  //  alert(JSON.stringify())
+  let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
+    window.location.reload();
 
    // getorders()
   }
@@ -160,6 +162,9 @@ export default function Producttypecontent() {
       .then(res => res.json())
       .then(fatchvalue => {
         setpaymentstatus(fatchvalue.data.allOrderStatusMasters.nodes)
+        setorderstatus(fatchvalue.data.allPaymentStatusMasters.nodes)
+
+        
       })
       .catch(console.error)
   }
@@ -199,6 +204,7 @@ export default function Producttypecontent() {
     {filteredorder ? <Results
       className={classes.results}
       orderstatus={paymentstatus}
+      paymentstatus={orderstatus}
      orders={filteredorder}
      onupdate={updateorder}
      showcolumns={displaycolumnnames}

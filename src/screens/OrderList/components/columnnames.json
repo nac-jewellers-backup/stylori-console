@@ -70,7 +70,7 @@
         {
             "id":10,
             "name":"Payment Status",
-            "type":3,
+            "type":5,
             "key":"paymentstatus",
             "isActive":true,
             "disabled": false         
@@ -142,7 +142,8 @@
         },
         {
             "name":"Payment Status",
-            "key":"paymentstatus"
+            "key":"paymentstatus",
+            "type": 5
 
         },
         {

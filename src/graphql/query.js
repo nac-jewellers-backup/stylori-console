@@ -454,6 +454,15 @@ query  {
       name
       updatedAt
     }
+  },
+  allPaymentStatusMasters {
+    nodes {
+      name
+      createdAt
+      id
+      isActive
+      updatedAt
+    }
   }
 }
 `;

@@ -247,7 +247,19 @@ const Results = props => {
                                          {order[col.key]} 
                                        </Moment>:null } 
 
-
+                   {col.type == 5 && order.paymentmode == 'COD' ? 
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={props.paymentstatus}
+                  margin="dense"
+                  fullWidth
+                  value={editcontent[col.key]}
+                  onChange={handleoptionChange(col.key)}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Payment Status" variant="outlined" />}
+                /> : null }  
+                {col.type == 5 && order.paymentmode != 'COD' ? <Typography> {order[col.key]}</Typography>:null } 
+       
                   {col.type == 3 ? 
                   <Autocomplete
                   id="combo-box-demo"
@@ -257,7 +269,7 @@ const Results = props => {
                   value={editcontent[col.key]}
                   onChange={handleoptionChange(col.key)}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Payment Status" variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
                 /> : null }
                             
                         </TableCell>  :  <TableCell align="center" style = {{width: 20}}>
