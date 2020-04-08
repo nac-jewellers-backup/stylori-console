@@ -13,6 +13,7 @@ import { MASTERSTONES, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
 import Page from '../../components/Page'
 import { NetworkContext } from '../../context/NetworkContext';
+import {Breadcrumbs} from '../../components'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -94,6 +95,8 @@ export const Masterstones = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
+    <Breadcrumbs></Breadcrumbs>
+
         <Mastercontent title= {"Stones"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>

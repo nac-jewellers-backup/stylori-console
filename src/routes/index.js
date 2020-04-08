@@ -4,7 +4,9 @@ import ApolloClient from 'apollo-boost';
 import route from './route';
 import { Dashboard, Login, Productupload, Configuration,
         Priceupdate,Vendorprice, Vendorlist,Markupprice,
-     Productlist, Materiallist, Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
+     Productlist, Materiallist,Masterorderstatus,Shippingzones,
+     Shipmentsettings,
+     Materialmaster, CategoryList,Mastermetalcolors,Masterpurities,Masterdesigns
      ,Voucherdiscount,Masterstyles,Masterthemes,Masteroccassions,Masterpaymentstatus, Salediscount,Masterweights,Taxsettings,Masterstones, Masterstonecolors, Masterstoneshapes,Masterattribute,Mastercategories, OrderList,Mastergemsettings,Seopriority,Mastergenders,Mastergemshapes,Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes,Taxsetup,Masterdiamonds,Masterdiamondsettings, DiscountList,VoucherdiscountListing, Mastercollections } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import {  NetworkProvider } from '../context/NetworkContext';
@@ -74,6 +76,9 @@ const MainApp = () => {
                     <PrivateRoute  path={route.gemsettings} component={Mastergemsettings} />
                     <PrivateRoute  path={route.gemshapes} component={Mastergemshapes} />
                     <PrivateRoute  path={route.masterpaymentstatus} component={Masterpaymentstatus} />
+                    <PrivateRoute  path={route.masterorderstatus} component={Masterorderstatus} />
+                    <PrivateRoute  path={route.shippingzones} component={Shippingzones} />
+                    <PrivateRoute  path={route.shipmentsettings} component={Shipmentsettings} />
 
                     
                     <PrivateRoute  path={route.gender} component={Mastergenders} />

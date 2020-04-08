@@ -63,7 +63,7 @@ const Header = props => {
              Order List
           </Typography>  */}
         </Grid>
-        <Grid container xs={3} item  >
+        <Grid container xs={6} item  >
         <Grid xs={9} item >
                <TextField
                     className={classes.helperinput}
@@ -82,15 +82,15 @@ const Header = props => {
 
           </Grid>
         <Grid xs={3} item >
-        <Button variant= "contained" color="primary" onClick={() => handlesearch()} style={{ marginLeft: "10px", marginTop: "8px", marginBottom: "10px" }}>Search</Button> 
+        <Button variant= "contained" color="primary" onClick={() => handlesearch()} style={{ marginLeft: "0px", marginTop: "8px", marginBottom: "10px" }}>Search</Button> 
 
           </Grid>
 
 
         </Grid>
-        <Grid item    spacing={3} >
+        <Grid xs={3}  item  alignItems={"flex-end"}  spacing={3} >
 
-          <SortHeader columnnames={props.columns} getColumnnames={props.getColumnnames}/>
+          <SortHeader  columnnames={props.columns} getColumnnames={props.getColumnnames}/>
          
         </Grid>
       </Grid>

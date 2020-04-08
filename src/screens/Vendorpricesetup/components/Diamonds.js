@@ -514,17 +514,7 @@ const   AddContact=(props)=> {
         {"Diamond Price Setup"}
       </Typography> 
       </Grid>
-      {/* <Grid item xs={6}> 
-      <TextField
-          variant="outlined"
-          margin="dense"
-          label="Search"
-          className={classes.helperinput}
-          onChange={handleinputChange('weight_start')}
-          id="productvendorcode"
-          name="Cost Price"
-      />
-      </Grid> */}
+     
       <Grid item xs={6} style={{textAlign: "right"}}>
         <Button color="primary" variant="contained"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New

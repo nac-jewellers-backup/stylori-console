@@ -40,6 +40,10 @@ export * from "./Masterstyles"
 export * from "./Masterthemes"
 export * from "./Masteroccassions"
 export * from "./Masterpaymentstatus"
+export * from "./Masterorderstatus"
+export * from "./Shippingzones"
+export * from "./Shipmentsettings"
+
 
 
 

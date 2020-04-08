@@ -14,6 +14,7 @@ import data from "./data.json"
 import Page from '../../components/Page'
 import { Header, Results } from './components';
 import { NetworkContext } from '../../context/NetworkContext';
+import {Breadcrumbs} from '../../components'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -86,6 +87,7 @@ export const Mastergemsettings = withRouter(props => {
     className={classes.root}
     title="Orders Management List"
   >
+<Breadcrumbs></Breadcrumbs>
 
     {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
     {/* <Results

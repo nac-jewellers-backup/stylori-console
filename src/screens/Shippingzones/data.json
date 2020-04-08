@@ -1,0 +1,42 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name"
+        },
+        {
+            "label": "Country",
+            "key":"country",
+            "defaultkey": "zonecountry",
+            "id": "Country",
+            "type": 3
+        },
+        {
+            "label": "Shipment Charge",
+            "key":"shipment",
+            "id": "Shipment Charge",
+            "type": 4
+        },
+        {
+            "label": "Active",
+            "key":"isActive",
+           
+            "id": "Active",
+            "type": 2
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

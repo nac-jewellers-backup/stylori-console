@@ -14,6 +14,7 @@ import data from "./data.json"
 import Page from '../../components/Page'
 import { Header, Results } from './components';
 import { NetworkContext } from '../../context/NetworkContext';
+import {Breadcrumbs} from '../../components'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -94,6 +95,8 @@ export const Masterthemes = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
+    <Breadcrumbs></Breadcrumbs>
+
         <Mastercontent title= {"Themes"} button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
     </Page>

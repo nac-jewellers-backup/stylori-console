@@ -76,14 +76,14 @@ const Header = props => {
         <Grid item>
         <Link underline='none' component={RouterLink} to={'/salediscount'}>
 
-          <Button
+          {/* <Button
             color="primary"
             variant="contained"
             onClick={()=>props.onAdd()}
 
           >
             Add New 
-          </Button>
+          </Button> */}
           </Link>
          
         </Grid>

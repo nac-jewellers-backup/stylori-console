@@ -13,6 +13,7 @@ import { MASTERATTRIBUTES, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
 import Page from '../../components/Page'
 import { NetworkContext } from '../../context/NetworkContext';
+import {Breadcrumbs} from '../../components'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -88,7 +89,7 @@ export const Masterattribute = withRouter(props => {
     className={classes.root}
     title="Orders Management List"
   >
-
+    <Breadcrumbs></Breadcrumbs>
     {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
     {/* <Results
        className={classes.results}

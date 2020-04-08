@@ -44,7 +44,7 @@ function SortHeader(props){
                         {/* <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button> */}
-                        <Button className="product" fullWidth size="medium" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
+                        <Button className="product" size="medium" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />
                         </Button>
                         

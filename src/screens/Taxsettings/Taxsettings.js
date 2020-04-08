@@ -14,6 +14,7 @@ import data from "./data.json"
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import { TaxSettingList, CREATETAXSETUP } from '../../graphql/query';
 import { NetworkContext } from '../../context/NetworkContext';
+import {Breadcrumbs} from '../../components'
 
 
 export const Taxsettings = withRouter(props => {
@@ -77,7 +78,8 @@ export const Taxsettings = withRouter(props => {
   return (
     <>
     <Grid container  spacing={2}>  
-   
+    <Breadcrumbs></Breadcrumbs>
+
     {/* <Mastercontent onCancel={canceltaxcreation} isadd={isadd} columns={data.columns}/>  */}
      <Mastercontent title={"Tax Setup"} button_title={"Add new"} onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 

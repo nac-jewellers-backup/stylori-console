@@ -1,0 +1,30 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name"
+        },
+        
+        
+        {
+            "label": "Active",
+            "key":"isActive",
+            "id": "Active",
+            "type": 2
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

@@ -554,6 +554,67 @@ query  {
   }
 }`;
 
+const MASTERCOUNTRIES =`
+query  {
+  allMasterCountries(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+      iso
+    }
+  }
+}`;
+const SHIPPINGCHARGES= `query{
+  allShippingCharges {
+    nodes {
+      id
+      name
+      isActive
+      chargeType
+      rangeFrom
+      rangeTo
+      shipmentCharge
+      productAttributes
+      shippingZoneByZoneId {
+        name
+        id
+        isActive
+      }
+    }
+  }
+}`
+const ACTIVESHIPPINGZONES =`
+query  {
+  allShippingZones(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+      isActive
+    }
+  }
+}`;
+const SHIPPINGZONES =`
+query  {
+  allShippingZones {
+    nodes {
+      name
+      id
+      isActive
+      shippingZoneCountriesByZoneId {
+        nodes {
+          countryId
+          createdAt
+          id
+          masterCountryByCountryId {
+            name
+            nicename
+            id
+          }
+        }
+      }
+    }
+  }
+}`;
 const MASTERSTONECOLORS =`
 query  {
   allMasterStonesColors(orderBy: UPDATED_AT_DESC) {
@@ -1310,5 +1371,9 @@ query MyQuery($productId: String!) {
     THEMEMASTER,
     STYLEMASTER,
     OCCASSIONSMASTER,
-    PAYMENTSTATUSMASTER
+    PAYMENTSTATUSMASTER,
+    SHIPPINGZONES,
+    MASTERCOUNTRIES,
+    SHIPPINGCHARGES,
+    ACTIVESHIPPINGZONES
   }

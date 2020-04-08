@@ -37,6 +37,10 @@ const route = {
     masterpaymentstatus : '/paymentstatus',
     mastercollections: '/collections',
     masterdesigns: '/designs',
+    masterorderstatus : '/orderstatus',
+    shippingzones : '/zones',
+    shipmensettings : '/shipmensettings',
+
     
     masterdiamonds: '/diamonds',
     diamondsettings: '/diamondsettings',

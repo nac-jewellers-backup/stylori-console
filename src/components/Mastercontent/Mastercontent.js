@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,7 +38,10 @@ import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import EnhancedTableHead from '../../components/EnhancedTableHead'
-
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import HomeIcon from '@material-ui/icons/Home';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import GrainIcon from '@material-ui/icons/Grain';
 // const columns = [
 //   { id: 'name', label: 'Name' },
 //   { id: 'vendorcode', label: 'Vendor Code' },
@@ -256,6 +260,14 @@ const useStyles2 = makeStyles(theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  link: {
+    display: 'flex',
+  },
+  icon: {
+    marginRight: theme.spacing(0.5),
+    width: 20,
+    height: 20,
+  },
 }));
 
 const   Vendor=(props)=> {
@@ -346,6 +358,10 @@ const   Vendor=(props)=> {
   const handleInputChange = type => e => {
     setEditcontent({ ...editcontent, [type]: e.target.value  })
 }
+const handleoptionChange = type => (event, value) => {
+  setEditcontent({ ...editcontent, [type]: value  })
+
+}
 const handleSearchChange = type => e => {
   props.onSearch(e.target.value)
 }
@@ -370,7 +386,11 @@ const handleChange = type => (event) => {
     setPage(0);
 
   }
- 
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
+  
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     
@@ -383,6 +403,7 @@ const handleChange = type => (event) => {
   
   return (
     <Paper className={classes.root}>
+      
        <Grid container item xs={12} style={{padding: "16px"}} sm={12} alignItems={"flex-end"}>
         <Grid fullwidth item xs={3} sm={3}>
 
@@ -467,6 +488,33 @@ const handleChange = type => (event) => {
                   name="checkedB"
                   inputProps={{ 'aria-label': 'primary checkbox' }}
                 /> : null}  
+                {columnname.type == 3 ? 
+                  <Autocomplete
+                  multiple
+                  id="combo-box-demo"
+                  options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
+                  margin="dense"
+                  fullWidth
+                  value={editcontent[columnname.defaultkey]}
+                  onChange={handleoptionChange(columnname.defaultkey)}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
+                /> : null }
+                 {columnname.type == 5 ? 
+                  <Autocomplete
+                  
+                  id="combo-box-demo"
+                  options={props.masters[columnname.mastervaluekey]}
+                  margin="dense"
+                  fullWidth
+                  options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
+                  onChange={handleoptionChange(columnname.defaultkey)}
+                  value={editcontent[columnname.defaultkey]}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
+                /> : null }
+                {columnname.type == 4 ?
+                <Typography> {row[columnname.key]}</Typography> : null}
                 {!columnname.type || columnname.type == 1 ? <TextField
                       variant="outlined"
                       margin="dense"
@@ -510,7 +558,7 @@ const handleChange = type => (event) => {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[50,100,200,500]}
-                colSpan={5}
+               
                 count={[props.values.length]}
                 rowsPerPage={rowsPerPage}
                 page={page}

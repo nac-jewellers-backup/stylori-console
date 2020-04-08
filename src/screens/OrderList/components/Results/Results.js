@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   table: {
-    minWidth: 500,
+   // minWidth: 500,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -77,7 +77,7 @@ const Results = props => {
   })
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSelectAll = event => {
     const selectedOrders = event.target.checked
@@ -180,7 +180,7 @@ const Results = props => {
          
             <div className={classes.tableWrapper}>
               
-              <Table className={classes.table} border={1} borderColor={"#ddd"} size="small">
+              <Table className={classes.table} size="small" border={1} borderColor={"#ddd"} size="small">
                 <TableHead>
                   <TableRow>
                   {props.columnobjs.map(column => (
@@ -327,7 +327,7 @@ const Results = props => {
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[50, 100, 250]}
+            rowsPerPageOptions={[10,50, 100, 250]}
           />
         </CardActions>
       </Card>
