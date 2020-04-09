@@ -17,6 +17,7 @@ import Page from '../../components/Page'
 import { NetworkContext } from '../../context/NetworkContext';
 import {Breadcrumbs} from '../../components'
 import {AttributesComponent} from './components'
+import { parse } from 'date-fns';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,6 +38,7 @@ export const Addshippingattributes = withRouter(props => {
   const [masters, setMasters] = React.useState({})
   const [mastervalue, setMastervalue] = React.useState([])
   const [selectedrate, setSelectedrate] = React.useState({})
+  const [selectedattr, setSelectedattr] = React.useState({})
 
   const classes = useStyles();
 
@@ -92,10 +94,23 @@ export const Addshippingattributes = withRouter(props => {
       .then(fatchvalue => {
         fatchvalue.data.allShippingCharges.nodes.forEach(element => {
         
-
           if(element.id == ratevalue)
           {
+            let attr = {}
             setSelectedrate(element)
+            alert(JSON.stringify(JSON.parse(element.productAttributes).category))
+            let categories = JSON.parse(element.productAttributes).category;
+            var selectedcategory = []
+            fatchvalue.data.allMasterProductCategories.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['category'] = selectedcategory
+            alert(JSON.stringify(attr))
+
+            setSelectedattr(attr)
           }
         })
         const diamondtypes = fatchvalue.data.allMasterDiamondTypes.nodes.map(_ => ({
@@ -220,7 +235,7 @@ export const Addshippingattributes = withRouter(props => {
     /> */}
     <Breadcrumbs></Breadcrumbs>
 
- <AttributesComponent isedit={false} selectedrate={selectedrate} masters={masters} onAdded={addattributes} className={classes.aboutvoucher} /> 
+ <AttributesComponent isedit={true} attributes={selectedattr ? selectedattr : {}} selectedrate={selectedrate} masters={masters} onAdded={addattributes} className={classes.aboutvoucher} /> 
 
     </Page>
     </>

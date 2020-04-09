@@ -288,6 +288,7 @@ export const SHIPPINGMASTER = `query {
     nodes {
       name
       id
+      productAttributes
     }
   }
   allMasterStyles {

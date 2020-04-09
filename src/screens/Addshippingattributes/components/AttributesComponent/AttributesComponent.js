@@ -72,7 +72,6 @@ const useStyles = makeStyles(theme => ({
 
 const AttributeComponent = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
   const [attrobj, setAttrobj] = useState({});
@@ -96,6 +95,10 @@ const AttributeComponent = props => {
     setSelected(option);
 
   };
+  useEffect(() => {
+    alert(JSON.stringify(props.attributes))
+    setAttrobj(props.attributes)
+  }, [props.attributes])
  const myFunction = () => {
     props.onAdded(attrobj)
   }
@@ -160,7 +163,6 @@ const AttributeComponent = props => {
                   <Autocomplete
                        id="free-solo-2-demo"
                        disabled
-                       value={props.isedit ? voucherCtx.category : attrobj.category}
                        className={classes.fixedTag}
                        fullWidth
                        getOptionLabel={option => option.name}
@@ -186,7 +188,7 @@ const AttributeComponent = props => {
                   <Autocomplete
                        id="free-solo-2-demo"
                        multiple
-                       value={props.isedit ? voucherCtx.category : attrobj.category}
+                       value={attrobj ? attrobj.category : []}
                        className={classes.fixedTag}
                        fullWidth
                        getOptionLabel={option => option.name}
@@ -214,13 +216,13 @@ const AttributeComponent = props => {
            id="free-solo-2-demo"
            multiple
 
-            value={attrobj.product_types}
+         //   value={attrobj.product_types}
            className={classes.fixedTag}
            fullWidth
             options={props.masters.product_types}
            onChange={handleoptionChange('product_types')}
            getOptionLabel={option => option.name}
-           value={props.isedit ? voucherCtx.product_types : attrobj.product_types}
+          // value={props.isedit ? voucherCtx.product_types : attrobj.product_types}
 
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
@@ -249,7 +251,7 @@ const AttributeComponent = props => {
           //  value={attrobj.componenets}
            className={classes.fixedTag}
            fullWidth
-           value={props.isedit ? voucherCtx.materials : attrobj.materials}
+         //  value={props.isedit ? voucherCtx.materials : attrobj.materials}
            options={props.masters.materials}
            onChange={handleoptionChange('materials')}
            getOptionLabel={option => option.name}
@@ -284,7 +286,7 @@ const AttributeComponent = props => {
  options={props.masters.purities}
  onChange={handleoptionChange('purities')}
  getOptionLabel={option => option.name}
- value={attrobj.purities}
+ //value={attrobj.purities}
  renderTags={(value, getTagProps) =>
  value.map((option, index) => (
  <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
@@ -346,7 +348,7 @@ const AttributeComponent = props => {
            options={props.masters.collections}
            onChange={handleoptionChange('collections')}
            getOptionLabel={option => option.name}
-           value={props.isedit ? voucherCtx.collections : attrobj.collections}
+          // value={props.isedit ? voucherCtx.collections : attrobj.collections}
 
                    renderTags={(value, getTagProps) =>
            value.map((option, index) => (
@@ -378,7 +380,7 @@ const AttributeComponent = props => {
             options={props.masters.occations}
            onChange={handleoptionChange('occations')}
            getOptionLabel={option => option.name}
-           value={props.isedit ? voucherCtx.occations : attrobj.occations}
+          // value={props.isedit ? voucherCtx.occations : attrobj.occations}
 
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
@@ -410,7 +412,7 @@ const AttributeComponent = props => {
            options={props.masters.styles}
            onChange={handleoptionChange('styles')}
            getOptionLabel={option => option.name}
-           value={props.isedit ? voucherCtx.styles : attrobj.styles}
+          // value={props.isedit ? voucherCtx.styles : attrobj.styles}
 
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
@@ -442,7 +444,7 @@ const AttributeComponent = props => {
             options={props.masters.themes}
            onChange={handleoptionChange('themes')}
            getOptionLabel={option => option.name}
-           value={props.isedit ? voucherCtx.themes : attrobj.themes}
+          // value={props.isedit ? voucherCtx.themes : attrobj.themes}
 
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (

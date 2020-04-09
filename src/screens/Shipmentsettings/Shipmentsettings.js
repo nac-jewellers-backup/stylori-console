@@ -169,7 +169,7 @@ export const Shipmentsettings = withRouter(props => {
     /> */}
     <Breadcrumbs></Breadcrumbs>
 
-        <Mastercontent title= {"Shipment Seettings"} 
+        <Mastercontent title= {"Shipment Settings"} 
         masters={masters}
         button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 

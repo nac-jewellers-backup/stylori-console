@@ -81,7 +81,6 @@ const MainApp = () => {
                     <PrivateRoute path={route.shippingzones} component={Shippingzones} />
                     <PrivateRoute path={route.shippingattributes} component={Shippingattributes} />
                     <PrivateRoute path={route.addshippingattributes} component={Addshippingattributes} />
-                    <PrivateRoute path={route.shipmentsettings} component={Shipmentsettings} />
 
 
 
@@ -96,6 +95,8 @@ const MainApp = () => {
 
                     <PrivateRoute exact path={`${route.productAttributes}/:id`} component={ProductAttributes} />
                     <PrivateRoute exact path={`${route.createVariant}`} component={CreateVariant} />
+                    <PrivateRoute path={route.shipmentsettings} component={Shipmentsettings} />
+
                 </Switch>
             </NetworkProvider>
             {/* </ProductProvider> */}

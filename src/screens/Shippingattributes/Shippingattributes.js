@@ -171,7 +171,7 @@ export const Shippingattributes = withRouter(props => {
     /> */}
     <Breadcrumbs></Breadcrumbs>
 
-        <Attributescontent title= {"Shipment Seettings II"} 
+        <Attributescontent title= {"Shipment Settings II"} 
         masters={masters}
         button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
 
