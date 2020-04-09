@@ -2,21 +2,21 @@
     "columns": [
         
         {
-            "label": "Name",
+            "label": "Shipping Zone",
             "key":"name",
-            "id": "Name"
+            "id": "Shipping Zone"
         },
         {
-            "label": "Country",
+            "label": "Shipping Countries",
             "key":"country",
             "defaultkey": "zonecountry",
-            "id": "Country",
+            "id": "Shipping Countries",
             "type": 3
         },
         {
-            "label": "Shipment Charge",
+            "label": "Shipping Rate Name",
             "key":"shipment",
-            "id": "Shipment Charge",
+            "id": "Shipping Rate Name",
             "type": 4
         },
         {

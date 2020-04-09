@@ -43,6 +43,9 @@ export * from "./Masterpaymentstatus"
 export * from "./Masterorderstatus"
 export * from "./Shippingzones"
 export * from "./Shipmentsettings"
+export * from "./Shippingattributes"
+export * from "./Addshippingattributes"
+
 
 
 

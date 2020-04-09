@@ -412,24 +412,28 @@ const handleChange = type => (event) => {
 
           </Typography>
           </Grid>
-          <Grid fullwidth item xs={3} sm={3} style={{"text-align":"right"}} >
-          <TextField
-                      variant="outlined"
-                      margin="dense"
-                      
-                      id="vendordeliverydays"
-                      name="vendordeliverydays"
-                      // value={editcontent[columnname.key]}
-                       onChange={handleSearchChange("searchcontent")}
-  
-                      label="Search text"
-                     />
-          {/* <Button variant="outlined"  onClick={()=>searrchcontent() } color="primary" >
+          <Grid fullwidth container xs={6} sm={6} alignItems="center" >
+          <Grid fullwidth item xs={9} sm={9}  >
+                <TextField
+                            variant="outlined"
+                            margin="dense"
+                            fullWidth
+                            autoComplete="off"
+                            id="vendordeliverydays"
+                            name="vendordeliverydays"
+                             value={editcontent.searchcontent}
+                            onChange={handleInputChange("searchcontent")}
+                            label="Search text"
+                          />
+                     </Grid>
+                     <Grid fullwidth item xs={3} sm={3}  >
+
+          <Button variant="contained"  onClick={()=>searrchcontent() } color="primary" >
             Search
-        </Button> */}
-        
+        </Button>
         </Grid>
-          <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
+        </Grid>
+          <Grid fullwidth item xs={3} sm={3} style={{"text-align":"right"}} >
           <Button variant="contained"  onClick={()=>addnewvendor() } color="primary" >
            {props.button_title}
         </Button>

@@ -40,12 +40,12 @@ const route = {
     masterorderstatus : '/orderstatus',
     shippingzones : '/zones',
     shipmensettings : '/shipmensettings',
-
-    
+    shippingattributes : '/shippingattributes',
     masterdiamonds: '/diamonds',
     diamondsettings: '/diamondsettings',
     diamondshapes: '/diamondshapes',
     earringbacking: '/earringbacking',
+    addshippingattributes : '/addshippingattributes',
 
     gemsettings: '/gemstonesettings',
     gemshapes: '/gemstoneshapes',

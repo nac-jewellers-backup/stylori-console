@@ -575,6 +575,7 @@ const SHIPPINGCHARGES= `query{
       rangeTo
       shipmentCharge
       productAttributes
+      displayAttributes
       shippingZoneByZoneId {
         name
         id

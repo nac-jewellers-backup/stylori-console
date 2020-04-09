@@ -231,3 +231,93 @@ export const VOUCHERMASTER = gql`query {
     }
   }
 }`
+
+
+
+export const SHIPPINGMASTER = `query {
+  
+  allMasterProductCategories {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+   allMasterMaterials {
+    nodes {
+      alias
+      id
+      name
+    }
+  },
+  allMasterCollections {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+  allShippingCharges(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+    }
+  }
+  allMasterStyles {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+
+  allMasterThemes {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+  allMasterDiamondTypes {
+    nodes {
+      shortCode
+      diamondColor
+      diamondClarity
+      id
+    }
+  }
+  allMasterOccasions {
+    nodes {
+      name
+      alias
+      id
+    }
+  }
+}`

@@ -180,7 +180,7 @@ const Results = props => {
          
             <div className={classes.tableWrapper}>
               
-              <Table className={classes.table} size="small" border={1} borderColor={"#ddd"} size="small">
+              <Table className={classes.table} stickyHeader size="small" border={1} borderColor={"#ddd"} size="small">
                 <TableHead>
                   <TableRow>
                   {props.columnobjs.map(column => (

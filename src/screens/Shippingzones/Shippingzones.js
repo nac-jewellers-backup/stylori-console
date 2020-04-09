@@ -123,7 +123,9 @@ export const Shippingzones = withRouter(props => {
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
-      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent+ ".*") : null 
+      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent.toLowerCase()+ ".*") : null ||
+      x.country.toLowerCase() ? x.country.toLowerCase().match(taxcontent.toLowerCase()+ ".*") : null 
+
     );
     setFiltervalue(filteredHomes)
   }
