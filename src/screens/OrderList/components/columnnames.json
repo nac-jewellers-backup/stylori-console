@@ -3,6 +3,7 @@
         {
             "id":1,
             "name":"Order ID",
+            "label":"Order ID",
             "key":"orderid",
             "isActive": true,
             "disabled": true
@@ -11,6 +12,7 @@
         {
             "id":2,
             "name":"Order Date",
+            "label":"Order ID",
             "type":4,
             "key":"orderdate",
             "isActive": true,
@@ -112,44 +114,47 @@
     "defaultcolumnnames" : [
         {
             "name":"Order ID",
-            "key":"orderid"
-
+            "key":"orderid",
+            "id":"orderid" 
         },
         {
             "name":"Order Date",
             "key":"orderdate",
+            "id":"orderdate",
             "type":4
         },
         {
             "name":"Customer Name",
-            "key":"username"
+            "key":"username",
+            "id":"username"
 
         },
         {
             "name":"Email",
-            "key":"email"
-
+            "key":"email",
+            "id":"email"
         },
         {
             "name":"Phone Number",
-            "key":"mobile"
-
+            "key":"mobile",
+            "id":"mobile"
         },
         {
             "name":"Shipping Address",
-            "key":"address"
-
+            "key":"address",
+            "id":"address"
         },
         {
             "name":"Payment Status",
             "key":"paymentstatus",
+            "id":"paymentstatus",
             "type": 5
 
         },
         {
             "name":"Payment Mode",
-            "key":"paymentmode"
-
+            "key":"paymentmode",
+            "id":"paymentmode"
         },
         
         

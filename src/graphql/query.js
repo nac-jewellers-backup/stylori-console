@@ -366,6 +366,9 @@ query  {
 allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
+    isFilter
+    isActive
+    filterOrder
     id
   }
 }

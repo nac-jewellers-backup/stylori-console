@@ -47,7 +47,6 @@ export default function Producttypecontent() {
 
   async function updateorder(ordercontent)
   {
-  //  alert(JSON.stringify())
   let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
     window.location.reload();
 

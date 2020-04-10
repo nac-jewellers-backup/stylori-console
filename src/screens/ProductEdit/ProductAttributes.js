@@ -259,7 +259,17 @@ async function saveProductEditItem() {
       "productid": prod_id,
       "isactive" : event.target.checked
     }
+    let esbody = {
+      "product_id": prod_id
+    }
+    var endpoint = '/reindex'
+    if(event.target.checked)
+    {
+      endpoint = '/esearch_forceindex'
+    }
     let response =  await sendNetworkRequest('/disableproduct', {}, bodycontent)
+
+    let esresponse =  await sendNetworkRequest(endpoint, {}, esbody)
 
     console.log("************")
     console.log(JSON.stringify(bodycontent))

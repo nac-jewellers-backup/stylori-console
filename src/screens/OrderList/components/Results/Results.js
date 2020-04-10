@@ -12,7 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import EditIcon from '@material-ui/icons/Edit';
-
+import EnhancedTableHead from "../../../../components/EnhancedTableHead"
 import {
   Button,
   Card,
@@ -69,7 +69,19 @@ const useStyles = makeStyles(theme => ({
 const Results = props => {
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].id : 'Order ID');
+  const handleRequestSort = (event, property) => {
 
+    const isAsc = orderBy === property && order === 'asc';
+
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+
+
+
+  };
+  
   const classes = useStyles();
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -95,6 +107,7 @@ const Results = props => {
   }
   const handleSelectOne = (event, id) => {
     const selectedIndex = selectedOrders.indexOf(id);
+    
     let newSelectedOrders = [];
 
     if (selectedIndex === -1) {
@@ -181,7 +194,7 @@ const Results = props => {
             <div className={classes.tableWrapper}>
               
               <Table className={classes.table} stickyHeader size="small" border={1} borderColor={"#ddd"} size="small">
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                   {props.columnobjs.map(column => (
                 <TableCell
@@ -191,7 +204,14 @@ const Results = props => {
                 >
                   {column.name}
                 </TableCell>
-              ))}
+              ))} */}
+              <EnhancedTableHead
+              columns={props.columnobjs}
+              classes={classes}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+            />
                     {/* <TableCell>Order ID</TableCell>
                     
                     <TableCell align="left">Order Date</TableCell>
@@ -206,8 +226,8 @@ const Results = props => {
                     <TableCell align="center">Comments</TableCell>
                     <TableCell align="center">PG Response</TableCell> */}
 
-                  </TableRow>
-                </TableHead>
+                  {/* </TableRow>
+                </TableHead> */}
                 <TableBody>
                   {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
                     <TableRow
