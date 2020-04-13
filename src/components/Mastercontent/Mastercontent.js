@@ -515,7 +515,7 @@ const handleChange = type => (event) => {
                   onChange={handleoptionChange(columnname.defaultkey)}
                   value={editcontent[columnname.defaultkey]}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} label={columnname.label} variant="outlined" />}
                 /> : null }
                 {columnname.type == 4 ?
                 <Typography> {row[columnname.key]}</Typography> : null}

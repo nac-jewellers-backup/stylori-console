@@ -39,6 +39,7 @@ export const Addshippingattributes = withRouter(props => {
   const [mastervalue, setMastervalue] = React.useState([])
   const [selectedrate, setSelectedrate] = React.useState({})
   const [selectedattr, setSelectedattr] = React.useState({})
+  const [isloaded, setIsloaded] = React.useState(false)
 
   const classes = useStyles();
 
@@ -92,14 +93,19 @@ export const Addshippingattributes = withRouter(props => {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
+        let selectedattributes = [];
+        const diamondtypes = fatchvalue.data.allMasterDiamondTypes.nodes.map(_ => ({
+          ..._,
+          "alias": _.shortCode,
+          "diamondtype":_.diamondColor+_.diamondClarity
+      }))
         fatchvalue.data.allShippingCharges.nodes.forEach(element => {
         
           if(element.id == ratevalue)
           {
             let attr = {}
             setSelectedrate(element)
-            alert(JSON.stringify(JSON.parse(element.productAttributes).category))
-            let categories = JSON.parse(element.productAttributes).category;
+            let categories = element.productAttributes;
             var selectedcategory = []
             fatchvalue.data.allMasterProductCategories.nodes.forEach(catobj => {
               if(categories.indexOf(catobj.alias) > -1)
@@ -108,16 +114,79 @@ export const Addshippingattributes = withRouter(props => {
               }
             })
             attr['category'] = selectedcategory
-            alert(JSON.stringify(attr))
+            selectedcategory = []
+            fatchvalue.data.allMasterProductTypes.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['product_types'] = selectedcategory
 
+            selectedcategory = []
+            fatchvalue.data.allMasterMaterials.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['materials'] = selectedcategory
+            selectedcategory = []
+            fatchvalue.data.allMasterMetalsPurities.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['purities'] = selectedcategory
+            selectedcategory = []
+            fatchvalue.data.allMasterCollections.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['collections'] = selectedcategory
+            selectedcategory = []
+            fatchvalue.data.allMasterOccasions.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            
+            attr['occations'] = selectedcategory
+            selectedcategory =[]
+            fatchvalue.data.allMasterStyles.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['styles'] = selectedcategory
+            selectedcategory =[]
+            fatchvalue.data.allMasterThemes.nodes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+            attr['themes'] = selectedcategory
+            selectedcategory =[]
+            diamondtypes.forEach(catobj => {
+              if(categories.indexOf(catobj.alias) > -1)
+              {
+                selectedcategory.push(catobj)
+              }
+            })
+
+            attr['components'] = selectedcategory
             setSelectedattr(attr)
           }
         })
-        const diamondtypes = fatchvalue.data.allMasterDiamondTypes.nodes.map(_ => ({
-          ..._,
-          "alias": _.shortCode,
-          "diamondtype":_.diamondColor+_.diamondClarity
-      }))
+       
+      
+      setIsloaded(true)
         setMasters({
           product_categories : fatchvalue.data.allMasterProductCategories.nodes,
           product_types : fatchvalue.data.allMasterProductTypes.nodes,
@@ -133,7 +202,7 @@ export const Addshippingattributes = withRouter(props => {
 
       })
       .catch(console.error)
-
+      
   }
   async function getmaster()
   {
@@ -234,8 +303,8 @@ export const Addshippingattributes = withRouter(props => {
       onCancel={cancelcreation}
     /> */}
     <Breadcrumbs></Breadcrumbs>
-
- <AttributesComponent isedit={true} attributes={selectedattr ? selectedattr : {}} selectedrate={selectedrate} masters={masters} onAdded={addattributes} className={classes.aboutvoucher} /> 
+    
+ {isloaded ?  <AttributesComponent isedit={false} attributes={selectedattr ? selectedattr : {}} selectedrate={selectedrate} masters={masters} onAdded={addattributes} className={classes.aboutvoucher} /> : null} 
 
     </Page>
     </>

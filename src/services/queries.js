@@ -235,7 +235,6 @@ export const VOUCHERMASTER = gql`query {
 
 
 export const SHIPPINGMASTER = `query {
-  
   allMasterProductCategories {
     nodes {
       name

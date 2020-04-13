@@ -74,7 +74,7 @@ const AttributeComponent = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx ,voucherMaster} = React.useContext(VoucherContext);
-  const [attrobj, setAttrobj] = useState({});
+  const [attrobj, setAttrobj] = useState(props.attributes);
   const [isgold, setIsgold] = useState(false);
   const [isdiamond, setIsdiamond] = useState(false);
   const [tabnames, setTabnames] = useState([
@@ -96,8 +96,8 @@ const AttributeComponent = props => {
 
   };
   useEffect(() => {
-    alert(JSON.stringify(props.attributes))
-    setAttrobj(props.attributes)
+    // alert(JSON.stringify(props.attributes))
+    // setAttrobj(props.attributes)
   }, [props.attributes])
  const myFunction = () => {
     props.onAdded(attrobj)
@@ -216,7 +216,7 @@ const AttributeComponent = props => {
            id="free-solo-2-demo"
            multiple
 
-         //   value={attrobj.product_types}
+           value={attrobj.product_types}
            className={classes.fixedTag}
            fullWidth
             options={props.masters.product_types}
@@ -248,7 +248,7 @@ const AttributeComponent = props => {
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+           value={attrobj.materials}
            className={classes.fixedTag}
            fullWidth
          //  value={props.isedit ? voucherCtx.materials : attrobj.materials}
@@ -274,13 +274,13 @@ const AttributeComponent = props => {
            )}
            />
 </Grid>
-{isgold ? 
+{isgold ||  attrobj.purities ? 
   <Grid   item xs={4} sm={4} >
             
   <Autocomplete
  id="free-solo-2-demo"
  multiple
-//  value={attrobj.componenets}
+  value={attrobj.purities}
  className={classes.fixedTag}
  fullWidth
  options={props.masters.purities}
@@ -307,17 +307,19 @@ const AttributeComponent = props => {
  />
 </Grid>  : null
 }
-{isdiamond ? 
+{isdiamond || attrobj.components ? 
 <Grid   item xs={4} sm={4} >
             
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+            value={attrobj.components}
            className={classes.fixedTag}
            fullWidth
-           options={props.masters.diamondtypes.map(option => option.diamondtype)}
-           onChange={handleoptionChange('componenets')}
+           getOptionLabel={option => option.diamondtype}
+
+           options={props.masters.diamondtypes}
+           onChange={handleoptionChange('components')}
            renderTags={(value, getTagProps) =>
            value.map((option, index) => (
            <Chip variant="outlined" size="small" label={option.diamondtype} {...getTagProps({ index })} />
@@ -342,7 +344,7 @@ const AttributeComponent = props => {
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+            value={attrobj.collections}
            className={classes.fixedTag}
            fullWidth
            options={props.masters.collections}
@@ -374,7 +376,7 @@ const AttributeComponent = props => {
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+            value={attrobj.occations}
            className={classes.fixedTag}
            fullWidth
             options={props.masters.occations}
@@ -406,7 +408,7 @@ const AttributeComponent = props => {
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+            value={attrobj.styles}
            className={classes.fixedTag}
            fullWidth
            options={props.masters.styles}
@@ -438,7 +440,7 @@ const AttributeComponent = props => {
             <Autocomplete
            id="free-solo-2-demo"
            multiple
-          //  value={attrobj.componenets}
+            value={attrobj.themes}
            className={classes.fixedTag}
            fullWidth
             options={props.masters.themes}
