@@ -15,7 +15,7 @@
         },
         {
             "label": "Shipping Rate Name",
-            "key":"shipment",
+            "key":"charges",
             "id": "Shipping Rate Name",
             "type": 4
         },

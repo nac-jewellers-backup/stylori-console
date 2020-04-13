@@ -616,6 +616,11 @@ query  {
           }
         }
       }
+      shippingChargesByZoneId {
+        nodes {
+          name
+        }
+      }
     }
   }
 }`;

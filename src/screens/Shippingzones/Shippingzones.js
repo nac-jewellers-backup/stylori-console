@@ -75,6 +75,7 @@ export const Shippingzones = withRouter(props => {
           fatchvalue.data.allShippingZones.nodes.forEach(element => {
             let countries = []
             let countrydefault = []
+            let shippingcharges = []
 
             if(element.shippingZoneCountriesByZoneId)
             {
@@ -87,11 +88,22 @@ export const Shippingzones = withRouter(props => {
                 })
               }
             }
+            if(element.shippingChargesByZoneId)
+            {
+              
+              if(element.shippingChargesByZoneId.nodes)
+              {
+                element.shippingChargesByZoneId.nodes.forEach(countryobj => {
+                  shippingcharges.push(countryobj.name)
+                })
+              }
+            }
             let zoneobj = {
               id : element.id,
               isActive : element.isActive,
               name : element.name,
               country  : countries.join(" , "),
+              charges : shippingcharges.join(" , "),
               zonecountry : countrydefault
             }
             zones.push(zoneobj)
