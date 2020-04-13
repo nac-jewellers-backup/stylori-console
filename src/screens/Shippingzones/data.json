@@ -22,7 +22,6 @@
         {
             "label": "Active",
             "key":"isActive",
-           
             "id": "Active",
             "type": 2
         },
