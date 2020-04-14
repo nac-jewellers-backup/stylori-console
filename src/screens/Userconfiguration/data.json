@@ -1,0 +1,17 @@
+{
+    "options": [
+        {
+            "title": "Users",
+            "url":"/manageadminusers"
+        },
+        {
+            "title": "Roles & Permissions",
+            "url":"/masterroles"
+        },
+        {
+            "title": "Pages",
+            "url":"/masterpages"
+        }
+       
+    ]
+}

@@ -97,6 +97,7 @@ export const Shipmentsettings = withRouter(props => {
             shipobj['rangeTo'] = element.rangeTo;
             shipobj['shipmentCharge'] = element.shipmentCharge;
             shipobj['isActive'] = element.isActive;
+            shipobj['isCart'] = element.isCart;
 
                 if(element.shippingZoneByZoneId)
                 {

@@ -37,7 +37,7 @@ function SideBar() {
   const handleClick = type => e => {
     if(type === 'Pricing')
     {
-      setGlobalCtx({ ...globalCtx, "optionname": type,selectedIndex: 1 , isExpand: !globalCtx.isExpand})
+      setGlobalCtx({ ...globalCtx, "optionname": type,selectedIndex: 5 , isExpand: !globalCtx.isExpand})
 
     }else{
       setGlobalCtx({ ...globalCtx, "optionname": type , isExpand: false})
@@ -99,6 +99,15 @@ function SideBar() {
             </ListItem>
             <Collapse in={globalCtx.isExpand  && globalCtx.optionname === 'Pricing'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+        <Link underline='none' component={RouterLink} to={'/goldpriceupdate'}>
+
+<ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 5} onClick={event => handleListItemClick(event, 5)}>
+  <ListItemIcon>
+    <StarBorder />
+  </ListItemIcon>
+  <ListItemText primary="Gold Price Setup" />
+</ListItem>
+</Link>
         <Link underline='none' component={RouterLink} to={'/vendorpricesetup'}>
 
           <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === 1} onClick={event => handleListItemClick(event, 1)}>
@@ -137,6 +146,14 @@ function SideBar() {
           </Link>
         </List>
       </Collapse>
+      <Link underline='none' component={RouterLink} to={'/manageusers'}>
+       <ListItem button selected={globalCtx.optionname === 'Users'} onClick={handleClick('Users')}>
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary="User List" />
+      </ListItem> 
+      </Link>
           <Link underline='none' component={RouterLink} to={'/vendorlist'}>
             <ListItem button key={"Vendorlist"} selected={globalCtx.optionname === 'vendorlist'} onClick={handleClick('vendorlist')}  >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
@@ -168,13 +185,14 @@ function SideBar() {
                   <ListItemText primary={"Vouchers"} />
                 </ListItem>
                 </Link>
-       {/* <ListItem button onClick={handleClick('Discounts')}>
+      <Link underline='none' component={RouterLink} to={'/userconfiguration'}>
+       <ListItem button selected={globalCtx.optionname === 'Usermanagement'} onClick={handleClick('Usermanagement')}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Discounts" />
-        {globalCtx.isExpand && globalCtx.optionname === 'Discounts' ? <ExpandLess /> : <ExpandMore />}
-      </ListItem> */}
+        <ListItemText primary="User and Roles Management" />
+      </ListItem> 
+      </Link>
       {/* <Collapse in={globalCtx.isExpand && globalCtx.optionname === 'Discounts'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>

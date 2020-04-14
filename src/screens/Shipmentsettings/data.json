@@ -39,6 +39,12 @@
             "id": "Value"
         },
         {
+            "label": "Cartvalue",
+            "key":"isCart",
+            "id": "Cartvalue",
+            "type": 2
+        },
+        {
             "label": "Active",
             "key":"isActive",
             "id": "Active",

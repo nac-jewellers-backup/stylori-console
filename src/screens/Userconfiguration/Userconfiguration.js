@@ -8,6 +8,7 @@ import Link from '@material-ui/core/Link'
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import data from "./data.json"
 
 import Typography from '@material-ui/core/Typography';
 import "./Configuration.css"
@@ -21,7 +22,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center"
   },
 }));
-export const Configuration = withRouter(props => {
+export const Userconfiguration = withRouter(props => {
   const master_options = ['Attribute Master','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Collections','Occassions','Styles','Themes','Designs','Weights','Diamond Types',
 'Diamond Settings','Diamond Shapes','Earring Backings','Gemstone Settings','Gemstone Shapes','Gemstone Types','Stones','Stone Colours','Stone Shapes',
 'Gender','SEO Priorities','Tax Settings 1','Tax Settings 2','Payment Status','Order Status','Shipping Zones','Shipment Setting I','Shipment Setting II']
@@ -49,18 +50,18 @@ export const Configuration = withRouter(props => {
     {/* <AddContact contactlist={[]}/> */}
     <Grid container item xs={12} sm={12} spacing={2}>
             <Typography component="h5" variant="h5">
-            Configure
+            User and Roles Management
           </Typography>
     </Grid>
     
-    {master_options.map((text, index) => (
+    {data.options.map((menu, index) => (
     <Grid  item xs={6} sm={4} lg={3} >
-    <Link underline='none' component={RouterLink} to={master_options_url[index]}>
+    <Link underline='none' component={RouterLink} to={menu.url}>
      <Card fullwidth
      className="card2">
         <CardContent >
           <Typography style={{textAlign: "center",marginTop:8}} component="h6" variant="h5">
-            {text}
+            {menu.title}
           </Typography>
           
           {/* <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
@@ -79,4 +80,4 @@ export const Configuration = withRouter(props => {
   )
 });
 
-export default Configuration;
+export default Userconfiguration;

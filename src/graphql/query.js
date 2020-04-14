@@ -524,6 +524,27 @@ query  {
   }
 }`;
 
+
+const MASTERPAGES =`
+query  {
+  allUniquepages(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      pagename
+      displayname
+      id
+    }
+  }
+}`;
+const MASTERVENDORS =`
+query  {
+  allMasterVendors {
+    nodes {
+      name
+      id
+      shortCode
+    }
+  }
+}`;
 const EARRINGBACKING =`
 query  {
   allMasterEarringBackings(orderBy: UPDATED_AT_DESC) {
@@ -573,6 +594,7 @@ const SHIPPINGCHARGES= `query{
       id
       name
       isActive
+      isCart
       chargeType
       rangeFrom
       rangeTo
@@ -1384,5 +1406,7 @@ query MyQuery($productId: String!) {
     SHIPPINGZONES,
     MASTERCOUNTRIES,
     SHIPPINGCHARGES,
-    ACTIVESHIPPINGZONES
+    ACTIVESHIPPINGZONES,
+    MASTERPAGES,
+    MASTERVENDORS
   }

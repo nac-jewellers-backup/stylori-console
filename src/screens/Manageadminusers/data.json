@@ -1,0 +1,37 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"username",
+            "id": "Name"
+        },
+        {
+            "label": "Email",
+            "key":"email",
+            "id": "Email",
+            "type":4
+        },
+        
+        {
+            "label": "Roles",
+            "key":"rolenames",
+            "defaultkey": "roles",
+            "id": "Roles",
+            "type": 3
+        },
+       
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

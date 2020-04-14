@@ -379,6 +379,7 @@ const handleChange = type => (event) => {
   }
 
   useEffect( () => {
+  
     setMasterlist(props.values)
   }, [props.values])
   function handleChangeRowsPerPage(event) {
@@ -434,9 +435,9 @@ const handleChange = type => (event) => {
         </Grid>
         </Grid>
           <Grid fullwidth item xs={3} sm={3} style={{"text-align":"right"}} >
-          <Button variant="contained"  onClick={()=>addnewvendor() } color="primary" >
+          {props.button_title ? <Button variant="contained"  onClick={()=>addnewvendor() } color="primary" >
            {props.button_title}
-        </Button>
+        </Button> : null }
         
         </Grid>
     </Grid>
@@ -492,6 +493,9 @@ const handleChange = type => (event) => {
                   name="checkedB"
                   inputProps={{ 'aria-label': 'primary checkbox' }}
                 /> : null}  
+                 {columnname.type === 6 ?     <Button variant="outlined" color="primary">
+                                                  {columnname.controllabel}
+                                                </Button> : null}  
                 {columnname.type == 3 ? 
                   <Autocomplete
                   multiple
@@ -502,7 +506,7 @@ const handleChange = type => (event) => {
                   value={editcontent[columnname.defaultkey]}
                   onChange={handleoptionChange(columnname.defaultkey)}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} label={columnname.label} variant="outlined" />}
                 /> : null }
                  {columnname.type == 5 ? 
                   <Autocomplete
@@ -531,13 +535,19 @@ const handleChange = type => (event) => {
                       label={columnname.label}
                      />:null }  </TableCell>  :
                    <TableCell>
+
+                      {columnname.type === 6 ?     <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
+                                                  {columnname.controllabel}
+                                                </Button> : null}  
                       {columnname.type === 2 ?  <Switch
                         color="primary"
                         name="checkedB"
                         onChange={handleInputChange(columnname.key)}
                         checked={row[columnname.key]}
                         inputProps={{ 'aria-label': 'primary checkbox' }}
-                      /> : <Typography> {row[columnname.key]}</Typography>}  
+                      /> : null}  
+         {columnname.type != 2 && columnname.type != 6  ?  <Typography> {row[columnname.key]}</Typography> : null}  
+
                      
                     </TableCell>
                 }

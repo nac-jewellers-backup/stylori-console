@@ -3,11 +3,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import route from './route';
 import {
-    Dashboard, Login, Productupload, Configuration,
-    Priceupdate, Vendorprice, Vendorlist, Markupprice,
-    Productlist, Materiallist, Masterorderstatus, Shippingzones,
-    Shipmentsettings,Addshippingattributes,
-    Materialmaster, CategoryList, Mastermetalcolors, Masterpurities, Masterdesigns, Shippingattributes, Voucherdiscount, Masterstyles, Masterthemes, Masteroccassions, Masterpaymentstatus, Salediscount, Masterweights, Taxsettings, Masterstones, Masterstonecolors, Masterstoneshapes, Masterattribute, Mastercategories, OrderList, Mastergemsettings, Seopriority, Mastergenders, Mastergemshapes, Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes, Taxsetup, Masterdiamonds, Masterdiamondsettings, DiscountList, VoucherdiscountListing, Mastercollections
+    Dashboard, Login, Productupload, Configuration,Manageusers,
+    Priceupdate, Vendorprice, Vendorlist, Markupprice,Goldpriceupdate,
+    Productlist, Materiallist, Masterorderstatus, Shippingzones,Manageadminusers,
+    Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,
+    Materialmaster, CategoryList, Mastermetalcolors, Masterpurities, Masterdesigns, Shippingattributes, Voucherdiscount, Masterstyles, Masterthemes, Masteroccassions, Masterpaymentstatus, Salediscount, Masterweights, Taxsettings, Masterstones, Masterstonecolors, Masterstoneshapes, Masterattribute, Mastercategories, OrderList, Mastergemsettings, Seopriority, Mastergenders, Mastergemshapes, Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes, Taxsetup, Masterdiamonds, Masterdiamondsettings, DiscountList, VoucherdiscountListing, Mastercollections, Masterpages
 } from '../screens';
 import PrivateRoute from './PrivateRoute';
 import { NetworkProvider } from '../context/NetworkContext';
@@ -56,7 +56,15 @@ const MainApp = () => {
                     <PrivateRoute path={route.masterstoneshapes} component={Masterstoneshapes} />
                     <PrivateRoute path={route.weights} component={Masterweights} />
                     <PrivateRoute path={route.masteroccassions} component={Masteroccassions} />
+                    <PrivateRoute path={route.masterroles} component={Masterroles} />
+                    <PrivateRoute path={route.masterpages} component={Masterscreens} />
+                    <PrivateRoute path={route.manageadminusers} component={Manageadminusers} />
+                    <PrivateRoute path={route.goldpriceupdate} component={Goldpriceupdate} />
+                    <PrivateRoute path={route.manageusers} component={Manageusers} />
 
+                    
+                    
+                    <PrivateRoute path={route.userconfiguration} component={Userconfiguration} />
 
                     <PrivateRoute path={route.masterstyles} component={Masterstyles} />
                     <PrivateRoute path={route.masterthemes} component={Masterthemes} />

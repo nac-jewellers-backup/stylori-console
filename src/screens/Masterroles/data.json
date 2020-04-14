@@ -1,0 +1,29 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name"
+        },
+        {
+            "label": "Permissions",
+            "key":"name",
+            "controllabel": "Update Permissions",
+            "id": "Permission",
+            "type": 6
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

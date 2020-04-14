@@ -46,6 +46,14 @@ const route = {
     diamondshapes: '/diamondshapes',
     earringbacking: '/earringbacking',
     addshippingattributes : '/addshippingattributes',
+    userconfiguration : '/userconfiguration',
+    masterroles : '/masterroles',
+    manageadminusers : '/manageadminusers',
+    goldpriceupdate : '/goldpriceupdate',
+
+manageusers : '/manageusers',
+
+    masterpages : '/masterpages',
 
     gemsettings: '/gemstonesettings',
     gemshapes: '/gemstoneshapes',

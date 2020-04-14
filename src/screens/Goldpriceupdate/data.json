@@ -1,0 +1,45 @@
+{
+
+    "purity":[{
+        "name":"14K",
+        "values":14
+    },
+    {
+        "name":"18K",
+        "values":18
+    },
+    {
+        "name":"22K",
+        "values":22
+    },
+    {
+        "name":"24K",
+        "values":24
+    }
+],
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"displayname",
+            "id": "Name"
+        },
+        {
+            "label": "Url",
+            "key":"pagename",
+            "id": "Url"
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}
