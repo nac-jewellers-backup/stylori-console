@@ -3,24 +3,21 @@
         
         {
             "label": "Name",
-            "key":"username",
+            "key":"first_name",
             "id": "Name"
         },
+       
         {
             "label": "Email",
             "key":"email",
             "id": "Email",
             "type":4
         },
-        
         {
-            "label": "Roles",
-            "key":"rolenames",
-            "defaultkey": "roles",
-            "id": "Roles",
-            "type": 3
+            "label": "Last Login",
+            "key":"lastlogin",
+            "id": "Last Login"
         },
-       
         {
             "label": "Actions",
             "key":"action",

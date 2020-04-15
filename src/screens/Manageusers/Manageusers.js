@@ -59,36 +59,36 @@ export const Manageusers = withRouter(props => {
     
     setMasterroles(response.roles) 
 
-     getmaster()
+     getmaster(50,0)
   }
-  async function getmaster()
+  async function getmaster(size,offset)
   {
-    let response =  await sendNetworkRequest('/getwebusers', {}, {})
+    let response =  await sendNetworkRequest('/getwebusers', {}, {size,offset})
     let adminusers = response.users;
     let users = []
     adminusers.forEach(element => {
-        let userobj = {}
-        userobj['id'] = element.id;
-        userobj['username'] = element.username;
-        userobj['password'] = element.password;
-        userobj['email'] = element.email;
-        userobj['mobile'] = element.mobile;
-        userobj['status'] = element.status === 'Active' ? true : false;
-        let roles = []
-        let rolesnames = []
+      //   let userobj = {}
+      //   userobj['id'] = element.id;
+      //  // userobj['username'] = element.username;
+      //  // userobj['password'] = element.password;
+      //   userobj['email'] = element.email;
+      //   userobj['mobile'] = element.mobile;
+      //   userobj['status'] = element.status === 'Active' ? true : false;
+      //   let roles = []
+      //   let rolesnames = []
 
-        let userroles = element.user_roles;
-        userroles.forEach(userroleobj => {
+      //   let userroles = element.user_roles;
+      //   userroles.forEach(userroleobj => {
 
-          let roleobj = {}
-          roleobj['id'] = userroleobj.master_role.id
-          roleobj['name'] = userroleobj.master_role.name
-          roles.push(roleobj)
-          rolesnames.push(userroleobj.master_role.name)
-        })
-        userobj['roles'] = roles
-        userobj['rolenames'] = rolesnames.join(' , ')
-        users.push(userobj)
+      //     let roleobj = {}
+      //     roleobj['id'] = userroleobj.master_role.id
+      //     roleobj['name'] = userroleobj.master_role.name
+      //     roles.push(roleobj)
+      //     rolesnames.push(userroleobj.master_role.name)
+      //   })
+      //   userobj['roles'] = roles
+      //   userobj['rolenames'] = rolesnames.join(' , ')
+        users.push(element)
     });
 
     setFiltervalue(users)

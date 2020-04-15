@@ -50,7 +50,7 @@ const route = {
     masterroles : '/masterroles',
     manageadminusers : '/manageadminusers',
     goldpriceupdate : '/goldpriceupdate',
-
+        
 manageusers : '/manageusers',
 
     masterpages : '/masterpages',

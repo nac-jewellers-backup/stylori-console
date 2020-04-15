@@ -262,7 +262,7 @@ const Results = props => {
                     >
                       {props.columnobjs.map(col => (
                         <>
-                        {col.key === 'action' ?   
+                        {col.key === 'action' && props.iswrite?   
                         <TableCell align="center" style = {{width: 20}}>
                         {
                          btnEdit.action && btnEdit.id == order.orderid  ?  <>
@@ -272,7 +272,7 @@ const Results = props => {
                           </Button></> : <Button onClick={(e) => Editvendor(order)} ><EditIcon />
                      </Button>
                          } 
-                   </TableCell> :
+                   </TableCell> : 
                    <>
                    {
                     btnEdit.action && btnEdit.id == order.orderid  ?

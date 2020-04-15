@@ -535,12 +535,24 @@ query  {
     }
   }
 }`;
-const MASTERVENDORS =`
+const GOLDPRICESETUPMASTER =`
 query  {
   allMasterVendors {
     nodes {
       name
       id
+      shortCode
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      shortCode
+    }
+  }
+  allMasterMaterials {
+    nodes {
+      name
       shortCode
     }
   }
@@ -1408,5 +1420,5 @@ query MyQuery($productId: String!) {
     SHIPPINGCHARGES,
     ACTIVESHIPPINGZONES,
     MASTERPAGES,
-    MASTERVENDORS
+    GOLDPRICESETUPMASTER
   }

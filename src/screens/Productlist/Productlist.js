@@ -16,7 +16,7 @@ export const Productlist = withRouter(props => {
 
    
   
-
+  //alert(JSON.stringify(props.nameevent))
    
   return (
     <Grid container  spacing={2}>  

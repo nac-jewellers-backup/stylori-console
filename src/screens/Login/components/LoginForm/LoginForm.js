@@ -12,6 +12,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import { NetworkContext } from '../../../../context/NetworkContext';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { GlobalContext } from '../../../../context';
 
 import {
   Card,
@@ -109,6 +110,7 @@ const LoginForm = props => {
 
   const classes = useStyles();
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const { globalCtx, setGlobalCtx } = React.useContext(GlobalContext);
 
 
   const [formState, setFormState] = useState({
@@ -168,11 +170,33 @@ const LoginForm = props => {
       //alert(JSON.stringify(formState.values))
    let signinobj =   await sendNetworkRequest('/api/auth/signin', {}, formState.values)
    
-   
    if(signinobj.statuscode === 200)
    {
     localStorage.setItem('accesstoken', signinobj.accessToken);
+
+    let pageaccess =   await sendNetworkRequest('/getpageaccess', {}, {}, true)
+    let pages = [];
+    let pagepermissions = [];
+    pageaccess.pages.forEach(element => {
+      pages.push(element.pageurl)
+      // pagepermissions[element.pageurl] = {
+      //   isread : element.is_view,
+      //   iswrite : element.is_write
+      // }
+      if(element.is_write)
+      {
+        pagepermissions.push(element.pageurl)
+      }
+    });
+    // setGlobalCtx({...globalCtx,"accesspages":pages})
+    //     setGlobalCtx({...globalCtx,"accesspages":pagepermissions})
+
+    localStorage.setItem('accesspages', pages);
+    localStorage.setItem('pagepermissions', pagepermissions);
+
+    
     props.history.push('/productlist')
+
 
    }else
    {

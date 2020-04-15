@@ -30,6 +30,7 @@ export default function Producttypecontent() {
   const [filteredorder, setFilteredorder] = useState([]);
   const [paymentstatus, setpaymentstatus] = useState([]);
   const [orderstatus, setorderstatus] = useState([]);
+  const [iswrite, setIswrite] = useState(false);
 
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
@@ -168,6 +169,15 @@ export default function Producttypecontent() {
       .catch(console.error)
   }
   useEffect(() => {
+    let pagepermission = localStorage.getItem('pagepermissions')
+    if(pagepermission.indexOf('/orderlist') > -1)
+    {
+      setIswrite(true)
+
+    }else
+    {
+      setIswrite(false)
+    }
     getmaster()
   }, [])
   useEffect(() => {
@@ -204,6 +214,7 @@ export default function Producttypecontent() {
       className={classes.results}
       orderstatus={paymentstatus}
       paymentstatus={orderstatus}
+      iswrite={iswrite}
      orders={filteredorder}
      onupdate={updateorder}
      showcolumns={displaycolumnnames}

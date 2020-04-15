@@ -22,15 +22,19 @@ import { ProductContext } from '../../context';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { GlobalContext } from '../../context';
-import {  Paper, Avatar, Typography } from '@material-ui/core';
+import {NetworkContext}  from '../../context/NetworkContext';
 
+import {  Paper, Avatar, Typography } from '@material-ui/core';
+import data from "../menupages.json"
 
 function SideBar() {
   const classes = useStyles();
   const theme = useTheme();
   const { globalCtx, setGlobalCtx } = React.useContext(GlobalContext);
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
-
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const { isreload,setIsreload } = React.useState(false);
+  let accesspages = localStorage.getItem('accesspages')
   const handleDrawer = () => {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen })
   }
@@ -45,11 +49,39 @@ function SideBar() {
     }
 
   }
-  // const handleClick  = type => e => {
-      
-  //     setGlobalCtx({ ...globalCtx,optionname: isExpand: !globalCtx.isExpand })
+  async function getmasterpages()
+  {
+    let pageaccess =   await sendNetworkRequest('/getpageaccess', {}, {}, true)
+    let pages = [];
+    let pagepermissions = [];
 
-  // }
+    pageaccess.pages.forEach(element => {
+      pages.push(element.pageurl)
+      if(element.is_write)
+      {
+        pagepermissions.push(element.pageurl)
+      }
+    });
+   // setPages(pageaccess)
+  // setGlobalCtx({ ...globalCtx, pageaccess: pages })
+   //setIsreload(true)
+
+   localStorage.setItem('accesspages', pages);
+   localStorage.setItem('pagepermissions', pagepermissions);
+
+    window.location.reload()
+  }
+  React.useEffect( () => {
+   //alert(globalCtx.accesspages)
+   if(!accesspages)
+   {
+   // getmasterpages()
+
+   }else{
+   //  setIsreload(true)
+   }
+ //setGlobalCtx({...globalCtx,"accesspages":pages})
+},[])
   function handleListItemClick(event, index)
   {
     setGlobalCtx({ ...globalCtx, selectedIndex: index})
@@ -81,8 +113,52 @@ function SideBar() {
         <Divider />
        
         <List>
-          
-          <Link underline='none' component={RouterLink} to={'/productlist'}>
+          {
+            data.menus.map((menuobj, index) => (
+              <>
+             {menuobj.submenu  ?  
+             <>
+          {accesspages && accesspages.indexOf(menuobj.url) > -1 ?
+              <>
+             <ListItem button  onClick={handleClick(menuobj.name)}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={menuobj.name} />
+              {globalCtx.isExpand  && globalCtx.optionname === menuobj.name ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={globalCtx.isExpand  && globalCtx.optionname === menuobj.name} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+            {menuobj.submenu.map((submenuobj, subindex) => (
+              <>
+              {accesspages && accesspages.indexOf(submenuobj.url) > -1 ?
+                          <Link underline='none' component={RouterLink} to={submenuobj.url}>
+              <ListItem button className={classes.nested} selected={globalCtx.selectedIndex === subindex} onClick={event => handleListItemClick(event, subindex)}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary={submenuobj.name} />
+              </ListItem>
+              </Link> : null }
+
+              </>
+            ))}
+
+            </List>
+            </Collapse> </>: null}
+            </>
+             :<> {accesspages && accesspages.indexOf(menuobj.url) > -1 ?
+              <Link underline='none' component={RouterLink} to={menuobj.url}>
+              <ListItem button key={"Product List"} selected={globalCtx.optionname === menuobj.name} onClick={handleClick(menuobj.name)} >
+              <ListItemIcon><InboxIcon /> </ListItemIcon>
+                <ListItemText primary={menuobj.name} />
+              </ListItem>
+              </Link> : null
+             } </>}
+              </>
+            ))
+          }
+          {/* <Link underline='none' component={RouterLink} to={'/productlist'}>
 
             <ListItem button key={"Product List"} selected={globalCtx.optionname === 'productlist'} onClick={handleClick('productlist')} >
             <ListItemIcon><InboxIcon /> </ListItemIcon>
@@ -192,7 +268,7 @@ function SideBar() {
         </ListItemIcon>
         <ListItemText primary="User and Roles Management" />
       </ListItem> 
-      </Link>
+      </Link> */}
       {/* <Collapse in={globalCtx.isExpand && globalCtx.optionname === 'Discounts'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link underline='none' component={RouterLink} to={'/voucherdiscount'}>

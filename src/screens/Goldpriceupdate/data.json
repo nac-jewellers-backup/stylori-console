@@ -1,22 +1,33 @@
 {
 
-    "purity":[{
+    "goldpurity":[{
         "name":"14K",
-        "values":14
+        "shortCode":14
     },
     {
         "name":"18K",
-        "values":18
+        "shortCode":18
     },
     {
         "name":"22K",
-        "values":22
+        "shortCode":22
     },
     {
         "name":"24K",
-        "values":24
+        "shortCode":24
     }
 ],
+    "Gold":{
+        
+            "name":"24K",
+            "shortCode":24
+        
+    },
+    "Silver":{
+        "name": "950",
+        "shortCode": 950
+      },
+
     "columns": [
         
         {
