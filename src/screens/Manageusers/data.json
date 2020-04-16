@@ -16,12 +16,8 @@
         {
             "label": "Last Login",
             "key":"lastlogin",
-            "id": "Last Login"
-        },
-        {
-            "label": "Actions",
-            "key":"action",
-            "id": "Actions"
+            "id": "Last Login",
+            "type":7
         }
     ],
 

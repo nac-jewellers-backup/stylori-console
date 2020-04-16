@@ -17,17 +17,31 @@
         "shortCode":24
     }
 ],
+    
     "Gold":{
         
             "name":"24K",
             "shortCode":24
         
     },
+    "pricetype":[
+        {
+            "label": "Flat",
+            "value": 1
+        },
+        {
+            "label": "Percentage",
+            "value": 2
+        }
+    ],
     "Silver":{
+        "name": "92.5",
+        "shortCode": 925
+      },
+      "Platinum":{
         "name": "950",
         "shortCode": 950
       },
-
     "columns": [
         
         {

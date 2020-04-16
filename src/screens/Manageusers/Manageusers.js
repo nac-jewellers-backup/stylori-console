@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link'
 import Vendor from '../../components/Vendor/Vendor'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Mastercontent from '../../components/Mastercontent/Mastercontent';
+import Mastercontent from './Mastercontent';
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
 import { MASTERCATEGORIES, PRODUCTDIAMONDTYPES } from '../../graphql/query';
 import data from "./data.json"
@@ -30,6 +30,14 @@ export const Manageusers = withRouter(props => {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [mastervalue, setMastervalue] = React.useState([])
   const [masterroles, setMasterroles] = React.useState([])
+  const [totalcount, setTotalcount] = React.useState(0)
+
+  const [bodycontent, setBodycontent] = React.useState({
+    "seacrchtext" : '',
+    "size": 50,
+    "offset":0
+  })
+
   const classes = useStyles();
 
   const [filtervalue, setFiltervalue] = React.useState([])
@@ -61,11 +69,17 @@ export const Manageusers = withRouter(props => {
 
      getmaster(50,0)
   }
-  async function getmaster(size,offset)
+  function changeresult(filtercontent)
   {
-    let response =  await sendNetworkRequest('/getwebusers', {}, {size,offset})
-    let adminusers = response.users;
+    setBodycontent(filtercontent)
+  }
+  async function getmaster(size,offset,searchtext)
+  {
+   
+    let response =  await sendNetworkRequest('/getwebusers', {}, {size,offset,searchtext})
+    let adminusers = response.users.rows;
     let users = []
+    setTotalcount(response.users.count)
     adminusers.forEach(element => {
       //   let userobj = {}
       //   userobj['id'] = element.id;
@@ -101,7 +115,7 @@ export const Manageusers = withRouter(props => {
 
   function applysearch(searchcontent)
   {
-    setSearchtext(searchcontent)
+    //setSearchtext(searchcontent)
   }
   function addcategory()
   {
@@ -114,10 +128,17 @@ export const Manageusers = withRouter(props => {
 
   async function search(taxcontent)
   {
-    const filteredHomes = mastervalue.filter( x => 
-      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent+ ".*") : null 
-    );
-    setFiltervalue(filteredHomes)
+    getmaster(bodycontent.size,bodycontent.offset,taxcontent)
+  }
+  async function changepageoffset(taxcontent)
+  {
+    setBodycontent({...bodycontent,offset: taxcontent})
+    getmaster(bodycontent.size,taxcontent,bodycontent.seacrchtext)
+  }
+  async function changepagesize(taxcontent)
+  {
+    setBodycontent({...bodycontent,size: taxcontent})
+    getmaster(taxcontent,bodycontent.offset,bodycontent.seacrchtext)
   }
   return (
     <>
@@ -134,7 +155,7 @@ export const Manageusers = withRouter(props => {
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-        <Mastercontent title= {"Website Users"}  onCreate={createtax} onSearch={search} columns={data.columns} masters={masterroles} values={filtervalue} />
+        <Mastercontent title= {"Website Users"} totalcount={totalcount} fitltercontent={bodycontent}  onCreate={createtax} onSearch={search} onPagechange={changepageoffset} onPagesizechange={changepagesize} columns={data.columns} masters={masterroles} values={filtervalue} />
 
     </Page>
     </>

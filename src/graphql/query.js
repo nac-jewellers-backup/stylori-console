@@ -550,7 +550,7 @@ query  {
       shortCode
     }
   }
-  allMasterMaterials {
+  allMasterMaterials(filter: {or: [{shortCode: {equalTo: "G"}},{shortCode: {equalTo: "S"}},{shortCode: {equalTo: "P"}}]}) {
     nodes {
       name
       shortCode

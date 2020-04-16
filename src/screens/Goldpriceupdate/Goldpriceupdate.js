@@ -41,6 +41,7 @@ export const Goldpriceupdate = withRouter(props => {
   const [purityprices, setPurityprices] = React.useState({})
   const [puritysellingprices, setPuritysellingprices] = React.useState({})
   const [defaultmetal, setDefaultmetal] = React.useState({})
+  const [pricetype, setPricetype] = React.useState({})
 
   const [selectedvendors, setSelectedvendors] = React.useState([])
   const [materials, setMaterials] = React.useState([])
@@ -59,9 +60,10 @@ export const Goldpriceupdate = withRouter(props => {
       costprices : purityprices,
       sellingprices : puritysellingprices,
       vendors : selectedvendors,
-      metal : defaultmetal
+      metal : defaultmetal,
+      pricetype : pricetype
     }
-
+    alert(JSON.stringify(bodycondent))
      let response =  await sendNetworkRequest('/updatevendorgoldprice', {}, bodycondent)
      alert("price updated successfully")
   }
@@ -148,34 +150,69 @@ export const Goldpriceupdate = withRouter(props => {
    })
    setSelectedvendors(vendorid)
   }
+  const handlepricetypeChange = (event, value) => {
+    setPricetype(value)
+  }
   const handlemetalChange = type => (event, value) => {
     // setEditcontent({ ...editcontent, [type]: value  })
+    //alert(JSON.stringify(value))
+    if(value)
+    { 
+    if(value.shortCode === 'G')
+    {
+      setIspricecalculated(false)
+    }else
+    {
+      setIspricecalculated(true)
+    }
     if(data[value.name])
     {
       setDefaultpurity(data[value.name])
 
     }
+  }else
+  {
+    setIspricecalculated(false)
 
+  }
     setDefaultmetal(value)
    //setDefaultpurity(value)
    }
   const handleInputChange = type => event => {
    // setGoldprice(event.target.value);
    //alert(JSON.stringify(goldprice))
+   if(defaultmetal.name === 'Gold')
+    {
+    }else
+    {
+      let sellingpricejson = {}
+      sellingpricejson[defaultpurity.shortCode] = event.target.value
+      if(type === 'cost_price')
+      {
+        setPurityprices(sellingpricejson)
+
+      }
+      if(type === 'selling_price')
+      {
+        setPuritysellingprices(sellingpricejson)
+
+      }
+    }
     setGoldprice({...goldprice,[type]: event.target.value })
   }
   const handlePriceChange = type => event => {
 
     // let goldpriceval = purityprices;
     // goldpriceval[type] = event.target.value;
-
     setPurityprices({...purityprices,[type]:event.target.value});
+
+    
   }
   const handlesellingPriceChange = type => event => {
 
     // let goldpriceval = purityprices;
     // goldpriceval[type] = event.target.value;
-
+    
     setPuritysellingprices({...puritysellingprices,[type]:event.target.value});
   }
   function getgoldvalue()
@@ -197,7 +234,13 @@ export const Goldpriceupdate = withRouter(props => {
     setPuritysellingprices(sellingpricejson)
     setPurityprices(pricejson)
     }else{
+      let pricejson = {}
+      let sellingpricejson = {}
+      sellingpricejson[defaultpurity.shortCode] = goldprice.selling_price
 
+      pricejson[defaultpurity.shortCode] = goldprice.cost_price
+      setPuritysellingprices(sellingpricejson)
+      setPurityprices(pricejson)
     }
 
     
@@ -215,10 +258,36 @@ export const Goldpriceupdate = withRouter(props => {
       <CardContent>
           <Grid container>
           <Grid container item row alignItems="center" >
+          <Autocomplete
+                  id="combo-box-demo"
+                  options={materials}
+                  margin="dense"
+                  fullWidth
+                
+                 value={defaultmetal}
+                   onChange={handlemetalChange("material")}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Material"} variant="outlined" />}
+                /> 
+
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={data.pricetype}
+                  margin="dense"
+                  fullWidth
+                  style={{marginLeft: 16}}
+                 value={pricetype}
+                  onChange={handlepricetypeChange}
+                  getOptionLabel={(option) => option.label}
+                  renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Price Type"} variant="outlined" />}
+                /> 
+
+
+
           <TextField
                             variant="outlined"
                             margin="dense"
-
+                            style={{marginLeft: 16}}
                             autoComplete="off"
                             id="vendordeliverydays"
                             name="vendordeliverydays"
@@ -237,17 +306,7 @@ export const Goldpriceupdate = withRouter(props => {
                              onChange={handleInputChange("selling_price")}
                             label="Selling Price"
                           />
-               <Autocomplete
-                  id="combo-box-demo"
-                  options={materials}
-                  margin="dense"
-                  fullWidth
-                  style={{marginLeft: 16}}
-                 value={defaultmetal}
-                   onChange={handlemetalChange("material")}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Material"} variant="outlined" />}
-                /> 
+              
              {defaultpurity.name ?  <Autocomplete
                   id="combo-box-demo"
                   options={masterpurities}
@@ -261,14 +320,17 @@ export const Goldpriceupdate = withRouter(props => {
                   renderInput={(params) => <TextField {...params}  margin="dense" label={"purity"}                   style={{ width:200}}
                   variant="outlined" />}
                 />  : null }
+                {defaultmetal.name == 'Gold' ? 
                 <Button variant="contained" size="small" onClick={getgoldvalue} style={{marginLeft: 16}}  color="primary" >
                   Get Price
-               </Button>
+               </Button> : null}
           </Grid>
           {ispricecalculated ?
           <>
+          {ispricecalculated  && defaultmetal.shortCode === 'G' ? <>
           {data.goldpurity.map((purityname, index) =>(
-            <Grid container item row alignItems="center" >
+           
+           <Grid container item row alignItems="center" >
 
             <Typography className={classes.title} style={{marginRight: 16}} color="textSecondary" >
                Price for {purityname.name}
@@ -297,7 +359,7 @@ export const Goldpriceupdate = withRouter(props => {
                      label="Price"
                    />
    </Grid>
-          ))}
+          ))} </>:null }
           <Grid item xs={12} sm={6} lg={3} >
           <Autocomplete
                   id="combo-box-demo"
