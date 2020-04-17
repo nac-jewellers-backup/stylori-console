@@ -223,10 +223,16 @@ export const Goldpriceupdate = withRouter(props => {
      let pricejson = {}
      let sellingpricejson = {}
     data.goldpurity.forEach(element => {
+      var sellingprice = goldprice.selling_price
+      if(pricetype.value == 2) 
+      {
+        sellingprice = parseFloat(goldprice.cost_price) + parseFloat(goldprice.cost_price * (goldprice.selling_price/100))
+       
+      }
       let priceratio = element.shortCode / defaultpurity.shortCode;
 
       let goldprice_val = priceratio*goldprice.cost_price
-      let goldsellingprice_val = priceratio*goldprice.selling_price
+      let goldsellingprice_val = priceratio*sellingprice
       sellingpricejson[element.shortCode] = goldsellingprice_val
 
       pricejson[element.shortCode] = goldprice_val
@@ -263,7 +269,7 @@ export const Goldpriceupdate = withRouter(props => {
                   options={materials}
                   margin="dense"
                   fullWidth
-                
+                  disableClearable={true}
                  value={defaultmetal}
                    onChange={handlemetalChange("material")}
                   getOptionLabel={(option) => option.name}
@@ -285,7 +291,7 @@ export const Goldpriceupdate = withRouter(props => {
                              onChange={handleInputChange("cost_price")}
                             label="Cost Price"
                           />
-                            <Autocomplete
+                <Autocomplete
                   id="combo-box-demo"
                   options={data.pricetype}
                   margin="dense"

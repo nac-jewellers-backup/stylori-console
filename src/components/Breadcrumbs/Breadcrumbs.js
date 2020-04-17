@@ -27,13 +27,13 @@ function handleClick(event) {
   console.info('You clicked a breadcrumb.');
 }
 
-export default function CustomizedBreadcrumbs() {
+export default function CustomizedBreadcrumbs(props) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <StyledBreadcrumb
         component="a"
-        href={URL+"/configuration"}
-        label="Configure"
+        href= {props.url ? URL+props.url : URL+"/configuration"}
+        label={props.name ? props.name : "Configuration"}
         icon={<ArrowBackIosIcon fontSize="small" />}
       />
       

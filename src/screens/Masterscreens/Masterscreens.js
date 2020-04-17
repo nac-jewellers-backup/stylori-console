@@ -87,7 +87,7 @@ export const Masterscreens = withRouter(props => {
     className={classes.root}
     title="Orders Management List"
   >
-    <Breadcrumbs></Breadcrumbs>
+      <Breadcrumbs url="/userconfiguration" name="Userconfiguration"></Breadcrumbs>
 
     {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
     {/* <Results
