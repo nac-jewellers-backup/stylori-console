@@ -77,6 +77,8 @@ export const Customerdetails = withRouter(props => {
   const [value, setValue] = React.useState(0);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [masters, setMasters] = React.useState({});
+  const [customer, setCustomer] = React.useState({});
+
   let user_id = props.location.pathname.split('/')[2];
 
   const handleChange = (event, newValue) => {
@@ -86,6 +88,7 @@ async function getmaster()
   {
     let response =  await sendNetworkRequest('/getuserinfo', {}, {user_id : user_id})
     setMasters(response.userinfo)
+    setCustomer(response.userprofile)
   }
   React.useEffect(() => {
     getmaster()
@@ -109,7 +112,7 @@ async function getmaster()
  
       </Tabs>
       <TabPanel value={value} style={{width :  '50%'}} index={0}>
-      <General /> </TabPanel>
+      <General customer ={customer} /> </TabPanel>
       <TabPanel style={{width :  '100%'}} value={value} index={1}>      
           <Results title={'Address Book'} masters={masters.addressess} columns={data.addressbook}/>
       </TabPanel>

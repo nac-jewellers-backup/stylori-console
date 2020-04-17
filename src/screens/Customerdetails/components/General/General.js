@@ -63,44 +63,60 @@ const General = props => {
       <CardContent className={classes.content}>
         <Table>
           <TableBody>
+            <TableRow selected>
+              <TableCell>Name</TableCell>
+              <TableCell>{customer.first_name} {customer.last_name}</TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>Email</TableCell>
               <TableCell>
-                {customer ? customer.email : "Manokarantk@gmail.com"}
+                {customer ? customer.email : ""}
                 <div>
                   <Label
                     color={
-                      colors.orange[600]
-                        // customer.verified ? colors.green[600] : colors.orange[600]
+                         customer.isemailverified ? colors.green[600] : colors.orange[600]
                     }
                   >
-                    Email not verified
-                    {/* {customer.verified
+                    
+                  {customer.isemailverified
                       ? 'Email verified'
-                      : 'Email not verified'} */}
+                      : 'Email not verified'} 
                   </Label>
                 </div>
               </TableCell>
             </TableRow>
             <TableRow selected>
               <TableCell>Phone</TableCell>
-              <TableCell>8148647067</TableCell>
+              <TableCell>{customer.mobile}
+              <div>
+                  <Label
+                    color={
+                         customer.ismobileverified ? colors.green[600] : colors.orange[600]
+                    }
+                  >
+                    
+                  {customer.ismobileverified
+                      ? 'Mobile verified'
+                      : 'Mobile not verified'} 
+                  </Label>
+                </div>
+                </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>State/Region</TableCell>
-              <TableCell>Chennai</TableCell>
+              <TableCell>{customer.city}</TableCell>
             </TableRow>
             <TableRow selected>
               <TableCell>Country</TableCell>
-              <TableCell>India</TableCell>
+              <TableCell>{customer.country}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Address 1</TableCell>
-              <TableCell>Chennai</TableCell>
+              <TableCell>{customer.address}</TableCell>
             </TableRow>
             <TableRow selected>
-              <TableCell>Address 2</TableCell>
-              <TableCell>Chennai</TableCell>
+              <TableCell>Pincode</TableCell>
+              <TableCell>{customer.pincode}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
