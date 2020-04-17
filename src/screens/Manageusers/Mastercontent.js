@@ -548,6 +548,15 @@ const handleChange = type => (event) => {
                      {columnname.type == 7 ? <Moment format="DD MMM YYYY hh:mm a">
                                          {row[columnname.key]} 
                                        </Moment>:null } 
+                                       {columnname.type == 8 ?  <Button
+                          color="primary"
+                          component={RouterLink}
+                          size="small"
+                          to={'/customerdetails/'+row['id']}
+                          variant="outlined"
+                        >
+                          View
+                        </Button>:null }                 
                       {columnname.type === 6 ?     <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
                                                   {columnname.controllabel}
                                                 </Button> : null}  

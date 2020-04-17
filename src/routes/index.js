@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import route from './route';
 import {
-    Dashboard, Login, Productupload, Configuration,Manageusers,
+    Dashboard, Login, Productupload, Configuration,Manageusers,Customerdetails,
     Priceupdate, Vendorprice, Vendorlist, Markupprice,Goldpriceupdate,
     Productlist, Materiallist, Masterorderstatus, Shippingzones,Manageadminusers,
     Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,
@@ -61,6 +61,7 @@ const MainApp = () => {
                     <PrivateRoute path={route.manageadminusers} component={Manageadminusers} />
                     <PrivateRoute path={route.goldpriceupdate} component={Goldpriceupdate} />
                     <PrivateRoute path={route.manageusers} component={Manageusers} />
+                    <PrivateRoute path={route.customerdetails} component={Customerdetails} />
 
                     
                     

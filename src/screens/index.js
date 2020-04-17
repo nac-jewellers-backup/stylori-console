@@ -51,6 +51,8 @@ export * from "./Masterscreens"
 export * from "./Manageadminusers"
 export * from "./Goldpriceupdate"
 export * from "./Manageusers"
+export * from "./CustomerManagementDetails"
+export * from "./Customerdetails"
 
 
 

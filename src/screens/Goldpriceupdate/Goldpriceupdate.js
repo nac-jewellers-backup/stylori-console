@@ -270,17 +270,7 @@ export const Goldpriceupdate = withRouter(props => {
                   renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Material"} variant="outlined" />}
                 /> 
 
-                  <Autocomplete
-                  id="combo-box-demo"
-                  options={data.pricetype}
-                  margin="dense"
-                  fullWidth
-                  style={{marginLeft: 16}}
-                 value={pricetype}
-                  onChange={handlepricetypeChange}
-                  getOptionLabel={(option) => option.label}
-                  renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Price Type"} variant="outlined" />}
-                /> 
+                
 
 
 
@@ -295,6 +285,17 @@ export const Goldpriceupdate = withRouter(props => {
                              onChange={handleInputChange("cost_price")}
                             label="Cost Price"
                           />
+                            <Autocomplete
+                  id="combo-box-demo"
+                  options={data.pricetype}
+                  margin="dense"
+                  fullWidth
+                  style={{marginLeft: 16}}
+                 value={pricetype}
+                  onChange={handlepricetypeChange}
+                  getOptionLabel={(option) => option.label}
+                  renderInput={(params) => <TextField {...params} style={{width:200}} margin="dense" label={"Selling Price Type"} variant="outlined" />}
+                /> 
                 <TextField
                             variant="outlined"
                             margin="dense"

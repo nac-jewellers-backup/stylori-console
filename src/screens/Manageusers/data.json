@@ -14,10 +14,22 @@
             "type":4
         },
         {
+            "label": "Orders",
+            "key":"orders",
+            "id": "Orders",
+            "type":4
+        },
+        {
             "label": "Last Login",
             "key":"lastlogin",
             "id": "Last Login",
             "type":7
+        },
+        {
+            "label": "View Profile",
+            "key":"view",
+            "id": "View Profile",
+            "type":8
         }
     ],
 

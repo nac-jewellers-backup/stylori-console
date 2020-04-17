@@ -523,6 +523,11 @@ const handleChange = type => (event) => {
                 /> : null }
                 {columnname.type == 4 ?
                 <Typography> {row[columnname.key]}</Typography> : null}
+                 {columnname.type == 8 ?
+                <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
+                View
+               </Button> 
+                : null}
                 {!columnname.type || columnname.type == 1 ? <TextField
                       variant="outlined"
                       margin="dense"
@@ -535,7 +540,21 @@ const handleChange = type => (event) => {
                       label={columnname.label}
                      />:null }  </TableCell>  :
                    <TableCell>
+                {/* {columnname.type === 8 ?
+                  <Button
+                  color="primary"
+                  component={RouterLink}
+                  size="small"
+                  to={'/management/invoices/1'}
+                  variant="outlined"
+                >
+                  View
+                </Button>
+                : null} */}
 
+                          {columnname.type == 8 ?     <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
+                                                 View
+                                                </Button> : null}  
                       {columnname.type === 6 ?     <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
                                                   {columnname.controllabel}
                                                 </Button> : null}  
@@ -546,7 +565,7 @@ const handleChange = type => (event) => {
                         checked={row[columnname.key]}
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       /> : null}  
-         {columnname.type != 2 && columnname.type != 6  ?  <Typography> {row[columnname.key]}</Typography> : null}  
+         {columnname.type != 2 && columnname.type != 6 &&  columnname.type != 8  ?  <Typography> {row[columnname.key]}</Typography> : null}  
 
                      
                     </TableCell>

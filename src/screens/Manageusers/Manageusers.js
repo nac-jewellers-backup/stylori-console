@@ -102,6 +102,12 @@ export const Manageusers = withRouter(props => {
       //   })
       //   userobj['roles'] = roles
       //   userobj['rolenames'] = rolesnames.join(' , ')
+        if(element.orders)
+        {
+          element['orders'] = element.orders.length
+        }else{
+          element['orders'] = 0
+        }
         users.push(element)
     });
 
@@ -146,7 +152,6 @@ export const Manageusers = withRouter(props => {
     className={classes.root}
     title="Orders Management List"
   >
-    <Breadcrumbs></Breadcrumbs>
 
     {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
     {/* <Results

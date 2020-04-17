@@ -67,6 +67,7 @@ manageusers : '/manageusers',
     masterstonecolors: '/masterstonecolors',
     masterstoneshapes: '/masterstoneshapes',
     weights: '/weights',
+    customerdetails: '/customerdetails/:id',
 
     
     category: '/categories',
