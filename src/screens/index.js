@@ -53,6 +53,8 @@ export * from "./Goldpriceupdate"
 export * from "./Manageusers"
 export * from "./CustomerManagementDetails"
 export * from "./Customerdetails"
+export * from "./Userwishlist"
+export * from "./Useraddresses"
 
 
 

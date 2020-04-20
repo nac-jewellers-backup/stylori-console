@@ -32,6 +32,69 @@ export const PRODUCTCATEGORY = gql`query {
   }
   }`
 
+  export const USERORDERS = gql`query($userid: UUID!) {
+    allOrders(filter: {userProfileByUserProfileId: {id: {equalTo: $userid}}}) {
+      nodes {
+        paymentMode
+        paymentStatus
+        updatedAt
+        createdAt
+        awbNumber
+        cartId
+        orderStatus
+        comments
+        id
+        shoppingCartByCartId {
+          shoppingCartItemsByShoppingCartId {
+            nodes {
+              transSkuListByProductSku {
+                generatedSku
+                productListByProductId {
+                  productCategory
+                  productType
+                  productCollectionsByProductId {
+                    nodes {
+                      collectionName
+                    }
+                  }
+                }
+              }
+            }
+          }
+          giftwrapsByCartId {
+            nodes {
+              message
+              giftFrom
+              giftTo
+            }
+          }
+          
+          cartAddressesByCartId {
+            nodes {
+              firstname
+              contactNumber
+              addressline1
+              addressline2
+              city
+              pincode
+              state
+            }
+          }
+          userProfileByUserprofileId {
+            firstName
+            mobile
+            email
+          }
+        }
+        paymentDetailsByOrderId {
+          nodes {
+            paymentResponse
+          }
+        }
+      }
+    }
+  
+  }`
 export const ORDERS = gql`query {
   allOrders {
     nodes {

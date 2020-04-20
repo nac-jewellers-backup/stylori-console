@@ -1,0 +1,115 @@
+{
+    "addressbook": [
+        {
+            "label": "First Name",
+            "id": "First Name",
+            "key":"firstname"
+        },
+        {
+            "label": "Last Name",
+            "id": "Last Name",
+            "key":"lastname"
+        },
+        {
+            "label": "Address",
+            "id": "Address",
+            "key": "address"
+        },
+        {
+            "label": "City",
+            "id": "City",
+            "key": "city"
+        },
+        {
+            "label": "State",
+            "id": "State",
+            "key": "state"
+        },
+        {
+            "label": "Country",
+            "id": "Country",
+            "key": "country"
+        },
+        {
+            "label": "Pincode",
+            "id": "Pincode",
+            "key": "pincode"
+        },
+        {
+            "label": "Mobile",
+            "id": "mobile",
+            "key": "mobile"
+        },
+        {
+            "label": "Address type",
+            "id": "Address type",
+            "key": "addresstype"
+        }
+    ],
+
+    "shoppingbag": [
+        {
+            "label": "Product Name",
+            "id": "productname",
+            "key":"productname"
+        },
+        {
+            "label": "SKU",
+            "id": "sku",
+            "key": "sku"
+        },
+        {
+            "label": "Quantity",
+            "id": "Quantity",
+            "key": "quantity"
+        },
+        {
+            "label": "Price",
+            "id": "price",
+            "key": "price"
+        }
+    ],
+
+    "wishlists": [
+        {
+            "label": "Product Id",
+            "id": "product_id",
+            "key":"product_id"
+        },
+        {
+            "label": "SKU",
+            "id": "sku_id",
+            "key": "sku_id"
+        }
+    ],
+    "orders": [
+        {
+            "label": "Order Number",
+            "id": "orderid",
+            "key":"orderid"
+        },
+        {
+            "label": "Skus",
+            "id": "Skus",
+            "key": "skus"
+        },
+        {
+            "label": "Order Date",
+            "id": "orderdate",
+            "key": "orderdate",
+            "type": 2
+        },
+       
+        {
+            "label": "Payment Method",
+            "id": "Payment Method",
+            "key": "paymentmode"
+        },
+        {
+            "label": "Price",
+            "id": "price",
+            "key": "price"
+        }
+    ]
+
+}

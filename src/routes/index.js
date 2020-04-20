@@ -4,9 +4,9 @@ import ApolloClient from 'apollo-boost';
 import route from './route';
 import {
     Dashboard, Login, Productupload, Configuration,Manageusers,Customerdetails,
-    Priceupdate, Vendorprice, Vendorlist, Markupprice,Goldpriceupdate,
+    Priceupdate, Vendorprice, Vendorlist, Markupprice,Goldpriceupdate,Userwishlist,
     Productlist, Materiallist, Masterorderstatus, Shippingzones,Manageadminusers,
-    Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,
+    Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,Useraddresses,
     Materialmaster, CategoryList, Mastermetalcolors, Masterpurities, Masterdesigns, Shippingattributes, Voucherdiscount, Masterstyles, Masterthemes, Masteroccassions, Masterpaymentstatus, Salediscount, Masterweights, Taxsettings, Masterstones, Masterstonecolors, Masterstoneshapes, Masterattribute, Mastercategories, OrderList, Mastergemsettings, Seopriority, Mastergenders, Mastergemshapes, Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes, Taxsetup, Masterdiamonds, Masterdiamondsettings, DiscountList, VoucherdiscountListing, Mastercollections, Masterpages
 } from '../screens';
 import PrivateRoute from './PrivateRoute';
@@ -44,6 +44,10 @@ const MainApp = () => {
                     <PrivateRoute path={route.voucherdiscount} component={Voucherdiscount} />
                     <PrivateRoute path={route.priceupdate} component={Priceupdate} />
                     <PrivateRoute path={route.orderlist} component={OrderList} />
+                    <PrivateRoute path={route.userorders} component={OrderList} />
+                    <PrivateRoute path={route.address} component={Useraddresses} />
+
+              
                     <PrivateRoute path={route.vendorPrice} component={Vendorprice} />
                     <PrivateRoute path={route.markupPrice} component={Markupprice} />
                     <PrivateRoute path={route.salediscount} component={Salediscount} />
@@ -62,6 +66,7 @@ const MainApp = () => {
                     <PrivateRoute path={route.goldpriceupdate} component={Goldpriceupdate} />
                     <PrivateRoute path={route.manageusers} component={Manageusers} />
                     <PrivateRoute path={route.customerdetails} component={Customerdetails} />
+                    <PrivateRoute path={route.userwishlist} component={Userwishlist} />
 
                     
                     

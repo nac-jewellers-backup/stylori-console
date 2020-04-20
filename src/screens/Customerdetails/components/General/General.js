@@ -110,11 +110,11 @@ const General = props => {
               <TableCell>Country</TableCell>
               <TableCell>{customer.country}</TableCell>
             </TableRow>
-            <TableRow>
+            {/* <TableRow>
               <TableCell>Address 1</TableCell>
               <TableCell>{customer.address}</TableCell>
-            </TableRow>
-            <TableRow selected>
+            </TableRow> */}
+            <TableRow>
               <TableCell>Pincode</TableCell>
               <TableCell>{customer.pincode}</TableCell>
             </TableRow>

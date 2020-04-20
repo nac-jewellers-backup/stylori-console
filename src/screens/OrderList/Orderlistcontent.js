@@ -149,7 +149,7 @@ export default function Producttypecontent() {
     setOrders(orders_arr)
     setFilteredorder(orders_arr)
   }
-  async function getmaster()
+  async function getmaster(getmaster)
   {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
@@ -186,6 +186,7 @@ export default function Producttypecontent() {
         
      
     };
+
     getmaster()
     getorders()
     fetchOrders();

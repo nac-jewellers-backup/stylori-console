@@ -5,10 +5,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { withRouter } from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 import {General, Results} from './components'
 import Mastercontent from '../../components/Mastercontent'
 import data from './data.json'
 import { NetworkContext } from '../../context/NetworkContext';
+import { useHistory } from "react-router-dom";
 
 import {
   Button,
@@ -72,13 +75,22 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `2px solid ${theme.palette.divider}`,
   },
 }));
+const master_options = ['Address Book','Wish List','Orders']
+  const master_options_url = ['/address','/userwishlist','/orderlist']
+
 export const Customerdetails = withRouter(props => {
   const classes = useStyles();
+  let history = useHistory();
+
   const [value, setValue] = React.useState(0);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [masters, setMasters] = React.useState({});
   const [customer, setCustomer] = React.useState({});
-
+  function ProductEdit(id){
+    // localStorage.setItem('productEditId',id);
+    // history.push(`orderlist/${id}`)
+    window.location.href = `orderlist/${id}`
+  }
   let user_id = props.location.pathname.split('/')[2];
 
   const handleChange = (event, newValue) => {
@@ -94,42 +106,80 @@ async function getmaster()
     getmaster()
   }, [])
   return (
-    <div className={classes.root}>
-      
-      <Tabs
-        orientation="vertical"
-        variant="standard"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
-      >
-        <Tab label="Personal Information" {...a11yProps(0)} />
-        <Tab label="Address Book" {...a11yProps(1)} />
-        <Tab label="Shopping Bag" {...a11yProps(2)} />
-        <Tab label="Wish list" {...a11yProps(3)} />
-        <Tab label="All Orders" {...a11yProps(4)} />
- 
-      </Tabs>
-      <TabPanel value={value} style={{width :  '50%'}} index={0}>
-      <General customer ={customer} /> </TabPanel>
-      <TabPanel style={{width :  '100%'}} value={value} index={1}>      
-          <Results title={'Address Book'} masters={masters.addressess} columns={data.addressbook}/>
-      </TabPanel>
-      <TabPanel style={{width :  '100%'}} value={value} index={2}>
+    <Grid container  spacing={3}>  
+    {/* <AddContact contactlist={[]}/> */}
+    {/* <Grid container item xs={12} sm={12} spacing={2}>
+            <Typography component="h5" variant="h5">
+            Configure
+          </Typography>
+    </Grid> */}
+    <Grid container item xs={12} sm={12} lg={12} >
+    <Grid  item xs={12} sm={6} lg={6} >
+    <General customer ={customer} /> 
 
-      <Results title={'Shopping Bag'} masters={[]} columns={data.shoppingbag}/>
+      </Grid>
+
+    </Grid>
+    {master_options.map((text, index) => (
+    <Grid  item xs={6} sm={2} lg={2} >
+    <Link underline='none' component={RouterLink}  to={master_options_url[index]+'/'+user_id}>
+     <Card fullwidth
+    //  onClick={(e) => ProductEdit(customer.id)}
+     className="card2">
+        <CardContent >
+          <Typography style={{textAlign: "center",marginTop:8}} component="h6" variant="h5">
+            {text}
+          </Typography>
+          
+          {/* <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
+            Lorem Ipsum
+          </Typography> */}
+        </CardContent>
+        
+     
+    </Card>
+    </Link>
+    </Grid>
+    ))}
+
+    
+    </Grid>
+    // <div className={classes.root}>
       
-      </TabPanel>
-      <TabPanel  style={{width :  '100%'}}  value={value} index={3}>
-      <Results title={'Wishlist'} masters={masters.wishlists} columns={data.wishlists}/>
-      </TabPanel>
-      <TabPanel style={{width :  '100%'}} value={value} index={4}>
-      <Results title={'All Orders'}   columns={data.orders} masters={masters.orders}/>
-      </TabPanel>
+    //   <Tabs
+    //     orientation="vertical"
+    //     variant="standard"
+    //     value={value}
+    //     onChange={handleChange}
+    //     aria-label="Vertical tabs example"
+    //     className={classes.tabs}
+    //   >
+    //     <Tab label="Personal Information" {...a11yProps(0)} />
+    //     <Tab label="Address Book" {...a11yProps(1)} />
+    //     <Tab label="Shopping Bag" {...a11yProps(2)} />
+    //     <Tab label="Wish list" {...a11yProps(3)} />
+    //     <Tab label="All Orders" {...a11yProps(4)} />
+ 
+    //   </Tabs>
+    //   <TabPanel value={value} style={{width :  '50%'}} index={0}>
+    //   <General customer ={customer} /> </TabPanel>
+    //   <TabPanel style={{width :  '100%'}} value={value} index={1}>      
+    //       <Results title={'Address Book'} masters={masters.addressess} columns={data.addressbook}/>
+    //   </TabPanel>
+    //   <TabPanel style={{width :  '100%'}} value={value} index={2}>
+
+    //   <Results title={'Shopping Bag'} masters={[]} columns={data.shoppingbag}/>
+      
+    //   </TabPanel>
+    //   <TabPanel  style={{width :  '100%'}}  value={value} index={3}>
+    //   <Results title={'Wishlist'} masters={masters.wishlists} columns={data.wishlists}/>
+    //   </TabPanel>
+    //   <TabPanel style={{width :  '100%'}} value={value} index={4}>
+    //   <Results title={'All Orders'}   columns={data.orders} masters={masters.orders}/>
+    //   </TabPanel>
       
      
-    </div>
+    // </div>
   );
 });
 

@@ -7,6 +7,11 @@ const route = {
     vendor: '/vendorlist',
     productlist: '/productlist',
     orderlist: '/orderlist',
+    userorders: '/orderlist/:userid',
+    userwishlist: '/userwishlist/:userid',
+    address: '/address/:userid',
+
+    
     materiallist: '/material',
     mastermaterial: '/materialmaster',
     mastercolors: '/mastercolors',
