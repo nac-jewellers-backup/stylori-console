@@ -508,7 +508,7 @@ console.log(JSON.stringify(bodydata))
                   {row.discountPriceTax} </Typography> 
                   } </TableCell> : null }
              
-                  {props.displycolumns.indexOf('Margin on Sale Percentage') > -1 ?
+                  {props.displycolumns.indexOf('Margin on Sale') > -1 ?
                 <TableCell  style = {{width: 40}} component="th" scope="row">
                 {row.marginOnSalePercentage}
                 </TableCell> : null}

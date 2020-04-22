@@ -217,7 +217,7 @@
         },
         {
             "id":12,
-            "name":"View Price Splitup",
+            "name":"View",
             "isActive":true,
             "disabled": true        
         },
@@ -282,7 +282,7 @@
         },
         {
             "id":12,
-            "name":"View Price Splitup",
+            "name":"View",
             "isActive":true,
             "disabled": true        
         },
