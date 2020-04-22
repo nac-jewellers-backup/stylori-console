@@ -31,6 +31,7 @@ import SortHeader from './Components/SortHeader';
 import columnnames from './columnnames.json';
 import Productimages from './Productimages'
 import FullLoader from '../../components/Loader'
+import Pricedetails from './Pricedetails'
 
 import {
   Card,
@@ -45,6 +46,7 @@ import {
   FormControlLabel,
   Checkbox
 } from '@material-ui/core';
+import { sk } from 'date-fns/locale';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -95,6 +97,8 @@ export function Component(props) {
   const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.pricing);
   const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricing);
   const [displycolumnnames, setDisplycolumnnames] = React.useState(columnnames.defaultpricingnames);
+  const [isshowpricesummary, setIsshowpricesummary] = React.useState(false);
+  const [pricesummaryvalues, setPricesummaryvalue] = React.useState([]);
 
   const [loadopen, setLoadopen] = React.useState(true);
 
@@ -149,6 +153,10 @@ const handleinputChange =type => e => {
 //   alert(event.target.value)
 //       setProductCtx({ ...productCtx, [type]: value})
 // }
+  function dismisspricesummary()
+  {
+    setIsshowpricesummary(false)
+  }
 function getColumnnames(columnnames,displytype) {
   let displycolumns = [];
   let displycolumnnames = [];
@@ -296,7 +304,86 @@ async function saveProductEditItem() {
       handleClick();
     }
   };
+ async function showpricesummary(sku)
+  {
+    let response =  await sendNetworkRequest('/viewskupricesummary/SR0185-14210000-23', {}, null)
+    let price_summary = []
+    let skuprice = response.price_summary.skuprice;
+    // let cost_obj = {
+    //   component: "Cost Price",
+    //   price : skuprice.cost_price - skuprice.cost_price_tax,
+    //   tax : skuprice.cost_price_tax,
+    //   total : skuprice.cost_price
 
+    // }
+    // price_summary.push(cost_obj)
+
+    // let selling_price = {
+    //   component: "Selling Price",
+    //   price : skuprice.selling_price ,
+    //   tax : skuprice.selling_price_tax,
+    //   total : skuprice.selling_price
+
+    // }
+    // price_summary.push(selling_price)
+    // let discount_price = {
+    //   component: "discount Price",
+    //   price : skuprice.discount_price ,
+    //   tax : skuprice.discount_price_tax,
+    //   total : skuprice.discount_price
+
+    // }
+    // price_summary.push(discount_price)
+    // let markup_price = {
+    //   component: "markup Price",
+    //   price : skuprice.markup_price ,
+    //   tax : skuprice.markup_price_tax,
+    //   total : skuprice.markup_price
+
+    // }
+
+    let metalprice = response.price_summary.metals;
+    metalprice.forEach(element => {
+        let obj = {
+          component : element.material_name,
+          cost_price : element.cost_price,
+          selling_price : element.selling_price,
+          markup_price : element.markup,
+          discount_price : element.discount_price
+
+
+        }
+        price_summary.push(obj)
+    })
+
+    let mateialprice = response.price_summary.materials;
+    mateialprice.forEach(element => {
+        let obj = {
+          component : element.component.split('_').length > 0 ? element.component.split('_')[0] + ' ' + element.material_name : ' ' + element.material_name,
+          cost_price : element.cost_price,
+          selling_price : element.selling_price,
+          markup_price : element.markup,
+          discount_price : element.discount_price
+
+
+        }
+        price_summary.push(obj)
+    })
+    let obj = {
+      component : "SKU Price",
+      cost_price : skuprice.cost_price,
+      selling_price : skuprice.selling_price,
+      markup_price : skuprice.markup_price,
+      discount_price : skuprice.discount_price
+
+
+    }
+    price_summary.push(obj)
+//alert(JSON.stringify(metalprice))
+ //   price_summary.push(markup_price)
+    setPricesummaryvalue(price_summary)
+    setIsshowpricesummary(true)
+  }
   function Skupricesync(diamondData) {
     let bodydata = {
       req_product_id: diamondData
@@ -822,8 +909,8 @@ async function saveProductEditItem() {
                         Price Run For This Product
               </Button>
             </Grid>
-
-              <Skupricing variants={productCtx.variants} columns={displypricingcolumns} displycolumns={displycolumnnames} />
+              {isshowpricesummary ? <Pricedetails onClose={dismisspricesummary} values={pricesummaryvalues}/> : null}
+              <Skupricing variants={productCtx.variants} onShow={showpricesummary} columns={displypricingcolumns} displycolumns={displycolumnnames} />
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
               {productCtx.productMetalColor.map(colors => (
                     <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />

@@ -146,6 +146,7 @@
         "Discount",
         "Ready To Ship",
         "Default",
+        
         "Edit"
     ],
     "defaultpricingnames":[
@@ -154,8 +155,8 @@
         "Selling Price",
         "Selling Price Tax",
         "Discount Price",
-        "Discount Price Tax"
-      
+        "Discount Price Tax",
+        "View"
     ],
     "pricing":[
         {
@@ -216,12 +217,40 @@
         },
         {
             "id":12,
+            "name":"View Price Splitup",
+            "isActive":true,
+            "disabled": true        
+        },
+        {
+            "id":13,
             "name":"Edit",
             "isActive":true,
             "disabled": true        
         }
     ],
+    "pricesummary":[
+        {
+            "name":"Component Name",
+            "key":"component"
+        },
+        {
+            "name":"Cost Price",
+            "key":"cost_price"
+        },
+        {
+            "name":"Selling Price",
+            "key":"selling_price"
+        },
+        {
+            "name":"Markup Price",
+            "key":"markup_price"
+        },
+        {
+            "name":"Discount Price",
+            "key":"discount_price"
+        }
 
+    ],
     "defaultpricing":[
         {
             "id":1,
@@ -251,9 +280,14 @@
             "name":"Discount Price Tax",
             "isActive":true        
         },
-       
         {
             "id":12,
+            "name":"View Price Splitup",
+            "isActive":true,
+            "disabled": true        
+        },
+        {
+            "id":13,
             "name":"Edit",
             "isActive":true,
             "disabled": true        
