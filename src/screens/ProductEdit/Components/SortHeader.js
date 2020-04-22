@@ -40,7 +40,7 @@ function SortHeader(props){
         return(
             <Grid container lg={12} md={12} sm={12} xs={12} style={{display:"flex",justifyContent:"space-between"}}>
                 <Grid xl={8} lg={9} md={8} sm={7} xs={12}>
-                     <h4 className="products">Variants Table</h4>   
+                     <h4 className="products">{props.title ? props.title : "Variants Table"} </h4>   
                 </Grid>
                 <Grid container xl={4} lg={3} md={4} sm={5} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <Grid className="column-btn" lg={5} md={5} sm={5} xs={5} style={{display: 'flex', justifyContent: 'flex-end'}}>

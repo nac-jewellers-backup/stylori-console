@@ -92,8 +92,10 @@ export function Component(props) {
   const [expand, setExpand] = React.useState(false);
   const [varientcolumns, setVarientcolumns] = React.useState(columnnames.defaultvarients);
   const [displycolumns, setDisplycolumns] = React.useState(columnnames.defaultvarientnames);
-  const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.defaultpricing);
-  const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricingnames);
+  const [pricingcolumns, setPricingcolumns] = React.useState(columnnames.pricing);
+  const [displypricingcolumns, setDisplypricingcolumns] = React.useState(columnnames.defaultpricing);
+  const [displycolumnnames, setDisplycolumnnames] = React.useState(columnnames.defaultpricingnames);
+
   const [loadopen, setLoadopen] = React.useState(true);
 
   
@@ -149,16 +151,20 @@ const handleinputChange =type => e => {
 // }
 function getColumnnames(columnnames,displytype) {
   let displycolumns = [];
+  let displycolumnnames = [];
+
     columnnames.forEach(element => {
-      displycolumns.push(element.name)
+      displycolumnnames.push(element.name)
+      displycolumns.push(element)
     })
   if(displytype === 1)
   {
-    setDisplycolumns(displycolumns)
+    setDisplycolumns(displycolumnnames)
     setVarientcolumns(columnnames)
   }else{
     setPricingcolumns(columnnames)
     setDisplypricingcolumns(displycolumns)
+    setDisplycolumnnames(displycolumnnames)
   }
     
    
@@ -811,13 +817,13 @@ async function saveProductEditItem() {
               <Variants variants={productCtx.variants} columns={varientcolumns} displycolumns={displycolumns} />
                   
               <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>  
-              <SortHeader columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/>
+              <SortHeader title={"Pricing Table"} columnnames={pricingcolumns} displycolumns={displypricingcolumns}  getColumnnames={getColumnnames} displytype={2}/>
               <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
                         Price Run For This Product
               </Button>
             </Grid>
 
-              <Skupricing variants={productCtx.variants} columns={pricingcolumns} displycolumns={displypricingcolumns} />
+              <Skupricing variants={productCtx.variants} columns={displypricingcolumns} displycolumns={displycolumnnames} />
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
               {productCtx.productMetalColor.map(colors => (
                     <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />
