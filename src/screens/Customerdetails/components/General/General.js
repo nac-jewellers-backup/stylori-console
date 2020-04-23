@@ -63,7 +63,7 @@ const General = props => {
       <CardContent className={classes.content}>
         <Table>
           <TableBody>
-            <TableRow selected>
+            <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>{customer.first_name} {customer.last_name}</TableCell>
             </TableRow>
@@ -85,7 +85,7 @@ const General = props => {
                 </div>
               </TableCell>
             </TableRow>
-            <TableRow selected>
+            <TableRow>
               <TableCell>Phone</TableCell>
               <TableCell>{customer.mobile}
               <div>
@@ -106,7 +106,7 @@ const General = props => {
               <TableCell>State/Region</TableCell>
               <TableCell>{customer.city}</TableCell>
             </TableRow>
-            <TableRow selected>
+            <TableRow >
               <TableCell>Country</TableCell>
               <TableCell>{customer.country}</TableCell>
             </TableRow>

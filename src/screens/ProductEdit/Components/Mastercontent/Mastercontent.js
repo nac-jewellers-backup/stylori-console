@@ -525,7 +525,7 @@ const handleChange = type => (event) => {
                         checked={row[columnname.key]}
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       /> : null}  
-         {columnname.type != 2 && columnname.type != 6 &&  columnname.type != 8  ?  <Typography> {row[columnname.key]}</Typography> : null}  
+         {columnname.type != 2 && columnname.type != 6 &&  columnname.type != 8  ?  <Typography> {isNaN(row[columnname.key]) ? row[columnname.key] :  parseFloat(row[columnname.key]).toFixed(2) }</Typography> : null}  
 
                      
                     </TableCell>
