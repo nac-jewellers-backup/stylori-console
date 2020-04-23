@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
   }));
 export const OrderList = withRouter(props => {
     const classes = useStyles();
-
+    let user_id = props.location.pathname.split('/')[2];
+    
     const { data, loading, error } = useQuery(orderList.query);
 
     if(loading) return <div><CircularProgress className={classes.progress} />

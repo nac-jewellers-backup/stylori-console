@@ -1,0 +1,66 @@
+{
+    "columns": [
+        
+        {
+            "label": "Name",
+            "key":"name",
+            "id": "Name"
+        },
+        {
+            "label": "Zone",
+            "key":"zone",
+            "defaultkey":"shippingzones",
+            "mastervaluekey":"zones",
+            "type":5,
+            "id": "Zone"
+        },
+        {
+            "label": "Range Type",
+            "key":"range",
+            "defaultkey":"rangetype",
+            "mastervaluekey":"ranges",
+            "type":5,
+            "id": "Range Type"
+        },
+        
+        {
+            "label": "Range From",
+            "key":"rangeFrom",
+            "id": "Range From"
+        },
+        {
+            "label": "Range To",
+            "key":"rangeTo",
+            "id": "Range To"
+        },
+        {
+            "label": "Value",
+            "key":"shipmentCharge",
+            "id": "Value"
+        },
+        {
+            "label": "Cartvalue",
+            "key":"isCart",
+            "id": "Cartvalue",
+            "type": 2
+        },
+        {
+            "label": "Active",
+            "key":"isActive",
+            "id": "Active",
+            "type": 2
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

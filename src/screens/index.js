@@ -40,6 +40,23 @@ export * from "./Masterstyles"
 export * from "./Masterthemes"
 export * from "./Masteroccassions"
 export * from "./Masterpaymentstatus"
+export * from "./Masterorderstatus"
+export * from "./Shippingzones"
+export * from "./Shipmentsettings"
+export * from "./Shippingattributes"
+export * from "./Addshippingattributes"
+export * from "./Userconfiguration"
+export * from "./Masterroles"
+export * from "./Masterscreens"
+export * from "./Manageadminusers"
+export * from "./Goldpriceupdate"
+export * from "./Manageusers"
+export * from "./CustomerManagementDetails"
+export * from "./Customerdetails"
+export * from "./Userwishlist"
+export * from "./Useraddresses"
+
+
 
 
 

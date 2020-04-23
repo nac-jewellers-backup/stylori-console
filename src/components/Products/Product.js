@@ -41,7 +41,7 @@ const columns = [
   { id: 'product_type', label: 'product type' },
   { id: 'product_category', label: 'product category' },
   { id: 'isactive', label: 'active' },
-  { id: 'updatedAt', label: 'updated on' }
+  { id: 'createdAt', label: 'Created on' }
 ];
 
 const useStyles1 = makeStyles(theme => ({
@@ -357,7 +357,6 @@ const   AddContact=(props)=> {
   }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
-    
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
     getproductlist("","","","","",isAsc ? 'desc' : 'asc',property)
@@ -383,7 +382,6 @@ const   AddContact=(props)=> {
     order: sort ? sort : order,
     orderby : orderby ? orderby : orderBy
   }
-
   let response =  await sendNetworkRequest('/getproductlist', {}, bodydata)
   setProductlists(response.products.rows)
   setPageCount(response.products.count)
@@ -479,7 +477,7 @@ function applyfilter(searchtext, categoryname, typename)
 
                                   <TableCell align="left">            
                                   <Moment format="DD MMM YYYY hh:mm a">
-                                  {row.updatedAt}
+                                  {row.createdAt}
                                   </Moment>
                                   </TableCell>
                                   
@@ -502,7 +500,6 @@ function applyfilter(searchtext, categoryname, typename)
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[50,100,200,500]}
-                colSpan={5}
                 count={pageCount}
                 rowsPerPage={rowsPerPage}
                 page={page}

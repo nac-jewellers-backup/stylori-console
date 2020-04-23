@@ -25,7 +25,7 @@ const sendNetworkRequest = async (url, params, data, auth = false) => {
     let resdata = null;
     if(auth){
         const token = localStorage.getItem(TOKEN)
-        if(token) headers["auth"] = token
+        if(token) headers["x-access-token"] = token
        // else window.location = '/'
     }
     const response = await fetch(url, method === 'GET' ? {method} : ({

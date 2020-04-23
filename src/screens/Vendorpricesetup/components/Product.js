@@ -408,11 +408,21 @@ console.log(JSON.stringify(bodydata))
   }
   
   function handleEdit(diamondData) {
-        setEditdiamond({
+    let pricetypes =[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]
+      let selectedsellingPriceType = {}
+      pricetypes.forEach(element => {
+    
+        if(element.label == diamondData.sellingPriceType)
+        {
+          selectedsellingPriceType = element
+        }
+      })
+        setEditdiamond({  
           ...editdiamond,
           priceid: diamondData.id,
           costPrice : diamondData.costPrice,
           sellingPriceType : diamondData.sellingPriceType,
+          selectedsellingPriceType : selectedsellingPriceType,
           sellingPrice : diamondData.sellingPrice,
           updatedAt : new Date()
 
@@ -543,7 +553,7 @@ console.log(JSON.stringify(bodydata))
       />
       </Grid> */}
       <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="contained"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>
@@ -649,6 +659,7 @@ console.log(JSON.stringify(bodydata))
                                       fullWidth
                                       disableClearable
                                       className={classes.fixedTag}
+                                      value={editdiamond.selectedsellingPriceType}
                                       onChange={handleoptionChange('sellingPriceType')}
                                       getOptionLabel={option => option.name}
                                       options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}

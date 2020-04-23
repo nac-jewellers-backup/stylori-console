@@ -12,13 +12,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import EditIcon from '@material-ui/icons/Edit';
-
+import EnhancedTableHead from "../../../../components/EnhancedTableHead"
 import {
   Button,
   Card,
   CardActions,
   CardContent,
   Chip,
+  Grid,
   CardHeader,
   Divider,
   IconButton,
@@ -40,10 +41,18 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   table: {
-    minWidth: 500,
+   // minWidth: 500,
   },
   tableWrapper: {
     overflowX: 'auto',
+    overflowY: 'auto',
+    maxHeight: '100vh'
+  },
+  containergrid: {
+    overflowX: 'scroll',
+    width: 1000,
+    height: 20,
+    overflowY: 'hidden'
   },
   content: {
     padding: 0
@@ -60,7 +69,43 @@ const useStyles = makeStyles(theme => ({
 const Results = props => {
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].id : 'Order ID');
+  const handleRequestSort = (event, property) => {
 
+    const isAsc = orderBy === property && order === 'asc';
+
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+
+
+
+  };
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+  
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+  
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
   const classes = useStyles();
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
@@ -68,7 +113,7 @@ const Results = props => {
   })
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSelectAll = event => {
     const selectedOrders = event.target.checked
@@ -86,6 +131,7 @@ const Results = props => {
   }
   const handleSelectOne = (event, id) => {
     const selectedIndex = selectedOrders.indexOf(id);
+    
     let newSelectedOrders = [];
 
     if (selectedIndex === -1) {
@@ -120,20 +166,20 @@ const Results = props => {
   };
   function Editvendor(vendordata) {
       let paymentstatusobj = {}
-      props.paymentstatus.forEach(element => {
-        if(vendordata.paymentstatus === element.name)
+      props.orderstatus.forEach(element => {
+        if(vendordata.orderstatus === element.name)
         {
           paymentstatusobj = element;
         }
       });
-
+      
      delete vendordata['action'];
 
     
     setEditcontent({
       ...editcontent,
       ...vendordata,
-      paymentstatus : paymentstatusobj,
+      orderstatus : paymentstatusobj,
       isedit : true
     })
 
@@ -141,7 +187,7 @@ const Results = props => {
 
   }
   function CancelEdit(diamondData) {
-    alert(diamondData.paymentstatus)
+  //  alert(diamondData.paymentstatus)
     // if(isadd)
     // {
     //   let masters = masterlist;
@@ -162,25 +208,17 @@ const Results = props => {
   };
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      {/* <Typography
-        color="textSecondary"
-        gutterBottom
-        variant="body2"
-      >
-        {orders.length} Records found. Page {page + 1} of{' '}
-        {Math.ceil(orders.length / rowsPerPage)}
-      </Typography> */}
+    
       <Card>
-        
+       
         <CardContent className={classes.content}>
           {/* <PerfectScrollbar> */}
+          
+         
             <div className={classes.tableWrapper}>
-              <Table className={classes.table} border={1} borderColor={"#ddd"} size="small">
-                <TableHead>
+              
+              <Table className={classes.table} stickyHeader size="small" border={1} borderColor={"#ddd"} size="small">
+                {/* <TableHead>
                   <TableRow>
                   {props.columnobjs.map(column => (
                 <TableCell
@@ -190,7 +228,14 @@ const Results = props => {
                 >
                   {column.name}
                 </TableCell>
-              ))}
+              ))} */}
+              <EnhancedTableHead
+              columns={props.columnobjs}
+              classes={classes}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+            />
                     {/* <TableCell>Order ID</TableCell>
                     
                     <TableCell align="left">Order Date</TableCell>
@@ -205,17 +250,19 @@ const Results = props => {
                     <TableCell align="center">Comments</TableCell>
                     <TableCell align="center">PG Response</TableCell> */}
 
-                  </TableRow>
-                </TableHead>
+                  {/* </TableRow>
+                </TableHead> */}
                 <TableBody>
-                  {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
+                {stableSort(orders, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
+                  // {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
                     <TableRow
                       // key={order.id}
                       // selected={selectedOrders.indexOf(order.id) !== -1}
                     >
                       {props.columnobjs.map(col => (
                         <>
-                        {col.key === 'action' ?   
+                        {col.key === 'action' && props.iswrite?   
                         <TableCell align="center" style = {{width: 20}}>
                         {
                          btnEdit.action && btnEdit.id == order.orderid  ?  <>
@@ -225,7 +272,7 @@ const Results = props => {
                           </Button></> : <Button onClick={(e) => Editvendor(order)} ><EditIcon />
                      </Button>
                          } 
-                   </TableCell> :
+                   </TableCell> : 
                    <>
                    {
                     btnEdit.action && btnEdit.id == order.orderid  ?
@@ -246,7 +293,7 @@ const Results = props => {
                                          {order[col.key]} 
                                        </Moment>:null } 
 
-                  {col.type == 3 ? 
+                   {col.type == 5 && order.paymentmode == 'COD' ? 
                   <Autocomplete
                   id="combo-box-demo"
                   options={props.paymentstatus}
@@ -256,9 +303,29 @@ const Results = props => {
                   onChange={handleoptionChange(col.key)}
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => <TextField {...params} label="Payment Status" variant="outlined" />}
+                /> : null }  
+                {col.type == 5 && order.paymentmode != 'COD' ? <Typography> {order[col.key]}</Typography>:null } 
+       
+                  {col.type == 3 ? 
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={props.orderstatus}
+                  margin="dense"
+                  fullWidth
+                  value={editcontent[col.key]}
+                  onChange={handleoptionChange(col.key)}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Order Status" variant="outlined" />}
                 /> : null }
                             
-                        </TableCell>  :  <TableCell align="center" style = {{width: 20}}> <Typography> {order[col.key]}</Typography> </TableCell> }
+                        </TableCell>  :  <TableCell align="center" style = {{width: 20}}>
+                          {col.type == 4 ? <Moment format="DD MMM YYYY hh:mm a">
+                                         {order[col.key]} 
+                             </Moment>: <Typography> {order[col.key]}</Typography> } 
+
+                          
+                           
+                           </TableCell> }
                         </>
                         }
                        
@@ -306,12 +373,11 @@ const Results = props => {
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[50, 100, 250]}
+            rowsPerPageOptions={[10,50, 100, 250]}
           />
         </CardActions>
       </Card>
-      {/* <TableEditBar selected={selectedOrders} /> */}
-    </div>
+   
   );
 };
 

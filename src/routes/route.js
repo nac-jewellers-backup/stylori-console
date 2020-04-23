@@ -7,6 +7,11 @@ const route = {
     vendor: '/vendorlist',
     productlist: '/productlist',
     orderlist: '/orderlist',
+    userorders: '/orderlist/:userid',
+    userwishlist: '/userwishlist/:userid',
+    address: '/address/:userid',
+
+    
     materiallist: '/material',
     mastermaterial: '/materialmaster',
     mastercolors: '/mastercolors',
@@ -37,11 +42,23 @@ const route = {
     masterpaymentstatus : '/paymentstatus',
     mastercollections: '/collections',
     masterdesigns: '/designs',
-    
+    masterorderstatus : '/orderstatus',
+    shippingzones : '/zones',
+    shipmentsettings : '/shipmensettings',
+    shippingattributes : '/shippingattributes',
     masterdiamonds: '/diamonds',
     diamondsettings: '/diamondsettings',
     diamondshapes: '/diamondshapes',
     earringbacking: '/earringbacking',
+    addshippingattributes : '/addshippingattributes',
+    userconfiguration : '/userconfiguration',
+    masterroles : '/masterroles',
+    manageadminusers : '/manageadminusers',
+    goldpriceupdate : '/goldpriceupdate',
+        
+manageusers : '/manageusers',
+
+    masterpages : '/masterpages',
 
     gemsettings: '/gemstonesettings',
     gemshapes: '/gemstoneshapes',
@@ -55,6 +72,7 @@ const route = {
     masterstonecolors: '/masterstonecolors',
     masterstoneshapes: '/masterstoneshapes',
     weights: '/weights',
+    customerdetails: '/customerdetails/:id',
 
     
     category: '/categories',

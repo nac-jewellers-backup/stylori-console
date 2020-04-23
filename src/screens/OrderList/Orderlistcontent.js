@@ -29,6 +29,9 @@ export default function Producttypecontent() {
   const [columnnames, setColumnnames] = useState(Columns.columns);
   const [filteredorder, setFilteredorder] = useState([]);
   const [paymentstatus, setpaymentstatus] = useState([]);
+  const [orderstatus, setorderstatus] = useState([]);
+  const [iswrite, setIswrite] = useState(false);
+
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
@@ -45,9 +48,10 @@ export default function Producttypecontent() {
 
   async function updateorder(ordercontent)
   {
+  let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
+    window.location.reload();
 
-    let response =  await sendNetworkRequest('/updateorderstatus', {}, ordercontent)
-    getorders()
+   // getorders()
   }
   function searchorder(searchtext)
   {
@@ -77,13 +81,23 @@ export default function Producttypecontent() {
        // orderobj['paymentstatusmaster'] = element.paymentStatus
        orderobj['awbNumber'] = element.awbNumber ? element.awbNumber : ""
        orderobj['comments'] = element.comments ? element.comments : ""
-
+       orderobj['orderstatus'] = element.orderStatus
+       if(element.paymentMode === 'COD')
+       {
         orderobj['paymentstatus'] = element.paymentStatus
+
+       }
         if(element.paymentDetailsByOrderId)
         {
             let pgresponseobj = element.paymentDetailsByOrderId.nodes
             pgresponseobj.forEach(pgres => {
-                    orderobj['pgresponse'] = pgres.paymentResponse
+           let response_pg =   JSON.parse(pgres.paymentResponse)
+                    if(element.paymentMode === 'Prepaid')
+                    {
+                      orderobj['paymentstatus'] = response_pg.ipgTransactionId + ' \n'+response_pg.fail_reason+ ' \n'+response_pg.status
+
+                    }
+
             } )
         }
         if(element.shoppingCartByCartId)
@@ -135,7 +149,7 @@ export default function Producttypecontent() {
     setOrders(orders_arr)
     setFilteredorder(orders_arr)
   }
-  async function getmaster()
+  async function getmaster(getmaster)
   {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
@@ -147,11 +161,23 @@ export default function Producttypecontent() {
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-        setpaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes)
+        setpaymentstatus(fatchvalue.data.allOrderStatusMasters.nodes)
+        setorderstatus(fatchvalue.data.allPaymentStatusMasters.nodes)
+
+        
       })
       .catch(console.error)
   }
   useEffect(() => {
+    let pagepermission = localStorage.getItem('pagepermissions')
+    if(pagepermission.indexOf('/orderlist') > -1)
+    {
+      setIswrite(true)
+
+    }else
+    {
+      setIswrite(false)
+    }
     getmaster()
   }, [])
   useEffect(() => {
@@ -160,6 +186,7 @@ export default function Producttypecontent() {
         
      
     };
+
     getmaster()
     getorders()
     fetchOrders();
@@ -174,7 +201,7 @@ export default function Producttypecontent() {
     className={classes.root}
     title="Orders Management List"
   >
-    <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
+    {/* <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
         <Grid fullwidth item xs={6} sm={6}>
 
             <Typography component="h6" variant="h6">
@@ -182,11 +209,13 @@ export default function Producttypecontent() {
           </Typography>
           </Grid>
           
-    </Grid>
+    </Grid> */}
     <Header getColumnnames={columnchanged} onSearch={searchorder}  columns={columnnames}/>
     {filteredorder ? <Results
       className={classes.results}
-      paymentstatus={paymentstatus}
+      orderstatus={paymentstatus}
+      paymentstatus={orderstatus}
+      iswrite={iswrite}
      orders={filteredorder}
      onupdate={updateorder}
      showcolumns={displaycolumnnames}

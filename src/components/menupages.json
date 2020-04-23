@@ -1,0 +1,59 @@
+{
+    "menus":[
+        {
+            "name":"Product List",
+            "url":"/productlist"
+        },
+        {
+            "name":"Pricing",
+            "url":"Pricing",
+            "submenu":[
+                {
+                    "name":"Gold Price Setup",
+                    "url":"/goldpriceupdate"
+                },
+                {
+                    "name":"Vendor Price Setup",
+                    "url":"/vendorpricesetup"
+                },
+                {
+                    "name":"Selling Price Markup Setup",
+                    "url":"/markuppricesetup"
+                },
+                {
+                    "name":"Discount Setup",
+                    "url":"/salediscountlist"
+                },
+                {
+                    "name":"Price Run",
+                    "url":"/priceupdate"
+                }
+            ]
+        },
+        {
+            "name":"User List",
+            "url":"/manageusers"
+        },
+        {
+            "name":"Vendor List",
+            "url":"/vendorlist"
+        },
+        {
+            "name":"Order List",
+            "url":"/orderlist"
+        },
+        {
+            "name":"Configuration",
+            "url":"/configuration"
+        },
+        {
+            "name":"Vouchers",
+            "url":"/voucherdiscountlist"
+        },
+        {
+            "name":"Role Management",
+            "url":"/userconfiguration"
+        }
+       
+    ]
+}

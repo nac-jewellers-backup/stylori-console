@@ -365,7 +365,7 @@ console.log(JSON.stringify(bodydata))
                   /> 
                :
                <Typography className={classes.heading}> {row.costPriceTax} </Typography>
-                } : </TableCell> : null }
+                }  </TableCell> : null }
                 {props.displycolumns.indexOf('Selling Price') > -1 ? <TableCell component="th" scope="row">
                 {btnEdit.action && btnEdit.id == row.generatedSku ?
                 <Input
@@ -508,7 +508,7 @@ console.log(JSON.stringify(bodydata))
                   {row.discountPriceTax} </Typography> 
                   } </TableCell> : null }
              
-                  {props.displycolumns.indexOf('Margin on Sale Percentage') > -1 ?
+                  {props.displycolumns.indexOf('Margin on Sale') > -1 ?
                 <TableCell  style = {{width: 40}} component="th" scope="row">
                 {row.marginOnSalePercentage}
                 </TableCell> : null}
@@ -517,7 +517,11 @@ console.log(JSON.stringify(bodydata))
                 <TableCell  style = {{width: 40}} component="th" scope="row">
                 {row.discount} 
                 </TableCell> : null }
-                
+                {props.displycolumns.indexOf('View') > -1 ?
+                <TableCell  style = {{width: 40}} component="th" scope="row">
+
+<Button variant="outlined" color="primary" onClick={(e) => props.onShow(row.generatedSku)}>Summary
+</Button> </TableCell>: null }
                 {
                   btnEdit.action && btnEdit.id == row.generatedSku ?
                     <TableCell  style = {{width: 40}} align="center">

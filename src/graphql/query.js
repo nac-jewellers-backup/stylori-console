@@ -366,6 +366,9 @@ query  {
 allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
+    isFilter
+    isActive
+    filterOrder
     id
   }
 }
@@ -446,12 +449,21 @@ allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
 
 const PAYMENTSTATUSMASTER =`
 query  {
-  allPaymentStatusMasters {
+  allOrderStatusMasters {
     nodes {
       createdAt
       id
       isActive
       name
+      updatedAt
+    }
+  },
+  allPaymentStatusMasters {
+    nodes {
+      name
+      createdAt
+      id
+      isActive
       updatedAt
     }
   }
@@ -512,6 +524,39 @@ query  {
   }
 }`;
 
+
+const MASTERPAGES =`
+query  {
+  allUniquepages(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      pagename
+      displayname
+      id
+    }
+  }
+}`;
+const GOLDPRICESETUPMASTER =`
+query  {
+  allMasterVendors {
+    nodes {
+      name
+      id
+      shortCode
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      shortCode
+    }
+  }
+  allMasterMaterials(filter: {or: [{shortCode: {equalTo: "G"}},{shortCode: {equalTo: "S"}},{shortCode: {equalTo: "P"}}]}) {
+    nodes {
+      name
+      shortCode
+    }
+  }
+}`;
 const EARRINGBACKING =`
 query  {
   allMasterEarringBackings(orderBy: UPDATED_AT_DESC) {
@@ -545,6 +590,74 @@ query  {
   }
 }`;
 
+const MASTERCOUNTRIES =`
+query  {
+  allMasterCountries(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+      iso
+    }
+  }
+}`;
+const SHIPPINGCHARGES= `query{
+  allShippingCharges {
+    nodes {
+      id
+      name
+      isActive
+      isCart
+      chargeType
+      rangeFrom
+      rangeTo
+      shipmentCharge
+      productAttributes
+      displayAttributes
+      shippingZoneByZoneId {
+        name
+        id
+        isActive
+      }
+    }
+  }
+}`
+const ACTIVESHIPPINGZONES =`
+query  {
+  allShippingZones(condition: {isActive: true}) {
+    nodes {
+      name
+      id
+      isActive
+    }
+  }
+}`;
+const SHIPPINGZONES =`
+query  {
+  allShippingZones {
+    nodes {
+      name
+      id
+      isActive
+      shippingZoneCountriesByZoneId {
+        nodes {
+          countryId
+          createdAt
+          id
+          masterCountryByCountryId {
+            name
+            nicename
+            id
+          }
+        }
+      }
+      shippingChargesByZoneId {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+}`;
 const MASTERSTONECOLORS =`
 query  {
   allMasterStonesColors(orderBy: UPDATED_AT_DESC) {
@@ -1301,5 +1414,11 @@ query MyQuery($productId: String!) {
     THEMEMASTER,
     STYLEMASTER,
     OCCASSIONSMASTER,
-    PAYMENTSTATUSMASTER
+    PAYMENTSTATUSMASTER,
+    SHIPPINGZONES,
+    MASTERCOUNTRIES,
+    SHIPPINGCHARGES,
+    ACTIVESHIPPINGZONES,
+    MASTERPAGES,
+    GOLDPRICESETUPMASTER
   }

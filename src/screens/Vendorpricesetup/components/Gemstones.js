@@ -339,7 +339,7 @@ const   AddContact=(props)=> {
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [vendorid,setVendorid] = React.useState(props.vendor);
-  const [deleteid, setDeleteid] = React.useState('');
+  const [deleteid, setDeleteid] = React.useState([]);
   const [gemmaster, setGemmaster] = React.useState([]);
 
   const [order, setOrder] = React.useState('asc');
@@ -365,24 +365,45 @@ const   AddContact=(props)=> {
   };
  async function handledelete(diamondcontent)
   {
-    let variables ={
-      elementId:deleteid
-    }
-    await props.client.mutate({mutation:DELETEGEMCHARGE,variables}).then(res=>{
-
-      if(res!==null){
-        //refetch();
-        // refetchval()
+    if(deleteid.length > 0)
+    {
+      let variables ={
+        elementId:deleteid[0]
       }
-    }).catch(err => {
+      await props.client.mutate({mutation:DELETEGEMCHARGE,variables})
+    }
+    if(deleteid.length > 1)
+    {
+      let variables ={
+        elementId:deleteid[1]
+      }
+      await props.client.mutate({mutation:DELETEGEMCHARGE,variables})
+    }
+    // await props.client.mutate({mutation:DELETEGEMCHARGE,variables}).then(res=>{
 
-    })
+    //   if(res!==null){
+    //    // refetch();
+    //     // refetchval()
+    //     getgemlist()
+    //   }
+    // }).catch(err => {
+
+    // })
+    setgemlist([])
+
+    setDeleteid([])
+    getgemlist()
     setIsconformation(false);
 
   }
   function handleDelete(diamondData) {
-    setDeleteid(diamondData.id)
-    setIsconformation(true);
+
+    let deleteids = [];
+    deleteids.push(diamondData.costprice.id)
+    deleteids.push(diamondData.sellprice.id)
+
+     setDeleteid(deleteids)
+     setIsconformation(true);
   }
 
   async function handleAdd(gemstonedata){
@@ -472,7 +493,6 @@ const   AddContact=(props)=> {
       vendorid : props.vendor,
       ratetype : props.viewtype
     }
-   
     let response =  await sendNetworkRequest('/getvendorgemprice', {}, bodydata)
    // setProductlists(response.products)
    setgemlist(response.gems)
@@ -558,7 +578,7 @@ const   AddContact=(props)=> {
       />
       </Grid> */}
       <Grid item xs={6} style={{textAlign: "right"}}>
-        <Button color="primary" variant="outlined"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
+        <Button color="primary" variant="contained"  size="small"  style={{paddingRight: 16, paddingLeft: 16}} onClick={handleClickOpen}>
               Add New
         </Button>
       </Grid>

@@ -6,6 +6,7 @@ import { Query, withApollo } from 'react-apollo';
 import {SALEDISCOUNTS,DELETESALEDISCOUNT, DISCOUNTSTATUSEDIT} from '../../../../graphql/query'
 import ConformationAlert from '../../../../components/ConformationAlert'
 import { useHistory } from "react-router-dom";
+import Link from '@material-ui/core/Link'
 
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -47,7 +48,8 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   inner: {
-    minWidth: 1150
+   // minWidth: 1150
+   overflowX: 'auto',
   },
   actions: {
     padding: theme.spacing(0, 1),
@@ -187,6 +189,17 @@ function handleDelete(diamondData) {
       <Card>
         <CardHeader
           title={props.title}
+          action={
+            <Link underline='none' component={RouterLink} to={'/salediscount'}>
+            <Button
+            color="primary"
+            variant="contained"
+            onClick={()=>props.onAdd()}
+          >
+            Add New 
+          </Button>
+          </Link>
+          }
         />
         <Divider />
         <CardContent className={classes.content}>

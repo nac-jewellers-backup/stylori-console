@@ -1,0 +1,41 @@
+{
+    "columns": [
+        
+        {
+            "label": "Shipping Zone",
+            "key":"name",
+            "id": "Shipping Zone"
+        },
+        {
+            "label": "Shipping Countries",
+            "key":"country",
+            "defaultkey": "zonecountry",
+            "id": "Shipping Countries",
+            "type": 3
+        },
+        {
+            "label": "Shipping Rate Name",
+            "key":"charges",
+            "id": "Shipping Rate Name",
+            "type": 4
+        },
+        {
+            "label": "Active",
+            "key":"isActive",
+            "id": "Active",
+            "type": 2
+        },
+        {
+            "label": "Actions",
+            "key":"action",
+            "id": "Actions"
+        }
+    ],
+
+    "values":[{
+        "id":1,
+        "hsn":"iwewuewu",
+        "tax":"6",
+        "action":["edit","delete"]
+    }]
+}

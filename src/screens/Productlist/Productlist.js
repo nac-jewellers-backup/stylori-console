@@ -16,7 +16,7 @@ export const Productlist = withRouter(props => {
 
    
   
-
+  //alert(JSON.stringify(props.nameevent))
    
   return (
     <Grid container  spacing={2}>  
@@ -29,7 +29,7 @@ export const Productlist = withRouter(props => {
           </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right"}} >
           <Link underline='none' component={RouterLink} to={'/productupload'}>
-          <Button variant="outlined" color="primary" >
+          <Button variant="contained" color="primary" >
             Add New Product
         </Button>
         

@@ -24,9 +24,9 @@ const useStyles = makeStyles(() => ({
 export const Configuration = withRouter(props => {
   const master_options = ['Attribute Master','Categories','ProductTypes', 'Materials','Metal Colours','Metal Purities','Collections','Occassions','Styles','Themes','Designs','Weights','Diamond Types',
 'Diamond Settings','Diamond Shapes','Earring Backings','Gemstone Settings','Gemstone Shapes','Gemstone Types','Stones','Stone Colours','Stone Shapes',
-'Gender','SEO Priorities','Tax Settings 1','Tax Settings 2','Payment Status']
+'Gender','SEO Priorities','Tax Settings 1','Tax Settings 2','Payment Status','Order Status','Shipping Zones','Shipment Setting I','Shipment Setting II']
   const master_options_url = ['masterattributes','categories','producttypes', 'materialmaster','mastercolors','masterpurities','collections','masteroccassions','masterstyles','masterthemes','designs','weights','diamonds','diamondsettings','diamondshapes','earringbacking',
-  'gemstonesettings','gemstoneshapes','gemstonetypes','masterstones','masterstonecolors','masterstoneshapes','genders','seopriority','Taxsetup','taxsettings','paymentstatus']
+  'gemstonesettings','gemstoneshapes','gemstonetypes','masterstones','masterstonecolors','masterstoneshapes','genders','seopriority','Taxsetup','taxsettings','paymentstatus','orderstatus','zones','shipmensettings','shippingattributes']
 
   const [raised, setRaised] = React.useState(false);
   const [cardindex, setCardindex] = React.useState(-1);

@@ -299,6 +299,11 @@ const useStyles2 = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(3),
   },
+  contantview: {
+   placeItems: "center",
+    display: "flex",
+    justifyContent: "center"
+  },
   table: {
     minWidth: 500,
   },
@@ -333,13 +338,12 @@ const   Vendor=(props)=> {
   {
 
     let response =  await sendNetworkRequest('/getnewvendorcode', {}, {})
+    setBtnEdit({ ...btnEdit, id:'', action: false }) 
     setIsadd(true)
     setNewvendorcode(response.newvendorcode)
   }
   function Cancelcreate(refetch) {
-    setIsadd(false)
-    setBtnEdit({ ...btnEdit, id:'', action: false }) 
-    refetch()   
+    window.location.reload();
     // props.onCancel();
   }
   function Editvendor(vendordata) {
@@ -362,9 +366,9 @@ const   Vendor=(props)=> {
     {
       
       editcontent['isedit'] = false
-      editcontent['shortCode'] = props.newvendorcode
+      editcontent['shortCode'] = newvendorcode
     }
-    
+   
      let response =  await sendNetworkRequest('/updatevendor', {}, editcontent)
      props.onCancel()
     setBtnEdit({ ...btnEdit, id:'', action: false })
@@ -379,6 +383,7 @@ const   Vendor=(props)=> {
 
   }
   function CancelEdit(diamondData) {
+
     setBtnEdit({ ...btnEdit, id:'', action: false })
   }
   const handleInputChange = type => e => {
@@ -479,17 +484,16 @@ function applyfilter(searchtext, categoryname, typename)
   // }
   return (
     <Paper className={classes.root}>
-      <Grid container item xs={12} sm={12} alignItems={"flex-end"} >
-            <Grid fullwidth item xs={6} sm={6}>
-
-            <Typography component="h6" variant="h6">
+      <Grid container item xs={12} sm={12} className={classes.contantview} >
+        <Grid fullwidth item xs={6} sm={6} style={{"text-align":"left", padding:"16px"} } >
+          <Typography  component="h4" variant="h4" >
             Vendors
           </Typography>
           </Grid>
           <Grid fullwidth item xs={6} sm={6} style={{"text-align":"right","padding":"8px"} } >
-          <Button variant="outlined" onClick={() => addnewvendor()}  color="primary" >
-          Add New Vendor
-        </Button>
+            <Button variant="contained" onClick={() => addnewvendor()}  color="primary" >
+              Add New Vendor
+            </Button>
         
         </Grid>
     </Grid>

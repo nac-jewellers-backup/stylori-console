@@ -39,6 +39,7 @@ export const DiscountList = withRouter(props => {
   }
   function addcategory()
   {
+    
     setIsadd(true)
   }
   function cancelcreation()
@@ -59,6 +60,7 @@ export const DiscountList = withRouter(props => {
        className={classes.results}
        tablecolumns={colimns}
       searchtext={searchtext}
+      onAdd={addcategory}
       isadd={isadd}
       onCancel={cancelcreation}
     />
