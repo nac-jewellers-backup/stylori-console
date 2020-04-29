@@ -306,7 +306,7 @@ async function saveProductEditItem() {
   };
  async function showpricesummary(sku)
   {
-    let response =  await sendNetworkRequest('/viewskupricesummary/SR0185-14210000-23', {}, null)
+    let response =  await sendNetworkRequest('/viewskupricesummary/'+sku, {}, null)
     let price_summary = []
     let skuprice = response.price_summary.skuprice;
     // let cost_obj = {

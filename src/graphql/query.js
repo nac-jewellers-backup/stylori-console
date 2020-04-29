@@ -1328,6 +1328,7 @@ query MyQuery($productId: String!) {
         discountPriceTax
         markupPrice
         markupPriceTax
+        marginOnSalePercentage
         sellingPrice
         discountDesc
         sellingPriceTax
