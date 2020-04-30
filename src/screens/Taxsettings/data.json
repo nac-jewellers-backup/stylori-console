@@ -4,13 +4,14 @@
         {
             "label": "Attribute Name",
             "key":"name",
-            
-            "id": "Attribute Name"
+            "id": "Attribute Name",
+             "type":3 
         },
         {
             "label": "Attribute Value",
             "key":"value",
-            "id": "Attribute Value"
+            "id": "Attribute Value",
+            "type":3 
         },
         {
             "label": "HSN Code",
