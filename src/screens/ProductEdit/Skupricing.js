@@ -278,6 +278,8 @@ console.log(JSON.stringify(bodydata))
            bodydata['markupPriceTax'] = parseFloat(productCtx.editmarkuppricetax)
            bodydata['discountPrice'] = parseFloat(productCtx.editdiscountprice)
            bodydata['discountPriceTax'] = parseFloat(productCtx.editdiscountpricetax)
+           bodydata['marginOnSalePercentage'] = parseFloat(productCtx.marginOnSalePercentage)
+
            bodydata['generatedSku'] = id;
           return skulistdata;
         }

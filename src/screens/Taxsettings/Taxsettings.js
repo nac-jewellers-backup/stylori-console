@@ -8,11 +8,12 @@ import Vendor from '../../components/Vendor'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Query, withApollo } from 'react-apollo';
+import Attributescontent from './Attributescontent/Attributescontent';
 
 import Mastercontent from '../../components/Mastercontent';
 import data from "./data.json"
 import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
-import { TaxSettingList, CREATETAXSETUP } from '../../graphql/query';
+import { TaxList, CREATETAXSETUP } from '../../graphql/query';
 import { NetworkContext } from '../../context/NetworkContext';
 import {Breadcrumbs} from '../../components'
 
@@ -61,14 +62,14 @@ export const Taxsettings = withRouter(props => {
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: TaxSettingList  })
+      body: JSON.stringify({ query: TaxList  })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-        setMastervalue(fatchvalue.data.allTaxsettings.nodes)
-        setFiltervalue(fatchvalue.data.allTaxsettings.nodes)
+        setMastervalue(fatchvalue.data.allMasterTaxSettings.nodes)
+        setFiltervalue(fatchvalue.data.allMasterTaxSettings.nodes)
       })
       .catch(console.error)
   }
@@ -81,8 +82,10 @@ export const Taxsettings = withRouter(props => {
     <Breadcrumbs></Breadcrumbs>
 
     {/* <Mastercontent onCancel={canceltaxcreation} isadd={isadd} columns={data.columns}/>  */}
-     <Mastercontent title={"Tax Setup"} button_title={"Add new"} onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
-
+     {/* <Mastercontent title={"Tax Setup"} button_title={"Add new"} onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/> */}
+     <Attributescontent title= {"Shipment Settings II"} 
+        masters={[]}
+        button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
     </Grid>
     </>
   )

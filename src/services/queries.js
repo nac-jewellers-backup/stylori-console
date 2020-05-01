@@ -384,3 +384,94 @@ export const SHIPPINGMASTER = `query {
     }
   }
 }`
+
+
+
+
+export const TAXMASTER = `query {
+  allMasterProductCategories {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+  allMasterProductTypes {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+  allMasterMetalsPurities {
+    nodes {
+      name
+      id
+      alias
+    }
+  },
+   allMasterMaterials {
+    nodes {
+      alias
+      id
+      name
+    }
+  },
+  allMasterCollections {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+
+  allMasterMetalsPurities{
+    nodes {
+      name
+      id
+    }
+  }
+  allMasterTaxSettings {
+    nodes {
+      hsnNumber
+      id
+      productAttributes
+    }
+  }
+  allMasterStyles {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+
+  allMasterThemes {
+    nodes {
+      name
+      id
+      alias
+    }
+  }
+  allMasterDiamondTypes {
+    nodes {
+      shortCode
+      diamondColor
+      diamondClarity
+      id
+    }
+  }
+  allMasterOccasions {
+    nodes {
+      name
+      alias
+      id
+    }
+  }
+}`
