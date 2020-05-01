@@ -6,7 +6,7 @@ import {
     Dashboard, Login, Productupload, Configuration,Manageusers,Customerdetails,
     Priceupdate, Vendorprice, Vendorlist, Markupprice,Goldpriceupdate,Userwishlist,
     Productlist, Materiallist, Masterorderstatus, Shippingzones,Manageadminusers,
-    Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,Useraddresses,
+    Shipmentsettings,Addshippingattributes,Userconfiguration,Masterroles,Masterscreens,Useraddresses,Addtaxattributes,
     Materialmaster, CategoryList, Mastermetalcolors, Masterpurities, Masterdesigns, Shippingattributes, Voucherdiscount, Masterstyles, Masterthemes, Masteroccassions, Masterpaymentstatus, Salediscount, Masterweights, Taxsettings, Masterstones, Masterstonecolors, Masterstoneshapes, Masterattribute, Mastercategories, OrderList, Mastergemsettings, Seopriority, Mastergenders, Mastergemshapes, Mastergemtypes, Earringbacking, Masterproducttypes, Masterdiamondshapes, Taxsetup, Masterdiamonds, Masterdiamondsettings, DiscountList, VoucherdiscountListing, Mastercollections, Masterpages
 } from '../screens';
 import PrivateRoute from './PrivateRoute';
@@ -95,9 +95,10 @@ const MainApp = () => {
                     <PrivateRoute path={route.shippingzones} component={Shippingzones} />
                     <PrivateRoute path={route.shippingattributes} component={Shippingattributes} />
                     <PrivateRoute path={route.addshippingattributes} component={Addshippingattributes} />
+                    <PrivateRoute path={route.addtaxattributes} component={Addtaxattributes} />
 
 
-
+                    
 
                     <PrivateRoute path={route.gender} component={Mastergenders} />
                     <PrivateRoute path={route.seo} component={Seopriority} />

@@ -51,6 +51,7 @@ const route = {
     diamondshapes: '/diamondshapes',
     earringbacking: '/earringbacking',
     addshippingattributes : '/addshippingattributes',
+    addtaxattributes : '/addtaxattributes',
     userconfiguration : '/userconfiguration',
     masterroles : '/masterroles',
     manageadminusers : '/manageadminusers',

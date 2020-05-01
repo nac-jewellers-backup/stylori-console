@@ -55,6 +55,7 @@ export * from "./CustomerManagementDetails"
 export * from "./Customerdetails"
 export * from "./Userwishlist"
 export * from "./Useraddresses"
+export * from "./Addtaxattributes"
 
 
 

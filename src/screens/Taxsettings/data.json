@@ -1,9 +1,13 @@
 {
     "columns": [
-        
+        {
+            "label": "HSN Code",
+            "key":"hsnNumber",
+            "id": "HSN Code"
+        },
         {
             "label": "Attribute Name",
-            "key":"name",
+            "key":"product_attributes",
             "id": "Attribute Name",
              "type":3 
         },
@@ -13,11 +17,7 @@
             "id": "Attribute Value",
             "type":3 
         },
-        {
-            "label": "HSN Code",
-            "key":"hsnCode",
-            "id": "HSN Code"
-        },
+       
        
         {
             "label": "Actions",
