@@ -300,6 +300,8 @@ query  {
       taxValue
       igst
       cgst
+      productAttributes
+      displayAttributes
       updatedAt
       id
     }
