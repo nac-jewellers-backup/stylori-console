@@ -63,7 +63,6 @@ export const Goldpriceupdate = withRouter(props => {
       metal : defaultmetal,
       pricetype : pricetype
     }
-    alert(JSON.stringify(bodycondent))
      let response =  await sendNetworkRequest('/updatevendorgoldprice', {}, bodycondent)
      alert("price updated successfully")
   }
