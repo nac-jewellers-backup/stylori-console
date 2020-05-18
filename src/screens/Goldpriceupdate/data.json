@@ -1,21 +1,25 @@
 {
 
-    "goldpurity":[{
+    "goldpurity":[
+        {
+            "name":"24K",
+            "shortCode":24
+        },
+        {
+            "name":"22K",
+            "shortCode":22
+        },
+        {
+            "name":"18K",
+            "shortCode":18
+        },
+        {
         "name":"14K",
         "shortCode":14
-    },
-    {
-        "name":"18K",
-        "shortCode":18
-    },
-    {
-        "name":"22K",
-        "shortCode":22
-    },
-    {
-        "name":"24K",
-        "shortCode":24
     }
+   
+    
+   
 ],
     
     "Gold":{

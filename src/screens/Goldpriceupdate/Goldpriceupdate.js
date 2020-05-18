@@ -145,9 +145,18 @@ export const Goldpriceupdate = withRouter(props => {
    // setEditcontent({ ...editcontent, [type]: value  })
    let vendorid = []
    value.forEach(element => {
-    vendorid.push(element.shortCode)
+    if(element.shortCode == 'All')
+    {
+      mastervendors.forEach(element => {
+        vendorid.push(element.shortCode)
+      })
+      setSelectedvendors(vendorid)
+    }else{
+      vendorid.push(element.shortCode)
+      setSelectedvendors(vendorid)
+
+    }
    })
-   setSelectedvendors(vendorid)
   }
   const handlepricetypeChange = (event, value) => {
     setPricetype(value)
