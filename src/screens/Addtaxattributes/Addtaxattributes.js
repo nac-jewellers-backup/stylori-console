@@ -49,7 +49,7 @@ export const Addtaxattributes = withRouter(props => {
   {
 
     let attrs = []
-  let display_arr = []
+    let display_arr = []
     let keys = Object.keys(value);
     keys.forEach(key => {
       let values = []
@@ -75,10 +75,9 @@ export const Addtaxattributes = withRouter(props => {
       display_text : displaytext
     } 
 
-    let response =  await sendNetworkRequest('/manageshippingattributes', {}, reqbody)
+    let response =  await sendNetworkRequest('/managetaxattributes', {}, reqbody)
     //  getmaster()
-     //   alert(JSON.stringify(response))
-     history.push('/shippingattributes')
+     history.push('/taxsettings')
     
   }
   async function getmastervalues(ratevalue)
@@ -124,7 +123,6 @@ export const Addtaxattributes = withRouter(props => {
             let categories = element.productAttributes;
 
             var selectedcategory = []
-            alert(JSON.stringify(fatchvalue.data.allMasterProductCategories.nodes))
             
             fatchvalue.data.allMasterProductCategories.nodes.forEach(catobj => {
               if(categories)

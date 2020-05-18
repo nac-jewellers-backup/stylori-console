@@ -6,7 +6,7 @@ export const GRAPHQL_DEV_CLIENT = "https://api-staging.stylori.com/graphql"
 export const URL = "https://console-staging.stylori.com"
 
 //  export const GRAPHQL_DEV_CLIENT = "http://localhost:8000/graphql"
-//  export const API_URL = "http://localhost:8000"
+// export const API_URL = "http://localhost:8000"
 // export const BASE_URL = "http://localhost:8000"
 // export const URL = "https://localhost:3000"
 

@@ -300,6 +300,8 @@ query  {
       taxValue
       igst
       cgst
+      productAttributes
+      displayAttributes
       updatedAt
       id
     }
@@ -1329,6 +1331,7 @@ query MyQuery($productId: String!) {
         markupPrice
         marginOnSalePercentage
         markupPriceTax
+        marginOnSalePercentage
         sellingPrice
         discountDesc
         sellingPriceTax

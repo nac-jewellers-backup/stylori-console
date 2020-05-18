@@ -7,15 +7,15 @@
         },
         {
             "label": "Attribute Name",
-            "key":"product_attributes",
+            "key":"productAttributes",
             "id": "Attribute Name",
-             "type":3 
+             "type":1 
         },
         {
             "label": "Attribute Value",
-            "key":"value",
+            "key":"displayAttributes",
             "id": "Attribute Value",
-            "type":3 
+            "type":1 
         },
        
        

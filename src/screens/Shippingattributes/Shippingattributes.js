@@ -132,7 +132,6 @@ export const Shippingattributes = withRouter(props => {
       .catch(console.error)
   }
   useEffect(() => {
-    alert("i mahe etr")
     getmastervalues()
     getmaster()
   }, [])
