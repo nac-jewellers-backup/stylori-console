@@ -69,8 +69,8 @@ const useStyles = makeStyles(theme => ({
 const Results = props => {
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].id : 'Order ID');
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].orderdate : 'Order Date');
   const handleRequestSort = (event, property) => {
 
     const isAsc = orderBy === property && order === 'asc';

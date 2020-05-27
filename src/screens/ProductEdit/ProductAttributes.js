@@ -860,7 +860,6 @@ async function saveProductEditItem() {
              
             <Grid item xs={12} sm={12} md={9} lg={9}  spacing={2} style={{ padding: "15px" }}>
               <Grid container item md={6}>
-                
               </Grid>
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Diamond Table</Grid>
               <DiamondDetails diamond={productCtx.diamondlist} />

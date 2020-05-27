@@ -95,8 +95,8 @@ export const PRODUCTCATEGORY = gql`query {
     }
   
   }`
-export const ORDERS = gql`query {
-  allOrders {
+export const ORDERS = orderid  => gql`query {
+  allOrders(filter:  ${orderid ? `{userProfileId: {equalTo: "${orderid}"}}` : `{id: {isNull: false}}`},orderBy: CREATED_AT_DESC) {
     nodes {
       paymentMode
       paymentStatus
@@ -147,6 +147,12 @@ export const ORDERS = gql`query {
           firstName
           mobile
           email
+          userAddressesByUserProfileId {
+            nodes {
+              contactNumber
+            }
+          }
+          
         }
       }
       paymentDetailsByOrderId {

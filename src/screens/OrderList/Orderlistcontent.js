@@ -71,8 +71,8 @@ export default function Producttypecontent() {
   async function getorders()
   {
     var orders_arr = []
-   
     orderCtx.orderMaster.orders.forEach(element => {
+
         let orderobj = {}
         orderobj['orderid'] = element.id
         orderobj['orderdate'] = element.createdAt
@@ -103,26 +103,40 @@ export default function Producttypecontent() {
         if(element.shoppingCartByCartId)
         {
             let cartcontent = element.shoppingCartByCartId
+
+                if(cartcontent.cartAddressesByCartId)
+                {
+                    let addresscontent = cartcontent.cartAddressesByCartId.nodes;
+                    addresscontent.forEach(addressobj => {
+                        orderobj['address'] = addressobj.addressline1
+                        if(!orderobj["mobile"])
+                        {
+                          orderobj['mobile'] = addressobj.contactNumber
+
+                        }
+                        if(!orderobj["username"])
+                        {
+                          orderobj['username'] = addressobj.firstname ? addressobj.firstname : ""
+
+                        }
+
+                    })
+
+                }
             if(cartcontent.shoppingCartItemsByShoppingCartId)
             {
               
 
                 let cartitemscontent = cartcontent.shoppingCartItemsByShoppingCartId.nodes
                 let skus = []
+                
                 cartitemscontent.forEach(element => {
                     if(element.transSkuListByProductSku)
                     {
                         skus.push(element.transSkuListByProductSku.generatedSku)
                     }
 
-                    if(element.cartAddressesByCartId)
-                    {
-                        let addresscontent = element.cartAddressesByCartId.nodes;
-                        addresscontent.forEach(addressobj => {
-                            orderobj['address'] = addressobj.addressline1
-                        })
-
-                    }
+                    
                 })
                 orderobj['skus'] = skus.join(' , ')
             }
@@ -130,9 +144,35 @@ export default function Producttypecontent() {
             {
              // alert(JSON.stringify(orderCtx.orderMaster.orders[0]))
               let usercontent = cartcontent.userProfileByUserprofileId
+              if(usercontent.firstName)
+              {
                 orderobj['username'] = usercontent.firstName ? usercontent.firstName : ""
-                orderobj['mobile'] = usercontent.mobile ? usercontent.mobile : ""
+
+              }
                 orderobj['email'] = usercontent.email ? usercontent.email : ""
+                if(!orderobj["username"])
+                            {
+                              orderobj['username'] = usercontent.firstname ? usercontent.firstname : ""
+
+
+                            }
+
+              let useraddressess = usercontent.userAddressesByUserProfileId
+              if(useraddressess)
+              {
+                let address_arr = useraddressess.nodes
+                address_arr.forEach(useraddressobj => {
+
+                  if(!orderobj["mobile"])
+                  {
+                    orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
+                  }
+                  if(!orderobj["mobile"])
+                  {
+                    orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
+                  }
+                });
+              }
             }
 
             if(cartcontent.giftwrapsByCartId)

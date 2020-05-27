@@ -37,8 +37,6 @@ export default function ResponsiveDialog(props) {
         <DialogTitle id="responsive-dialog-title">{"Price Summary"}</DialogTitle>
         <DialogContent>
         <Mastercontent title= {"Metal Colours"} button_title=""   columns={columnnames.pricesummary} values={props.values}/>
-
-        
         </DialogContent>
         <DialogActions>
        
