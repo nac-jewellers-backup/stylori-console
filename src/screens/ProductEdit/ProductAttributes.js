@@ -359,7 +359,7 @@ async function saveProductEditItem() {
     let mateialprice = response.price_summary.materials;
     mateialprice.forEach(element => {
         let obj = {
-          component : element.component.split('_').length > 0 ? element.component.split('_')[0] + ' ' + element.material_name : ' ' + element.material_name,
+          component :  element.material_name,
           cost_price : element.cost_price,
           selling_price : element.selling_price,
           markup_price : element.markup,

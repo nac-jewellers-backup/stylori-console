@@ -71,7 +71,7 @@ const General = props => {
               <TableCell>Email</TableCell>
               <TableCell>
                 {customer ? customer.email : ""}
-                <div>
+                {customer.isemailverified && <div>
                   <Label
                     color={
                          customer.isemailverified ? colors.green[600] : colors.orange[600]
@@ -82,13 +82,13 @@ const General = props => {
                       ? 'Email verified'
                       : 'Email not verified'} 
                   </Label>
-                </div>
+                </div>}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Phone</TableCell>
-              <TableCell>{customer.mobile}
-              <div>
+               <TableCell>{customer.mobile}
+               {customer.isemailverified && <div>
                   <Label
                     color={
                          customer.ismobileverified ? colors.green[600] : colors.orange[600]
@@ -99,16 +99,16 @@ const General = props => {
                       ? 'Mobile verified'
                       : 'Mobile not verified'} 
                   </Label>
-                </div>
+                </div>}
                 </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>State/Region</TableCell>
-              <TableCell>{customer.city}</TableCell>
+              <TableCell>{customer.address && customer.address.city}</TableCell>
             </TableRow>
             <TableRow >
               <TableCell>Country</TableCell>
-              <TableCell>{customer.country}</TableCell>
+              <TableCell>{customer.address && customer.address.country}</TableCell>
             </TableRow>
             {/* <TableRow>
               <TableCell>Address 1</TableCell>
@@ -116,7 +116,7 @@ const General = props => {
             </TableRow> */}
             <TableRow>
               <TableCell>Pincode</TableCell>
-              <TableCell>{customer.pincode}</TableCell>
+              <TableCell>{customer.address && customer.address.pincode}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

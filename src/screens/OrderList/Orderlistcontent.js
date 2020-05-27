@@ -58,10 +58,10 @@ export default function Producttypecontent() {
     if(searchtext.length > 0)
     {
     var data_filter = orders.filter( element => 
-      element.email.match(searchtext+'.*') || 
-      element.mobile.match(searchtext+'.*') ||
-      element.orderid.match(searchtext+'.*') || 
-      element.username.match(searchtext+'.*')
+      element.email &&  element.email.match(searchtext+'.*')  || 
+      element.mobile && element.mobile.match(searchtext+'.*') ||
+      element.orderid && element.orderid.match(searchtext+'.*') || 
+      element.username && element.username.match(searchtext+'.*')
       )
       setFilteredorder(data_filter)
     }else{

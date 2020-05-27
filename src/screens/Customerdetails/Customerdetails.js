@@ -100,6 +100,7 @@ async function getmaster()
   {
     let response =  await sendNetworkRequest('/getuserinfo', {}, {user_id : user_id})
     setMasters(response.userinfo)
+
     setCustomer(response.userprofile)
   }
   React.useEffect(() => {
