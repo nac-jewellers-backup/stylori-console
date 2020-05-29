@@ -16,7 +16,6 @@ export const OrderConsumer = OrderContext.Consumer;
 
 const mapDataToCtx = (apiData, mapper, mappertype) => { 
     if(Object.keys(apiData).length === 0) return {};
-    console.log("resposeobjvalue1"+JSON.stringify(apiData))
  
     orderCtxInitial.orderCtx[mappertype] = mapper(apiData);
 

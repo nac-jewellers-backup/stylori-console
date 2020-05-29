@@ -359,7 +359,7 @@ async function saveProductEditItem() {
     let mateialprice = response.price_summary.materials;
     mateialprice.forEach(element => {
         let obj = {
-          component : element.component.split('_').length > 0 ? element.component.split('_')[0] + ' ' + element.material_name : ' ' + element.material_name,
+          component :  element.material_name,
           cost_price : element.cost_price,
           selling_price : element.selling_price,
           markup_price : element.markup,
@@ -860,7 +860,6 @@ async function saveProductEditItem() {
              
             <Grid item xs={12} sm={12} md={9} lg={9}  spacing={2} style={{ padding: "15px" }}>
               <Grid container item md={6}>
-                
               </Grid>
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Diamond Table</Grid>
               <DiamondDetails diamond={productCtx.diamondlist} />
