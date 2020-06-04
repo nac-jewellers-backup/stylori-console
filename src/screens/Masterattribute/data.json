@@ -27,6 +27,13 @@
             "id": "Search Include",
             "type":2
         },
+
+        {
+            "label": "Is Top Menu",
+            "key":"isTopMenu",
+            "id": "is_top_menu",
+            "type":2
+        },
         {
             "label": "Actions",
             "key":"action",

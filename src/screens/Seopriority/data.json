@@ -25,7 +25,17 @@
             "key":"seoUrl",
             "id": "SEO Url"
         },
-        
+        {
+            "label": "Image Url",
+            "key":"imageUrl",
+            "id": "Image Url"
+        },
+        {
+            "label": "Mobile Image Url",
+            "key":"mobileImageUrl",
+            "id": "Mobile Image Url"
+        },
+
         {
             "label": "Actions",
             "key":"action",

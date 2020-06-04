@@ -716,6 +716,7 @@ allAttributeMasters {
     isSearch
     isActive
     filterPosition
+    isTopMenu
     createdAt
     shortCode
     updatedAt
@@ -782,6 +783,8 @@ query  {
       priority
       seoText
       seoUrl
+      imageUrl
+        mobileImageUrl
       id
       attributeName
       attributeValue
