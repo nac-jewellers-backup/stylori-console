@@ -1,0 +1,5 @@
+@media (min-width: 30em) {
+    .filepond--item {
+        width: calc(100% - .5em);
+    }
+}

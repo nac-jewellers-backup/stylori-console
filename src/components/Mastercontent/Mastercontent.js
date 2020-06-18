@@ -7,7 +7,13 @@ import Table from '@material-ui/core/Table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { FilePond, registerPlugin } from 'react-filepond';
+import Box from '@material-ui/core/Box';
+import Avatar from '@material-ui/core/Avatar';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
+import Badge from '@material-ui/core/Badge';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Toolbar from '@material-ui/core/Toolbar';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,6 +34,8 @@ import Link from '@material-ui/core/Link'
 import { Query, withApollo } from 'react-apollo';
 import {TaxList,VENDORLISTS,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
+import axios from 'axios';
+
 import { Button, Switch,Grid,FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
@@ -42,6 +50,20 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GrainIcon from '@material-ui/icons/Grain';
+import 'filepond/dist/filepond.min.css';
+import "./tmp.css";
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import moment from 'moment';
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
+
 // const columns = [
 //   { id: 'name', label: 'Name' },
 //   { id: 'vendorcode', label: 'Vendor Code' },
@@ -254,6 +276,12 @@ const useStyles2 = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(3),
   },
+  imagecontainer: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
   table: {
     minWidth: 500,
   },
@@ -341,7 +369,23 @@ const   Vendor=(props)=> {
     props.onSearch(editcontent.searchcontent)
 
   }
-  
+  function handleInit() {
+    console.log('FilePond instance has initialised');
+}
+function removeimage(imagename,keyvalue) {
+  let previmagenames = editcontent[keyvalue];
+  let newimages = []
+  let previmages = previmagenames.split(',')
+  previmages.forEach(element => {
+      if(element == imagename)
+      {
+
+      }else{
+        newimages.push(element)
+      }
+  });
+  setEditcontent({...editcontent, [keyvalue]: newimages.join(',')})
+}
   function CancelEdit(diamondData) {
    if(isadd)
    {
@@ -377,7 +421,37 @@ const handleChange = type => (event) => {
     setOffsetValue(newPage*rowsPerPage)
 
   }
+  async function uploadimagetoserver(bodaydata, keyvalue, uploadtype)
+  {
+      
+      let imagename = moment(new Date()).format('DD-MM-YYYYHH-MM-SS')
+     let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename,foldername: 'banner_images', product_id: null },false)
+      var returnData = responsedata.data.returnData;
+    var signedRequest = returnData.signedRequest;
+    var url = returnData.url;
+    console.log("responseurl"+url);
+    var filepathname = returnData.filepath
+     let imageurl = 'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname
+ 
+     var options = {
+        headers: {
+            'Content-Type': bodaydata.fileExtension,
+            'Access-Control-Allow-Origin':'*'
+        }
+    };
 
+    await axios.put(signedRequest, bodaydata.file, options)
+    let previmagenames = editcontent[keyvalue];
+    let previmages = []
+    if(previmagenames)
+    {
+      previmages = previmagenames.split(',')
+      previmages.push(imageurl);
+    }
+    setEditcontent({ ...editcontent, [keyvalue]: previmages.join(',')  })
+
+  
+}
   useEffect( () => {
   
     setMasterlist(props.values)
@@ -508,6 +582,39 @@ const handleChange = type => (event) => {
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => <TextField {...params} label={columnname.label} variant="outlined" />}
                 /> : null }
+                 {columnname.type == 9 ? 
+                  
+                
+                         
+                      <>
+
+                  <FilePond
+                  
+                  oninit={() => handleInit() }
+                  labelIdle='Add Banner Image'
+                  
+                  onaddfile={(error, fileItem)=> {
+                    if(!error)
+                    {
+                      uploadimagetoserver(fileItem, columnname.key, "add")
+
+                    }else
+                    {
+                     // alert(row[columnname.key])
+                    }
+                  }}
+                /> 
+                    <div className={classes.imagecontainer}>
+
+                {editcontent[columnname.key] ? editcontent[columnname.key].split(',').map((row, index) => ( <Badge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }} badgeContent={<HighlightOffIcon fontSize="small" onClick={() => removeimage(row,columnname.key)} />
+              }><Avatar alt="Remy Sharp" src={row} className={classes.small} /></Badge>)) : null }  
+              </div></>  :null
+              }
                  {columnname.type == 5 ? 
                   <Autocomplete
                   
@@ -557,7 +664,13 @@ const handleChange = type => (event) => {
                                                 </Button> : null}  
                       {columnname.type === 6 ?     <Button onClick={() => props.onPermissionadd(row)} variant="outlined" size="small" color="primary">
                                                   {columnname.controllabel}
-                                                </Button> : null}  
+                                                </Button> : null} 
+
+                      {columnname.type === 9 ? 
+                        <AvatarGroup max={2}>
+                          {row[columnname.key] ? row[columnname.key].split(',').map((row, index) => (
+                        <Avatar alt="Remy Sharp" src={row} className={classes.small} />)) : null }</AvatarGroup>
+                         : null}
                       {columnname.type === 2 ?  <Switch
                         color="primary"
                         name="checkedB"
@@ -565,7 +678,7 @@ const handleChange = type => (event) => {
                         checked={row[columnname.key]}
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       /> : null}  
-         {columnname.type != 2 && columnname.type != 6 &&  columnname.type != 8  ?  <Typography> {row[columnname.key]}</Typography> : null}  
+                      {columnname.type != 2 && columnname.type != 6 &&  columnname.type != 8 && columnname.type != 9 ?  <Typography> {row[columnname.key]}</Typography> : null}  
 
                      
                     </TableCell>
