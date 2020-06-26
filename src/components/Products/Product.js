@@ -331,20 +331,12 @@ const   AddContact=(props)=> {
   useEffect( () => {
 
     getproductlist("","","","","",order,orderBy)
-  const query = props.client.query
-    query({
-      query: PRODUCTFILTERMASTER,
-      fetchPolicy: "network-only"
-    }).then((data) => {
-      if (data) {
-      // setProductlists(data.data.allProductLists.nodes)
-       setMastercategories(data.data.allMasterProductCategories.nodes)
-       setMasterproducttypes( data.data.allMasterProductTypes.nodes )
-      }else{
-      }
-    })
-  .catch((error) => {console.log("smbcj")})
+  
   }, [])
+  useEffect( () => {
+    getproductlist(props.filterparams.searchtext,props.filterparams.categoryname,props.filterparams.product_type,"","",order,orderBy)
+  
+  }, [props.filterparams])
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -412,7 +404,6 @@ function applyfilter(searchtext, categoryname, typename)
   // }
   return (
     <Paper className={classes.root}>
-      <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} />
       <div className={classes.tableWrapper}>
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
         {/* <TableHead>

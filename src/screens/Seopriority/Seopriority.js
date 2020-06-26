@@ -78,7 +78,7 @@ export const Seopriority = withRouter(props => {
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
-      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent+ ".*") : null 
+      x.attributeName.toLowerCase() ? x.attributeName.toLowerCase().match(taxcontent+ ".*") : null 
     );
     setFiltervalue(filteredHomes)
   }

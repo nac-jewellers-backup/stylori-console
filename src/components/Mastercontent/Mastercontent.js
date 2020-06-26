@@ -366,7 +366,7 @@ const   Vendor=(props)=> {
   }
   function searrchcontent()
   {
-    props.onSearch(editcontent.searchcontent)
+    props.onSearch(editcontent.searchcontent ? editcontent.searchcontent.toLowerCase() : '')
 
   }
   function handleInit() {

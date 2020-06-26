@@ -77,8 +77,7 @@ export const Masterpaymentstatus = withRouter(props => {
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
-      x.diamondColor.toLowerCase() ? x.diamondColor.toLowerCase().match(taxcontent+ ".*") : null ||
-      x.diamondClarity.toLowerCase() ? x.diamondClarity.toLowerCase().match(taxcontent+ ".*") : null 
+      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent.toLowerCase()+ ".*") : null 
 
     );
     setFiltervalue(filteredHomes)
