@@ -21,6 +21,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import EditIcon from '@material-ui/icons/Edit';
+import VisibityIcon from '@material-ui/icons/Visibility';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
@@ -39,6 +41,7 @@ const columns = [
   { id: 'product_id', label: 'product id' },
   { id: 'product_name', label: 'product name' },
   { id: 'product_type', label: 'product type' },
+  { id: 'vendor_code', label: 'vendor code' },
   { id: 'product_category', label: 'product category' },
   { id: 'isactive', label: 'active' },
   { id: 'createdAt', label: 'Created on' }
@@ -310,7 +313,7 @@ const   AddContact=(props)=> {
   const [selected, setSelected] = React.useState([]);
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('updatedAt');
-  const [rowsPerPage, setRowsPerPage] = React.useState(50);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   const [productlists,setProductlists] = React.useState([])
@@ -342,6 +345,15 @@ const   AddContact=(props)=> {
     setPage(0);
     getproductlist("","","",event.target.value,"")
 
+  }
+ async function showproductdetails(prod_id){
+   let bodycontent = {
+    productid : prod_id
+   }
+
+    let response =  await sendNetworkRequest('/getproducturl', {}, bodycontent)
+  //setProductlists(response.products.rows)
+ window.open(response.url, '_blank');
   }
   function ProductEdit(id){
     // localStorage.setItem('productEditId',id);
@@ -449,15 +461,21 @@ function applyfilter(searchtext, categoryname, typename)
                                     <Button onClick={(e) => ProductEdit(row.product_id)}>
                                     <EditIcon />
                                   </Button>
+                                  <Button onClick={(e) => showproductdetails(row.product_id)}>
+                                    <VisibityIcon />
+                                  </Button>
                                   </TableCell>
-                                  <TableCell component="th" scope="row">
-                                     {/* <Link target='blank_' href={row.trans_sku_lists.length > 0 ? BASE_URL+row.trans_sku_lists[0].sku_url : '-'}  variant="body2"> */}
+                                  <TableCell component="th" scope="row" onClick={() => showproductdetails(row)}>
+                                    {/* <Link variant="body2">  */}
                                     {row.product_name}
 
-                                    {/* </Link>  */}
+                                    {/* </Link>   */}
                                   </TableCell>
                                   <TableCell align="left">{row.product_type}</TableCell>
+                                  <TableCell align="left">{row.vendor_code}</TableCell>
                                   <TableCell align="left">{row.product_category}</TableCell>
+                                  
+
                                   <TableCell align="left"> <FormControlLabel
                                       label={row.isactive ? "" : ""}
 
@@ -490,7 +508,7 @@ function applyfilter(searchtext, categoryname, typename)
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[50,100,200,500]}
+                rowsPerPageOptions={[10,50,100,200,500]}
                 count={pageCount}
                 rowsPerPage={rowsPerPage}
                 page={page}
