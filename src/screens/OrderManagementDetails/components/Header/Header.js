@@ -56,13 +56,13 @@ const Header = props => {
           </Typography>
         </Grid>
         <Grid item>
-          <Button
+          {/* <Button
             className={classes.deleteButton}
             variant="contained"
           >
             <DeleteIcon className={classes.deleteIcon} />
             Delete
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
     </div>
