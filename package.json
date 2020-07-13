@@ -29,6 +29,7 @@
     "react-filepond": "^7.0.1",
     "react-moment": "^0.9.7",
     "react-native-web": "^0.11.7",
+    "react-perfect-scrollbar": "^1.5.8",
     "react-pivot": "^4.1.0",
     "react-pivottable": "^0.9.0",
     "react-plotly.js": "^2.3.0",

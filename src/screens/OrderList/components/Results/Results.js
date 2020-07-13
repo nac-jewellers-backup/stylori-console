@@ -12,6 +12,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import EditIcon from '@material-ui/icons/Edit';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import EnhancedTableHead from "../../../../components/EnhancedTableHead"
 import {
   Button,
@@ -269,7 +271,10 @@ const Results = props => {
                          <Button  onClick={(e) => Savevendor()}><SaveIcon />
                           </Button>
                           <Button onClick={(e) => CancelEdit(order)}><CancelIcon />
-                          </Button></> : <Button onClick={(e) => Editvendor(order)} ><EditIcon />
+                          </Button></> : <Button 
+                          component={RouterLink}
+                          to={`/orderdetails/${order.orderid}`}
+                           ><VisibilityIcon />
                      </Button>
                          } 
                    </TableCell> : 
