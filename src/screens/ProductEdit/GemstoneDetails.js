@@ -23,6 +23,7 @@ import { ProductContext } from '../../context';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { NetworkContext } from '../../context/NetworkContext';
+import EditGemstone from './Components/EditGemstone/EditGemstone';
 
 
 function Alert(props) {
@@ -170,12 +171,21 @@ export default function GemstoneDetails(props) {
     message:"",
     severity:""
   });
+  const [openedit, setOpenedit] = React.useState(false);
+  const [editcontent, setEditcontent] = React.useState(null);
+
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const handleClick = () => {
     setOpen(true);
   };
-
+  const handleApplicationClose = () => {
+    setEditcontent(null)
+    setOpenedit(false);
+  };
+  const handleApplicationOpen = () => {
+    setOpenedit(true);
+  };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -208,32 +218,41 @@ export default function GemstoneDetails(props) {
       gemstoneweight: gemstoneData.stoneWeight,
       gemstonesize: gemstoneData.gemstoneSize
     })
-    setBtnEdit({ ...btnEdit, id: gemstoneData.id, action: true })
+    setEditcontent({
+      id : gemstoneData.id,
+      gemstonesettings: productCtx.masterData.gemstonesettings.filter((settingData, index) => settingData.name === gemstoneData.gemstoneSetting)[0],
+      gemstoneshape: productCtx.masterData.gemstonshapes.filter((shapeData, index) => shapeData.name === gemstoneData.gemstoneShape)[0],
+      gemstonecount: gemstoneData.stoneCount,
+      gemstoneweight: gemstoneData.stoneWeight,
+      gemstonesize: gemstoneData.gemstoneSize
+    })
+   // setBtnEdit({ ...btnEdit, id: gemstoneData.id, action: true })
+   setOpenedit(true)
   }
- async function GemstoneSave(id) {
-    if (productCtx.gemstonesettings && productCtx.gemstoneshape && productCtx.gemstonecount && productCtx.gemstoneweight && productCtx.gemstonesize) {
+ async function GemstoneSave(gemdata) {
+    if (gemdata.gemstonesettings && gemdata.gemstoneshape && gemdata.gemstonecount && gemdata.gemstoneweight && gemdata.gemstonesize) {
       let list_data = props.gemstone;
       var bodydata = {}
       let gemstoneChangeData = list_data.map((gemstoneListData, index) => {
-        if (id === gemstoneListData.id) {
-          gemstoneListData.gemstoneSetting = productCtx.gemstonesettings.name;
-          gemstoneListData.gemstoneShape = productCtx.gemstoneshape.name;
-          gemstoneListData.stoneCount = productCtx.gemstonecount;
-          gemstoneListData.stoneWeight = productCtx.gemstoneweight;
-          gemstoneListData.gemstoneSize = productCtx.gemstonesize;
-          bodydata['gemstoneSetting'] = productCtx.gemstonesettings.name
-          bodydata['gemstoneShape'] = productCtx.gemstoneshape.name
-          bodydata['stoneCount'] = productCtx.gemstonecount;
-          bodydata['gemstoneSize'] = productCtx.gemstonesize;
-          bodydata['stoneWeight'] = productCtx.gemstoneweight;
-          bodydata['id'] = id;
+        if (gemdata.id === gemstoneListData.id) {
+          gemstoneListData.gemstoneSetting = gemdata.gemstonesettings.name;
+          gemstoneListData.gemstoneShape = gemdata.gemstoneshape.name;
+          gemstoneListData.stoneCount = gemdata.gemstonecount;
+          gemstoneListData.stoneWeight = gemdata.gemstoneweight;
+          gemstoneListData.gemstoneSize = gemdata.gemstonesize;
+          bodydata['gemstoneSetting'] = gemdata.gemstonesettings.name
+          bodydata['gemstoneShape'] = gemdata.gemstoneshape.name
+          bodydata['stoneCount'] = gemdata.gemstonecount;
+          bodydata['gemstoneSize'] = gemdata.gemstonesize;
+          bodydata['stoneWeight'] = gemdata.gemstoneweight;
+          bodydata['id'] = gemdata.id;
           return gemstoneListData;
         }
         return gemstoneListData;
       });
 
       let response =  await sendNetworkRequest('/editproductgemstone', {}, bodydata)
-      let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
+      let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data,index)=>edit_data.id===gemdata.id)[0];
       let editGemstoneLists = productCtx.editGemstoneLists;
       if(JSON.stringify(editGemstoneList)!==JSON.stringify(gemstoneEditObject.edit)){
         let status = editGemstoneLists&& editGemstoneLists.some((check_edit,index)=>check_edit.id===editGemstoneList.id) ? 
@@ -262,7 +281,9 @@ export default function GemstoneDetails(props) {
         gemstoneweight: "",
         gemstonesize: ""
       })
-      setBtnEdit({ ...btnEdit, id: "", action: false })
+      setEditcontent(null)
+      setOpenedit(false)
+    //  setBtnEdit({ ...btnEdit, id: "", action: false })
     } else {
       setSnackMessage({
         ...snackMessage,
@@ -471,6 +492,12 @@ export default function GemstoneDetails(props) {
             </TableRow>
           </TableFooter>
         </Table>
+        {editcontent && <EditGemstone
+        diamond={editcontent}
+        onApply={GemstoneSave}
+        onClose={handleApplicationClose}
+        open={openedit}
+        />        }
       </div>
     </Paper>
   );

@@ -25,6 +25,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { NetworkContext } from '../../context/NetworkContext';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import EditDiamond from './Components/EditDiamond/EditDiamond';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -178,11 +179,20 @@ export default function DiamondDetails(props) {
     severity:""
   });
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const [openedit, setOpenedit] = React.useState(false);
+  const [editcontent, setEditcontent] = React.useState(null);
 
   const handleClick = () => {
     setOpen(true);
   };
+  const handleApplicationOpen = () => {
+    setOpenedit(true);
+  };
 
+  const handleApplicationClose = () => {
+    setEditcontent(null)
+    setOpenedit(false);
+  };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -207,6 +217,7 @@ export default function DiamondDetails(props) {
       ...diamondEditObject,
       edit:JSON.parse(JSON.stringify(diamondData))
     })
+    
     setProductCtx({
       ...productCtx,
       diamondsettings:productCtx.masterData.diamondsettings.filter((settingData,index)=>settingData.name===diamondData.diamondSettings)[0],
@@ -214,36 +225,43 @@ export default function DiamondDetails(props) {
       diamondcount:diamondData.stoneCount,
       diamondweight:diamondData.stoneWeight,
     })
-    setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+    setEditcontent({
+      id : diamondData.id,
+      diamondsettings:productCtx.masterData.diamondsettings.filter((settingData,index)=>settingData.name===diamondData.diamondSettings)[0],
+      diamondshape: productCtx.masterData.diamondshapes.filter((shapeData,index)=>shapeData.name===diamondData.diamondShape)[0],
+      diamondcount:diamondData.stoneCount,
+      diamondweight:diamondData.stoneWeight,
+    })
+    // setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+    setOpenedit(true)
   }
-  function DiamondSave(id){
+  async function DiamondSave(diamondobj){
     // alert(JSON.stringify(productCtx.diamondsettings))
     // alert(JSON.stringify(productCtx.diamondshape))
     // alert(JSON.stringify(productCtx.diamondcount))
     // alert(JSON.stringify(id))
     var bodydata = {}
-    if(productCtx.diamondsettings && productCtx.diamondshape && productCtx.diamondcount && productCtx.diamondweight){
+    if(diamondobj.diamondsettings && diamondobj.diamondshape && diamondobj.diamondcount && diamondobj.diamondweight){
+      
       let list_data=props.diamond;
       let DiamondChangeData = list_data.map((diamondListData,index)=>{
-        if(id===diamondListData.id){
-          diamondListData.diamondSettings=productCtx.diamondsettings.name;
-          diamondListData.diamondShape = productCtx.diamondshape.name;
-          diamondListData.stoneCount = productCtx.diamondcount;
-          diamondListData.stoneWeight = productCtx.diamondweight;
-          bodydata['diamondSettings'] = productCtx.diamondsettings.name
-          bodydata['diamondShape'] = productCtx.diamondshape.name
-          bodydata['stoneCount'] = productCtx.diamondcount;
-          bodydata['stoneWeight'] = productCtx.diamondweight;
-          bodydata['diamondid'] = id;
+        if(diamondobj.id===diamondListData.id){
+          diamondListData.diamondSettings=diamondobj.diamondsettings.name;
+          diamondListData.diamondShape = diamondobj.diamondshape.name;
+          diamondListData.stoneCount = diamondobj.diamondcount;
+          diamondListData.stoneWeight = diamondobj.diamondweight;
+          bodydata['diamondSettings'] = diamondobj.diamondsettings.name
+          bodydata['diamondShape'] = diamondobj.diamondshape.name
+          bodydata['stoneCount'] = diamondobj.diamondcount;
+          bodydata['stoneWeight'] = diamondobj.diamondweight;
+          bodydata['diamondid'] = diamondobj.id;
           return diamondListData;
         }
         return diamondListData;
       }); 
-      sendNetworkRequest('/editproductdiamond', {}, bodydata)
+      let response =  await sendNetworkRequest('/editproductdiamond', {}, bodydata)
 
-      console.log("------******")
-      console.log(JSON.stringify(bodydata))
-    setBtnEdit({ ...btnEdit, id:"", action: false })
+   // setBtnEdit({ ...btnEdit, id:"", action: false })
     
       // let editDiamondList = DiamondChangeData && DiamondChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
       // let editDiamondLists = productCtx.editDiamondLists;
@@ -259,11 +277,11 @@ export default function DiamondDetails(props) {
       //   : editDiamondLists.push(editDiamondList); 
       // }
       // // console.log(editDiamondLists,'editDiamondList')
-      // setSnackMessage({
-      //   ...snackMessage,
-      //   message:"This is successfully saved",
-      //   severity:"success"
-      // })
+      setSnackMessage({
+        ...snackMessage,
+        message:"This is successfully saved",
+        severity:"success"
+      })
       // handleClick();
       // setProductCtx({
       //   ...productCtx,
@@ -275,6 +293,8 @@ export default function DiamondDetails(props) {
       //   diamondweight:"",
       // })
       // setBtnEdit({ ...btnEdit, id:"", action: false })
+      setEditcontent(null)
+      setOpenedit(false)
     }else{
       setSnackMessage({
         ...snackMessage,
@@ -485,7 +505,13 @@ const handleInputChange = type => e => {
               />
             </TableRow>
           </TableFooter>  
-        </Table>         
+        </Table> 
+        {editcontent && <EditDiamond
+        diamond={editcontent}
+        onApply={DiamondSave}
+        onClose={handleApplicationClose}
+        open={openedit}
+        />        }
       </div>
     </Paper>
   );
