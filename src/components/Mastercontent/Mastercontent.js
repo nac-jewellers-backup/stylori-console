@@ -35,7 +35,7 @@ import { Query, withApollo } from 'react-apollo';
 import {TaxList,VENDORLISTS,PRODUCTFILTERMASTER,PRODUCTLISTSTATUSEDIT} from '../../graphql/query';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
-
+import EditContent from  './components/EditContent'
 import { Button, Switch,Grid,FormControlLabel } from '@material-ui/core';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import Moment from 'react-moment';
@@ -306,6 +306,7 @@ const   Vendor=(props)=> {
   const [pageCount,setPageCount] = React.useState(0);
   const [offsetValue,setOffsetValue] = React.useState(0)
   const [masterlist,setMasterlist] = React.useState(props.values)
+  const [editcontent, setEditcontent] = React.useState(null);
 
   const [productlists,setProductlists] = React.useState([])
   const [allproductlists,setAllProductlists] = React.useState([])
@@ -313,10 +314,14 @@ const   Vendor=(props)=> {
   const [masterproducttypes,setMasterproducttypes] = React.useState([])
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext,setSearchtext] = React.useState('')
-  const [editcontent,setEditcontent] = React.useState({})
+  const [openedit, setOpenedit] = React.useState(false);
+
   const [isadd,setIsadd] = React.useState(false)
   const [isedit,setIsedit] = React.useState(false)
-
+  const handleApplicationClose = () => {
+    setEditcontent(null)
+    setOpenedit(false);
+  };
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: ''
@@ -347,15 +352,17 @@ const   Vendor=(props)=> {
       ...vendordata,
       isedit : true
     })
-
-    setBtnEdit({ ...btnEdit, id:vendordata.id, action: true })
+    setOpenedit(true)
+   // setBtnEdit({ ...btnEdit, id:vendordata.id, action: true })
 
   }
-  async function Savevendor(refetch) {
-      props.onCreate(editcontent)
+  async function Savevendor(content) {
+      props.onCreate(content)
       setIsadd(false)
+      setEditcontent(null)
+      setOpenedit(false)
   //  let response =  await sendNetworkRequest('/updatetax', {}, editcontent)
-    setBtnEdit({ ...btnEdit, id:'', action: false })
+  //  setBtnEdit({ ...btnEdit, id:'', action: false })
    // refetch()
   }
   function Cancelcreate() {
@@ -496,7 +503,7 @@ const handleChange = type => (event) => {
                             autoComplete="off"
                             id="vendordeliverydays"
                             name="vendordeliverydays"
-                             value={editcontent.searchcontent}
+                          //  /  value={editcontent.searchcontent}
                             onChange={handleInputChange("searchcontent")}
                             label="Search text"
                           />
@@ -541,8 +548,7 @@ const handleChange = type => (event) => {
           <TableBody>
           {masterlist.map((row, index) => (
             <>
-           
-            
+        
             <TableRow>
               {props.columns.map((columnname, index) => (
                 <>
@@ -617,7 +623,6 @@ const handleChange = type => (event) => {
               }
                  {columnname.type == 5 ? 
                   <Autocomplete
-                  
                   id="combo-box-demo"
                   options={props.masters[columnname.mastervaluekey]}
                   margin="dense"
@@ -719,6 +724,15 @@ const handleChange = type => (event) => {
             </TableRow>
           </TableFooter>
         </Table>
+       {editcontent && <EditContent
+        diamond={editcontent}
+        attributes={props.columns}
+        title={props.title}
+        masters={props.masters}
+       onApply={Savevendor}
+       onClose={handleApplicationClose}
+        open={openedit}
+       />  }
       </div>
     </Paper>
   );

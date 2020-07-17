@@ -3,3 +3,14 @@
         width: calc(100% - .5em);
     }
 }
+
+.fade {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: #000;
+    opacity: 0.5;
+    z-index: 1301;
+}

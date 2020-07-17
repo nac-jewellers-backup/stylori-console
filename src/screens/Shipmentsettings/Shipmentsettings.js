@@ -39,9 +39,9 @@ export const Shipmentsettings = withRouter(props => {
   
   async function createtax(taxcontent)
   {
-    console.log(JSON.stringify(taxcontent))
     let response =  await sendNetworkRequest('/manageshipmentsettings', {}, taxcontent)
-     getmaster()
+
+    getmaster()
   }
   async function getmastervalues()
   {
@@ -62,7 +62,7 @@ export const Shipmentsettings = withRouter(props => {
             "id":1,
             "name":"By Weight"
           },{
-            "id":1,
+            "id":2  ,
             "name":"By Value"
           }]
         })
