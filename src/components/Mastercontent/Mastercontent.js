@@ -60,7 +60,8 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import moment from 'moment';
-
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 
@@ -332,12 +333,13 @@ const   Vendor=(props)=> {
       ...editcontent,
       isedit : false
     })
-    let masters = masterlist;
-    masters.insert(0, []);
+    // let masters = masterlist;
+    // masters.insert(0, []);
 
-    setMasterlist(masters)
-     setIsadd(true)
-     setBtnEdit({ ...btnEdit, id:null, action: true })
+    //setMasterlist(masters)
+     setIsadd(true) 
+     setOpenedit(true)
+     //setBtnEdit({ ...btnEdit, id:null, action: true })
 
   }
   Array.prototype.insert = function ( index, item ) {
@@ -420,6 +422,8 @@ const handleChange = type => (event) => {
   setEditcontent({ ...editcontent, [type]: event.target.checked  })
 
 };
+const [showpreview, setShowpreview] = useState(false);
+const [previewurl, setpreviewurl] = useState('');
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.contactlist.length - page * rowsPerPage);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('hsnNumber');
@@ -428,6 +432,7 @@ const handleChange = type => (event) => {
     setOffsetValue(newPage*rowsPerPage)
 
   }
+  
   async function uploadimagetoserver(bodaydata, keyvalue, uploadtype)
   {
       
@@ -472,7 +477,11 @@ const handleChange = type => (event) => {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
   }
-  
+  function previewimage(url)
+  {
+    setpreviewurl(url)
+    setShowpreview(true)
+  }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     
@@ -484,6 +493,21 @@ const handleChange = type => (event) => {
   };
   
   return (
+    <>{showpreview && (
+      <Lightbox
+      class="fade"
+      mainSrc={previewurl}
+       // nextSrc={images[(photoIndex + 1) % images.length]}
+       // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+        onCloseRequest={() => setShowpreview(false)}
+        onMovePrevRequest={() =>
+          alert('prev')
+        }
+        onMoveNextRequest={() =>
+          alert('next')
+        }
+      />
+    )}
     <Paper className={classes.root}>
       
        <Grid container item xs={12} style={{padding: "16px"}} sm={12} alignItems={"flex-end"}>
@@ -674,7 +698,7 @@ const handleChange = type => (event) => {
                       {columnname.type === 9 ? 
                         <AvatarGroup max={2}>
                           {row[columnname.key] ? row[columnname.key].split(',').map((row, index) => (
-                        <Avatar alt="Remy Sharp" src={row} className={classes.small} />)) : null }</AvatarGroup>
+                        <Avatar alt="Remy Sharp" src={row} onClick={() =>previewimage(row)} className={classes.small} />)) : null } className={classes.small} />)) : null }</AvatarGroup>
                          : null}
                       {columnname.type === 2 ?  <Switch
                         color="primary"
@@ -735,6 +759,7 @@ const handleChange = type => (event) => {
        />  }
       </div>
     </Paper>
+ </>
   );
 }
 export default withApollo(Vendor);

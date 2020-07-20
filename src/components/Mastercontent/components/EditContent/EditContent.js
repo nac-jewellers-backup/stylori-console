@@ -88,8 +88,8 @@ const EditContent = props => {
   function previewimage(url)
   {
    
-    setpreviewurl(url)
-    setShowpreview(true)
+    // setpreviewurl(url)
+    // setShowpreview(true)
   }
   const handleInputChange = type => e => {
     setEditcontent({ ...editcontent, [type]: e.target.value  })

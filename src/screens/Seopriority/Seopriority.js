@@ -78,10 +78,21 @@ export const Seopriority = withRouter(props => {
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
-      x.attributeName.toLowerCase() ? x.attributeName.toLowerCase().match(taxcontent+ ".*") : null 
+      x.attributeName && x.attributeName.toLowerCase().match(taxcontent.toLowerCase()+ ".*") ||
+      x.attributeValue && x.attributeValue.toLowerCase().match(taxcontent.toLowerCase()+ ".*") ||
+      x.priority && x.priority == taxcontent ||
+      x.seoUrl && x.seoUrl.match(taxcontent+ ".*") ||
+      x.seoText && x.seoText.toLowerCase().match(taxcontent.toLowerCase()+ ".*")
+
+
+
     );
     setFiltervalue(filteredHomes)
   }
+  // element.email &&  element.email.match(searchtext+'.*')  || 
+  //     element.mobile && element.mobile.match(searchtext+'.*') ||
+  //     element.orderid && element.orderid.match(searchtext+'.*') || 
+  //     element.username && element.username.match(searchtext+'.*')
   return (
     <>
     <Page

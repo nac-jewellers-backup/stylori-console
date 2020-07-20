@@ -77,9 +77,8 @@ export const Masterdiamonds = withRouter(props => {
   async function search(taxcontent)
   {
     const filteredHomes = mastervalue.filter( x => 
-      x.diamondColor.toLowerCase() ? x.diamondColor.toLowerCase().match(taxcontent+ ".*") : null ||
-      x.diamondClarity.toLowerCase() ? x.diamondClarity.toLowerCase().match(taxcontent+ ".*") : null 
-
+      x.diamondColor &&  x.diamondColor.toLowerCase().match(taxcontent+ ".*") ||
+      x.diamondClarity && x.diamondClarity.toLowerCase().match(taxcontent+ ".*")
     );
     setFiltervalue(filteredHomes)
   }
