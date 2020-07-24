@@ -271,9 +271,9 @@ console.log(JSON.stringify(bodydata))
       editdiscountprice: diamondData.discountPrice,
       editdiscountpricetax: diamondData.discountPriceTax
     })
-    // setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
-    setOpenedit(true)
-    //setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
+     //setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+   // setOpenedit(true)
+    setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
 
   }
   function DiamondSave(priceobj){
@@ -306,12 +306,12 @@ console.log(JSON.stringify(bodydata))
         }
         return skulistdata;
       });
+      alert(JSON.stringify(bodydata))
+     // sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
 
-      sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
-
-   // setBtnEdit({ ...btnEdit, id:"", action: false })
-      setEditcontent(null)
-      setOpenedit(false)
+    setBtnEdit({ ...btnEdit, id:"", action: false })
+      // setEditcontent(null)
+      // setOpenedit(false)
 }
 //   const handleoptionChange = type => (event, value) => {
     

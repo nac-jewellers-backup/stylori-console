@@ -5,6 +5,12 @@ import { makeStyles } from '@material-ui/styles';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import axios from 'axios';
+import moment from 'moment';
+import { NetworkContext } from '../../../../context/NetworkContext';
+
 import '../../tmp.css'
 import {
   Avatar,
@@ -21,6 +27,10 @@ import {
 } from '@material-ui/core';
 import { ProductContext } from '../../../../context';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 //import getInitials from 'utils/getInitials';
 
@@ -79,6 +89,7 @@ const EditContent = props => {
   const [editcontent, setEditcontent] = React.useState({
     ...initialValues
   });
+  const { sendNetworkRequest } = React.useContext(NetworkContext);
 
   const classes = useStyles();
   const handleoptionChange = type => (event, value) => {
@@ -98,13 +109,48 @@ const EditContent = props => {
     setEditcontent({ ...editcontent, [type]: !editcontent[type] })
 
   };
+  function handleInit() {
+    console.log('FilePond instance has initialised');
+}
+
+async function uploadimagetoserver(bodaydata, keyvalue, uploadtype)
+  {
+      
+      let imagename = moment(new Date()).format('DD-MM-YYYYHH-MM-SS')
+     let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:bodaydata.fileExtension, filename :imagename,foldername: 'banner_images', product_id: null },false)
+      var returnData = responsedata.data.returnData;
+    var signedRequest = returnData.signedRequest;
+    var url = returnData.url;
+    console.log("responseurl"+url);
+    var filepathname = returnData.filepath
+     let imageurl = 'https://s3.ap-south-1.amazonaws.com/styloribaseimages/'+filepathname
+ 
+     var options = {
+        headers: {
+            'Content-Type': bodaydata.fileExtension,
+            'Access-Control-Allow-Origin':'*'
+        }
+    };
+
+    await axios.put(signedRequest, bodaydata.file, options)
+    let previmagenames = editcontent[keyvalue];
+    let previmages = []
+    if(previmagenames)
+    {
+      previmages = previmagenames.split(',')
+      previmages.push(imageurl);
+    }
+    setEditcontent({ ...editcontent, [keyvalue]: previmages.join(',')  })
+
+  
+}
   const handleChange = event => {
     event.persist();
 
     setValue(event.target.value);
   };
   React.useEffect(() => {
-    //alert(JSON.stringify(attributes))
+    alert(JSON.stringify(editcontent))
   },[editcontent])
  
   return (
@@ -219,11 +265,33 @@ const EditContent = props => {
 
 
           {columnname.type === 9 && 
-          <Grid item xs={12}>
+          <Grid container item xs={12}>
+            <Grid  item xs={12}>
                         <AvatarGroup max={2}>
                           {diamond[columnname.key] ? diamond[columnname.key].split(',').map((diamond, index) => (
                         <Avatar alt="Remy Sharp" src={diamond} onClick={() =>previewimage(diamond)} className={classes.small} />)) : null }</AvatarGroup>
-           </Grid>}
+          </Grid>
+          <Grid  item xs={3}>
+            <FilePond
+                  style={{height:'100',width:'100'}}
+                  oninit={() => handleInit() }
+                  labelIdle='Add Banner Image'
+                  onaddfile={(error, fileItem)=> {
+                    if(!error)
+                    {
+                      uploadimagetoserver(fileItem, columnname.key, "add")
+
+                    }else
+                    {
+                     // alert(row[columnname.key])
+                    }
+                  }}
+                />            
+            </Grid>
+           </Grid>
+                     
+
+           }
           </Grid>
         
         </>
