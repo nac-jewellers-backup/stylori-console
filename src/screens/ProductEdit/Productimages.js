@@ -122,6 +122,7 @@ export default function Productimages(props) {
     let responsedata = await sendNetworkRequest('/uploadimage', {}, {image:filetype, filename :imagename, product_id: prodid },false)
         var returnData = responsedata.data.returnData;
         var signedRequest = returnData.signedRequest;
+       
         var url = returnData.url;
         var filepathname = returnData.filepath
         filepathname = filepathname.replace("base_images", "product/"+prodid);
@@ -154,11 +155,13 @@ export default function Productimages(props) {
         })
         productimgs.push(imagecontent)
       }
-      await axios.put(signedRequest, fileobj, options)
-      let responsecontent = await sendNetworkRequest('/updateproductimage', {}, {imageobj:imagecontent, isedit: isedit },false)
+    let res =   await axios.put(signedRequest, fileobj, options)
+      
+    let responsecontent = await sendNetworkRequest('/updateproductimage', {}, {imageobj:imagecontent, isedit: isedit },false)
       image_count =  image_count + 1;
-      if(!isedit)
+      if(isedit)
       {
+      }else{
       setProductimages(productimgs)
       }
 
@@ -186,7 +189,6 @@ export default function Productimages(props) {
     const files = e.target.files;
       Object.keys(files).map((file, index) => { 
         const size = files[index].size;
-        alert(imageposition)
         let productimageobj = {}
         productimages.forEach(content => {
           if(content.productColor === props.color && imageposition === content.imagePosition)
@@ -238,7 +240,7 @@ export default function Productimages(props) {
 
                                                                 ></input>
                                                       
-                                                            <img src={"https://styloriimages-staging.s3.ap-south-1.amazonaws.com/"+url.imageUrl.replace(url.productId, url.productId+'/1000X1000')}
+                                                            <img src={"https://styloriimages.s3.ap-south-1.amazonaws.com/"+url.imageUrl.replace(url.productId, url.productId+'/1000X1000')}
                                                                 style={{ width: "100%", height: "100%", borderRadius: "4px" }} />
                                                     
                                                 </Grid>
