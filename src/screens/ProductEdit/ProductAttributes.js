@@ -469,6 +469,10 @@ async function saveProductEditItem() {
           variant_size: sizes_arr,
           productmaterials: fatchvalue.data.productListByProductId.productMaterialsByProductSku.nodes,
           vendorcode:fatchvalue.data.productListByProductId.vendorCode,
+          productvendorcode:fatchvalue.data.productListByProductId.productVendorCode,
+          height:fatchvalue.data.productListByProductId.height,
+          width:fatchvalue.data.productListByProductId.width,
+          length:fatchvalue.data.productListByProductId.length,
           product_gender:gender_arr,
           themes: fatchvalue.data.productListByProductId.productThemesByProductId.nodes,
           prod_styles: fatchvalue.data.productListByProductId.productStylesByProductId.nodes,// productDiamondColor:diamondTypesArray,
@@ -561,7 +565,17 @@ async function saveProductEditItem() {
                         }}
                         name="Vendor Name"
                         />
-  
+   <Input
+                        variant="outlined"
+                        margin="dense"
+                        label="Product Vendor Code"
+                        fullWidth
+                        className={classes.helperinput}
+                        value={productCtx.productvendorcode ? productCtx.productvendorcode : ""}
+                        id="productvendorcode"
+                       
+                        name="Product Vendor Code"
+                        />
                  <TextField
                   className={classes.helperinput}
                   variant="outlined"
@@ -831,7 +845,64 @@ async function saveProductEditItem() {
                       />
                       )}
                       />
-              
+                      <Divider marginTop={2}/>
+                       
+                       <Input
+                        variant="outlined"
+                        margin="dense"
+                        label="Height"
+                        fullWidth
+                        className={classes.helperinput}
+                        value={productCtx.height ? productCtx.height : ""}
+                        id="Height"
+                       
+                        name="Height"
+                        />
+              <Input
+                        variant="outlined"
+                        margin="dense"
+                        label="Width"
+                        fullWidth
+                        className={classes.helperinput}
+                        value={productCtx.width ? productCtx.width : ""}
+                        id="productvendorcode"
+                       
+                        name="Width"
+                        />
+                        <Input
+                        variant="outlined"
+                        margin="dense"
+                        label="Length"
+                        fullWidth
+                        className={classes.helperinput}
+                        value={productCtx.length ? productCtx.length : ""}
+                        id="productvendorcode"
+                       
+                        name="Length"
+                        />
+                    {productCtx.product_type == "Earrings" &&    <Autocomplete
+                    id="free-solo-2-demo"
+                    className={classes.fixedTag}
+                    defaultValue={productCtx.earringbacking}
+                    options={productCtx.masterData.earringbacking.map(option => option.label)}
+                    onChange={handleoptionChange('earringbacking')}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                    <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="Earring Backing"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    error = {productCtx.error_message.earringbacking}
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                    />
+                    )}
+                    />}
               <FormControlLabel
                                 label={productCtx.isactive ? "Disable this product" : "Enable this product"}
 

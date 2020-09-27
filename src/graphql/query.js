@@ -380,6 +380,7 @@ query  {
   allMasterCollections(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
+      alias
       id
       isFilter
       isActive
@@ -502,7 +503,8 @@ query  {
 allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
     certificate
-    name
+    name,
+    alias,
     id
     isActive
     isFilter
@@ -1231,6 +1233,7 @@ query MyQuery($productId: String!) {
     productName
     productType
     vendorCode
+    productVendorCode
     gender
     isactive
     productMaterialsByProductSku {
@@ -1238,6 +1241,7 @@ query MyQuery($productId: String!) {
         materialName
       }
     }
+   
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -1338,6 +1342,7 @@ query MyQuery($productId: String!) {
         isReadyToShip
         discount
         isActive
+        availableStockQty
         isdefault,
         vendorDeliveryTime
         id

@@ -225,6 +225,7 @@ export const VOUCHERMASTER = gql`query {
       name
       id
       alias
+      shortCode
     }
   },
   allMasterProductTypes {

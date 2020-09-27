@@ -349,6 +349,28 @@ export default function Variants(props) {
 
                   } </TableCell> : null }
 
+        {props.displycolumns.indexOf('Quantity') > -1 ?  <TableCell align="center" style = {{width: 40}} component="th" scope="row">
+                  {btnEdit.action && btnEdit.id == row.generatedSku  ?  <Input
+                    className={classes.helperinput}
+                    variant="outlined"
+                    margin="dense"
+                    style = {{width: 40}}
+                    value={productCtx.availableStockQty}
+                    id="qty"
+                    error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                    name="Qty"
+                    label="Quantity"
+                    //onInput={keyPress.bind(this)}
+                    onChange={handleinputChange('available_stock_qty')}
+
+                   //onChange={(e)=>handleinputChange(e,'productname')}
+                  /> :
+                    
+                    
+                    <Typography className={classes.heading}>{row.availableStockQty}</Typography>
+
+                  } </TableCell> : null}
+
 {props.displycolumns.indexOf('Discount') > -1 ? <TableCell align="center" style = {{width: 40}} component="th" scope="row">
                   {btnEdit.action && btnEdit.id == row.generatedSku  ?  <Input
                     className={classes.helperinput}

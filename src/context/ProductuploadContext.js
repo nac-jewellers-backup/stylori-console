@@ -97,6 +97,7 @@ const productuploadCtxInitial = {
         product_images:{},
         metalcolour:[],
         metal_purity:[],
+        earringbacking:[],
         metalpurity:[],
         metal_color:0,
         metal_weight:0,
