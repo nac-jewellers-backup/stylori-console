@@ -23,6 +23,11 @@
             "id": "CGST"
         },
         {
+            "label": "SGST",
+            "key":"sgst",
+            "id": "SGST"
+        },
+        {
             "label": "Tax Value",
             "key":"taxValue",
             "id": "Tax Value"

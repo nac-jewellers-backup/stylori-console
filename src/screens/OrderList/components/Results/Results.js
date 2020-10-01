@@ -162,7 +162,10 @@ const Results = props => {
   const handleChangePage = (event, page) => {
     setPage(page);
   };
-
+  async function showorderdetails(orderurl){
+    
+  window.open(orderurl, '_blank');
+   }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
@@ -272,9 +275,8 @@ const Results = props => {
                           </Button>
                           <Button onClick={(e) => CancelEdit(order)}><CancelIcon />
                           </Button></> : <Button 
-                          component={RouterLink}
-                          to={`/orderdetails/${order.orderid}`}
-                           ><VisibilityIcon />
+                           >
+                             <VisibilityIcon onClick={(e) => showorderdetails(`/orderdetails/${order.orderid}`)}/>
                      </Button>
                          } 
                    </TableCell> : 

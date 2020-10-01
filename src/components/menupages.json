@@ -31,7 +31,7 @@
             ]
         },
         {
-            "name":"User List",
+            "name":"Customer List",
             "url":"/manageusers"
         },
         {

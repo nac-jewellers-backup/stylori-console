@@ -300,6 +300,7 @@ query  {
       taxValue
       igst
       cgst
+      sgst
       productAttributes
       displayAttributes
       updatedAt
@@ -328,6 +329,7 @@ query  {
     nodes {
       id
       name
+      alias
       isFilter
       isActive
       filterOrder
@@ -341,6 +343,7 @@ query  {
     nodes {
       name
       alias
+      shortCode
       id
       isFilter
       isActive
@@ -355,6 +358,7 @@ query  {
   allMasterMetalsPurities(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
+      alias
       id
       isFilter
       isActive
@@ -368,6 +372,7 @@ query  {
 allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   nodes {
     name
+    alias
     isFilter
     isActive
     filterOrder
@@ -380,6 +385,7 @@ query  {
   allMasterCollections(orderBy: UPDATED_AT_DESC) {
     nodes {
       name
+      alias
       id
       isFilter
       isActive
@@ -504,6 +510,7 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
     certificate
     name
     id
+    alias
     isActive
     isFilter
     shortCode

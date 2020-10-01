@@ -14,6 +14,7 @@ import {
   TableRow,
   TableCell
 } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -44,6 +45,7 @@ const OrderItems = props => {
               <TableHead>
                 <TableRow>
                   <TableCell>Sku</TableCell>
+                  <TableCell>Product Image</TableCell>
                   <TableCell>Quantity</TableCell>
                   <TableCell>Amount</TableCell>
                 </TableRow>
@@ -53,6 +55,9 @@ const OrderItems = props => {
                   <TableRow key={item.id}>
                      <TableCell>
                       {item.product_sku}
+                    </TableCell>
+                    <TableCell>
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </TableCell>
                     <TableCell>
                       {item.qty}

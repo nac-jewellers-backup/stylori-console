@@ -102,22 +102,7 @@ const General = props => {
                 </div>}
                 </TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell>State/Region</TableCell>
-              <TableCell>{customer.address && customer.address.city}</TableCell>
-            </TableRow>
-            <TableRow >
-              <TableCell>Country</TableCell>
-              <TableCell>{customer.address && customer.address.country}</TableCell>
-            </TableRow>
-            {/* <TableRow>
-              <TableCell>Address 1</TableCell>
-              <TableCell>{customer.address}</TableCell>
-            </TableRow> */}
-            <TableRow>
-              <TableCell>Pincode</TableCell>
-              <TableCell>{customer.address && customer.address.pincode}</TableCell>
-            </TableRow>
+            
           </TableBody>
         </Table>
       </CardContent>

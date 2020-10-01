@@ -7,6 +7,11 @@
             "id": "Name"
         },
         {
+            "label": "Short Code",
+            "key":"shortCode",
+            "id": "shortCode"
+        },
+        {
             "label": "Filter order",
             "key":"filterOrder",
             "id": "Filter order"

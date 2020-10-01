@@ -7,6 +7,11 @@
             "id": "Name"
         },
         {
+            "label": "Alias",
+            "key":"alias",
+            "id": "alias"
+        },
+        {
             "label": "short code",
             "key":"shortCode",
             "id": "short code"

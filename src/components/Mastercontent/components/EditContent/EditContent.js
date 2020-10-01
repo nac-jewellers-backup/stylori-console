@@ -150,7 +150,6 @@ async function uploadimagetoserver(bodaydata, keyvalue, uploadtype)
     setValue(event.target.value);
   };
   React.useEffect(() => {
-    alert(JSON.stringify(editcontent))
   },[editcontent])
  
   return (

@@ -7,10 +7,16 @@
             "id": "Name"
         },
         {
+            "label": "Alias",
+            "key":"alias",
+            "id": "alias"
+        },
+        {
             "label": "Filter order",
             "key":"filterOrder",
             "id": "Filter order"
         },
+        
         {
             "label": "Include Filter",
             "key":"isFilter",
