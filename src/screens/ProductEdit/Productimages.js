@@ -98,7 +98,7 @@ formContainer: {
 export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
-  let product_id = '';
+  let product_id = props.prod_id;
 
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
@@ -156,7 +156,6 @@ export default function Productimages(props) {
         productimgs.push(imagecontent)
       }
     let res =   await axios.put(signedRequest, fileobj, options)
-      
     let responsecontent = await sendNetworkRequest('/updateproductimage', {}, {imageobj:imagecontent, isedit: isedit },false)
       image_count =  image_count + 1;
       if(isedit)
