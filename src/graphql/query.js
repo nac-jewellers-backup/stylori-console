@@ -1234,7 +1234,10 @@ query MyQuery($productId: String!) {
     productType
     vendorCode
     productVendorCode
+    sellingQty
+    maxBookingQty
     gender
+    earringBacking
     isactive
     productMaterialsByProductSku {
       nodes {

@@ -149,10 +149,9 @@ const handleinputChange =type => e => {
     setProductCtx({ ...productCtx, [type]: e.target.value})
   }
 }
-// const handleinputChange = type => (event, value) => {
-//   alert(event.target.value)
-//       setProductCtx({ ...productCtx, [type]: value})
-// }
+const handleqtyChange = type => (event, value) => {
+     setProductCtx({ ...productCtx, [type]: event.target.value})
+}
   function dismisspricesummary()
   {
     setIsshowpricesummary(false)
@@ -224,7 +223,10 @@ async function saveProductEditItem() {
       collections : productCtx.collections,
       stonecount : productCtx.stonecount,
       stonecolour : productCtx.stonecolour,
-      gender : productCtx.product_gender
+      gender : productCtx.product_gender,
+      earring_backing : productCtx.earringbacking,
+      minorderqty : productCtx.minorderqty,
+      maxorderqty : productCtx.maxorderqty
       // productDiamondsByProductSku: productCtx.editDiamondLists,
       // productGemstonesByProductSku: productCtx.editGemstoneLists,
       // transSkuListsByProductId: productCtx.editVariants,
@@ -463,6 +465,9 @@ async function saveProductEditItem() {
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
           productMetalColor: metalcolors,
+          minorderqty: fatchvalue.data.productListByProductId.sellingQty,
+          maxorderqty: fatchvalue.data.productListByProductId.maxBookingQty,
+          earringbacking : fatchvalue.data.productListByProductId.earringBacking,
           oldproductMetalColor: fatchvalue.data.productListByProductId.productMetalcoloursByProductId.nodes,
           productMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
           oldproductMetalPurity: fatchvalue.data.productListByProductId.productPuritiesByProductId.nodes,
@@ -581,10 +586,11 @@ async function saveProductEditItem() {
                   variant="outlined"
                   margin="dense"
                   fullWidth
-                  defaultValue={productCtx.productname}
+                  defaultValue={productCtx.minorderqty}
                   id="seo_text"
                   error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                  
+                  onChange={handleqtyChange('minorderqty')}
+
                   name="seo_text"
                   label="Minimum Order Quantity"
   
@@ -594,10 +600,10 @@ async function saveProductEditItem() {
                   variant="outlined"
                   margin="dense"
                   fullWidth
-                  defaultValue={productCtx.productname}
+                  defaultValue={productCtx.maxorderqty}
                   id="url"
                   error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-                  
+                  onChange={handleqtyChange('maxorderqty')}
                   name="url"
                   label="Maximum Order Quantity"
                 /> 
