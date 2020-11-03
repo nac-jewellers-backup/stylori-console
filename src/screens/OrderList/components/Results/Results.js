@@ -12,6 +12,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
 import EditIcon from '@material-ui/icons/Edit';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import EnhancedTableHead from "../../../../components/EnhancedTableHead"
 import {
   Button,
@@ -160,7 +162,10 @@ const Results = props => {
   const handleChangePage = (event, page) => {
     setPage(page);
   };
-
+  async function showorderdetails(orderurl){
+    
+  window.open(orderurl, '_blank');
+   }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
   };
@@ -269,7 +274,9 @@ const Results = props => {
                          <Button  onClick={(e) => Savevendor()}><SaveIcon />
                           </Button>
                           <Button onClick={(e) => CancelEdit(order)}><CancelIcon />
-                          </Button></> : <Button onClick={(e) => Editvendor(order)} ><EditIcon />
+                          </Button></> : <Button 
+                           >
+                             <VisibilityIcon onClick={(e) => showorderdetails(`/orderdetails/${order.orderid}`)}/>
                      </Button>
                          } 
                    </TableCell> : 

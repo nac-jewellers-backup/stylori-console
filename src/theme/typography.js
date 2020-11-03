@@ -58,7 +58,7 @@ export default {
   },
   body1: {
     color: palette.text.primary,
-    fontSize: '14px',
+    fontSize: '12px',
     letterSpacing: '-0.05px',
     lineHeight: '21px'
   },
@@ -70,7 +70,7 @@ export default {
   },
   button: {
     color: palette.text.primary,
-    fontSize: '14px'
+    fontSize: '12px'
   },
   caption: {
     color: palette.text.secondary,

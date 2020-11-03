@@ -163,14 +163,14 @@ export default function Producttypecontent() {
                 let address_arr = useraddressess.nodes
                 address_arr.forEach(useraddressobj => {
 
-                  if(!orderobj["mobile"])
-                  {
-                    orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
-                  }
-                  if(!orderobj["mobile"])
-                  {
-                    orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
-                  }
+                  // if(!orderobj["mobile"])
+                  // {
+                  //   orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
+                  // }
+                  // if(!orderobj["mobile"])
+                  // {
+                  //   orderobj['mobile'] = useraddressobj.contactNumber ? useraddressobj.contactNumber : ""
+                  // }
                 });
               }
             }

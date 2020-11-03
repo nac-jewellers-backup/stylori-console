@@ -19,6 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Typography, Button, Chip, Input, CircularProgress } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import EditPrice from './Components/EditPrice/EditPrice';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ProductContext } from '../../context';
@@ -172,7 +173,8 @@ export default function Variants(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { productCtx, setProductCtx} = React.useContext(ProductContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
-
+  const [openedit, setOpenedit] = React.useState(false);
+  const [editcontent, setEditcontent] = React.useState(null);
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     pricerun: false,
@@ -182,7 +184,14 @@ export default function Variants(props) {
     checkedA: true,
     checkedB: true,
   });
+  const handleApplicationOpen = () => {
+    setOpenedit(true);
+  };
 
+  const handleApplicationClose = () => {
+    setEditcontent(null)
+    setOpenedit(false);
+  };
   function handleChange(variantId) {
     let variantslist = productCtx.variants;
     variantslist = productCtx.variants && productCtx.variants.map((variant,index)=>{
@@ -251,46 +260,58 @@ console.log(JSON.stringify(bodydata))
       editdiscountprice: diamondData.discountPrice,
       editdiscountpricetax: diamondData.discountPriceTax
     })
-
+    setEditcontent({
+      id : diamondData.generatedSku,
+      editcostprice:diamondData.costPrice,
+      editcostpricetax: diamondData.costPriceTax,
+      editsellingprice:diamondData.sellingPrice,
+      editsellingpricetax:diamondData.sellingPriceTax,
+      editmarkupprice: diamondData.markupPrice,
+      editmarkuppricetax : diamondData.markupPriceTax,
+      editdiscountprice: diamondData.discountPrice,
+      editdiscountpricetax: diamondData.discountPriceTax
+    })
+     //setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
+   // setOpenedit(true)
     setBtnEdit({ ...btnEdit, id:diamondData.generatedSku, action: true })
 
   }
-  function DiamondSave(id){
+  function DiamondSave(priceobj){
 
     var bodydata = {}
       let list_data=props.variants;
       let Skuchangedata = list_data.map((skulistdata,index)=>{
-        if(id===skulistdata.generatedSku){
-          skulistdata.costPrice = productCtx.editcostprice;
-          skulistdata.costPriceTax = productCtx.editcostpricetax;
-          skulistdata.sellingPrice =  productCtx.editsellingprice;
-          skulistdata.sellingPriceTax = productCtx.editsellingpricetax
-          skulistdata.markupPrice = productCtx.editmarkupprice
-          skulistdata.markupPriceTax = productCtx.editmarkuppricetax
-          skulistdata.discountPrice = productCtx.editdiscountprice
-          skulistdata.discountPriceTax = productCtx.editdiscountpricetax
+        if(priceobj.id===skulistdata.generatedSku){
+          skulistdata.costPrice = priceobj.editcostprice;
+          skulistdata.costPriceTax = priceobj.editcostpricetax;
+          skulistdata.sellingPrice =  priceobj.editsellingprice;
+          skulistdata.sellingPriceTax = priceobj.editsellingpricetax
+          skulistdata.markupPrice = priceobj.editmarkupprice
+          skulistdata.markupPriceTax = priceobj.editmarkuppricetax
+          skulistdata.discountPrice = priceobj.editdiscountprice
+          skulistdata.discountPriceTax = priceobj.editdiscountpricetax
 
-           bodydata['costPrice'] = parseFloat(productCtx.editcostprice)
-           bodydata['costPriceTax'] = parseFloat(productCtx.editcostpricetax)
-           bodydata['sellingPrice'] = parseFloat(productCtx.editsellingprice)
-           bodydata['sellingPriceTax'] = parseFloat(productCtx.editsellingpricetax)
-           bodydata['markupPrice'] = parseFloat(productCtx.editmarkupprice)
-           bodydata['markupPriceTax'] = parseFloat(productCtx.editmarkuppricetax)
-           bodydata['discountPrice'] = parseFloat(productCtx.editdiscountprice)
-           bodydata['discountPriceTax'] = parseFloat(productCtx.editdiscountpricetax)
-           bodydata['marginOnSalePercentage'] = parseFloat(productCtx.marginOnSalePercentage)
+           bodydata['costPrice'] = parseFloat(priceobj.editcostprice)
+           bodydata['costPriceTax'] = parseFloat(priceobj.editcostpricetax)
+           bodydata['sellingPrice'] = parseFloat(priceobj.editsellingprice)
+           bodydata['sellingPriceTax'] = parseFloat(priceobj.editsellingpricetax)
+           bodydata['markupPrice'] = parseFloat(priceobj.editmarkupprice)
+           bodydata['markupPriceTax'] = parseFloat(priceobj.editmarkuppricetax)
+           bodydata['discountPrice'] = parseFloat(priceobj.editdiscountprice)
+           bodydata['discountPriceTax'] = parseFloat(priceobj.editdiscountpricetax)
+           bodydata['marginOnSalePercentage'] = parseFloat(priceobj.marginOnSalePercentage)
 
-           bodydata['generatedSku'] = id;
+           bodydata['generatedSku'] = priceobj.id;
           return skulistdata;
         }
         return skulistdata;
       });
-
-      sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
+      alert(JSON.stringify(bodydata))
+     // sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
-
-  
+      // setEditcontent(null)
+      // setOpenedit(false)
 }
 //   const handleoptionChange = type => (event, value) => {
     
@@ -571,6 +592,12 @@ console.log(JSON.stringify(bodydata))
             </TableRow>
           </TableFooter>
         </Table>
+        {editcontent && <EditPrice
+        diamond={editcontent}
+        onApply={DiamondSave}
+        onClose={handleApplicationClose}
+        open={openedit}
+        />        }
       </div>
     </Paper>
   );

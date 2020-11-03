@@ -38,9 +38,9 @@ export const Masterattribute = withRouter(props => {
   
   async function Masterattribute(taxcontent)
   {
-
     let response =  await sendNetworkRequest('/managemasterattributes', {}, taxcontent)
-     getmaster()
+
+    //getmaster()
   }
   async function getmaster()
   {

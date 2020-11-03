@@ -7,6 +7,7 @@ const route = {
     vendor: '/vendorlist',
     productlist: '/productlist',
     orderlist: '/orderlist',
+    orderdetails : '/orderdetails/:id',
     userorders: '/orderlist/:userid',
     userwishlist: '/userwishlist/:userid',
     address: '/address/:userid',
