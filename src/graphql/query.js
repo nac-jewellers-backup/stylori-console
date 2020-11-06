@@ -1241,6 +1241,7 @@ query MyQuery($productId: String!) {
     }
     productName
     productType
+    prodDescription
     vendorCode
     productVendorCode
     sellingQty

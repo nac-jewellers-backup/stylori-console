@@ -6,6 +6,8 @@ const productuploadCtxInitial = {
         steps: ['Step1', 'Step2','Step6'],
         product_type:"",
         productname:"",
+        minorderqty:"",
+        maxorderqty:"",
         material:"",
         product_type_shortcode: "",
         category:[],

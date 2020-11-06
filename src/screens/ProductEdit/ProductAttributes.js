@@ -226,7 +226,8 @@ async function saveProductEditItem() {
       gender : productCtx.product_gender,
       earring_backing : productCtx.earringbacking,
       minorderqty : productCtx.minorderqty,
-      maxorderqty : productCtx.maxorderqty
+      maxorderqty : productCtx.maxorderqty,
+      prod_description : productCtx.prod_description
       // productDiamondsByProductSku: productCtx.editDiamondLists,
       // productGemstonesByProductSku: productCtx.editGemstoneLists,
       // transSkuListsByProductId: productCtx.editVariants,
@@ -454,6 +455,7 @@ async function saveProductEditItem() {
             metalcolors.push(colorobj)
           }
      })
+
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -465,6 +467,7 @@ async function saveProductEditItem() {
           variants: fatchvalue.data.productListByProductId.transSkuListsByProductId.nodes,
           product_images: fatchvalue.data.productListByProductId.productImagesByProductId.nodes,
           productMetalColor: metalcolors,
+          prod_description: fatchvalue.data.productListByProductId.prodDescription,
           minorderqty: fatchvalue.data.productListByProductId.sellingQty,
           maxorderqty: fatchvalue.data.productListByProductId.maxBookingQty,
           earringbacking : fatchvalue.data.productListByProductId.earringBacking,
@@ -487,6 +490,7 @@ async function saveProductEditItem() {
           stonecolour:fatchvalue.data.productListByProductId.productStonecolorsByProductId.nodes
           // productDiamondClarity:diamondClaritySku,
         })
+        
         setstate({
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName))
@@ -527,6 +531,21 @@ async function saveProductEditItem() {
 
                    //onChange={(e)=>handleinputChange(e,'productname')}
                   />
+                  <TextField
+                        variant="outlined"
+                        margin="dense"
+                        label="Description"
+                        fullWidth
+                        multiline
+                        rowsMax={4}
+                        className={classes.helperinput}
+                        onChange={handleqtyChange('prod_description')}
+
+                        value={productCtx.prod_description ? productCtx.prod_description : ""}
+                        id="productdescription"
+                       
+                        name="product description"
+                        />
                 <TextField
                   className={classes.helperinput}
                   variant="outlined"
@@ -586,12 +605,10 @@ async function saveProductEditItem() {
                   variant="outlined"
                   margin="dense"
                   fullWidth
-                  defaultValue={productCtx.minorderqty}
-                  id="seo_text"
-                  error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                  value={productCtx.minorderqty}
+                  id="minorderqty"
                   onChange={handleqtyChange('minorderqty')}
-
-                  name="seo_text"
+                  name="minorderqty"
                   label="Minimum Order Quantity"
   
                 /> 
@@ -600,7 +617,7 @@ async function saveProductEditItem() {
                   variant="outlined"
                   margin="dense"
                   fullWidth
-                  defaultValue={productCtx.maxorderqty}
+                  value={productCtx.maxorderqty}
                   id="url"
                   error={productCtx && productCtx.error_message && productCtx.error_message.productname}
                   onChange={handleqtyChange('maxorderqty')}
@@ -874,7 +891,7 @@ async function saveProductEditItem() {
                         id="productvendorcode"
                        
                         name="Width"
-                        />
+                        />  
                         <Input
                         variant="outlined"
                         margin="dense"
@@ -909,6 +926,8 @@ async function saveProductEditItem() {
                     />
                     )}
                     />}
+
+                        
               <FormControlLabel
                                 label={productCtx.isactive ? "Disable this product" : "Enable this product"}
 
@@ -932,14 +951,12 @@ async function saveProductEditItem() {
               </Button> */}
               </Grid>
             </Grid>
-              
-              </Grid>
-             
+              </Grid>             
             <Grid item xs={12} sm={12} md={9} lg={9}  spacing={2} style={{ padding: "15px" }}>
               <Grid container item md={6}>
               </Grid>
-              <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Diamond Table</Grid>
-              <DiamondDetails diamond={productCtx.diamondlist} />
+              {productCtx.diamondlist.length > 0 ? <> <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Diamond Table</Grid>
+               <DiamondDetails diamond={productCtx.diamondlist} /> </> : null }
               {productCtx.gemstonelist.length > 0 ? <> <Grid style={{ fontSize: ".9rem", padding: "8px", marginTop: "28px" }}>Gemstone Table</Grid>
               <GemstoneDetails gemstone={productCtx.gemstonelist} /> </> : null }
               <Grid style={{ fontSize: ".9rem", padding: "8px" , marginTop: "16px" }}>Variant Creation</Grid>
