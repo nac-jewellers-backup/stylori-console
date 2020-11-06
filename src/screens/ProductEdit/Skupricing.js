@@ -281,7 +281,6 @@ console.log(JSON.stringify(bodydata))
     
     var bodydata = {}
       let list_data=props.variants;
-      alert(JSON.stringify(priceobj));
      list_data.map((skulistdata,index)=>{
         if(priceobj.generatedSku === skulistdata.generatedSku){
           skulistdata.costPrice = priceobj.editcostprice;
