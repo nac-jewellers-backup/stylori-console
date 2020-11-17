@@ -213,6 +213,23 @@ function getColumnnames(columnnames,displytype) {
 
     //setstate({ ...state, create_variant: true })
   }
+  async function forceindexproduct() {
+    let bodydata = {
+      product_id : prod_id
+    }
+    let response =  await sendNetworkRequest('/reindex', {}, bodydata)
+    if (response) {
+      setSnackMessage({
+        ...snackMessage,
+        message:"indexed successfully",
+        severity:"success"
+      })
+      handleClick();
+      // setTimeout(()=>{  window.location='/productlist'},1000)
+    }   }
+  async function updateattribute() {
+    alert("update index")
+  }
 async function saveProductEditItem() {
     let productEditItem = {
       productId: prod_id,
@@ -935,12 +952,22 @@ async function saveProductEditItem() {
                     <Switch checked={productCtx.isactive} onChange={handledisableproduct('isactive')} value="checkedA" />
                   }
                 />
-              
-              
+              <Grid container xs={12}>
+              <Grid item xs={6}>
+                <Button color="primary" variant="contained" onClick={(e) => forceindexproduct()}>
+                  Force index
+             </Button>
+             </Grid>
+             <Grid item xs={6}>
+                <Button color="primary" variant="contained" onClick={(e) => updateattribute()}>
+                  Attributes Mapping
+             </Button>
+             </Grid>
+              </Grid>
               <Grid item container style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "16px"
+              marginTop: "32px"
             }}>
               <Grid item>
                 <Button color="primary" variant="contained" onClick={(e) => saveProductEditItem()}>
