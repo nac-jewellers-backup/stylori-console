@@ -203,7 +203,7 @@ export default function Productimages(props) {
         {
         //  imagecount = image_count + 1;
         }
-        let imagename = (prodid+"-"+(imageposition)+randomnum+prodcolor.charAt(0));
+        let imagename = (prodid+"-"+(imageposition)+prodcolor.charAt(0));
         const fileParts = files[index].type.split("/");
         const fileType = fileParts[1];
         //alert(imagename)
