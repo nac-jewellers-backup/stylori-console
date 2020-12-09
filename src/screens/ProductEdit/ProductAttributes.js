@@ -912,7 +912,7 @@ async function saveProductEditItem() {
               <Skupricing variants={productCtx.variants} onShow={showpricesummary} columns={displypricingcolumns} displycolumns={displycolumnnames} />
               <Grid style={{ fontSize: ".9rem", padding: "8px" }}>Product Images</Grid>
               {productCtx.productMetalColor.map(colors => (
-                    <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} />
+                    <Productimages color={colors.productColor} isdefault={colors.isdefault  } prodimages={productCtx.product_images} prod_id = {prod_id} />
 
               ))}
             
