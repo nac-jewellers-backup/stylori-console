@@ -175,7 +175,7 @@ export default function Productimages(props) {
       let imagename = (product_id+"-"+(imagecount)+props.color.charAt(0));
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
-      alert(imagename)
+      alert(product_id)
       uploadimagetoserver(files[index],fileType,imagename,product_id,{}, false)
 
 
