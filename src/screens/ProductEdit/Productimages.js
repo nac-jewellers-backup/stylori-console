@@ -186,7 +186,6 @@ export default function Productimages(props) {
     const files = e.target.files;
       Object.keys(files).map((file, index) => { 
         const size = files[index].size;
-        alert(imageposition)
         let productimageobj = {}
         productimages.forEach(content => {
           if(content.productColor === props.color && imageposition === content.imagePosition)
