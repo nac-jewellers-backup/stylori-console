@@ -164,7 +164,7 @@ const Results = props => {
   };
   async function showorderdetails(orderurl){
     
-  window.open(orderurl, '_blank');
+  window.open(orderurl);
    }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
