@@ -98,7 +98,8 @@ formContainer: {
 export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
-  let product_id = '';
+  let product_id = props.prod_id;
+
 
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
@@ -175,7 +176,6 @@ export default function Productimages(props) {
       let imagename = (product_id+"-"+(imagecount)+props.color.charAt(0));
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
-      alert(product_id)
       uploadimagetoserver(files[index],fileType,imagename,product_id,{}, false)
 
 
@@ -186,7 +186,6 @@ export default function Productimages(props) {
     const files = e.target.files;
       Object.keys(files).map((file, index) => { 
         const size = files[index].size;
-        alert(imageposition)
         let productimageobj = {}
         productimages.forEach(content => {
           if(content.productColor === props.color && imageposition === content.imagePosition)
