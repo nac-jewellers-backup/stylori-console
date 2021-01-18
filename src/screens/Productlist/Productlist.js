@@ -75,7 +75,7 @@ export const Productlist = withRouter(
       async function fetchCSVdata() {
         responseCSV = await sendNetworkRequest("/productdetails", {}, {});
         let responseData = responseCSV.res_json;
-
+     
         if (responseCSV.statuscode === 200) {
           let keyData = [];
 
