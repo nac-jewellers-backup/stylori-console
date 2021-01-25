@@ -284,6 +284,7 @@ async function saveProductEditItem() {
     let response =  await sendNetworkRequest('/disableproduct', {}, bodycontent)
 
     let esresponse =  await sendNetworkRequest(endpoint, {}, esbody)
+    let updateproductattr =  await sendNetworkRequest('/updateproductattribute', {}, esbody)
 
     console.log("************")
     console.log(JSON.stringify(bodycontent))
