@@ -300,7 +300,7 @@ export default function Variants(props) {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.name}
+                  {column.name === "Gold Weight" ? "Metal Weight" : column.name}
                 </TableCell>
               ))}
             </TableRow>
