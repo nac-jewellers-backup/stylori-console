@@ -137,7 +137,7 @@ export const ProductConsumer = ProductContext.Consumer;
 
 const mapDataToCtx = (apiData, mapper, mappertype) => {
   if (Object.keys(apiData).length === 0) return {};
- 
+
   productuploadCtxInitial.productCtx[mappertype] = mapper(apiData);
 
   return productuploadCtxInitial.productCtx;
