@@ -235,7 +235,9 @@ export default function Producttypecontent() {
       mounted = false;
     };
   }, []);
-
+  debugger
+console.log(displaycolumnnames)
+console.log(displaycolumns)
   return (
     <Page
     className={classes.root}

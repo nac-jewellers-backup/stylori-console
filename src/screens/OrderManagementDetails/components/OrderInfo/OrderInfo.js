@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import moment from 'moment';
-import { API_URL, GRAPHQL_DEV_CLIENT } from '../../../../config';
-import { PAYMENTSTATUSMASTER, PRODUCTDIAMONDTYPES } from '../../../../graphql/query';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import moment from "moment";
+import { API_URL, GRAPHQL_DEV_CLIENT } from "../../../../config";
+import {
+  PAYMENTSTATUSMASTER,
+  PRODUCTDIAMONDTYPES,
+} from "../../../../graphql/query";
+import { makeStyles } from "@material-ui/styles";
 import {
   Card,
   CardActions,
@@ -18,70 +21,67 @@ import {
   TableRow,
   TableCell,
   TextField,
-  Link
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
+  Link,
+} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import ReceiptIcon from "@material-ui/icons/ReceiptOutlined";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
-    padding: 0
+    padding: 0,
   },
   actions: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    '& > * + *': {
-      marginLeft: 0
-    }
+    flexDirection: "column",
+    alignItems: "flex-end",
+    "& > * + *": {
+      marginLeft: 0,
+    },
   },
   buttonIcon: {
-    marginRight: theme.spacing(1)
-  }
+    marginRight: theme.spacing(1),
+  },
 }));
 
-const OrderInfo = props => {
+const OrderInfo = (props) => {
   const { order, className, ...rest } = props;
 
   const classes = useStyles();
 
-  const options = ['Canceled', 'Completed', 'Rejected'];
+  const options = ["Canceled", "Completed", "Rejected"];
 
   const [option, setOption] = useState(options[0]);
   const [paymentstatus, setPaymentstatus] = useState([]);
   const [orderstatus, setOrderstatus] = useState([]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     event.persist();
 
     setOption(event.target.value);
   };
-  async function getmaster()
-  {
+  async function getmaster() {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: PAYMENTSTATUSMASTER  })
+      body: JSON.stringify({ query: PAYMENTSTATUSMASTER }),
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
-      .then(res => res.json())
-      .then(fatchvalue => {
-        setPaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes)
-        setOrderstatus(fatchvalue.data.allOrderStatusMasters.nodes)
-        
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        setPaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes);
+        setOrderstatus(fatchvalue.data.allOrderStatusMasters.nodes);
       })
-      .catch(console.error)
+      .catch(console.error);
   }
   React.useEffect(() => {
-    getmaster()
-  },[])
+    getmaster();
+  }, []);
+  debugger;
+  console.log(props);
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader title="Order info" />
       <Divider />
       <CardContent className={classes.content}>
@@ -91,39 +91,80 @@ const OrderInfo = props => {
               <TableCell>Customer</TableCell>
               <TableCell>
                 <Link
+                  target="_blank"
                   component={RouterLink}
                   to={`/customerdetails/${order.user_profile.id}`}
                 >
                   {order.user_profile.first_name} {order.user_profile.last_name}
                 </Link>
-                <div>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].addressline1 : '' : '' : '' }</div>
-                <div>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].addressline2 : '' : '' : '' }</div>
-                <div>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].city : '' : '' : '' }</div>
-                <div>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].state : '' : '' : '' }</div>
-                <div>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].country : '' : '' : '' }</div>
+                <div>
+                  {order.shopping_cart
+                    ? order.shopping_cart.cart_addresses
+                      ? order.shopping_cart.cart_addresses.length > 0
+                        ? order.shopping_cart.cart_addresses[0].addressline1
+                        : ""
+                      : ""
+                    : ""}
+                </div>
+                <div>
+                  {order.shopping_cart
+                    ? order.shopping_cart.cart_addresses
+                      ? order.shopping_cart.cart_addresses.length > 0
+                        ? order.shopping_cart.cart_addresses[0].addressline2
+                        : ""
+                      : ""
+                    : ""}
+                </div>
+                <div>
+                  {order.shopping_cart
+                    ? order.shopping_cart.cart_addresses
+                      ? order.shopping_cart.cart_addresses.length > 0
+                        ? order.shopping_cart.cart_addresses[0].city
+                        : ""
+                      : ""
+                    : ""}
+                </div>
+                <div>
+                  {order.shopping_cart
+                    ? order.shopping_cart.cart_addresses
+                      ? order.shopping_cart.cart_addresses.length > 0
+                        ? order.shopping_cart.cart_addresses[0].state
+                        : ""
+                      : ""
+                    : ""}
+                </div>
+                <div>
+                  {order.shopping_cart
+                    ? order.shopping_cart.cart_addresses
+                      ? order.shopping_cart.cart_addresses.length > 0
+                        ? order.shopping_cart.cart_addresses[0].country
+                        : ""
+                      : ""
+                    : ""}
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Email ID</TableCell>
-              <TableCell>{order.shopping_cart ? order.shopping_cart.cart_addresses ?
-                order.shopping_cart.cart_addresses.length > 0 ? order.shopping_cart.cart_addresses[0].contact_number : '' : '' : '' }
-                </TableCell>
+              <TableCell>
+                {order.shopping_cart
+                  ? order.shopping_cart.cart_addresses
+                    ? order.shopping_cart.cart_addresses.length > 0
+                      ? order.shopping_cart.cart_addresses[0].contact_number
+                      : ""
+                    : ""
+                  : ""}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Mobile Number</TableCell>
               <TableCell>{order.user_profile.email}</TableCell>
             </TableRow>
-         
-            
+
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>
-                {moment(order.created_at).format('DD MMM YYYY hh:mm a')}
+                {moment(order.created_at).format("DD MMM YYYY hh:mm a")}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -136,20 +177,28 @@ const OrderInfo = props => {
             <TableRow>
               <TableCell>Waybil Number</TableCell>
               <TableCell>
-              <TextField
+                <TextField
                   fullWidth
-                  margin='dense'
+                  margin="dense"
                   name="option"
                   placeholder="Waybill Number"
                   onChange={handleChange}
                   value={order.awb_number}
                   variant="outlined"
-                /></TableCell>
+                />
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Gift Message</TableCell>
               <TableCell>
-              {order.shopping_cart ? order.shopping_cart.giftwraps ? order.shopping_cart.giftwraps.length > 0 ? order.shopping_cart.giftwraps[0].message : '' : '' : ''}</TableCell>
+                {order.shopping_cart
+                  ? order.shopping_cart.giftwraps
+                    ? order.shopping_cart.giftwraps.length > 0
+                      ? order.shopping_cart.giftwraps[0].message
+                      : ""
+                    : ""
+                  : ""}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Payment Mode</TableCell>
@@ -163,17 +212,14 @@ const OrderInfo = props => {
                   name="option"
                   onChange={handleChange}
                   select
-                  margin='dense'
+                  margin="dense"
                   // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
                   value={option}
                   variant="outlined"
                 >
-                  {paymentstatus.map(option => (
-                    <option
-                      key={option.name}
-                      value={option.name}
-                    >
+                  {paymentstatus.map((option) => (
+                    <option key={option.name} value={option.name}>
                       {option.name}
                     </option>
                   ))}
@@ -188,17 +234,14 @@ const OrderInfo = props => {
                   name="option"
                   onChange={handleChange}
                   select
-                  margin='dense'
+                  margin="dense"
                   // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
                   value={option}
                   variant="outlined"
                 >
-                  {orderstatus.map(option => (
-                    <option
-                      key={option.id}
-                      value={option.name}
-                    >
+                  {orderstatus.map((option) => (
+                    <option key={option.id} value={option.name}>
                       {option.name}
                     </option>
                   ))}
@@ -207,21 +250,23 @@ const OrderInfo = props => {
             </TableRow>
             <TableRow>
               <TableCell>Comments</TableCell>
-              <TableCell><TextField
+              <TableCell>
+                <TextField
                   fullWidth
-                  margin='dense'
+                  margin="dense"
                   name="option"
                   placeholder="Comments"
                   onChange={handleChange}
                   value={order.awb_number}
                   variant="outlined"
-                /></TableCell>
+                />
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button variant='contained' color='primary' >
+        <Button variant="contained" color="primary">
           {/* <EditIcon className={classes.buttonIcon} /> */}
           Save
         </Button>
@@ -236,7 +281,7 @@ const OrderInfo = props => {
 
 OrderInfo.propTypes = {
   className: PropTypes.string,
-  order: PropTypes.object.isRequired
+  order: PropTypes.object.isRequired,
 };
 
 export default OrderInfo;
