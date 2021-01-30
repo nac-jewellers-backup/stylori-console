@@ -1,39 +1,44 @@
-import { gql } from 'apollo-boost';
+import { gql } from "apollo-boost";
 
-export const PRODUCTCATEGORY = gql`query {
-    allMasterProductCategories{
-        nodes {
-            alias
-            name
-            id
-          }
+export const PRODUCTCATEGORY = gql`
+  query {
+    allMasterProductCategories {
+      nodes {
+        alias
+        name
+        id
+      }
     }
     allMasterProductTypes {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  },
-  allMasterStonesColors {
-    nodes {
-      alias
-      id
-      name
+    allMasterStonesColors {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterStones {
-    nodes {
-      alias
-      id
-      name
+    allMasterStones {
+      nodes {
+        alias
+        id
+        name
+      }
     }
   }
-  }`
+`;
 
-  export const USERORDERS = gql`query($userid: UUID!) {
-    allOrders(filter: {userProfileByUserProfileId: {id: {equalTo: $userid}}}) {
+export const USERORDERS = gql`
+  query($userid: UUID!) {
+    allOrders(
+      filter: { userProfileByUserProfileId: { id: { equalTo: $userid } } }
+    ) {
       nodes {
         paymentMode
         paymentStatus
@@ -68,7 +73,7 @@ export const PRODUCTCATEGORY = gql`query {
               giftTo
             }
           }
-          
+
           cartAddressesByCartId {
             nodes {
               firstname
@@ -93,10 +98,14 @@ export const PRODUCTCATEGORY = gql`query {
         }
       }
     }
-  
-  }`
-export const ORDERS = orderid  => gql`query {
-  allOrders(filter:  ${orderid ? `{userProfileId: {equalTo: "${orderid}"}}` : `{id: {isNull: false}}`},orderBy: CREATED_AT_DESC) {
+  }
+`;
+export const ORDERS = (orderid) => gql`query {
+  allOrders(filter:  ${
+    orderid
+      ? `{userProfileId: {equalTo: "${orderid}"}}`
+      : `{id: {isNull: false}}`
+  },orderBy: CREATED_AT_DESC) {
     nodes {
       paymentMode
       paymentStatus
@@ -163,146 +172,146 @@ export const ORDERS = orderid  => gql`query {
     }
   }
 
-}`
+}`;
 
-export const MATERIALMASTER = gql`query {
-  allMasterVendors {
-    nodes {
-      name
-      id
+export const MATERIALMASTER = gql`
+  query {
+    allMasterVendors {
+      nodes {
+        name
+        id
+      }
     }
-  },
-  allMasterPricingComponents(condition: {isActive: true}) {
-    nodes {
-      name
-      id
+    allMasterPricingComponents(condition: { isActive: true }) {
+      nodes {
+        name
+        id
+      }
+    }
+    allMasterProductCategories {
+      nodes {
+        name
+        id
+      }
+    }
+    allMasterProductTypes {
+      nodes {
+        name
+        id
+      }
+    }
+    allMasterMetalsPurities {
+      nodes {
+        name
+        id
+      }
+    }
+    allMasterMaterials {
+      nodes {
+        alias
+        id
+        name
+      }
     }
   }
-  allMasterProductCategories {
-    nodes {
-      name
-      id
-    }
-  },
-  allMasterProductTypes {
-    nodes {
-      name
-      id
-    }
-  },
-  allMasterMetalsPurities {
-    nodes {
-      name
-      id
-    }
-  },
-   allMasterMaterials {
-    nodes {
-      alias
-      id
-      name
-    }
-  }
-}`
+`;
 
-export const VOUCHERMASTER = gql`query {
-  allMasterVendors {
-    nodes {
-      name
-      id
-      
-      
+export const VOUCHERMASTER = gql`
+  query {
+    allMasterVendors {
+      nodes {
+        name
+        id
+      }
     }
-  },
-  allMasterPricingComponents(condition: {isActive: true}) {
-    nodes {
-      name
-      id
+    allMasterPricingComponents(condition: { isActive: true }) {
+      nodes {
+        name
+        id
+      }
     }
-  }
-  allMasterProductCategories {
-    nodes {
-      name
-      id
-      alias
-      shortCode
+    allMasterProductCategories {
+      nodes {
+        name
+        id
+        alias
+        shortCode
+      }
     }
-  },
-  allMasterProductTypes {
-    nodes {
-      name
-      id
-      alias
+    allMasterProductTypes {
+      nodes {
+        name
+        id
+        alias
+      }
     }
-  },
-  allMasterMetalsPurities {
-    nodes {
-      name
-      id
-      alias
+    allMasterMetalsPurities {
+      nodes {
+        name
+        id
+        alias
+      }
     }
-  },
-   allMasterMaterials {
-    nodes {
-      alias
-      id
-      name
+    allMasterMaterials {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterCollections {
-    nodes {
-      name
-      id
-      alias
+    allMasterCollections {
+      nodes {
+        name
+        id
+        alias
+      }
     }
-  }
-  allMasterMetalsPurities{
-    nodes {
-      name
-      id
+    allMasterMetalsPurities {
+      nodes {
+        name
+        id
+      }
     }
-  }
 
-  allMasterMetalsPurities{
-    nodes {
-      name
-      id
+    allMasterMetalsPurities {
+      nodes {
+        name
+        id
+      }
     }
-  }
 
-  allMasterStyles {
-    nodes {
-      name
-      id
-      alias
+    allMasterStyles {
+      nodes {
+        name
+        id
+        alias
+      }
     }
-  }
 
-  allMasterThemes {
-    nodes {
-      name
-      id
-      alias
+    allMasterThemes {
+      nodes {
+        name
+        id
+        alias
+      }
+    }
+    allMasterDiamondTypes {
+      nodes {
+        shortCode
+        diamondColor
+        diamondClarity
+        id
+      }
+    }
+    allMasterOccasions {
+      nodes {
+        name
+        alias
+        id
+      }
     }
   }
-  allMasterDiamondTypes {
-    nodes {
-      shortCode
-      diamondColor
-      diamondClarity
-      id
-    }
-  }
-  allMasterOccasions {
-    nodes {
-      name
-      alias
-      id
-    }
-  }
-}`
-
-
+`;
 
 export const SHIPPINGMASTER = `query {
   allMasterProductCategories {
@@ -390,10 +399,7 @@ export const SHIPPINGMASTER = `query {
       id
     }
   }
-}`
-
-
-
+}`;
 
 export const TAXMASTER = `query {
   allMasterProductCategories {
@@ -481,4 +487,17 @@ export const TAXMASTER = `query {
       id
     }
   }
-}`
+}`;
+
+export const ALLMASTERRINGSIZE = gql`
+  query {
+    allMasterRingsSizes {
+      nodes {
+        gender
+        productType
+        name
+        size
+      }
+    }
+  }
+`;

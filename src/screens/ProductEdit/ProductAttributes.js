@@ -534,6 +534,7 @@ export function Component(props) {
       })
       .catch(console.error);
   }, []);
+  debugger
   return state.create_variant ? (
     <CreateVariant
       productMetalColor={productCtx.productMetalColor}

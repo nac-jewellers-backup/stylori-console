@@ -28,6 +28,8 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
+import { useQuery } from "react-apollo";
+import { ALLMASTERRINGSIZE } from "../../services/queries";
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
   { title: "The Godfather", year: 1972 },
@@ -88,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddressForm(props) {
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
-  
+
   const classes = useStyles();
   const { className, ...rest } = props;
 
@@ -201,6 +203,9 @@ export default function AddressForm(props) {
     setProductCtx({ ...productCtx, [type]: selectedOption });
   };
 
+ 
+
+  debugger;
   const handleGenderChange = (type) => (event, value) => {
     var minvalue = 0;
     var maxvalue = 0;
@@ -366,8 +371,7 @@ export default function AddressForm(props) {
       setProductCtx({ ...productCtx, [type]: e.target.value });
     }
   };
-// debugger
-  console.log(productCtx, "samir");
+
   return (
     <>
       <div>
@@ -828,7 +832,8 @@ export default function AddressForm(props) {
             <Grid item xs={12} sm={12}>
               {productCtx.product_type &&
               (productCtx.product_type.shortCode === "K" ||
-                productCtx.product_type.shortCode === "R" ||  productCtx.product_type.shortCode === "BA" ) &&
+                productCtx.product_type.shortCode === "R" ||
+                productCtx.product_type.shortCode === "BA") &&
               productCtx.sizes.length > 0 ? (
                 <>
                   <Card {...rest} className={clsx(classes.root, className)}>
