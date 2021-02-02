@@ -28,6 +28,10 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
+import { useQuery } from "react-apollo";
+import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
+import { ALLMASTERRINGSIZE } from "../../graphql/query";
+import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
   { title: "The Godfather", year: 1972 },
@@ -88,9 +92,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddressForm(props) {
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
-  
+  const [initailRingSize, updateRingSize] = useState([]);
   const classes = useStyles();
   const { className, ...rest } = props;
+
+  React.useEffect(async () => {
+    fetch(GRAPHQL_DEV_CLIENT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: ALLMASTERRINGSIZE }),
+    })
+      .then((res) => res.json())
+      .then((res) => updateRingSize(res.data.allMasterRingsSizes.nodes));
+  }, []);
 
   React.useEffect(() => {}, [productCtx]);
   // const handleChange = selectedOption => {
@@ -132,29 +146,28 @@ export default function AddressForm(props) {
             label: "L",
           });
         } else {
-          if (
-            selectedOption.shortCode === "R" &&
-            productCtx.selectedgender.name === "Male"
-          ) {
-            minvalue = 13;
-            maxvalue = 25;
-            default_size = 15;
-          }
-          if (
-            selectedOption.shortCode === "R" &&
-            productCtx.selectedgender.name === "Female"
-          ) {
-            minvalue = 8;
-            maxvalue = 23;
-            default_size = 12;
-          }
-
-          for (var i = minvalue; i < maxvalue; i++) {
-            selected_sizes.push({
-              value: i,
-              label: "" + i,
-            });
-          }
+          // if (
+          //   selectedOption.shortCode === "R" &&
+          //   productCtx.selectedgender.name === "Male"
+          // ) {
+          //   minvalue = 13;
+          //   maxvalue = 25;
+          //   default_size = 15;
+          // }
+          // if (
+          //   selectedOption.shortCode === "R" &&
+          //   productCtx.selectedgender.name === "Female"
+          // ) {
+          //   minvalue = 8;
+          //   maxvalue = 23;
+          //   default_size = 12;
+          // }
+          // for (var i = minvalue; i < maxvalue; i++) {
+          //   selected_sizes.push({
+          //     value: i,
+          //     label: "" + i,
+          //   });
+          // }
         }
 
         setProductCtx({
@@ -212,31 +225,41 @@ export default function AddressForm(props) {
       selected_sizes.push("XS", "S", "M", "L");
       sizes.push("XS", "S", "M", "L");
     } else {
-      if (productCtx.product_type.shortCode === "R" && value === "Male") {
-        minvalue = 13;
-        maxvalue = 26;
-        default_size = "" + 15;
-      }
-      if (productCtx.product_type.shortCode === "R" && value === "Female") {
-        minvalue = 8;
-        maxvalue = 24;
-        default_size = "" + 12;
-      }
-      if (productCtx.product_type.shortCode === "BA" && value === "Male") {
-        minvalue = 13;
-        maxvalue = 26;
-        default_size = "" + 15;
-      }
-      if (productCtx.product_type.shortCode === "BA" && value === "Female") {
-        minvalue = 8;
-        maxvalue = 24;
-        default_size = "" + 12;
-      }
+      // if (productCtx.product_type.shortCode === "R" && value === "Male") {
+      //   minvalue = 13;
+      //   maxvalue = 26;
+      //   default_size = "" + 15;
+      // }
+      // if (productCtx.product_type.shortCode === "R" && value === "Female") {
+      //   minvalue = 8;
+      //   maxvalue = 24;
+      //   default_size = "" + 12;
+      // }
+      // if (productCtx.product_type.shortCode === "BA" && value === "Male") {
+      //   minvalue = 13;
+      //   maxvalue = 26;
+      //   default_size = "" + 15;
+      // }
+      // if (productCtx.product_type.shortCode === "BA" && value === "Female") {
+      //   minvalue = 8;
+      //   maxvalue = 24;
+      //   default_size = "" + 12;
+      // }
 
-      for (var i = minvalue; i < maxvalue; i++) {
-        selected_sizes.push("" + i);
-        sizes.push("" + i);
-      }
+      // for (var i = minvalue; i < maxvalue; i++) {
+      // selected_sizes.push("" + i);
+      // sizes.push("" + i);
+      // }
+      // debugger;
+      initailRingSize.forEach((e) => {
+        if (
+          productCtx.product_type.shortCode === e.name &&
+          value === e.gender
+        ) {
+          selected_sizes.push("" + e.size);
+          sizes.push("" + e.size);
+        }
+      });
     }
     setProductCtx({
       ...productCtx,
@@ -268,33 +291,33 @@ export default function AddressForm(props) {
       var minvalue = 0;
       var maxvalue = 0;
       selected_sizes = [];
-      if (productCtx.product_type_shortcode === "R" && e.name === "Male") {
-        size = "13-25";
-        minvalue = 13;
-        maxvalue = 26;
-      }
-      if (productCtx.product_type_shortcode === "R" && e.name === "Female") {
-        size = "8-18";
-        minvalue = 8;
-        maxvalue = 19;
-      }
-      if (productCtx.product_type_shortcode === "BA" && e.name === "Male") {
-        size = "13-25";
-        minvalue = 13;
-        maxvalue = 26;
-      }
-      if (productCtx.product_type_shortcode === "BA" && e.name === "Female") {
-        size = "8-18";
-        minvalue = 8;
-        maxvalue = 19;
-      }
+      // if (productCtx.product_type_shortcode === "R" && e.name === "Male") {
+      //   size = "13-25";
+      //   minvalue = 13;
+      //   maxvalue = 26;
+      // }
+      // if (productCtx.product_type_shortcode === "R" && e.name === "Female") {
+      //   size = "8-18";
+      //   minvalue = 8;
+      //   maxvalue = 19;
+      // }
+      // if (productCtx.product_type_shortcode === "BA" && e.name === "Male") {
+      //   size = "13-25";
+      //   minvalue = 13;
+      //   maxvalue = 26;
+      // }
+      // if (productCtx.product_type_shortcode === "BA" && e.name === "Female") {
+      //   size = "8-18";
+      //   minvalue = 8;
+      //   maxvalue = 19;
+      // }
 
-      for (var i = minvalue; i < maxvalue; i++) {
-        selected_sizes.push({
-          value: i,
-          label: "" + i,
-        });
-      }
+      // for (var i = minvalue; i < maxvalue; i++) {
+      //   selected_sizes.push({
+      //     value: i,
+      //     label: "" + i,
+      //   });
+      // }
     }
 
     if (type === "product_categoy") {
@@ -366,8 +389,7 @@ export default function AddressForm(props) {
       setProductCtx({ ...productCtx, [type]: e.target.value });
     }
   };
-// debugger
-  console.log(productCtx, "samir");
+ 
   return (
     <>
       <div>
@@ -828,7 +850,8 @@ export default function AddressForm(props) {
             <Grid item xs={12} sm={12}>
               {productCtx.product_type &&
               (productCtx.product_type.shortCode === "K" ||
-                productCtx.product_type.shortCode === "R" ||  productCtx.product_type.shortCode === "BA" ) &&
+                productCtx.product_type.shortCode === "R" ||
+                productCtx.product_type.shortCode === "BA") &&
               productCtx.sizes.length > 0 ? (
                 <>
                   <Card {...rest} className={clsx(classes.root, className)}>
