@@ -1390,6 +1390,7 @@ const ALLMASTERRINGSIZE = `
         productType
         name
         size
+        sizeValue
       }
     }
   }

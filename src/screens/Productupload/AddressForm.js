@@ -220,47 +220,53 @@ export default function AddressForm(props) {
     var selected_sizes = [];
     var sizes = [];
     var default_size = 0;
-    if (productCtx.product_type.shortCode === "K") {
-      default_size = "XS";
-      selected_sizes.push("XS", "S", "M", "L");
-      sizes.push("XS", "S", "M", "L");
-    } else {
-      // if (productCtx.product_type.shortCode === "R" && value === "Male") {
-      //   minvalue = 13;
-      //   maxvalue = 26;
-      //   default_size = "" + 15;
-      // }
-      // if (productCtx.product_type.shortCode === "R" && value === "Female") {
-      //   minvalue = 8;
-      //   maxvalue = 24;
-      //   default_size = "" + 12;
-      // }
-      // if (productCtx.product_type.shortCode === "BA" && value === "Male") {
-      //   minvalue = 13;
-      //   maxvalue = 26;
-      //   default_size = "" + 15;
-      // }
-      // if (productCtx.product_type.shortCode === "BA" && value === "Female") {
-      //   minvalue = 8;
-      //   maxvalue = 24;
-      //   default_size = "" + 12;
-      // }
+    // if (productCtx.product_type.shortCode === "K") {
+    //   default_size = "XS";
+    //   selected_sizes.push("XS", "S", "M", "L");
+    //   sizes.push("XS", "S", "M", "L");
+    // } else {
+    // if (productCtx.product_type.shortCode === "R" && value === "Male") {
+    //   minvalue = 13;
+    //   maxvalue = 26;
+    //   default_size = "" + 15;
+    // }
+    // if (productCtx.product_type.shortCode === "R" && value === "Female") {
+    //   minvalue = 8;
+    //   maxvalue = 24;
+    //   default_size = "" + 12;
+    // }
+    // if (productCtx.product_type.shortCode === "BA" && value === "Male") {
+    //   minvalue = 13;
+    //   maxvalue = 26;
+    //   default_size = "" + 15;
+    // }
+    // if (productCtx.product_type.shortCode === "BA" && value === "Female") {
+    //   minvalue = 8;
+    //   maxvalue = 24;
+    //   default_size = "" + 12;
+    // }
 
-      // for (var i = minvalue; i < maxvalue; i++) {
-      // selected_sizes.push("" + i);
-      // sizes.push("" + i);
-      // }
-      // debugger;
-      initailRingSize.forEach((e) => {
-        if (
-          productCtx.product_type.shortCode === e.name &&
-          value === e.gender
-        ) {
-          selected_sizes.push("" + e.size);
-          sizes.push("" + e.size);
-        }
-      });
-    }
+    // for (var i = minvalue; i < maxvalue; i++) {
+    // selected_sizes.push("" + i);
+    // sizes.push("" + i);
+    // }
+
+    // if (productCtx.product_type.shortCode !== "K" ) {
+     
+      // updateRingSize(
+      //   initailRingSize.sort(
+      //     (a, b) => parseFloat(a.sizeValue) - parseFloat(b.sizeValue)
+      //   )
+      // );
+    
+
+    initailRingSize.forEach((e) => {
+      if (productCtx.product_type.shortCode === e.name && value === e.gender) {
+        selected_sizes.push("" + e.sizeValue);
+        sizes.push("" + e.sizeValue);
+      }
+    });
+    // }
     setProductCtx({
       ...productCtx,
       [type]: value,
@@ -389,7 +395,7 @@ export default function AddressForm(props) {
       setProductCtx({ ...productCtx, [type]: e.target.value });
     }
   };
- 
+
   return (
     <>
       <div>
