@@ -107,7 +107,7 @@ const EditContent = (props) => {
     // setShowpreview(true)
   }
   const handleInputChange = (type) => (e) => {
-    debugger
+    debugger;
     setEditcontent({ ...editcontent, [type]: e.target.value });
   };
   const toggleChecked = (type) => (e) => {
@@ -189,7 +189,9 @@ const EditContent = (props) => {
                 />
               )}
               <Grid container xs={12} spacing={2}>
-                {(!columnname.type || columnname.type == 1) &&
+                {(!columnname.type ||
+                  columnname.type == 1 ||
+                  columnname.type === 10) &&
                 columnname.key != "action" ? (
                   <Grid item xs={12}>
                     <TextField
@@ -201,6 +203,7 @@ const EditContent = (props) => {
                       value={editcontent[columnname.key]}
                       onChange={handleInputChange(columnname.key)}
                       label={columnname.label}
+                      disabled={columnname.type === 10}
                     />
                   </Grid>
                 ) : null}

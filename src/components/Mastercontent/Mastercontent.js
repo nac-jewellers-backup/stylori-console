@@ -338,16 +338,21 @@ const Vendor = (props) => {
     setEditcontent(null);
     setOpenedit(false);
   };
+  const [aliasName, setaliasName] = React.useState("");
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: "",
   });
   function addnewvendor() {
+    let sort_id = masterlist.length > 0 ? masterlist[0].filterOrder + 1 : 1;
+    setaliasName(props.prefix + sort_id);
+
     setEditcontent({
+      alias: aliasName,
       ...editcontent,
       isedit: false,
     });
-    debugger
+    debugger;
     console.log(editcontent);
     // let masters = masterlist;
     // masters.insert(0, []);
@@ -882,6 +887,7 @@ const Vendor = (props) => {
               onApply={Savevendor}
               onClose={handleApplicationClose}
               open={openedit}
+              prefix={aliasName}
             />
           )}
         </div>

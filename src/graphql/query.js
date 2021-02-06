@@ -520,8 +520,8 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
 }
 }`;
 const MASTERCATEGORIES = `
-query  {
-  allMasterProductCategories(orderBy: UPDATED_AT_DESC) {
+query{
+  allMasterProductCategories(orderBy: FILTER_ORDER_DESC) {
     nodes {
       alias
       id
@@ -532,7 +532,8 @@ query  {
       filterOrder
     }
   }
-}`;
+}
+`;
 
 const MASTERPAGES = `
 query  {
