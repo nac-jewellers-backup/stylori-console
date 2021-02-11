@@ -27,6 +27,7 @@ export const OrderManagementDetails = withRouter((props) => {
       {},
       { order_id }
     );
+    debugger
     console.log(response);
     setOrder(response.orders);
   }
@@ -91,7 +92,7 @@ export const OrderManagementDetails = withRouter((props) => {
         </Grid>
         <Grid item md={8} xl={9} xs={12}>
           <OrderItems order={order} />
-          {/* <OrderDetails order={order} style={{ marginTop: 30 }} /> */}
+          <OrderDetails order={order} style={{ marginTop: 30 }} />
         </Grid>
       </Grid>
     </Page>
