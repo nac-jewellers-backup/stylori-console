@@ -1,49 +1,52 @@
 {
-    "columns": [
-        
-        {
-            "label": "Name",
-            "key":"name",
-            "id": "Name"
-        },
-        {
-            "label": "Alias",
-            "key":"alias",
-            "id": "alias"
-        },
-        {
-            "label": "short code",
-            "key":"shortCode",
-            "id": "short code"
-        },
-        {
-            "label": "Filter order",
-            "key":"filterOrder",
-            "id": "Filter order"
-        },
-        {
-            "label": "Include Filter",
-            "key":"isFilter",
-            "id": "Include Filter",
-            "type": 2
-        },
-        {
-            "label": "Active",
-            "key":"isActive",
-            "id": "Active",
-            "type": 2
-        },
-        {
-            "label": "Actions",
-            "key":"action",
-            "id": "Actions"
-        }
-    ],
+  "prefix": "CAT",
+  "columns": [
+    {
+      "label": "Name",
+      "key": "name",
+      "id": "Name"
+    },
+    {
+      "label": "Alias",
+      "key": "alias",
+      "id": "alias",
+      "type": 10
+    },
+    {
+      "label": "short code",
+      "key": "shortCode",
+      "id": "short code"
+    },
+    {
+      "label": "Filter order",
+      "key": "filterOrder",
+      "id": "Filter order"
+    },
+    {
+      "label": "Include Filter",
+      "key": "isFilter",
+      "id": "Include Filter",
+      "type": 2
+    },
+    {
+      "label": "Active",
+      "key": "isActive",
+      "id": "Active",
+      "type": 2
+    },
+    {
+      "label": "Actions",
+      "key": "action",
+      "id": "Actions"
+    }
+  ],
 
-    "values":[{
-        "id":1,
-        "hsn":"iwewuewu",
-        "tax":"6",
-        "action":["edit","delete"]
-    }]
+  "values": [
+    {
+      "id": 1,
+      "hsn": "iwewuewu",
+      "tax": "6",
+      "action": ["edit", "delete"]
+    }
+  ]
 }

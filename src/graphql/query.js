@@ -1,297 +1,298 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
-const PRODUCTCATEGORY = gql`query {
-    allMasterProductCategories{
-        nodes {
-            alias
-            name
-            id
-          }
+const PRODUCTCATEGORY = gql`
+  query {
+    allMasterProductCategories {
+      nodes {
+        alias
+        name
+        id
+      }
     }
     allMasterProductTypes {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  }
-  allMasterMaterials {
-    nodes {
-      alias
-      id
-      name
+    allMasterMaterials {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterGenders {
-    nodes {
-      alias
-      id
-      name
+    allMasterGenders {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterDiamondTypes {
-    nodes {
-      diamondClarity
-      diamondColor
-      id
+    allMasterDiamondTypes {
+      nodes {
+        diamondClarity
+        diamondColor
+        id
+      }
     }
-  }
-  allMasterMetalsColors {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+    allMasterMetalsColors {
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  },
-  allMasterDiamondsSettings {
-    nodes {
-      alias
-      id
-      name
+    allMasterDiamondsSettings {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterDiamondsShapes {
-    nodes {
-      name
-      id
-      alias
+    allMasterDiamondsShapes {
+      nodes {
+        name
+        id
+        alias
+      }
     }
-  },
-  allMasterThemes {
-    nodes {
-      alias
-      id
-      name
+    allMasterThemes {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
 
-  allMasterStyles {
-    nodes {
-      alias
-      id
-      name
+    allMasterStyles {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterOccasions {
-    nodes {
-      alias
-      id
-      name
+    allMasterOccasions {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterCollections {
-    nodes {
-      id
-      alias
-      name
+    allMasterCollections {
+      nodes {
+        id
+        alias
+        name
+      }
     }
-  },
-  allMasterStonesColors {
-    nodes {
-      alias
-      id
-      name
+    allMasterStonesColors {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterStones {
-    nodes {
-      alias
-      id
-      name
+    allMasterStones {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterMetalsColors {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+    allMasterMetalsColors {
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  },
-  allMasterMetalsPurities {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+    allMasterMetalsPurities {
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  },
-  allMasterDiamondsColors {
-    nodes {
-      alias
-      id
-      name
-      shortCode
+    allMasterDiamondsColors {
+      nodes {
+        alias
+        id
+        name
+        shortCode
+      }
     }
-  },
-  allMasterDiamondClarities {
-    nodes {
-      alias
-      id
-      name
+    allMasterDiamondClarities {
+      nodes {
+        alias
+        id
+        name
+      }
     }
-  },
-  allMasterVendors {
-    nodes {
-      id
-      name
-      shortCode
-      vendorDelivaryDays
-    
+    allMasterVendors {
+      nodes {
+        id
+        name
+        shortCode
+        vendorDelivaryDays
+      }
+    }
+    allProductLists(orderBy: PRODUCT_SERIES_DESC, first: 1) {
+      nodes {
+        productSeries
+        id
+      }
+    }
+    allMasterGemstonesTypes {
+      nodes {
+        alias
+        colorCode
+        id
+        name
+        shortCode
+      }
+    }
+    allMasterGemstonesShapes {
+      nodes {
+        alias
+        id
+        name
+      }
+    }
+    allMasterEarringBackings {
+      nodes {
+        name
+        createdAt
+        alias
+        id
+        nodeId
+        updatedAt
+      }
+    }
+    allMasterGemstonesSettings {
+      nodes {
+        alias
+        id
+        name
+      }
     }
   }
-  allProductLists(orderBy: PRODUCT_SERIES_DESC, first: 1) {
-    nodes {
-      productSeries
-      id
-    }
-  },
-  allMasterGemstonesTypes {
-    nodes {
-      alias
-      colorCode
-      id
-      name
-      shortCode
-    }
-  },
-  allMasterGemstonesShapes {
-    nodes {
-      alias
-      id
-      name
-    }
-  },
-  allMasterEarringBackings {
-    nodes {
-      name
-      createdAt
-      alias
-      id
-      nodeId
-      updatedAt
-    }
-  }
-  allMasterGemstonesSettings {
-    nodes {
-      alias
-      id
-      name
-    }
-  }
-  }`
+`;
 const PRODUCTFILTERMASTER = gql`
-query  {
-  allMasterProductCategories {
-    nodes {
-      updatedAt
-      shortCode
-      name
-      id
-      createdAt
-      alias
+  query {
+    allMasterProductCategories {
+      nodes {
+        updatedAt
+        shortCode
+        name
+        id
+        createdAt
+        alias
+      }
+    }
+    allMasterProductTypes {
+      nodes {
+        updatedAt
+        shortCode
+        name
+        id
+        createdAt
+        alias
+        displayOrder
+      }
     }
   }
-  allMasterProductTypes {
-    nodes {
-      updatedAt
-      shortCode
-      name
-      id
-      createdAt
-      alias
-      displayOrder
-    }
-  }
-}
 `;
 
 const ALLPRODUCTLIST = gql`
-query  {
-  allProductLists(first: 500)  {
-    nodes {
-      id
-      nodeId
-      productName
-      productCategory
-      productType
-      productId
-      createdAt
-      isactive
-      transSkuListsByProductId(condition: {isdefault: true}) {
-        nodes {
-          skuUrl
-          discount
+  query {
+    allProductLists(first: 500) {
+      nodes {
+        id
+        nodeId
+        productName
+        productCategory
+        productType
+        productId
+        createdAt
+        isactive
+        transSkuListsByProductId(condition: { isdefault: true }) {
+          nodes {
+            skuUrl
+            discount
+          }
         }
       }
+      totalCount
     }
-    totalCount
   }
-}
 `;
 const PRODUCTLIST = (category) => gql`
-query($Veiw: Int!, $Offset: Int!) {
-  allProductLists(first: $Veiw, offset: $Offset) {
-    nodes {
-      id
-      nodeId
-      productName,
-      productCategory,
-      productType
-      productId,
-      createdAt
-      isactive,
-      transSkuListsByProductId(condition: {isdefault: true}) {
-        nodes {
-          skuUrl
-          discount
+  query($Veiw: Int!, $Offset: Int!) {
+    allProductLists(first: $Veiw, offset: $Offset) {
+      nodes {
+        id
+        nodeId
+        productName
+        productCategory
+        productType
+        productId
+        createdAt
+        isactive
+        transSkuListsByProductId(condition: { isdefault: true }) {
+          nodes {
+            skuUrl
+            discount
+          }
         }
       }
+      totalCount
     }
-    totalCount
   }
-}
 `;
 const VENDORLISTS = gql`
-query  {
-  allMasterVendors(orderBy: CREATED_AT_DESC) {
-    nodes {
-      vendorDelivaryDays
-      updatedAt
-      state
-      shortCode
-      partnerCategory
-      name
-      organization
-      gstNo
-      currency
-      createdAt
-      city
-      address
+  query {
+    allMasterVendors(orderBy: CREATED_AT_DESC) {
+      nodes {
+        vendorDelivaryDays
+        updatedAt
+        state
+        shortCode
+        partnerCategory
+        name
+        organization
+        gstNo
+        currency
+        createdAt
+        city
+        address
+      }
+      totalCount
     }
-    totalCount
   }
-}
 `;
 
 const TaxList_1 = gql`
-query  {
-  allMasterTaxSettings {
-    nodes {
-      hsnNumber
-      taxName
-      taxValue
-      updatedAt
-      id
+  query {
+    allMasterTaxSettings {
+      nodes {
+        hsnNumber
+        taxName
+        taxValue
+        updatedAt
+        id
+      }
+      totalCount
     }
-    totalCount
   }
-}
-`;/*********** configuration query */
+`; /*********** configuration query */
 
-const TaxList =`
+const TaxList = `
 query  {
   allMasterTaxSettings(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -310,7 +311,7 @@ query  {
   }
 }
 `;
-const TaxSettingList =`
+const TaxSettingList = `
 query  {
   allTaxsettings(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -323,7 +324,7 @@ query  {
 }
 `;
 
-const MASTERMATERIAL =`
+const MASTERMATERIAL = `
 query  {
   allMasterMaterials(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -337,7 +338,7 @@ query  {
   }
 }
 `;
-const MASTERMATERIALCOLORS =`
+const MASTERMATERIALCOLORS = `
 query  {
   allMasterMetalsColors(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -353,7 +354,7 @@ query  {
 }
 `;
 
-const MASTERPRODUCTPURITIES =`
+const MASTERPRODUCTPURITIES = `
 query  {
   allMasterMetalsPurities(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -367,7 +368,7 @@ query  {
   }
 }
 `;
-const DESIGNMASTER =`
+const DESIGNMASTER = `
 query  {
 allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   nodes {
@@ -380,7 +381,7 @@ allMasterDesigns(orderBy: UPDATED_AT_DESC) {
   }
 }
 }`;
-const COLLECTIONMASTER =`
+const COLLECTIONMASTER = `
 query  {
   allMasterCollections(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -395,7 +396,7 @@ query  {
 }
 `;
 
-const OCCASSIONSMASTER =`
+const OCCASSIONSMASTER = `
 query  {
   allMasterOccasions {
     nodes {
@@ -410,7 +411,7 @@ query  {
   }
 }
 `;
-const STYLEMASTER =`
+const STYLEMASTER = `
 query  {
 allMasterStyles {
   nodes {
@@ -425,7 +426,7 @@ allMasterStyles {
   }
 }
 }`;
-const THEMEMASTER =`
+const THEMEMASTER = `
 query  {
   allMasterThemes {
     nodes {
@@ -440,7 +441,7 @@ query  {
     }
   }
 }`;
-const DIAMONDMASTER =`
+const DIAMONDMASTER = `
 query  {
 allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
@@ -455,7 +456,7 @@ allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
 }
 `;
 
-const PAYMENTSTATUSMASTER =`
+const PAYMENTSTATUSMASTER = `
 query  {
   allOrderStatusMasters {
     nodes {
@@ -477,7 +478,7 @@ query  {
   }
 }
 `;
-const DIAMONDSETTINGS =`
+const DIAMONDSETTINGS = `
 query  {
 allMasterDiamondsSettings(orderBy: UPDATED_AT_DESC) {
   nodes {
@@ -490,7 +491,7 @@ allMasterDiamondsSettings(orderBy: UPDATED_AT_DESC) {
 }
 }
 `;
-const DIAMONDSHAPES =`
+const DIAMONDSHAPES = `
 query  {
   allMasterDiamondsShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -503,7 +504,7 @@ query  {
   }
 }
 `;
-const MASTERPRODUCTTYPES =`
+const MASTERPRODUCTTYPES = `
 query  {
 allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
@@ -519,9 +520,9 @@ allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   }
 }
 }`;
-const MASTERCATEGORIES =`
-query  {
-  allMasterProductCategories(orderBy: UPDATED_AT_DESC) {
+const MASTERCATEGORIES = `
+query{
+  allMasterProductCategories(orderBy: FILTER_ORDER_DESC) {
     nodes {
       alias
       id
@@ -532,10 +533,10 @@ query  {
       filterOrder
     }
   }
-}`;
+}
+`;
 
-
-const MASTERPAGES =`
+const MASTERPAGES = `
 query  {
   allUniquepages(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -545,7 +546,7 @@ query  {
     }
   }
 }`;
-const GOLDPRICESETUPMASTER =`
+const GOLDPRICESETUPMASTER = `
 query  {
   allMasterVendors {
     nodes {
@@ -567,7 +568,7 @@ query  {
     }
   }
 }`;
-const EARRINGBACKING =`
+const EARRINGBACKING = `
 query  {
   allMasterEarringBackings(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -583,10 +584,7 @@ query  {
   }
 }`;
 
-
-
-
-const MASTERSTONES =`
+const MASTERSTONES = `
 query  {
   allMasterStones(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -600,7 +598,7 @@ query  {
   }
 }`;
 
-const MASTERCOUNTRIES =`
+const MASTERCOUNTRIES = `
 query  {
   allMasterCountries(condition: {isActive: true}) {
     nodes {
@@ -610,7 +608,7 @@ query  {
     }
   }
 }`;
-const SHIPPINGCHARGES= `query{
+const SHIPPINGCHARGES = `query{
   allShippingCharges {
     nodes {
       id
@@ -630,8 +628,8 @@ const SHIPPINGCHARGES= `query{
       }
     }
   }
-}`
-const ACTIVESHIPPINGZONES =`
+}`;
+const ACTIVESHIPPINGZONES = `
 query  {
   allShippingZones(condition: {isActive: true}) {
     nodes {
@@ -641,7 +639,7 @@ query  {
     }
   }
 }`;
-const SHIPPINGZONES =`
+const SHIPPINGZONES = `
 query  {
   allShippingZones {
     nodes {
@@ -668,7 +666,7 @@ query  {
     }
   }
 }`;
-const MASTERSTONECOLORS =`
+const MASTERSTONECOLORS = `
 query  {
   allMasterStonesColors(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -681,7 +679,7 @@ query  {
     }
   }
 }`;
-const MASTERWEIGHTS =`
+const MASTERWEIGHTS = `
 query  {
   allMasterWeights(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -697,7 +695,7 @@ query  {
   }
 }`;
 
-const MASTERSTONESHAPES =`
+const MASTERSTONESHAPES = `
 query  {
   allMasterStonesShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -713,8 +711,7 @@ query  {
   }
 }`;
 
-
-const MASTERATTRIBUTES =`
+const MASTERATTRIBUTES = `
 query  {
 allAttributeMasters {
   nodes {
@@ -732,7 +729,7 @@ allAttributeMasters {
 }
 }`;
 
-const MASTERGEMSETTINGS =`
+const MASTERGEMSETTINGS = `
 query  {
   allMasterGemstonesSettings(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -745,7 +742,7 @@ query  {
   }
 }`;
 
-const MASTERGEMSHAPES =`
+const MASTERGEMSHAPES = `
 query  {
   allMasterGemstonesShapes(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -758,7 +755,7 @@ query  {
     }
   }
 }`;
-const MASTERGEMTYPES =`
+const MASTERGEMTYPES = `
 query  {
   allMasterGemstonesTypes(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -771,7 +768,7 @@ query  {
     }
   }
 }`;
-const MASTERGENDER =`
+const MASTERGENDER = `
 query  {
   allMasterGenders(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -784,7 +781,7 @@ query  {
     }
   }
 }`;
-const SEOPRIORITIES =`
+const SEOPRIORITIES = `
 query  {
   allSeoUrlPriorities(orderBy: UPDATED_AT_DESC) {
     nodes {
@@ -800,7 +797,6 @@ query  {
   }
 }`;
 /**************** */
-
 
 // const PRODUCTLIST  = (category) =>  gql`
 // query  {
@@ -827,59 +823,65 @@ query  {
 // `;
 
 const GOLDPRICELIST = gql`
-query MyQuery($vendorCode: String!) {
-    allGoldPriceSettings(condition: {vendorCode: $vendorCode}) {
-    nodes {
-      purity
-      vendorCode
-      updatedAt
-      sellingPriceType
-      sellingPrice
-      material
-      id
-      createdAt
-      costPrice
+  query MyQuery($vendorCode: String!) {
+    allGoldPriceSettings(condition: { vendorCode: $vendorCode }) {
+      nodes {
+        purity
+        vendorCode
+        updatedAt
+        sellingPriceType
+        sellingPrice
+        material
+        id
+        createdAt
+        costPrice
+      }
+      totalCount
     }
-    totalCount
   }
-}`;
+`;
 
 const DIAMONDMARKUP = gql`
-query MyQuery($vendorCode: String!) {
-  allPricingMarkups(condition: {material: $vendorCode},orderBy: UPDATED_AT_DESC) {
-    nodes {
-      updatedAt
-      sellingPriceMin
-      sellingPriceMax
-      material
-      category
-      productType
-      markupValue
-      markupType
-      id
-      createdAt
+  query MyQuery($vendorCode: String!) {
+    allPricingMarkups(
+      condition: { material: $vendorCode }
+      orderBy: UPDATED_AT_DESC
+    ) {
+      nodes {
+        updatedAt
+        sellingPriceMin
+        sellingPriceMax
+        material
+        category
+        productType
+        markupValue
+        markupType
+        id
+        createdAt
+      }
+      totalCount
     }
-    totalCount
   }
-}`;
+`;
 
 const DIAMONDPRICELIST = gql`
-query MyQuery($vendorCode: String!) {
-  allDiamondPriceSettings(condition: {vendorCode: $vendorCode}) {
-    nodes {
-      costPrice
-      createdAt
-      diamondClarity
-      diamondColour
-      id
-      sellingPrice
-      sellingPriceType
-      updatedAt
-      vendorCode
+  query MyQuery($vendorCode: String!) {
+    allDiamondPriceSettings(condition: { vendorCode: $vendorCode }) {
+      nodes {
+        costPrice
+        createdAt
+        diamondClarity
+        diamondColour
+        id
+        sellingPrice
+        sellingPriceType
+        updatedAt
+        vendorCode
+      }
+      totalCount
     }
-    totalCount
   }
-}`;
+`;
 // const CATGORYLIST = gql`
 // query {
 //   allMasterMaterials {
@@ -889,119 +891,111 @@ query MyQuery($vendorCode: String!) {
 //     }
 // }`;
 
-
-const CATGORYLIST =gql`
-query  {
-  allMasterProductCategories {
-    nodes {
-      alias
-      name
-      shortCode
-      id
+const CATGORYLIST = gql`
+  query {
+    allMasterProductCategories {
+      nodes {
+        alias
+        name
+        shortCode
+        id
+      }
+      totalCount
     }
-    totalCount
   }
-}
 `;
-const PRODUCTTYPEMASTER =gql`
-query  {
-  allMasterProductTypes {
-    nodes {
-      name
-      id
-      alias
-      shortCode
+const PRODUCTTYPEMASTER = gql`
+  query {
+    allMasterProductTypes {
+      nodes {
+        name
+        id
+        alias
+        shortCode
+      }
+      totalCount
     }
-    totalCount
   }
-}
-`;
-
-const MATERIALMASTER =gql`
-query  {
-  allMasterMaterials {
-    nodes {
-      alias
-      name
-      shortCode
-    }
-    totalCount
-  }
-}
 `;
 
-
-const MASTERCOLORS =gql`
-query  {
-  allMasterMetalsColors {
-    nodes {
-      name
-      alias
-      shortCode
+const MATERIALMASTER = gql`
+  query {
+    allMasterMaterials {
+      nodes {
+        alias
+        name
+        shortCode
+      }
+      totalCount
     }
-    totalCount
   }
-}
 `;
 
-
-const SALEDISCOUNTS =gql`
-query  {
-  allSaleDiscounts {
-    nodes {
-      id
-      discountName
-      discountType
-      discountValue
-      components
-      attributes
-      isActive
-      productAttributes
-      productAttributesText
+const MASTERCOLORS = gql`
+  query {
+    allMasterMetalsColors {
+      nodes {
+        name
+        alias
+        shortCode
+      }
+      totalCount
     }
-
-    totalCount
   }
-}
 `;
 
+const SALEDISCOUNTS = gql`
+  query {
+    allSaleDiscounts {
+      nodes {
+        id
+        discountName
+        discountType
+        discountValue
+        components
+        attributes
+        isActive
+        productAttributes
+        productAttributesText
+      }
 
-const VOUCHERDISCOUNTS =gql`
-query  {
-  allVouchers {
-    nodes {
-      id
-      name
-      code
-      uses
-      maxUses
-      isActive
-      voucherCodes
-      description
-      
+      totalCount
     }
-
-    totalCount
   }
-}
 `;
 
+const VOUCHERDISCOUNTS = gql`
+  query {
+    allVouchers {
+      nodes {
+        id
+        name
+        code
+        uses
+        maxUses
+        isActive
+        voucherCodes
+        description
+      }
 
-
-
-const MASTERPURITIES =gql`
-query  {
-  allMasterMetalsPurities {
-    nodes {
-      name
-      alias
-      shortCode
+      totalCount
     }
-    totalCount
   }
-}
 `;
-const VENDORLIST =`
+
+const MASTERPURITIES = gql`
+  query {
+    allMasterMetalsPurities {
+      nodes {
+        name
+        alias
+        shortCode
+      }
+      totalCount
+    }
+  }
+`;
+const VENDORLIST = `
 query {
   allMasterVendors {
     nodes {
@@ -1021,7 +1015,7 @@ query {
   }
 }`;
 
-const METALMASTER =`
+const METALMASTER = `
 query {
   allMasterMaterials {
     nodes {
@@ -1037,8 +1031,7 @@ query {
   }
 }`;
 
-
-const MASTERCATEGORY =`
+const MASTERCATEGORY = `
 query {
   allMasterProductCategories {
     nodes {
@@ -1054,8 +1047,7 @@ query {
   }
 }`;
 
-
-const GEMSTONEMASTER =`
+const GEMSTONEMASTER = `
 query {
   allMasterGemstonesTypes {
     nodes {
@@ -1066,158 +1058,181 @@ query {
   }  
 }`;
 
-
-
 const MAKINGCHARGEPRICELIST = gql`
-query MyQuery($vendorCode: String!,$ratetype: Int!) {
-  allMakingChargeSettings(condition: {vendorCode: $vendorCode,rateType: $ratetype}) {
-    nodes {
-      weightStart
-      weightEnd
-      vendorCode
-      updatedAt
-      sellingPriceType
-      rateType
-      purity
-      priceType
-      price
-      material
-      id
-      createdAt
+  query MyQuery($vendorCode: String!, $ratetype: Int!) {
+    allMakingChargeSettings(
+      condition: { vendorCode: $vendorCode, rateType: $ratetype }
+    ) {
+      nodes {
+        weightStart
+        weightEnd
+        vendorCode
+        updatedAt
+        sellingPriceType
+        rateType
+        purity
+        priceType
+        price
+        material
+        id
+        createdAt
+      }
+      totalCount
     }
-    totalCount
   }
-}`;
+`;
 const GEMPRICELIST = gql`
-query MyQuery($vendorCode: String!) {
-  allGemstonePriceSettings(condition: {vendorCode: $vendorCode}) {
-    nodes {
-      price
-      rateType
-      priceType
-      sellingPriceType
-      vendorCode
-      weightEnd
-      weightStart
-      updatedAt
-      id
-      createdAt
-      gemstoneType
+  query MyQuery($vendorCode: String!) {
+    allGemstonePriceSettings(condition: { vendorCode: $vendorCode }) {
+      nodes {
+        price
+        rateType
+        priceType
+        sellingPriceType
+        vendorCode
+        weightEnd
+        weightStart
+        updatedAt
+        id
+        createdAt
+        gemstoneType
+      }
+      totalCount
     }
-    totalCount
   }
-}`;
+`;
 const PRODUCTLISTSTATUSEDIT = gql`
-mutation MyMutation($productId:String!,$isActive:Boolean!) {
-  __typename
-  updateProductListByProductId(input: {productId: $productId, productListPatch: {isactive: $isActive}}) {
-    clientMutationId
-    productList {
-      isactive
+  mutation MyMutation($productId: String!, $isActive: Boolean!) {
+    __typename
+    updateProductListByProductId(
+      input: {
+        productId: $productId
+        productListPatch: { isactive: $isActive }
+      }
+    ) {
+      clientMutationId
+      productList {
+        isactive
+      }
     }
   }
-}
 `;
 
 const CREATETAXSETUP = gql`
-mutation MyMutation($id:UUID!,$updatedAt:Date!,$createdAt:Date!,$taxValue:Double!,$taxName:String!,$hsnNumber:String!) {
-  __typename
-  createMasterTaxSetting(input: {masterTaxSetting: {id: $id, updatedAt: $updatedAt, createdAt: $createdAt, taxValue: $taxValue, taxName: $taxName, hsnNumber: $hsnNumber}}) {
-    clientMutationId
-  }
-}
-`;
-
-
-
-
-const VOUCHERSTATUSEDIT = gql`
-mutation MyMutation($voucherId:UUID!,$isActive:Boolean!) {
-  __typename
-  updateVoucherById(input: {id: $voucherId, voucherPatch: {isActive: $isActive}}) {
-    clientMutationId
-    voucher {
-      isActive
+  mutation MyMutation(
+    $id: UUID!
+    $updatedAt: Date!
+    $createdAt: Date!
+    $taxValue: Double!
+    $taxName: String!
+    $hsnNumber: String!
+  ) {
+    __typename
+    createMasterTaxSetting(
+      input: {
+        masterTaxSetting: {
+          id: $id
+          updatedAt: $updatedAt
+          createdAt: $createdAt
+          taxValue: $taxValue
+          taxName: $taxName
+          hsnNumber: $hsnNumber
+        }
+      }
+    ) {
+      clientMutationId
     }
   }
-}
+`;
+
+const VOUCHERSTATUSEDIT = gql`
+  mutation MyMutation($voucherId: UUID!, $isActive: Boolean!) {
+    __typename
+    updateVoucherById(
+      input: { id: $voucherId, voucherPatch: { isActive: $isActive } }
+    ) {
+      clientMutationId
+      voucher {
+        isActive
+      }
+    }
+  }
 `;
 
 const DISCOUNTSTATUSEDIT = gql`
-mutation MyMutation($discountId:UUID!,$isActive:Boolean!) {
-  __typename
-  updateSaleDiscountById(input: {id: $discountId, saleDiscountPatch: {isActive: $isActive}}) {
-    clientMutationId
-    saleDiscount {
-      isActive
+  mutation MyMutation($discountId: UUID!, $isActive: Boolean!) {
+    __typename
+    updateSaleDiscountById(
+      input: { id: $discountId, saleDiscountPatch: { isActive: $isActive } }
+    ) {
+      clientMutationId
+      saleDiscount {
+        isActive
+      }
     }
   }
-}
 `;
 
 const DELETEMARKUPPRICE = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deletePricingMarkupById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deletePricingMarkupById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 
 const DELETEGOLDPRICE = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteGoldPriceSettingById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteGoldPriceSettingById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 const DELETESALEDISCOUNT = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteSaleDiscountById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteSaleDiscountById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 
 const DELETEVOUCHERDISCOUNT = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteVoucherById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteVoucherById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 
 const DELETEMAKINGCHARGE = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteMakingChargeSettingById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteMakingChargeSettingById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 
 const DELETEGEMCHARGE = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteGemstonePriceSettingById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteGemstonePriceSettingById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
 const DELETEDIAMONDCHARGE = gql`
-mutation MyMutation($elementId:UUID!) {
-  __typename
-  deleteDiamondPriceSettingById(input: {id: $elementId}) {
-    clientMutationId
+  mutation MyMutation($elementId: UUID!) {
+    __typename
+    deleteDiamondPriceSettingById(input: { id: $elementId }) {
+      clientMutationId
+    }
   }
-}
 `;
-
-
-
 
 const PRODUCTDIAMONDTYPES = `
 query{
@@ -1375,72 +1390,87 @@ query MyQuery($productId: String!) {
 }
 
 `;
-  export {
-    PRODUCTCATEGORY,
-    PRODUCTLIST,
-    PRODUCTEDIT,
-    PRODUCTLISTSTATUSEDIT,
-    PRODUCTDIAMONDTYPES,
-    GOLDPRICELIST,
-    DIAMONDPRICELIST,
-    GEMPRICELIST,
-    MAKINGCHARGEPRICELIST,
-    VENDORLIST,
-    ALLPRODUCTLIST,
-    DIAMONDMARKUP,
-    PRODUCTFILTERMASTER,
-    METALMASTER,
-    GEMSTONEMASTER,
-    MASTERCATEGORY,
-    DELETEMARKUPPRICE,
-    DELETEMAKINGCHARGE,
-    DELETEGEMCHARGE,
-    DELETEGOLDPRICE,
-    DELETESALEDISCOUNT,
-    CATGORYLIST,
-    DELETEDIAMONDCHARGE,
-    VENDORLISTS,
-    TaxList,
-    PRODUCTTYPEMASTER,
-    MATERIALMASTER,
-    MASTERCOLORS,
-    MASTERPURITIES,
-    SALEDISCOUNTS,
-    VOUCHERDISCOUNTS,
-    DELETEVOUCHERDISCOUNT,
-    VOUCHERSTATUSEDIT,
-    DISCOUNTSTATUSEDIT,
-    MASTERMATERIAL,
-    MASTERMATERIALCOLORS,
-    MASTERPRODUCTPURITIES,
-    COLLECTIONMASTER,
-    DESIGNMASTER,
-    DIAMONDMASTER,
-    DIAMONDSETTINGS,
-    DIAMONDSHAPES,
-    MASTERPRODUCTTYPES,
-    MASTERGEMSETTINGS,
-    MASTERGEMSHAPES ,
-    MASTERGEMTYPES,
-    MASTERGENDER ,
-    SEOPRIORITIES,
-    CREATETAXSETUP,
-    TaxSettingList,
-    MASTERCATEGORIES,
-    EARRINGBACKING,
-    MASTERATTRIBUTES,
-    MASTERSTONESHAPES,
-    MASTERSTONECOLORS,
-    MASTERSTONES,
-    MASTERWEIGHTS,
-    THEMEMASTER,
-    STYLEMASTER,
-    OCCASSIONSMASTER,
-    PAYMENTSTATUSMASTER,
-    SHIPPINGZONES,
-    MASTERCOUNTRIES,
-    SHIPPINGCHARGES,
-    ACTIVESHIPPINGZONES,
-    MASTERPAGES,
-    GOLDPRICESETUPMASTER
+
+const ALLMASTERRINGSIZE = `
+  query {
+    allMasterRingsSizes {
+      nodes {
+        gender
+        productType
+        name
+        size
+        sizeValue
+      }
+    }
   }
+`;
+export {
+  PRODUCTCATEGORY,
+  PRODUCTLIST,
+  PRODUCTEDIT,
+  PRODUCTLISTSTATUSEDIT,
+  PRODUCTDIAMONDTYPES,
+  GOLDPRICELIST,
+  DIAMONDPRICELIST,
+  GEMPRICELIST,
+  MAKINGCHARGEPRICELIST,
+  VENDORLIST,
+  ALLPRODUCTLIST,
+  DIAMONDMARKUP,
+  PRODUCTFILTERMASTER,
+  METALMASTER,
+  GEMSTONEMASTER,
+  MASTERCATEGORY,
+  DELETEMARKUPPRICE,
+  DELETEMAKINGCHARGE,
+  DELETEGEMCHARGE,
+  DELETEGOLDPRICE,
+  DELETESALEDISCOUNT,
+  CATGORYLIST,
+  DELETEDIAMONDCHARGE,
+  VENDORLISTS,
+  TaxList,
+  PRODUCTTYPEMASTER,
+  MATERIALMASTER,
+  MASTERCOLORS,
+  MASTERPURITIES,
+  SALEDISCOUNTS,
+  VOUCHERDISCOUNTS,
+  DELETEVOUCHERDISCOUNT,
+  VOUCHERSTATUSEDIT,
+  DISCOUNTSTATUSEDIT,
+  MASTERMATERIAL,
+  MASTERMATERIALCOLORS,
+  MASTERPRODUCTPURITIES,
+  COLLECTIONMASTER,
+  DESIGNMASTER,
+  DIAMONDMASTER,
+  DIAMONDSETTINGS,
+  DIAMONDSHAPES,
+  MASTERPRODUCTTYPES,
+  MASTERGEMSETTINGS,
+  MASTERGEMSHAPES,
+  MASTERGEMTYPES,
+  MASTERGENDER,
+  SEOPRIORITIES,
+  CREATETAXSETUP,
+  TaxSettingList,
+  MASTERCATEGORIES,
+  EARRINGBACKING,
+  MASTERATTRIBUTES,
+  MASTERSTONESHAPES,
+  MASTERSTONECOLORS,
+  MASTERSTONES,
+  MASTERWEIGHTS,
+  THEMEMASTER,
+  STYLEMASTER,
+  OCCASSIONSMASTER,
+  PAYMENTSTATUSMASTER,
+  SHIPPINGZONES,
+  MASTERCOUNTRIES,
+  SHIPPINGCHARGES,
+  ACTIVESHIPPINGZONES,
+  MASTERPAGES,
+  GOLDPRICESETUPMASTER,
+  ALLMASTERRINGSIZE,
+};

@@ -20,7 +20,8 @@ const sendNetworkRequest = async (url, params, data, auth = false) => {
     console.info('URL', url, data)
     const method = data ? 'POST' : 'GET', 
         headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*"
         };
     let resdata = null;
     if(auth){

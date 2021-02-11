@@ -487,17 +487,5 @@ export const TAXMASTER = `query {
       id
     }
   }
-}`;
+}`
 
-export const ALLMASTERRINGSIZE = gql`
-  query {
-    allMasterRingsSizes {
-      nodes {
-        gender
-        productType
-        name
-        size
-      }
-    }
-  }
-`;
