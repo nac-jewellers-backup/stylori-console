@@ -77,15 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditContent = (props) => {
-  const {
-    diamond,
-    attributes,
-    open,
-    onClose,
-    onApply,
-    className,
-    ...rest
-  } = props;
+  const { diamond, attributes, open, onClose, onApply, className, ...rest } = props;
   const initialValues = {
     ...diamond,
   };
@@ -135,8 +127,7 @@ const EditContent = (props) => {
     var url = returnData.url;
     console.log("responseurl" + url);
     var filepathname = returnData.filepath;
-    let imageurl =
-      "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname;
+    let imageurl = "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname;
 
     var options = {
       headers: {
@@ -165,12 +156,7 @@ const EditContent = (props) => {
     <Dialog maxWidth="lg" onClose={onClose} open={open}>
       <div {...rest} className={clsx(classes.root, className)}>
         <div className={classes.header}>
-          <Typography
-            align="center"
-            className={classes.title}
-            gutterBottom
-            variant="h3"
-          >
+          <Typography align="center" className={classes.title} gutterBottom variant="h3">
             {props.title}
           </Typography>
         </div>
@@ -189,10 +175,7 @@ const EditContent = (props) => {
                 />
               )}
               <Grid container xs={12} spacing={2}>
-                {(!columnname.type ||
-                  columnname.type == 1 ||
-                  columnname.type === 10) &&
-                columnname.key != "action" ? (
+                {(!columnname.type || columnname.type == 1 || columnname.type === 10) && columnname.key != "action" ? (
                   <Grid item xs={12}>
                     <TextField
                       variant="outlined"
@@ -228,24 +211,14 @@ const EditContent = (props) => {
                     <Autocomplete
                       multiple
                       id="combo-box-demo"
-                      options={
-                        columnname.mastervaluekey
-                          ? props.masters[columnname.mastervaluekey]
-                          : props.masters
-                      }
+                      options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
                       margin="dense"
                       fullWidth
                       value={editcontent[columnname.defaultkey]}
                       onChange={handleoptionChange(columnname.defaultkey)}
                       getOptionLabel={(option) => option.name}
                       renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          fullWidth
-                          margin="dense"
-                          label={columnname.label}
-                          variant="outlined"
-                        />
+                        <TextField {...params} fullWidth margin="dense" label={columnname.label} variant="outlined" />
                       )}
                     />
                   </Grid>
@@ -264,22 +237,12 @@ const EditContent = (props) => {
                       // options={props.masters[columnname.mastervaluekey]}
                       margin="dense"
                       fullWidth
-                      options={
-                        columnname.mastervaluekey
-                          ? props.masters[columnname.mastervaluekey]
-                          : props.masters
-                      }
+                      options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
                       onChange={handleoptionChange(columnname.defaultkey)}
                       value={editcontent[columnname.defaultkey]}
                       getOptionLabel={(option) => option.name}
                       renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          fullWidth
-                          margin="dense"
-                          label={columnname.label}
-                          variant="outlined"
-                        />
+                        <TextField {...params} fullWidth margin="dense" label={columnname.label} variant="outlined" />
                       )}
                     />{" "}
                   </Grid>
@@ -318,11 +281,7 @@ const EditContent = (props) => {
                         labelIdle="Add Banner Image"
                         onaddfile={(error, fileItem) => {
                           if (!error) {
-                            uploadimagetoserver(
-                              fileItem,
-                              columnname.key,
-                              "add"
-                            );
+                            uploadimagetoserver(fileItem, columnname.key, "add");
                           } else {
                             // alert(row[columnname.key])
                           }
@@ -336,12 +295,7 @@ const EditContent = (props) => {
           ))}
         </div>
         <div className={classes.actions}>
-          <Button
-            className={classes.applyButton}
-            onClick={() => onApply(editcontent)}
-            color={"primary"}
-            variant="contained"
-          >
+          <Button className={classes.applyButton} onClick={() => onApply(editcontent)} color={"primary"} variant="contained">
             Save
           </Button>
           <Button onClick={() => onClose()} variant="contained">
