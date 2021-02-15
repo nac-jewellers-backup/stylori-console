@@ -36,12 +36,12 @@ export const Mastercategories = withRouter((props) => {
 
   async function createtax(taxcontent) {
     alert(JSON.stringify(taxcontent));
-    // let response = await sendNetworkRequest(
-    //   "/managecategories",
-    //   {},
-    //   taxcontent
-    // );
-    // getmaster();
+    let response = await sendNetworkRequest(
+      "/managecategories",
+      {},
+      taxcontent
+    );
+    getmaster();
   }
   async function getmaster() {
     const url = GRAPHQL_DEV_CLIENT;

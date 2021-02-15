@@ -31,7 +31,7 @@ import { red } from "@material-ui/core/colors";
 import { useQuery } from "react-apollo";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
 import { ALLMASTERRINGSIZE } from "../../graphql/query";
-import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
+import { NetworkContext } from "../../context/NetworkContext";
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
   { title: "The Godfather", year: 1972 },
@@ -96,7 +96,7 @@ export default function AddressForm(props) {
   const classes = useStyles();
   const { className, ...rest } = props;
 
-  React.useEffect(async () => {
+  async function getMasterRingSize() {
     fetch(GRAPHQL_DEV_CLIENT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -104,9 +104,12 @@ export default function AddressForm(props) {
     })
       .then((res) => res.json())
       .then((res) => updateRingSize(res.data.allMasterRingsSizes.nodes));
+  }
+  React.useEffect(() => {
+    getMasterRingSize();
   }, []);
-
   React.useEffect(() => {}, [productCtx]);
+
   // const handleChange = selectedOption => {
 
   // };
@@ -146,28 +149,23 @@ export default function AddressForm(props) {
             label: "L",
           });
         } else {
-          // if (
-          //   selectedOption.shortCode === "R" &&
-          //   productCtx.selectedgender.name === "Male"
-          // ) {
-          //   minvalue = 13;
-          //   maxvalue = 25;
-          //   default_size = 15;
-          // }
-          // if (
-          //   selectedOption.shortCode === "R" &&
-          //   productCtx.selectedgender.name === "Female"
-          // ) {
-          //   minvalue = 8;
-          //   maxvalue = 23;
-          //   default_size = 12;
-          // }
-          // for (var i = minvalue; i < maxvalue; i++) {
-          //   selected_sizes.push({
-          //     value: i,
-          //     label: "" + i,
-          //   });
-          // }
+          if (selectedOption.shortCode === "R" && productCtx.selectedgender.name === "Male") {
+            minvalue = 13;
+            maxvalue = 25;
+            default_size = 15;
+          }
+          if (selectedOption.shortCode === "R" && productCtx.selectedgender.name === "Female") {
+            minvalue = 8;
+            maxvalue = 23;
+            default_size = 12;
+          }
+
+          for (var i = minvalue; i < maxvalue; i++) {
+            selected_sizes.push({
+              value: i,
+              label: "" + i,
+            });
+          }
         }
 
         setProductCtx({
@@ -179,13 +177,7 @@ export default function AddressForm(props) {
           selected_sizes,
         });
       } else {
-        setProductCtx({
-          ...productCtx,
-          product_type_shortcode: "",
-          product_type: "",
-          size,
-          selected_sizes: "",
-        });
+        setProductCtx({ ...productCtx, product_type_shortcode: "", product_type: "", size, selected_sizes: "" });
       }
     } else {
       setProductCtx({ ...productCtx, [type]: selectedOption });
@@ -196,11 +188,7 @@ export default function AddressForm(props) {
   };
   const handleoptionChange = (type) => (event, value) => {
     if (type === "vendorcode") {
-      setProductCtx({
-        ...productCtx,
-        [type]: value,
-        vendorleadtime: value.vendorDelivaryDays,
-      });
+      setProductCtx({ ...productCtx, [type]: value, vendorleadtime: value.vendorDelivaryDays });
     } else {
       setProductCtx({ ...productCtx, [type]: value });
     }
@@ -214,9 +202,6 @@ export default function AddressForm(props) {
     setProductCtx({ ...productCtx, [type]: selectedOption });
   };
 
- 
-
-  debugger;
   const handleGenderChange = (type) => (event, value) => {
     var minvalue = 0;
     var maxvalue = 0;
@@ -228,55 +213,30 @@ export default function AddressForm(props) {
     //   selected_sizes.push("XS", "S", "M", "L");
     //   sizes.push("XS", "S", "M", "L");
     // } else {
-    // if (productCtx.product_type.shortCode === "R" && value === "Male") {
-    //   minvalue = 13;
-    //   maxvalue = 26;
-    //   default_size = "" + 15;
-    // }
-    // if (productCtx.product_type.shortCode === "R" && value === "Female") {
-    //   minvalue = 8;
-    //   maxvalue = 24;
-    //   default_size = "" + 12;
-    // }
-    // if (productCtx.product_type.shortCode === "BA" && value === "Male") {
-    //   minvalue = 13;
-    //   maxvalue = 26;
-    //   default_size = "" + 15;
-    // }
-    // if (productCtx.product_type.shortCode === "BA" && value === "Female") {
-    //   minvalue = 8;
-    //   maxvalue = 24;
-    //   default_size = "" + 12;
-    // }
+    //   if (productCtx.product_type.shortCode === "R" && value === "Male") {
+    //     minvalue = 13;
+    //     maxvalue = 26;
+    //     default_size = "" + 15;
+    //   }
+    //   if (productCtx.product_type.shortCode === "R" && value === "Female") {
+    //     minvalue = 8;
+    //     maxvalue = 24;
+    //     default_size = "" + 12;
+    //   }
 
-    // for (var i = minvalue; i < maxvalue; i++) {
-    // selected_sizes.push("" + i);
-    // sizes.push("" + i);
+    //   for (var i = minvalue; i < maxvalue; i++) {
+    //     selected_sizes.push("" + i);
+    //     sizes.push("" + i);
+    //   }
     // }
-
-    // if (productCtx.product_type.shortCode !== "K" ) {
-     
-      // updateRingSize(
-      //   initailRingSize.sort(
-      //     (a, b) => parseFloat(a.sizeValue) - parseFloat(b.sizeValue)
-      //   )
-      // );
-    
-
     initailRingSize.forEach((e) => {
       if (productCtx.product_type.shortCode === e.name && value === e.gender) {
+        debugger
         selected_sizes.push("" + e.sizeValue);
         sizes.push("" + e.sizeValue);
       }
     });
-    // }
-    setProductCtx({
-      ...productCtx,
-      [type]: value,
-      sizes,
-      selected_sizes,
-      default_size,
-    });
+    setProductCtx({ ...productCtx, [type]: value, sizes, selected_sizes, default_size });
   };
 
   const handleMaterialChange = (type) => (event, value) => {
@@ -300,33 +260,23 @@ export default function AddressForm(props) {
       var minvalue = 0;
       var maxvalue = 0;
       selected_sizes = [];
-      // if (productCtx.product_type_shortcode === "R" && e.name === "Male") {
-      //   size = "13-25";
-      //   minvalue = 13;
-      //   maxvalue = 26;
-      // }
-      // if (productCtx.product_type_shortcode === "R" && e.name === "Female") {
-      //   size = "8-18";
-      //   minvalue = 8;
-      //   maxvalue = 19;
-      // }
-      // if (productCtx.product_type_shortcode === "BA" && e.name === "Male") {
-      //   size = "13-25";
-      //   minvalue = 13;
-      //   maxvalue = 26;
-      // }
-      // if (productCtx.product_type_shortcode === "BA" && e.name === "Female") {
-      //   size = "8-18";
-      //   minvalue = 8;
-      //   maxvalue = 19;
-      // }
+      if (productCtx.product_type_shortcode === "R" && e.name === "Male") {
+        size = "13-25";
+        minvalue = 13;
+        maxvalue = 26;
+      }
+      if (productCtx.product_type_shortcode === "R" && e.name === "Female") {
+        size = "8-18";
+        minvalue = 8;
+        maxvalue = 19;
+      }
 
-      // for (var i = minvalue; i < maxvalue; i++) {
-      //   selected_sizes.push({
-      //     value: i,
-      //     label: "" + i,
-      //   });
-      // }
+      for (var i = minvalue; i < maxvalue; i++) {
+        selected_sizes.push({
+          value: i,
+          label: "" + i,
+        });
+      }
     }
 
     if (type === "product_categoy") {
@@ -356,13 +306,7 @@ export default function AddressForm(props) {
       }
     }
 
-    setProductCtx({
-      ...productCtx,
-      size,
-      [type]: e,
-      materials,
-      selected_sizes,
-    });
+    setProductCtx({ ...productCtx, size, [type]: e, materials, selected_sizes });
   };
 
   const materialChange = (type) => (selectedOption) => {
@@ -385,12 +329,7 @@ export default function AddressForm(props) {
     //   });
     // }
 
-    setProductCtx({
-      ...productCtx,
-      [type]: selectedOption,
-      steps,
-      material_names,
-    });
+    setProductCtx({ ...productCtx, [type]: selectedOption, steps, material_names });
   };
   const keyPress = (type) => (e) => {
     const re = /^[a-zA-Z \b]+$/;
@@ -431,17 +370,9 @@ export default function AddressForm(props) {
                       className={classes.fixedTag}
                       defaultValue={productCtx.product_categoy}
                       onChange={handleoptionChange("product_categoy")}
-                      options={productCtx.masterData.category.map(
-                        (option) => option.label
-                      )}
+                      options={productCtx.masterData.category.map((option) => option.label)}
                       renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip
-                            variant="outlined"
-                            label={option.label}
-                            {...getTagProps({ index })}
-                          />
-                        ))
+                        value.map((option, index) => <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />)
                       }
                       renderInput={(params) => (
                         <TextField
@@ -465,13 +396,7 @@ export default function AddressForm(props) {
                       options={productCtx.masterData.product_type}
                       onChange={handleoptionChange("product_type")}
                       renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip
-                            variant="outlined"
-                            label={option.label}
-                            {...getTagProps({ index })}
-                          />
-                        ))
+                        value.map((option, index) => <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />)
                       }
                       renderInput={(params) => (
                         <TextField
@@ -506,18 +431,11 @@ export default function AddressForm(props) {
                               multiple
                               className={classes.fixedTag}
                               defaultValue={productCtx.material_names}
-                              options={productCtx.masterData.material.map(
-                                (option) => option.label
-                              )}
+                              options={productCtx.masterData.material.map((option) => option.label)}
                               onChange={handleMaterialChange("material_names")}
                               renderTags={(value, getTagProps) =>
                                 value.map((option, index) => (
-                                  <Chip
-                                    variant="outlined"
-                                    size="small"
-                                    label={option}
-                                    {...getTagProps({ index })}
-                                  />
+                                  <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
                                 ))
                               }
                               renderInput={(params) => (
@@ -526,14 +444,9 @@ export default function AddressForm(props) {
                                   label="Select Product Materials"
                                   margin="dense"
                                   variant="outlined"
-                                  error={
-                                    productCtx.error_message.material_names
-                                  }
+                                  error={productCtx.error_message.material_names}
                                   fullWidth
-                                  InputProps={{
-                                    ...params.InputProps,
-                                    type: "search",
-                                  }}
+                                  InputProps={{ ...params.InputProps, type: "search" }}
                                 />
                               )}
                             />
@@ -545,18 +458,11 @@ export default function AddressForm(props) {
                           id="free-solo-2-demo"
                           className={classes.fixedTag}
                           defaultValue={productCtx.selectedgender}
-                          options={productCtx.masterData.gender.map(
-                            (option) => option.label
-                          )}
+                          options={productCtx.masterData.gender.map((option) => option.label)}
                           onChange={handleGenderChange("selectedgender")}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
-                              <Chip
-                                variant="outlined"
-                                size="small"
-                                label={option}
-                                {...getTagProps({ index })}
-                              />
+                              <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
                             ))
                           }
                           renderInput={(params) => (
@@ -567,10 +473,7 @@ export default function AddressForm(props) {
                               error={productCtx.error_message.selectedgender}
                               variant="outlined"
                               fullWidth
-                              InputProps={{
-                                ...params.InputProps,
-                                type: "search",
-                              }}
+                              InputProps={{ ...params.InputProps, type: "search" }}
                             />
                           )}
                         />
@@ -587,12 +490,7 @@ export default function AddressForm(props) {
                           onChange={handleoptionChange("metalpurity")}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
-                              <Chip
-                                variant="outlined"
-                                size="small"
-                                label={option.label}
-                                {...getTagProps({ index })}
-                              />
+                              <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                             ))
                           }
                           renderInput={(params) => (
@@ -603,10 +501,7 @@ export default function AddressForm(props) {
                               variant="outlined"
                               fullWidth
                               error={productCtx.error_message.metalpurity}
-                              InputProps={{
-                                ...params.InputProps,
-                                type: "search",
-                              }}
+                              InputProps={{ ...params.InputProps, type: "search" }}
                             />
                           )}
                         />
@@ -623,12 +518,7 @@ export default function AddressForm(props) {
                           onChange={handleoptionChange("metalcolour")}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
-                              <Chip
-                                variant="outlined"
-                                size="small"
-                                label={option.label}
-                                {...getTagProps({ index })}
-                              />
+                              <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                             ))
                           }
                           renderInput={(params) => (
@@ -639,10 +529,7 @@ export default function AddressForm(props) {
                               variant="outlined"
                               error={productCtx.error_message.metalcolour}
                               fullWidth
-                              InputProps={{
-                                ...params.InputProps,
-                                type: "search",
-                              }}
+                              InputProps={{ ...params.InputProps, type: "search" }}
                             />
                           )}
                         />
@@ -673,11 +560,7 @@ export default function AddressForm(props) {
                           onChange={handleoptionChange("vendorcode")}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
-                              <Chip
-                                variant="outlined"
-                                label={option.label}
-                                {...getTagProps({ index })}
-                              />
+                              <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />
                             ))
                           }
                           renderInput={(params) => (
@@ -688,10 +571,7 @@ export default function AddressForm(props) {
                               variant="outlined"
                               error={productCtx.error_message.vendorcode}
                               fullWidth
-                              InputProps={{
-                                ...params.InputProps,
-                                type: "search",
-                              }}
+                              InputProps={{ ...params.InputProps, type: "search" }}
                             />
                           )}
                         />
@@ -719,9 +599,7 @@ export default function AddressForm(props) {
                           className={classes.helperinput}
                           error={productCtx.error_message.vendorleadtime}
                           value={productCtx.vendorleadtime}
-                          InputLabelProps={{
-                            shrink: productCtx.vendorleadtime,
-                          }}
+                          InputLabelProps={{ shrink: productCtx.vendorleadtime }}
                           id="vendorleadtime"
                           name="vendorleadtime"
                           onChange={handleTextChange("vendorleadtime")}
@@ -729,9 +607,7 @@ export default function AddressForm(props) {
                       </Grid>
                       <Grid item xs={12} sm={6} spacing={1}>
                         <FormControl component="fieldset">
-                          <FormLabel component="legend">
-                            IsReorderable
-                          </FormLabel>
+                          <FormLabel component="legend">IsReorderable</FormLabel>
                           <RadioGroup
                             aria-label="position"
                             name="position"
@@ -745,12 +621,7 @@ export default function AddressForm(props) {
                               label="Yes"
                               labelPlacement="right"
                             />
-                            <FormControlLabel
-                              value="No"
-                              control={<Radio color="primary" />}
-                              label="No"
-                              labelPlacement="right"
-                            />
+                            <FormControlLabel value="No" control={<Radio color="primary" />} label="No" labelPlacement="right" />
                           </RadioGroup>
                         </FormControl>
                       </Grid>
@@ -777,20 +648,11 @@ export default function AddressForm(props) {
                             id="product_category"
                             className={classes.fixedTag}
                             defaultValue={productCtx.default_metal_colour}
-                            onChange={handleoptionChange(
-                              "default_metal_colour"
-                            )}
-                            options={productCtx.metalcolour.map(
-                              (option) => option.label
-                            )}
+                            onChange={handleoptionChange("default_metal_colour")}
+                            options={productCtx.metalcolour.map((option) => option.label)}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
-                                <Chip
-                                  variant="outlined"
-                                  size="small"
-                                  label={option.label}
-                                  {...getTagProps({ index })}
-                                />
+                                <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                               ))
                             }
                             renderInput={(params) => (
@@ -800,13 +662,8 @@ export default function AddressForm(props) {
                                 margin="dense"
                                 variant="outlined"
                                 fullWidth
-                                error={
-                                  productCtx.error_message.default_metal_colour
-                                }
-                                InputProps={{
-                                  ...params.InputProps,
-                                  type: "search",
-                                }}
+                                error={productCtx.error_message.default_metal_colour}
+                                InputProps={{ ...params.InputProps, type: "search" }}
                               />
                             )}
                           />
@@ -816,20 +673,11 @@ export default function AddressForm(props) {
                             id="product_category"
                             className={classes.fixedTag}
                             defaultValue={productCtx.default_metal_purity}
-                            onChange={handleoptionChange(
-                              "default_metal_purity"
-                            )}
-                            options={productCtx.metalpurity.map(
-                              (option) => option.label
-                            )}
+                            onChange={handleoptionChange("default_metal_purity")}
+                            options={productCtx.metalpurity.map((option) => option.label)}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
-                                <Chip
-                                  variant="outlined"
-                                  size="small"
-                                  label={option.label}
-                                  {...getTagProps({ index })}
-                                />
+                                <Chip variant="outlined" size="small" label={option.label} {...getTagProps({ index })} />
                               ))
                             }
                             renderInput={(params) => (
@@ -837,15 +685,10 @@ export default function AddressForm(props) {
                                 {...params}
                                 label="Metal Purity"
                                 margin="dense"
-                                error={
-                                  productCtx.error_message.default_metal_purity
-                                }
+                                error={productCtx.error_message.default_metal_purity}
                                 variant="outlined"
                                 fullWidth
-                                InputProps={{
-                                  ...params.InputProps,
-                                  type: "search",
-                                }}
+                                InputProps={{ ...params.InputProps, type: "search" }}
                               />
                             )}
                           />
@@ -858,9 +701,7 @@ export default function AddressForm(props) {
             </Grid>
             <Grid item xs={12} sm={12}>
               {productCtx.product_type &&
-              (productCtx.product_type.shortCode === "K" ||
-                productCtx.product_type.shortCode === "R" ||
-                productCtx.product_type.shortCode === "BA") &&
+              (productCtx.product_type.shortCode === "BA" || productCtx.product_type.shortCode === "R" || productCtx.product_type.shortCode === "SK" || productCtx.product_type.shortCode === "K") &&
               productCtx.sizes.length > 0 ? (
                 <>
                   <Card {...rest} className={clsx(classes.root, className)}>
@@ -879,12 +720,7 @@ export default function AddressForm(props) {
                             onChange={handleoptionChange("selected_sizes")}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
-                                <Chip
-                                  variant="outlined"
-                                  size="small"
-                                  label={option}
-                                  {...getTagProps({ index })}
-                                />
+                                <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
                               ))
                             }
                             renderInput={(params) => (
@@ -895,10 +731,7 @@ export default function AddressForm(props) {
                                 variant="outlined"
                                 fullWidth
                                 error={productCtx.error_message.selected_sizes}
-                                InputProps={{
-                                  ...params.InputProps,
-                                  type: "search",
-                                }}
+                                InputProps={{ ...params.InputProps, type: "search" }}
                               />
                             )}
                           />
@@ -914,12 +747,7 @@ export default function AddressForm(props) {
                             onChange={handleoptionChange("default_size")}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
-                                <Chip
-                                  variant="outlined"
-                                  size="small"
-                                  label={option}
-                                  {...getTagProps({ index })}
-                                />
+                                <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
                               ))
                             }
                             renderInput={(params) => (
@@ -930,10 +758,7 @@ export default function AddressForm(props) {
                                 variant="outlined"
                                 fullWidth
                                 error={productCtx.error_message.default_size}
-                                InputProps={{
-                                  ...params.InputProps,
-                                  type: "search",
-                                }}
+                                InputProps={{ ...params.InputProps, type: "search" }}
                               />
                             )}
                           />
@@ -945,8 +770,7 @@ export default function AddressForm(props) {
               ) : null}
             </Grid>
             <Grid item xs={12} sm={12}>
-              {productCtx.product_type &&
-              productCtx.product_type.alias === "Earrings" ? (
+              {productCtx.product_type && productCtx.product_type.alias === "Earrings" ? (
                 <>
                   <Card {...rest} className={clsx(classes.root, className)}>
                     <CardHeader title="Type of Fit" />
@@ -958,17 +782,11 @@ export default function AddressForm(props) {
                             id="free-solo-2-demo"
                             className={classes.fixedTag}
                             defaultValue={productCtx.earringbacking}
-                            options={productCtx.masterData.earringbacking.map(
-                              (option) => option.label
-                            )}
+                            options={productCtx.masterData.earringbacking.map((option) => option.label)}
                             onChange={handleoptionChange("earringbacking")}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
-                                <Chip
-                                  variant="outlined"
-                                  label={option.label}
-                                  {...getTagProps({ index })}
-                                />
+                                <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />
                               ))
                             }
                             renderInput={(params) => (
@@ -979,10 +797,7 @@ export default function AddressForm(props) {
                                 variant="outlined"
                                 fullWidth
                                 error={productCtx.error_message.earringbacking}
-                                InputProps={{
-                                  ...params.InputProps,
-                                  type: "search",
-                                }}
+                                InputProps={{ ...params.InputProps, type: "search" }}
                               />
                             )}
                           />

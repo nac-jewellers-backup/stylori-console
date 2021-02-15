@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
-  debugger
+  // debugger
   console.log(props)
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})

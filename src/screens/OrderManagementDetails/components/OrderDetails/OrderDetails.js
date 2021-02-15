@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 }));
 const OrderDetails = (props) => {
   const { order, className, ...rest } = props;
-  console.log(order, "samir");
+
   const classes = useStyles();
   return (
     <div style={{ marginTop: 30 }}>
