@@ -78,7 +78,7 @@ const OrderInfo = (props) => {
   React.useEffect(() => {
     getmaster();
   }, []);
-  debugger;
+  // debugger;
   console.log(props);
   return (
     <Card {...rest} className={clsx(classes.root, className)}>

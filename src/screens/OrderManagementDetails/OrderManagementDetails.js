@@ -27,7 +27,7 @@ export const OrderManagementDetails = withRouter((props) => {
       {},
       { order_id }
     );
-    debugger
+    // debugger
     console.log(response);
     setOrder(response.orders);
   }
