@@ -1396,6 +1396,7 @@ const ALLMASTERRINGSIZE = `
     }
   }
 `;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
