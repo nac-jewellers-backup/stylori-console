@@ -32,12 +32,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import { Query, withApollo } from "react-apollo";
-import {
-  TaxList,
-  VENDORLISTS,
-  PRODUCTFILTERMASTER,
-  PRODUCTLISTSTATUSEDIT,
-} from "../../graphql/query";
+import { TaxList, VENDORLISTS, PRODUCTFILTERMASTER, PRODUCTLISTSTATUSEDIT } from "../../graphql/query";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import EditContent from "./components/EditContent";
@@ -114,34 +109,14 @@ function TablePaginationActions(props) {
 
   return (
     <div className={classes.root}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
+      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label="next page">
+        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
@@ -172,9 +147,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
@@ -231,11 +204,7 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-        >
+        <Typography className={classes.title} color="inherit" variant="subtitle1">
           {numSelected} selected
         </Typography>
       ) : (
@@ -352,7 +321,7 @@ const Vendor = (props) => {
       ...editcontent,
       isedit: false,
     });
-    debugger;
+    // debugger;
     console.log(editcontent);
     // let masters = masterlist;
     // masters.insert(0, []);
@@ -391,9 +360,7 @@ const Vendor = (props) => {
     setBtnEdit({ ...btnEdit, id: "", action: false });
   }
   function searrchcontent() {
-    props.onSearch(
-      editcontent.searchcontent ? editcontent.searchcontent.toLowerCase() : ""
-    );
+    props.onSearch(editcontent.searchcontent ? editcontent.searchcontent.toLowerCase() : "");
   }
   function handleInit() {
     console.log("FilePond instance has initialised");
@@ -461,8 +428,7 @@ const Vendor = (props) => {
     var url = returnData.url;
     console.log("responseurl" + url);
     var filepathname = returnData.filepath;
-    let imageurl =
-      "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname;
+    let imageurl = "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname;
 
     var options = {
       headers: {
@@ -516,14 +482,7 @@ const Vendor = (props) => {
         />
       )}
       <Paper className={classes.root}>
-        <Grid
-          container
-          item
-          xs={12}
-          style={{ padding: "16px" }}
-          sm={12}
-          alignItems={"flex-end"}
-        >
+        <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={3} sm={3}>
             <Typography component="h6" variant="h6">
               {props.title}
@@ -544,22 +503,14 @@ const Vendor = (props) => {
               />
             </Grid>
             <Grid fullwidth item xs={3} sm={3}>
-              <Button
-                variant="contained"
-                onClick={() => searrchcontent()}
-                color="primary"
-              >
+              <Button variant="contained" onClick={() => searrchcontent()} color="primary">
                 Search
               </Button>
             </Grid>
           </Grid>
           <Grid fullwidth item xs={3} sm={3} style={{ "text-align": "right" }}>
             {props.button_title ? (
-              <Button
-                variant="contained"
-                onClick={() => addnewvendor()}
-                color="primary"
-              >
+              <Button variant="contained" onClick={() => addnewvendor()} color="primary">
                 {props.button_title}
               </Button>
             ) : null}
@@ -567,13 +518,7 @@ const Vendor = (props) => {
         </Grid>
         {/* <Filterandsearch applyfilter={applyfilter} mastercategory={mastercategories} masterproducttype={masterproducttypes} searchproduct={searchproduct} /> */}
         <div className={classes.tableWrapper}>
-          <Table
-            className={classes.table}
-            border={1}
-            borderColor={"#ddd"}
-            size="small"
-            stickyHeader
-          >
+          <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
             {/* <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -641,26 +586,14 @@ const Vendor = (props) => {
                                   <Autocomplete
                                     multiple
                                     id="combo-box-demo"
-                                    options={
-                                      columnname.mastervaluekey
-                                        ? props.masters[
-                                            columnname.mastervaluekey
-                                          ]
-                                        : props.masters
-                                    }
+                                    options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
                                     margin="dense"
                                     fullWidth
                                     value={editcontent[columnname.defaultkey]}
-                                    onChange={handleoptionChange(
-                                      columnname.defaultkey
-                                    )}
+                                    onChange={handleoptionChange(columnname.defaultkey)}
                                     getOptionLabel={(option) => option.name}
                                     renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label={columnname.label}
-                                        variant="outlined"
-                                      />
+                                      <TextField {...params} label={columnname.label} variant="outlined" />
                                     )}
                                   />
                                 ) : null}
@@ -671,11 +604,7 @@ const Vendor = (props) => {
                                       labelIdle="Add Banner Image"
                                       onaddfile={(error, fileItem) => {
                                         if (!error) {
-                                          uploadimagetoserver(
-                                            fileItem,
-                                            columnname.key,
-                                            "add"
-                                          );
+                                          uploadimagetoserver(fileItem, columnname.key, "add");
                                         } else {
                                           // alert(row[columnname.key])
                                         }
@@ -683,34 +612,23 @@ const Vendor = (props) => {
                                     />
                                     <div className={classes.imagecontainer}>
                                       {editcontent[columnname.key]
-                                        ? editcontent[columnname.key]
-                                            .split(",")
-                                            .map((row, index) => (
-                                              <Badge
-                                                overlap="circle"
-                                                anchorOrigin={{
-                                                  vertical: "top",
-                                                  horizontal: "right",
-                                                }}
-                                                badgeContent={
-                                                  <HighlightOffIcon
-                                                    fontSize="small"
-                                                    onClick={() =>
-                                                      removeimage(
-                                                        row,
-                                                        columnname.key
-                                                      )
-                                                    }
-                                                  />
-                                                }
-                                              >
-                                                <Avatar
-                                                  alt="Remy Sharp"
-                                                  src={row}
-                                                  className={classes.small}
+                                        ? editcontent[columnname.key].split(",").map((row, index) => (
+                                            <Badge
+                                              overlap="circle"
+                                              anchorOrigin={{
+                                                vertical: "top",
+                                                horizontal: "right",
+                                              }}
+                                              badgeContent={
+                                                <HighlightOffIcon
+                                                  fontSize="small"
+                                                  onClick={() => removeimage(row, columnname.key)}
                                                 />
-                                              </Badge>
-                                            ))
+                                              }
+                                            >
+                                              <Avatar alt="Remy Sharp" src={row} className={classes.small} />
+                                            </Badge>
+                                          ))
                                         : null}
                                     </div>
                                   </>
@@ -718,38 +636,19 @@ const Vendor = (props) => {
                                 {columnname.type == 5 ? (
                                   <Autocomplete
                                     id="combo-box-demo"
-                                    options={
-                                      props.masters[columnname.mastervaluekey]
-                                    }
+                                    options={props.masters[columnname.mastervaluekey]}
                                     margin="dense"
                                     fullWidth
-                                    options={
-                                      columnname.mastervaluekey
-                                        ? props.masters[
-                                            columnname.mastervaluekey
-                                          ]
-                                        : props.masters
-                                    }
-                                    onChange={handleoptionChange(
-                                      columnname.defaultkey
-                                    )}
+                                    options={columnname.mastervaluekey ? props.masters[columnname.mastervaluekey] : props.masters}
+                                    onChange={handleoptionChange(columnname.defaultkey)}
                                     value={editcontent[columnname.defaultkey]}
                                     getOptionLabel={(option) => option.name}
                                     renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        label={columnname.label}
-                                        variant="outlined"
-                                      />
+                                      <TextField {...params} label={columnname.label} variant="outlined" />
                                     )}
                                   />
                                 ) : null}
-                                {columnname.type == 4 ? (
-                                  <Typography>
-                                    {" "}
-                                    {row[columnname.key]}
-                                  </Typography>
-                                ) : null}
+                                {columnname.type == 4 ? <Typography> {row[columnname.key]}</Typography> : null}
                                 {columnname.type == 8 ? (
                                   <Button
                                     onClick={() => props.onPermissionadd(row)}
@@ -835,14 +734,8 @@ const Vendor = (props) => {
                                     }}
                                   />
                                 ) : null}
-                                {columnname.type != 2 &&
-                                columnname.type != 6 &&
-                                columnname.type != 8 &&
-                                columnname.type != 9 ? (
-                                  <Typography>
-                                    {" "}
-                                    {row[columnname.key]}
-                                  </Typography>
+                                {columnname.type != 2 && columnname.type != 6 && columnname.type != 8 && columnname.type != 9 ? (
+                                  <Typography> {row[columnname.key]}</Typography>
                                 ) : null}
                               </TableCell>
                             )}
