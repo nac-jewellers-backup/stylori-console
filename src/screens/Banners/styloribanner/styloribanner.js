@@ -37,7 +37,7 @@ const Styloribanner = (props) => {
 
   return (
     <>
-      <Breadcrumbs url="/banner" name="Landing Page Banner"></Breadcrumbs>
+      <Breadcrumbs url="/banners" name="Landing Page Banner"></Breadcrumbs>
       <StyloriLandingPage />
     </>
   );
