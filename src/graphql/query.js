@@ -509,8 +509,7 @@ query  {
 allMasterProductTypes(orderBy: UPDATED_AT_DESC) {
   nodes {
     certificate
-    name,
-    alias,
+    name
     id
     alias
     isActive
@@ -1240,23 +1239,16 @@ query MyQuery($productId: String!) {
         id
       }
     }
-    productId
     productName
     productType
-    prodDescription
     vendorCode
-    productVendorCode
-    sellingQty
-    maxBookingQty
     gender
-    earringBacking
     isactive
     productMaterialsByProductSku {
       nodes {
         materialName
       }
     }
-   
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -1357,7 +1349,6 @@ query MyQuery($productId: String!) {
         isReadyToShip
         discount
         isActive
-        availableStockQty
         isdefault,
         vendorDeliveryTime
         id
@@ -1391,38 +1382,130 @@ const ALLMASTERRINGSIZE = `
     }
   }
 `;
-const PRODUCTDESCRIPTIONEDIT = `
-mutation MyMutation($productId: String!, $prod_desc: String!) {
-  updateProductListByProductId(
+
+const ALLSTYLORILANDINGBANNERS = `
+query MyQuery {
+  allStyloriBanners {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+    }
+  }
+}
+`;
+const ALLSTYLORISILVERLANDINGBANNERS = `
+query MyQuery {
+  allStyloriSilverBanners {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+    }
+  }
+}
+
+`;
+
+const CREATESTYLORILANDINGBANNER = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+  $position: Int
+) {
+  createStyloriBanner(
     input: {
-      productListPatch: { prodDescription: $prod_desc }
-      productId: $productId
+      styloriBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: $url
+        web: $web
+      }
     }
   ) {
-    productList {
-      prodDescription
+    clientMutationId
+    styloriBanner {
       id
-      productId
-    }
-  }
-}
-
-`;
-
-const ORDERLISTIMAGE = `
-query MyQuery($productId: [String!]) {
-  allProductImages(filter : {
-    productId :{
-      in: $productId
-    }
-  }) {
-    nodes {
-      productId
-      imageUrl
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
     }
   }
 }
 `;
+const DELETESTYLORILANDINGBANNER = `
+mutation MyMutation($id : Int!) {
+  deleteStyloriBannerById(input: {id: $id}) {
+    styloriBanner {
+      id
+      mobile
+      position
+      url
+      web
+      
+    }
+  }
+}`;
+
+const CREATESILVERLANDINGBANNER = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+  $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: $url
+        web: $web
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}`;
+const DELETESILVERLANDINGBANNER = `
+mutation MyMutation($id : Int!) {
+  deleteStyloriSilverBannerById(input: {id: $id}) {
+    styloriSilverBanner {
+      id
+      nodeId
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}
+`
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -1492,6 +1575,10 @@ export {
   MASTERPAGES,
   GOLDPRICESETUPMASTER,
   ALLMASTERRINGSIZE,
-  PRODUCTDESCRIPTIONEDIT,
-  ORDERLISTIMAGE,
+  ALLSTYLORILANDINGBANNERS,
+  CREATESTYLORILANDINGBANNER,
+  DELETESTYLORILANDINGBANNER,
+  ALLSTYLORISILVERLANDINGBANNERS,
+  CREATESILVERLANDINGBANNER,
+  DELETESILVERLANDINGBANNER
 };

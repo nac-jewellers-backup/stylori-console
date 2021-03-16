@@ -17,7 +17,7 @@ import { useQuery } from "react-apollo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "../Productupload/Productupload.css";
 import AddIcon from "@material-ui/icons/Add";
-import { PRODUCTEDIT, PRODUCTDIAMONDTYPES, PRODUCTDESCRIPTIONEDIT } from "../../graphql/query";
+import { PRODUCTEDIT, PRODUCTDIAMONDTYPES } from "../../graphql/query";
 import CreateVariant from "./CreateVariant";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -129,7 +129,6 @@ export function Component(props) {
     duplicate_productName: "",
   });
   let prod_id = props.location.pathname.split("/")[2];
-
   const classes = useStyle();
   function keyPress(evt) {
     const productname = evt.target.validity.valid ? evt.target.value : productCtx.productname;
@@ -147,9 +146,6 @@ export function Component(props) {
     if (e.target.value === "" || re.test(e.target.value)) {
       setProductCtx({ ...productCtx, [type]: e.target.value });
     }
-  };
-  const handledesinputChange = (type) => (e) => {
-    setProductCtx({ ...productCtx, [type]: e.target.value });
   };
   // const handleinputChange = type => (event, value) => {
   //   alert(event.target.value)
@@ -225,36 +221,17 @@ export function Component(props) {
       stonecount: productCtx.stonecount,
       stonecolour: productCtx.stonecolour,
       gender: productCtx.product_gender,
-      // prodDescription: productCtx.prod_desc,
       // productDiamondsByProductSku: productCtx.editDiamondLists,
       // productGemstonesByProductSku: productCtx.editGemstoneLists,
       // transSkuListsByProductId: productCtx.editVariants,
       // productImages:productCtx.productImages,
       // createVariants: productCtx.createVariantList
     };
-    // debugger
-    console.log(productEditItem);
-    const url = GRAPHQL_DEV_CLIENT;
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: PRODUCTDESCRIPTIONEDIT,
-        variables: { productId: prod_id, prod_desc: productCtx.prod_desc },
-      }),
-    };
-    fetch(url, opts)
-      .then((res) => res.json())
-      .then((fetchvalue) => {
-        console.log(fetchvalue);
-        setProductCtx({ ...productCtx, prod_desc: fetchvalue.data.updateProductListByProductId.productList.prodDescription });
-      });
     let response = await sendNetworkRequest("/editproduct", {}, productEditItem);
-    // debugger
+
     console.log("************");
     console.log(JSON.stringify(productEditItem));
     if (response) {
-      console.log(response);
       setSnackMessage({
         ...snackMessage,
         message: "This is successfully saved",
@@ -299,6 +276,8 @@ export function Component(props) {
     if (event.target.checked) {
       endpoint = "/esearch_forceindex";
     }
+    debugger;
+    console.log(bodycontent);
     let response = await sendNetworkRequest("/disableproduct", {}, bodycontent);
 
     let esresponse = await sendNetworkRequest(endpoint, {}, esbody);
@@ -419,7 +398,6 @@ export function Component(props) {
     fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-       
         var genders = fatchvalue.data.productListByProductId.gender;
         var size_obj = fatchvalue.data.productListByProductId.sizeVarient;
         let sizes_arr = [];
@@ -484,10 +462,8 @@ export function Component(props) {
           collections: fatchvalue.data.productListByProductId.productCollectionsByProductId.nodes,
           stonecount: fatchvalue.data.productListByProductId.productStonecountsByProductId.nodes,
           stonecolour: fatchvalue.data.productListByProductId.productStonecolorsByProductId.nodes,
-          prod_desc: fatchvalue.data.productListByProductId.prodDescription,
           // productDiamondClarity:diamondClaritySku,
         });
-       
         setstate({
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName)),
@@ -496,7 +472,6 @@ export function Component(props) {
       })
       .catch(console.error);
   }, []);
-  // debugger
   return state.create_variant ? (
     <CreateVariant
       productMetalColor={productCtx.productMetalColor}
@@ -529,26 +504,6 @@ export function Component(props) {
             label="Product Name"
             //onInput={keyPress.bind(this)}
             onChange={handleinputChange("productname")}
-
-            //onChange={(e)=>handleinputChange(e,'productname')}
-          />
-          <TextField
-            className={classes.helperinput}
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            // pattern="[a-zA-Z]*"
-            value={productCtx.prod_desc}
-            id="prod_desc"
-            // error={
-            //   productCtx &&
-            //   productCtx.error_message &&
-            //   productCtx.error_message.productname
-            // }
-            name="prod_desc"
-            label="Product Description"
-            //onInput={keyPress.bind(this)}
-            onChange={handledesinputChange("prod_desc")}
 
             //onChange={(e)=>handleinputChange(e,'productname')}
           />
