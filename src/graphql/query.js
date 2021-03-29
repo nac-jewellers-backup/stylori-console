@@ -1239,16 +1239,23 @@ query MyQuery($productId: String!) {
         id
       }
     }
+    productId
     productName
     productType
+    prodDescription
     vendorCode
+    productVendorCode
+    sellingQty
+    maxBookingQty
     gender
+    earringBacking
     isactive
     productMaterialsByProductSku {
       nodes {
         materialName
       }
     }
+   
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -1349,6 +1356,7 @@ query MyQuery($productId: String!) {
         isReadyToShip
         discount
         isActive
+        availableStockQty
         isdefault,
         vendorDeliveryTime
         id
@@ -1366,7 +1374,6 @@ query MyQuery($productId: String!) {
     sizeVarient
   }
 }
-
 `;
 
 const ALLMASTERRINGSIZE = `
@@ -1505,7 +1512,26 @@ mutation MyMutation($id : Int!) {
     }
   }
 }
-`
+`;
+
+const PRODUCTDESCRIPTIONEDIT = `
+mutation MyMutation($productId: String!, $prod_desc: String!) {
+  updateProductListByProductId(
+    input: {
+      productListPatch: { prodDescription: $prod_desc }
+      productId: $productId
+    }
+  ) {
+    productList {
+      prodDescription
+      id
+      productId
+    }
+  }
+}
+
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -1580,5 +1606,6 @@ export {
   DELETESTYLORILANDINGBANNER,
   ALLSTYLORISILVERLANDINGBANNERS,
   CREATESILVERLANDINGBANNER,
-  DELETESILVERLANDINGBANNER
+  DELETESILVERLANDINGBANNER,
+  PRODUCTDESCRIPTIONEDIT,
 };

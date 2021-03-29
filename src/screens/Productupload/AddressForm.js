@@ -701,7 +701,10 @@ export default function AddressForm(props) {
             </Grid>
             <Grid item xs={12} sm={12}>
               {productCtx.product_type &&
-              (productCtx.product_type.shortCode === "BA" || productCtx.product_type.shortCode === "R" || productCtx.product_type.shortCode === "SK" || productCtx.product_type.shortCode === "K") &&
+              (productCtx.product_type.shortCode === "BA" ||
+                productCtx.product_type.shortCode === "R" ||
+                productCtx.product_type.shortCode === "SK" ||
+                productCtx.product_type.shortCode === "K") &&
               productCtx.sizes.length > 0 ? (
                 <>
                   <Card {...rest} className={clsx(classes.root, className)}>

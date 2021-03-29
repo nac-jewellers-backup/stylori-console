@@ -376,7 +376,6 @@ const AddContact = (props) => {
     getmclist();
   }
   function handleEdit(diamondData) {
-    debugger;
     setEditmc({
       ...editmc,
       price: diamondData.price,
@@ -420,12 +419,11 @@ const AddContact = (props) => {
     getmclist();
   }, [vendorid]);
   async function handleSave(row) {
-    debugger;
     var bodydata = {};
     console.log(row);
     row.price = editmc.price;
     console.log(row);
-    debugger;
+
     let variables = {
       cost_price_id: row.id,
 
@@ -458,7 +456,6 @@ const AddContact = (props) => {
     setOrderBy(property);
   };
   const handleinputChange = (type) => (e) => {
-    debugger;
     setEditmc({
       ...editmc,
       [type]: e.target.value,
@@ -546,7 +543,6 @@ const AddContact = (props) => {
                 variables={{ vendorCode: props.vendor, ratetype: props.ratetype }}
               >
                 {({ data, loading, error, refetch }) => {
-                  debugger;
                   if (loading) {
                     // return <Loader />
                   }
