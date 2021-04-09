@@ -133,6 +133,10 @@ export default function AddressForm(props) {
         var default_size = 0;
         if (selectedOption.shortCode === "K") {
           selected_sizes.push({
+            value: "KID",
+            label: "KID",
+          });
+          selected_sizes.push({
             value: "XS",
             label: "XS",
           });
@@ -147,6 +151,10 @@ export default function AddressForm(props) {
           selected_sizes.push({
             value: "L",
             label: "L",
+          });
+          selected_sizes.push({
+            value: "XL",
+            label: "XL",
           });
         } else {
           if (selectedOption.shortCode === "R" && productCtx.selectedgender.name === "Male") {
@@ -229,7 +237,10 @@ export default function AddressForm(props) {
     //     sizes.push("" + i);
     //   }
     // }
+  
     initailRingSize.forEach((e) => {
+     
+      console.log(productCtx.product_type.shortCode, e.name, value, e.gender, e.sizeValue);
       if (productCtx.product_type.shortCode === e.name && value === e.gender) {
         selected_sizes.push("" + e.sizeValue);
         sizes.push("" + e.sizeValue);
