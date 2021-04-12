@@ -859,7 +859,27 @@ const DIAMONDMARKUP = gql`
     }
   }
 `;
-
+const ALLMARKUPPRICE = gql`
+  query MyQuery {
+    allPricingMarkups(orderBy: UPDATED_AT_DESC) {
+      nodes {
+        updatedAt
+        sellingPriceMin
+        sellingPriceMax
+        material
+        category
+        productType
+        markupValue
+        markupType
+        id
+        createdAt
+        __typename
+      }
+      totalCount
+      __typename
+    }
+  }
+`;
 const DIAMONDPRICELIST = gql`
   query MyQuery($vendorCode: String!) {
     allDiamondPriceSettings(condition: { vendorCode: $vendorCode }) {
@@ -1608,4 +1628,5 @@ export {
   CREATESILVERLANDINGBANNER,
   DELETESILVERLANDINGBANNER,
   PRODUCTDESCRIPTIONEDIT,
+  ALLMARKUPPRICE,
 };
