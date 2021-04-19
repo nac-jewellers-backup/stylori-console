@@ -224,6 +224,7 @@ export default function Variants(props) {
   const handleinputChange =type => e => {
     // const re = /^[a-zA-Z \b]+$/;
     // if (e.target.value === '' || re.test(e.target.value)) {
+      setEditcontent({ ...editcontent, [type]: e.target.value})
       setProductCtx({ ...productCtx, [type]: e.target.value})
    // }
   }
@@ -277,11 +278,11 @@ console.log(JSON.stringify(bodydata))
 
   }
   function DiamondSave(priceobj){
-
+    
     var bodydata = {}
       let list_data=props.variants;
-      let Skuchangedata = list_data.map((skulistdata,index)=>{
-        if(priceobj.id===skulistdata.generatedSku){
+     list_data.map((skulistdata,index)=>{
+        if(priceobj.generatedSku === skulistdata.generatedSku){
           skulistdata.costPrice = priceobj.editcostprice;
           skulistdata.costPriceTax = priceobj.editcostpricetax;
           skulistdata.sellingPrice =  priceobj.editsellingprice;
@@ -290,24 +291,21 @@ console.log(JSON.stringify(bodydata))
           skulistdata.markupPriceTax = priceobj.editmarkuppricetax
           skulistdata.discountPrice = priceobj.editdiscountprice
           skulistdata.discountPriceTax = priceobj.editdiscountpricetax
-
-           bodydata['costPrice'] = parseFloat(priceobj.editcostprice)
-           bodydata['costPriceTax'] = parseFloat(priceobj.editcostpricetax)
-           bodydata['sellingPrice'] = parseFloat(priceobj.editsellingprice)
-           bodydata['sellingPriceTax'] = parseFloat(priceobj.editsellingpricetax)
-           bodydata['markupPrice'] = parseFloat(priceobj.editmarkupprice)
-           bodydata['markupPriceTax'] = parseFloat(priceobj.editmarkuppricetax)
-           bodydata['discountPrice'] = parseFloat(priceobj.editdiscountprice)
-           bodydata['discountPriceTax'] = parseFloat(priceobj.editdiscountpricetax)
-           bodydata['marginOnSalePercentage'] = parseFloat(priceobj.marginOnSalePercentage)
-
-           bodydata['generatedSku'] = priceobj.id;
+           bodydata['costPrice'] = parseFloat(editcontent.editcostprice)
+           bodydata['costPriceTax'] = parseFloat(editcontent.editcostpricetax)
+           bodydata['sellingPrice'] = parseFloat(editcontent.editsellingprice)
+           bodydata['sellingPriceTax'] = parseFloat(editcontent.editsellingpricetax)
+           bodydata['markupPrice'] = parseFloat(editcontent.editmarkupprice)
+           bodydata['markupPriceTax'] = parseFloat(editcontent.editmarkuppricetax)
+           bodydata['discountPrice'] = parseFloat(editcontent.editdiscountprice)
+           bodydata['discountPriceTax'] = parseFloat(editcontent.editdiscountpricetax)
+           bodydata['marginOnSalePercentage'] = parseFloat(editcontent.marginOnSalePercentage)
+           bodydata['generatedSku'] = editcontent.id;
           return skulistdata;
         }
         return skulistdata;
       });
-      alert(JSON.stringify(bodydata))
-     // sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
+     sendNetworkRequest('/updateskupriceinfo', {}, bodydata)
 
     setBtnEdit({ ...btnEdit, id:"", action: false })
       // setEditcontent(null)
@@ -551,7 +549,7 @@ console.log(JSON.stringify(bodydata))
                       <Button onClick={(e) => Skupricesync(row)} size="small" variant="outlined" color="primary">
                       ₹ Run
                       </Button>
-                      <Button onClick={(e) => DiamondSave(row.generatedSku)}><SaveIcon />
+                      <Button onClick={(e) => DiamondSave(row)}><SaveIcon />
                       </Button>
                       <Button onClick={(e) => CancelEdit(row)}><CancelIcon />
                       </Button>

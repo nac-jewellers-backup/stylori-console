@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
-  debugger
+  // debugger
   console.log(props)
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})
@@ -165,8 +165,9 @@ const Results = props => {
     setPage(page);
   };
   async function showorderdetails(orderurl){
+
     
-  window.open(orderurl, '_blank');
+  window.open(orderurl);
    }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);

@@ -3,12 +3,7 @@ import { withRouter } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Query, withApollo } from "react-apollo";
-import {
-  PRODUCTLIST,
-  PRODUCTCATEGORY,
-  PRODUCTFILTERMASTER,
-  PRODUCTLISTSTATUSEDIT,
-} from "../../graphql/query";
+import { PRODUCTLIST, PRODUCTCATEGORY, PRODUCTFILTERMASTER, PRODUCTLISTSTATUSEDIT } from "../../graphql/query";
 
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
@@ -51,6 +46,22 @@ export const Productlist = withRouter(
       });
       // fetchadminusers()
     }
+
+    async function fetchCSVdata() {
+      responseCSV = await sendNetworkRequest("/productdetails", {}, {});
+      let responseData = responseCSV.res_json;
+
+      if (responseCSV.statuscode === 200) {
+        let keyData = [];
+
+        for (const [key] of Object.entries(responseData[0])) {
+          keyData.push({ label: key, key: key });
+        }
+
+        console.log(keyData);
+        setDataCSV({ ...dataCSV, keyCSV: keyData, valueCSV: responseData });
+      }
+    }
     useEffect(() => {
       const query = props.client.query;
       query({
@@ -72,21 +83,6 @@ export const Productlist = withRouter(
           console.log("smbcj");
         });
 
-      async function fetchCSVdata() {
-        responseCSV = await sendNetworkRequest("/productdetails", {}, {});
-        let responseData = responseCSV.res_json;
-
-        if (responseCSV.statuscode === 200) {
-          let keyData = [];
-
-          for (const [key] of Object.entries(responseData[0])) {
-            keyData.push({ label: key, key: key });
-          }
-
-          console.log(keyData);
-          setDataCSV({ ...dataCSV, keyCSV: keyData, valueCSV: responseData });
-        }
-      }
       fetchCSVdata();
     }, []);
 
@@ -107,12 +103,7 @@ export const Productlist = withRouter(
             </Link>
           </Grid>
         </Grid>
-        <ProductFilter
-          masters={masters}
-          onSearch={onSearch}
-          onFilter={onFilter}
-          dataCSV={dataCSV}
-        />
+        <ProductFilter masters={masters} onSearch={onSearch} onFilter={onFilter} dataCSV={dataCSV} />
         <Product filterparams={filterparams} />
       </Grid>
     );

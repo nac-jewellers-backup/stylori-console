@@ -205,7 +205,7 @@ const EditPrice = props => {
               id="size"
               margin="dense"
               label="#of Stones"
-              placeholder="Discount Price tax"
+              placeholder="Discount Price tax1"
               name="size"
               type="number"
               autoComplete="size"

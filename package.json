@@ -49,6 +49,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://console.stylori.com/",
   "eslintConfig": {
     "extends": "react-app"
   },

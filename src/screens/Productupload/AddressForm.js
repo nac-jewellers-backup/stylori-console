@@ -237,10 +237,8 @@ export default function AddressForm(props) {
     //     sizes.push("" + i);
     //   }
     // }
-  
+
     initailRingSize.forEach((e) => {
-     
-      console.log(productCtx.product_type.shortCode, e.name, value, e.gender, e.sizeValue);
       if (productCtx.product_type.shortCode === e.name && value === e.gender) {
         selected_sizes.push("" + e.sizeValue);
         sizes.push("" + e.sizeValue);

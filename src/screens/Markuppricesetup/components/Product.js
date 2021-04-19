@@ -663,7 +663,7 @@ const AddContact = (props) => {
                       </>
                     );
                   } else {
-                    return <div>{"Fetch Products"}</div>;
+                    return <div>{"Loading..."}</div>;
                   }
                 }}
               </Query>

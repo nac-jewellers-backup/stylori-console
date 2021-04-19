@@ -39,30 +39,36 @@
         },
         {
             "id":7,
-            "name":"Discount",
+            "name":"Quantity",
             "isActive": true,
             "disabled": false  
         },
         {
             "id":8,
+            "name":"Discount",
+            "isActive": true,
+            "disabled": false  
+        },
+        {
+            "id":9,
             "name":"Ready To Ship",
             "isActive":true,
             "disabled": false        
         },
         {
-            "id":9,
+            "id":10,
             "name": "Default",
             "isActive":true,
             "disabled": false        
         },
         {
-            "id":10,
+            "id":11,
             "name":"Active",
             "isActive":false,
             "disabled": false         
         },
         {
-            "id":11,
+            "id":12,
             "name":"Edit",
             "isActive":true,
             "disabled": true         
@@ -110,24 +116,30 @@
         },
         {
             "id":7,
-            "name":"Discount",
+            "name":"Quantity",
             "isActive": true,
             "disabled": false  
         },
         {
             "id":8,
+            "name":"Discount",
+            "isActive": true,
+            "disabled": false  
+        },
+        {
+            "id":9,
             "name":"Ready To Ship",
             "isActive":true,
             "disabled": false        
         },
         {
-            "id":9,
+            "id":10,
             "name": "Default",
             "isActive":true,
             "disabled": false        
         },
         {
-            "id":10,
+            "id":11,
             "name": "Edit",
             "isActive":true,
             "disabled": false        
@@ -143,6 +155,7 @@
         "Gold Weight",
         "Size",
         "Vendor lead Time",
+        "Quantity",
         "Discount",
         "Ready To Ship",
         "Default",

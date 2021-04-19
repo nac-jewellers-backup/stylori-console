@@ -231,7 +231,7 @@ export default function Productimages(props) {
 
                       <img
                         src={
-                          "https://styloriimages-staging.s3.ap-south-1.amazonaws.com/" +
+                          "https://assets.stylori.com/" +
                           url.imageUrl.replace(url.productId, url.productId + "/1000X1000")
                         }
                         style={{ width: "100%", height: "100%", borderRadius: "4px" }}

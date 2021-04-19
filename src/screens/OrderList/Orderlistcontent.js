@@ -218,8 +218,9 @@ export default function Producttypecontent() {
       mounted = false;
     };
   }, []);
-  console.log(displaycolumnnames);
-  console.log(displaycolumns);
+//   debugger
+// console.log(displaycolumnnames)
+// console.log(displaycolumns)
   return (
     <Page className={classes.root} title="Orders Management List">
       {/* <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>

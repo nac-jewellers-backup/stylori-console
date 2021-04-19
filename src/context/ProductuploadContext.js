@@ -126,6 +126,7 @@ const productuploadCtxInitial = {
     diamondtype: 0,
     metals: [],
     error_message: {},
+    prod_desc : ""
   },
   masterData: {},
   setProductCtx: () => null,
