@@ -146,7 +146,7 @@ const SilverLandingPage = (props) => {
       <Paper className={classes.root}>
         <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={9} sm={9}>
-            <Typography component="h6" variant="h6">
+            <Typography component="h6" variant="h6" style={{ fontWeight: "bold" }}>
               Silver Landing Page Banners
             </Typography>
           </Grid>

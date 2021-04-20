@@ -402,6 +402,13 @@ export function Component(props) {
     };
     sendNetworkRequest("/productpriceupdate", {}, bodydata);
   }
+  function Skumarkupsync(diamondData) {
+    let bodydata = {
+      req_product_id: diamondData,
+      pricingcomponent: "updateskuprice",
+    };
+    sendNetworkRequest("/productpriceupdate", {}, bodydata);
+  }
   function backProductList() {
     window.location = "/productlist";
   }
@@ -949,6 +956,10 @@ export function Component(props) {
             />
             <Button onClick={(e) => Skupricesync(prod_id)} size="small" variant="outlined" color="primary">
               Price Run For This Product
+            </Button>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <Button onClick={(e) => Skumarkupsync(prod_id)} size="small" variant="outlined" color="primary">
+              Run Markup For This Product
             </Button>
           </Grid>
           {isshowpricesummary ? <Pricedetails onClose={dismisspricesummary} values={pricesummaryvalues} /> : null}

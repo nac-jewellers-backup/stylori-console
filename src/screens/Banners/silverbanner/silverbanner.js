@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Breadcrumbs } from "../../../components";
 import SilverLandingPage from "./components/silverlandingpage";
+import SilverListingPage from "./components/silverlistingpage";
+import SilverListingRoutingPage from "./components/silverlistingroutingpage";
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -39,6 +41,9 @@ const Silverbanner = (props) => {
     <>
       <Breadcrumbs url="/banners" name="Landing Page Banner"></Breadcrumbs>
       <SilverLandingPage />
+      <SilverListingPage />
+      <SilverListingRoutingPage />
+      {/* <SilverLandingPage /> */}
     </>
   );
 };

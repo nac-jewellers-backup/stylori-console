@@ -673,17 +673,7 @@ const Vendor = (props) => {
                               </TableCell>
                             ) : (
                               <TableCell>
-                                {/* {columnname.type === 8 ?
-                  <Button
-                  color="primary"
-                  component={RouterLink}
-                  size="small"
-                  to={'/management/invoices/1'}
-                  variant="outlined"
-                >
-                  View
-                </Button>
-                : null} */}
+                 
 
                                 {columnname.type == 8 ? (
                                   <Button

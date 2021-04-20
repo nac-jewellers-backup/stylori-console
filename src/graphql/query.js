@@ -442,18 +442,20 @@ query  {
   }
 }`;
 const DIAMONDMASTER = `
-query  {
-allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
-  nodes {
-    diamondClarity
-    diamondColor
-    id
-    isFilter
-    isActive
-    filterOrder
+query {
+  allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      shortCode
+      diamondClarity
+      diamondColor
+      id
+      isFilter
+      isActive
+      filterOrder
+    }
   }
 }
-}
+
 `;
 
 const PAYMENTSTATUSMASTER = `
@@ -898,6 +900,31 @@ const DIAMONDPRICELIST = gql`
     }
   }
 `;
+
+const GEMPRICELIST = gql`
+query MyQuery($vendorCode: String!, $ratetype: Int!) {
+  allGemstonePriceSettings(condition: {vendorCode: $vendorCode,  rateType: $ratetype}) {
+    nodes {
+      createdAt
+      id
+      sellingPriceType
+      updatedAt
+      vendorCode
+      gemstoneType
+      price
+      priceType
+      rateType
+      weightEnd
+      weightStart
+      __typename
+    }
+    totalCount
+    __typename
+  }
+}
+
+
+`
 // const CATGORYLIST = gql`
 // query {
 //   allMasterMaterials {
@@ -1095,26 +1122,7 @@ const MAKINGCHARGEPRICELIST = gql`
     }
   }
 `;
-const GEMPRICELIST = gql`
-  query MyQuery($vendorCode: String!) {
-    allGemstonePriceSettings(condition: { vendorCode: $vendorCode }) {
-      nodes {
-        price
-        rateType
-        priceType
-        sellingPriceType
-        vendorCode
-        weightEnd
-        weightStart
-        updatedAt
-        id
-        createdAt
-        gemstoneType
-      }
-      totalCount
-    }
-  }
-`;
+
 const PRODUCTLISTSTATUSEDIT = gql`
   mutation MyMutation($productId: String!, $isActive: Boolean!) {
     __typename
@@ -1425,16 +1433,18 @@ query MyQuery {
 `;
 const ALLSTYLORISILVERLANDINGBANNERS = `
 query MyQuery {
-  allStyloriSilverBanners {
+  allStyloriSilverBanners(condition: {urlParam: null}) {
     nodes {
       id
       mobile
       position
       url
       web
+      urlParam
     }
   }
 }
+
 
 `;
 
@@ -1533,7 +1543,55 @@ mutation MyMutation($id : Int!) {
   }
 }
 `;
+const ALLSTYLORISILVERLISTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners(condition: {urlParam: "listingPage"}) {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam
+    }
+  }
+}
 
+`;
+const CREATESILVERLISTINGPAGE = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+  $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: $url
+        web: $web
+        urlParam : "listingPage"
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}
+`;
 const PRODUCTDESCRIPTIONEDIT = `
 mutation MyMutation($productId: String!, $prod_desc: String!) {
   updateProductListByProductId(
@@ -1552,6 +1610,54 @@ mutation MyMutation($productId: String!, $prod_desc: String!) {
 
 `;
 
+const ALLSTYLORISILVERROUTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners(condition: {url: "#"}) {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam
+    }
+  }
+}`;
+const CREATESTYLORISILVERROUTINGPAGE = `
+mutation MyMutation(
+  $now: Datetime!
+  $web: String
+  $mobile: String
+  $position: String
+  $urlParam: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: "#"
+        web: $web
+        urlParam: $urlParam
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+      urlParam
+    }
+  }
+}
+`;
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -1629,4 +1735,9 @@ export {
   DELETESILVERLANDINGBANNER,
   PRODUCTDESCRIPTIONEDIT,
   ALLMARKUPPRICE,
+  ALLSTYLORISILVERLISTINGPAGE,
+  CREATESILVERLISTINGPAGE,
+  ALLSTYLORISILVERROUTINGPAGE,
+  CREATESTYLORISILVERROUTINGPAGE,
+ 
 };
