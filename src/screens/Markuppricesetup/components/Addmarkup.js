@@ -135,6 +135,32 @@ const handleinputChange =type => e => {
               )}
             />
           </Grid>
+          <Grid item xs={6}>
+          <Autocomplete
+              id="free-solo-2-demo"
+              multiple
+              fullWidth
+              disableClearable
+              onChange={handleoptionChange('material')}
+              getOptionLabel={option => option.name}
+              options={props.material}
+              renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+              ))
+              }
+              renderInput={params => (
+              <TextField
+              {...params}
+              label="Choose Material"
+              margin="dense"
+              variant="outlined"
+              fullWidth
+              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+              />
+              )}
+            />
+          </Grid>
         <Grid item xs={6}>
               <TextField
               variant="outlined"

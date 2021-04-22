@@ -399,13 +399,12 @@ const AddContact = (props) => {
     bodydata["selling_price_type"] = gemstonedata.pricetype.label;
     bodydata["selling_price"] = gemstonedata.sellingPrice;
     bodydata["isadd"] = true;
-  //  alert(JSON.stringify(bodydata))
 
     // alert(JSON.stringify(gemstonedata))
 
-    // await sendNetworkRequest("/updategemstoneprice", {}, bodydata);
-    // setOpen(false);
-    // getgemlist();
+    await sendNetworkRequest("/updategemstoneprice", {}, bodydata);
+    setOpen(false);
+    getgemlist();
     setBtnEdit({ ...btnEdit, id: "", action: false });
   }
 
