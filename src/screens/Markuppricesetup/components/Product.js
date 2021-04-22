@@ -27,7 +27,7 @@ import { Input, Grid, Card } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import { Query, withApollo } from "react-apollo";
-import { DIAMONDMARKUP, PRODUCTLISTSTATUSEDIT, DELETEMARKUPPRICE , ALLMARKUPPRICE} from "../../../graphql/query";
+import { DIAMONDMARKUP, PRODUCTLISTSTATUSEDIT, DELETEMARKUPPRICE, ALLMARKUPPRICE } from "../../../graphql/query";
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -355,14 +355,19 @@ const AddContact = (props) => {
   }
 
   async function updatemarkup(markupcontent, refetch) {
+    let product_type = markupcontent.producttype[0];
+    let material_list = markupcontent.materiallist[0];
+   
     var bodydata = {};
     bodydata["category"] = markupcontent.category.name;
-    bodydata["producttype"] = markupcontent.producttype.name;
+    bodydata["producttype"] = product_type.name;
     bodydata["sellingPriceMin"] = markupcontent.sellpricemin;
     bodydata["sellingPriceMax"] = markupcontent.sellpricemax;
     bodydata["markuptype"] = markupcontent.markuptype.label;
+    bodydata["material_list"] = material_list.name;
     bodydata["markupValue"] = markupcontent.markup;
     bodydata["material"] = pricecomponent;
+
     console.log("XXXXXXXX");
     await sendNetworkRequest("/addmarkup", {}, bodydata);
     setOpen(false);
@@ -530,6 +535,7 @@ const AddContact = (props) => {
                             actionSave={updatemarkup}
                             category={props.categories}
                             producttype={props.producttypes}
+                            materiallist={props.materiallist}
                             title={props.title}
                             actionclose={handleClose}
                           />

@@ -48,7 +48,7 @@ const columns = [
   { id: "Purity", label: "Purity" },
   { id: "From Weight", label: "From Weight" },
   { id: "To weight", label: "To weight" },
-  { id: "Cost Price", label: "Cost Price" },
+  { id: "Cost Price", label: "Cost Price / Selling Price" },
 
   { id: "updated On", label: "updated On" },
   { id: "Edit / Delete", label: "Edit / Delete", align: "center" },

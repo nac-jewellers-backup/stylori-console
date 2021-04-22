@@ -29,6 +29,7 @@ export const Markupprice = withRouter(props => {
   const [vendorlist, setVendorlist] = React.useState(0);
   const [categorylist, setCategorylist] = React.useState([]);
   const [producttypes, setProducttypes] = React.useState([]);
+  const [materiallist, setMateriallist] = React.useState([]);
   const [isadd, setIsadd] = React.useState(false);
 
    
@@ -51,6 +52,7 @@ export const Markupprice = withRouter(props => {
       .then(fatchvalue => {
         setCategorylist(fatchvalue.data.allMasterProductCategories.nodes)
         setProducttypes(fatchvalue.data.allMasterProductTypes.nodes)
+        setMateriallist(fatchvalue.data.allMasterMaterials.nodes)
         // setVendorlist({ 
         //   ...vendorlist,
         //   vendors : fatchvalue.data.allMasterVendors.nodes
@@ -101,7 +103,7 @@ export const Markupprice = withRouter(props => {
           
           <Grid item xs={12} sm={12}>
 
-          <Product categories={categorylist} producttypes={producttypes} vendor={"Gold"} />
+          <Product categories={categorylist} producttypes={producttypes} materiallist={materiallist} vendor={"Gold"} />
           </Grid>
           {/* <Grid item xs={12} sm={12}>
 

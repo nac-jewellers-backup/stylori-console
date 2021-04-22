@@ -902,29 +902,27 @@ const DIAMONDPRICELIST = gql`
 `;
 
 const GEMPRICELIST = gql`
-query MyQuery($vendorCode: String!, $ratetype: Int!) {
-  allGemstonePriceSettings(condition: {vendorCode: $vendorCode,  rateType: $ratetype}) {
-    nodes {
-      createdAt
-      id
-      sellingPriceType
-      updatedAt
-      vendorCode
-      gemstoneType
-      price
-      priceType
-      rateType
-      weightEnd
-      weightStart
+  query MyQuery($vendorCode: String!, $ratetype: Int!) {
+    allGemstonePriceSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
+      nodes {
+        createdAt
+        id
+        sellingPriceType
+        updatedAt
+        vendorCode
+        gemstoneType
+        price
+        priceType
+        rateType
+        weightEnd
+        weightStart
+        __typename
+      }
+      totalCount
       __typename
     }
-    totalCount
-    __typename
   }
-}
-
-
-`
+`;
 // const CATGORYLIST = gql`
 // query {
 //   allMasterMaterials {
@@ -1076,18 +1074,28 @@ query {
 
 const MASTERCATEGORY = `
 query {
-  allMasterProductCategories {
-    nodes {
-      name
-      shortCode
+  
+    allMasterProductCategories {
+      nodes {
+        name
+        shortCode
+      }
     }
-  },
-  allMasterProductTypes {
-    nodes {
-      name
-      shortCode
+    allMasterProductTypes {
+      nodes {
+        name
+        shortCode
+      }
     }
-  }
+    allMasterMaterials {
+      nodes {
+        name
+        id
+        shortCode
+      }
+    }
+  
+  
 }`;
 
 const GEMSTONEMASTER = `
@@ -1433,7 +1441,7 @@ query MyQuery {
 `;
 const ALLSTYLORISILVERLANDINGBANNERS = `
 query MyQuery {
-  allStyloriSilverBanners(condition: {urlParam: null}) {
+  allStyloriSilverBanners {
     nodes {
       id
       mobile
@@ -1739,5 +1747,4 @@ export {
   CREATESILVERLISTINGPAGE,
   ALLSTYLORISILVERROUTINGPAGE,
   CREATESTYLORISILVERROUTINGPAGE,
- 
 };
