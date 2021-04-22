@@ -585,7 +585,7 @@ console.log(JSON.stringify(bodydata))
               variables={{ "vendorCode": props.vendor}}>
               {
                   ({ data, loading, error, refetch }) => {
-                    debugger
+                   
                       if (loading) {
                           // return <Loader />
                       }

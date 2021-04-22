@@ -17,6 +17,11 @@
             "id": "short code"
         },
         {
+            "label": "Alias(Auto generated)",
+            "key":"alias",
+            "id": "alias"
+        },
+        {
             "label": "Certificate",
             "key":"certificate",
             "id": "Certificate"

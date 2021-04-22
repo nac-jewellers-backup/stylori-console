@@ -134,7 +134,12 @@ export const productCategory = {
             value: _.diamondColor+_.diamondClarity,
             label:_.diamondColor+_.diamondClarity
         }))
-
+        // const metalSizeMinToMax = response.masterRingsSize.nodes.map(_ => ({
+        //     ..._,
+        //     name: _.name,
+        //     size:_.size,
+        //     productType : _.productType ,
+        // }))
         
         
         const metals = apidata.metals
@@ -162,7 +167,8 @@ export const productCategory = {
             gemstontypes,
             gemstonshapes,
             gemstonesettings,
-            earringbacking
+            earringbacking,
+            // metalSizeMinToMax
         }
     }
 }
@@ -233,6 +239,9 @@ export const materialMaster = {
             "diamondtype":_.diamondColor+_.diamondClarity
         }))
         
+        // const metalSizeMinToMax = response.masterRingsSize.nodes.map(_ => ({
+        //     ..._
+        // }))
 
         
         // alert(JSON.stringify(product_types))
@@ -247,7 +256,8 @@ export const materialMaster = {
             styles,
             themes,
             occations,
-            diamondtypes
+            diamondtypes,
+            // metalSizeMinToMax
         }
     }
 

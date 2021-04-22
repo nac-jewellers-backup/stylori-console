@@ -1,186 +1,179 @@
 {
-    "columns" : [
-        {
-            "id":1,
-            "name":"Order ID",
-            "label":"Order ID",
-            "key":"orderid",
-            "isActive": true,
-            "disabled": true
+  "columns": [
+    {
+      "id": 1,
+      "name": "Order ID",
+      "label": "Order ID",
+      "key": "orderid",
+      "isActive": true,
+      "disabled": true
+    },
+    {
+      "id": 2,
+      "name": "Order Date",
+      "label": "Order ID",
+      "type": 4,
+      "key": "orderdate",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "id": 3,
+      "name": "SKUs",
+      "key": "skus",
+      "isActive": false,
+      "disabled": false
+    },
+    {
+      "id": 4,
+      "name": "Customer Name",
+      "key": "username",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "id": 5,
+      "name": "Email",
+      "key": "email",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "id": 6,
+      "name": "Phone Number",
+      "key": "mobile",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "id": 7,
+      "name": "Shipping Address",
+      "key": "address",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "id": 8,
+      "name": "Gift Message",
+      "key": "giftmessage",
+      "type": 2,
+      "isActive": false,
+      "disabled": false
+    },
+    {
+      "id": 9,
+      "name": "Payment Mode",
+      "key": "paymentmode",
+      "isActive": true,
+      "disabled": false
+    },
 
-        },
-        {
-            "id":2,
-            "name":"Order Date",
-            "label":"Order ID",
-            "type":4,
-            "key":"orderdate",
-            "isActive": true,
-            "disabled": false       
-        },
-        {
-            "id":3,
-            "name":"SKUs",
-            "key":"skus",
-            "isActive": false,
-            "disabled": false       
-        },
-        {
-            "id":4,
-            "name":"Customer Name",
-            "key":"username",
-            "isActive":true,
-            "disabled": false      
-        },
-        {
-            "id":5,
-            "name":"Email",
-            "key":"email",
-            "isActive": true ,
-            "disabled": false   
-        },
-        {
-            "id":6,
-            "name":"Phone Number",
-            "key":"mobile",
-            "isActive":  true,
-            "disabled": false       
-        },
-        {
-            "id":7,
-            "name":"Shipping Address",
-            "key":"address",
-            "isActive": true,
-            "disabled": false  
-        },
-        {
-            "id":8,
-            "name":"Gift Message",
-            "key":"giftmessage",
-            "type":2,
-            "isActive":false,
-            "disabled": false        
-        },
-        {
-            "id":9,
-            "name": "Payment Mode",
-            "key":"paymentmode",
-            "isActive":true,
-            "disabled": false        
-        },
+    {
+      "id": 10,
+      "name": "Payment Status",
+      "type": 5,
+      "key": "paymentstatus",
+      "isActive": true,
+      "disabled": false
+    },
+    {
+      "name": "Order Status",
+      "key": "orderstatus",
+      "type": 3
+    },
+    {
+      "id": 11,
+      "name": "Waybill No",
+      "key": "awbNumber",
+      "type": 2,
+      "isActive": false,
+      "disabled": false
+    },
+    {
+      "id": 12,
+      "name": "Comments",
+      "key": "comments",
+      "type": 2,
+      "isActive": false,
+      "disabled": false
+    },
 
-        {
-            "id":10,
-            "name":"Payment Status",
-            "type":5,
-            "key":"paymentstatus",
-            "isActive":true,
-            "disabled": false         
-        },
-        {
-            "name":"Order Status",
-            "key":"orderstatus",
-            "type": 3
+    {
+      "id": 14,
+      "name": "Actions",
+      "key": "action",
+      "type": 3,
+      "isActive": true,
+      "disabled": true
+    }
+  ],
+  "defaultcolumnnames": [
+    {
+      "name": "Order ID",
+      "key": "orderid",
+      "id": "orderid"
+    },
+    {
+      "name": "Order Date",
+      "key": "orderdate",
+      "id": "orderdate",
+      "type": 4
+    },
+    {
+      "name": "Customer Name",
+      "key": "username",
+      "id": "username"
+    },
+    {
+      "name": "Email",
+      "key": "email",
+      "id": "email"
+    },
+    {
+      "name": "Phone Number",
+      "key": "mobile",
+      "id": "mobile"
+    },
+    {
+      "name": "Shipping Address",
+      "key": "address",
+      "id": "address"
+    },
+    {
+      "name": "Billing Address",
+      "key": "address",
+      "id": "address"
+    },
+    {
+      "name": "Payment Status",
+      "key": "paymentstatus",
+      "id": "paymentstatus",
+      "type": 5
+    },
+    {
+      "name": "Payment Mode",
+      "key": "paymentmode",
+      "id": "paymentmode"
+    },
 
-        },
-        {
-            "id":11,
-            "name":"Waybill No",
-            "key": "awbNumber",
-            "type":2,
-            "isActive":false,
-            "disabled": false         
-        },
-        {
-            "id":12,
-            "name":"Comments",
-            "key":"comments",
-            "type":2,
-            "isActive":false,
-            "disabled": false         
-        },
-           
-        {
-            "id":14,
-            "name":"Actions",
-            "key":"action",
-            "type":3,
-            "isActive": true,
-            "disabled": true
-        }
-      
-        
-    ],
-    "defaultcolumnnames" : [
-        {
-            "name":"Order ID",
-            "key":"orderid",
-            "id":"orderid" 
-        },
-        {
-            "name":"Order Date",
-            "key":"orderdate",
-            "id":"orderdate",
-            "type":4
-        },
-        {
-            "name":"Customer Name",
-            "key":"username",
-            "id":"username"
-
-        },
-        {
-            "name":"Email",
-            "key":"email",
-            "id":"email"
-        },
-        {
-            "name":"Phone Number",
-            "key":"mobile",
-            "id":"mobile"
-        },
-        {
-            "name":"Shipping Address",
-            "key":"address",
-            "id":"address"
-        },
-        {
-            "name":"Payment Status",
-            "key":"paymentstatus",
-            "id":"paymentstatus",
-            "type": 5
-
-        },
-        {
-            "name":"Payment Mode",
-            "key":"paymentmode",
-            "id":"paymentmode"
-        },
-        
-        
-       
-        {
-            "name":"Actions",
-            "key":"action",
-            "type":3
-
-        }
-      
-        
-    ],
-    "defaultcolumns":[
-        "Order ID",
-        "Order Date",
-        "Customer Name",
-        "Email",
-        "Phone Number",
-        "Shipping Address",
-        "Payment Mode",
-        "Payment Status",
-        "AWB Number",
-        "Comments",
-        "Actions"
-
-    ]
-    
+    {
+      "name": "Actions",
+      "key": "action",
+      "type": 3
+    }
+  ],
+  "defaultcolumns": [
+    "Order ID",
+    "Order Date",
+    "Customer Name",
+    "Email",
+    "Phone Number",
+    "Shipping Address",
+    "Billing Address",
+    "Payment Mode",
+    "Payment Status",
+    "AWB Number",
+    "Comments",
+    "Actions"
+  ]
 }

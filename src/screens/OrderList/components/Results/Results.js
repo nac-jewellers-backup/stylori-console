@@ -69,6 +69,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
+  // debugger
+  console.log(props)
   const { className, orders, ...rest } = props;
   const [editcontent,setEditcontent] = React.useState({})
   const [order, setOrder] = React.useState('desc');
@@ -163,8 +165,9 @@ const Results = props => {
     setPage(page);
   };
   async function showorderdetails(orderurl){
+
     
-  window.open(orderurl, '_blank');
+  window.open(orderurl);
    }
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
@@ -257,7 +260,7 @@ const Results = props => {
 
                   {/* </TableRow>
                 </TableHead> */}
-                <TableBody>
+                <TableBody style={{overflow : "scroll"}}>
                 {stableSort(orders, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (
                   // {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(order => (

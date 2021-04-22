@@ -352,6 +352,7 @@ const   AddContact=(props)=> {
    }
 
     let response =  await sendNetworkRequest('/getproducturl', {}, bodycontent)
+    console.log(response)
   //setProductlists(response.products.rows)
  window.open(response.url, '_blank');
   }

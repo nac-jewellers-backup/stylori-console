@@ -1,123 +1,110 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Button, TextField } from '@material-ui/core';
-import gradients from '../../../../utils/gradients';
-import LockIcon from '@material-ui/icons/Lock';
-import { NetworkContext } from '../../../../context/NetworkContext';
-import MuiAlert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
-import { GlobalContext } from '../../../../context';
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
+import { Button, TextField } from "@material-ui/core";
+import gradients from "../../../../utils/gradients";
+import LockIcon from "@material-ui/icons/Lock";
+import { NetworkContext } from "../../../../context/NetworkContext";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+import { GlobalContext } from "../../../../context";
 
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Divider,
-  Link,
-  Avatar
-} from '@material-ui/core';
+import { Card, CardContent, CardMedia, Typography, Divider, Link, Avatar } from "@material-ui/core";
 var validate = require("validate.js");
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is required' },
-    email: true
+    presence: { allowEmpty: false, message: "is required" },
+    email: true,
   },
   password: {
-    presence: { allowEmpty: false, message: 'is required' }
-  }
+    presence: { allowEmpty: false, message: "is required" },
+  },
 };
 
-const useStyles = makeStyles(theme => ({
-  root: {
-   
-  },
+const useStyles = makeStyles((theme) => ({
+  root: {},
   card: {
-    maxWidth: '100%',
-    overflow: 'unset',
-    display: 'flex',
-    position: 'relative',
-    '& > *': {
+    maxWidth: "100%",
+    overflow: "unset",
+    display: "flex",
+    position: "relative",
+    "& > *": {
       flexGrow: 1,
-      flexBasis: '50%',
-      width: '50%'
-    }
+      flexBasis: "50%",
+      width: "50%",
+    },
   },
   content: {
-    padding: theme.spacing(8, 4, 8, 4)
+    padding: theme.spacing(8, 4, 8, 4),
   },
   media: {
     borderTopRightRadius: 4,
     borderBottomRightRadius: 4,
     color: theme.palette.white,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   icon: {
     backgroundImage: gradients.green,
     color: theme.palette.white,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1),
-    position: 'absolute',
+    position: "absolute",
     top: -32,
     left: theme.spacing(3),
     height: 64,
     width: 64,
-    fontSize: 32
+    fontSize: 32,
   },
-  loginForm: {
-
-  },
+  loginForm: {},
   divider: {
-    margin: theme.spacing(2, 0)
+    margin: theme.spacing(2, 0),
   },
   person: {
-    display: 'flex'
+    display: "flex",
   },
   avatar: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   fields: {
     margin: theme.spacing(-1),
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
+    display: "flex",
+    flexWrap: "wrap",
+    "& > *": {
       flexGrow: 1,
-      margin: theme.spacing(1)
-    }
+      margin: theme.spacing(1),
+    },
   },
   submitButton: {
     marginTop: theme.spacing(2),
-    width: '100%'
-  }
+    width: "100%",
+  },
 }));
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const LoginForm = props => {
+const LoginForm = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const { globalCtx, setGlobalCtx } = React.useContext(GlobalContext);
 
-
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
   });
   const [open, setOpen] = React.useState(false);
   const [showmessage, setShowmessage] = React.useState("");
@@ -128,167 +115,140 @@ const LoginForm = props => {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
   useEffect(() => {
-   const errors = validate(formState.values, schema);
+    const errors = validate(formState.values, schema);
 
-    setFormState(formState => ({
+    setFormState((formState) => ({
       ...formState,
       isValid: errors ? false : true,
-      errors: errors || {}
+      errors: errors || {},
     }));
   }, [formState.values]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     event.persist();
 
-    setFormState(formState => ({
+    setFormState((formState) => ({
       ...formState,
       values: {
         ...formState.values,
-        [event.target.name]:
-          event.target.type === 'checkbox'
-            ? event.target.checked
-            : event.target.value
+        [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value,
       },
       touched: {
         ...formState.touched,
-        [event.target.name]: true
-      }
+        [event.target.name]: true,
+      },
     }));
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if(formState.isValid)
-    {
+    if (formState.isValid) {
       //alert(JSON.stringify(formState.values))
-   let signinobj =   await sendNetworkRequest('/api/auth/signin', {}, formState.values)
-   
-   if(signinobj.statuscode === 200)
-   {
-    localStorage.setItem('accesstoken', signinobj.accessToken);
+      let signinobj = await sendNetworkRequest("/api/auth/signin", {}, formState.values);
 
-    let pageaccess =   await sendNetworkRequest('/getpageaccess', {}, {}, true)
-    let pages = [];
-    let pagepermissions = [];
-    pageaccess.pages.forEach(element => {
-      pages.push(element.pageurl)
-      // pagepermissions[element.pageurl] = {
-      //   isread : element.is_view,
-      //   iswrite : element.is_write
-      // }
-      if(element.is_write)
-      {
-        pagepermissions.push(element.pageurl)
-      }
-    });
-    // setGlobalCtx({...globalCtx,"accesspages":pages})
-    //     setGlobalCtx({...globalCtx,"accesspages":pagepermissions})
+      if (signinobj.statuscode === 200) {
+        localStorage.setItem("accesstoken", signinobj.accessToken);
 
-    localStorage.setItem('accesspages', pages);
-    localStorage.setItem('pagepermissions', pagepermissions);
-
+        let pageaccess = await sendNetworkRequest("/getpageaccess", {}, {}, true);
+        let pages = [];
+        let pagepermissions = [];
+        let bannerpage = { pagename: "Banners", pageurl: "/banners", is_view: true, is_write: true };
     
-    props.history.push('/productlist')
+        debugger;
+        console.log(pageaccess);
+        // pageaccess.pages.push(bannerpage);
+        pageaccess.pages.forEach((element) => {
+          pages.push(element.pageurl);
+          // pagepermissions[element.pageurl] = {
+          //   isread : element.is_view,
+          //   iswrite : element.is_write
+          // }
+          if (element.is_write) {
+            pagepermissions.push(element.pageurl);
+          }
+        });
+        // setGlobalCtx({...globalCtx,"accesspages":pages})
+        //     setGlobalCtx({...globalCtx,"accesspages":pagepermissions})
 
+        localStorage.setItem("accesspages", pages);
+        localStorage.setItem("pagepermissions", pagepermissions);
 
-   }else
-   {
-
-    setShowmessage(signinobj.message)
-    setOpen(true);
-   }
-  
-    }else{
-      alert("has some error")
+        props.history.push("/productlist");
+      } else {
+        setShowmessage(signinobj.message);
+        setOpen(true);
+      }
+    } else {
+      alert("has some error");
     }
-
 
     //alert(JSON.stringify(formState))
     // dispatch(login());
     //alert("i am here")
   };
 
-  const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
+  const hasError = (field) => (formState.touched[field] && formState.errors[field] ? true : false);
 
   return (
     <Card className={classes.card}>
       <CardContent className={classes.content}>
-        <Typography
-          gutterBottom
-          variant="h3"
-        >
-        Log in Page
+        <Typography gutterBottom variant="h3">
+          Log in Page
         </Typography>
-        <Typography variant="subtitle2">
-        {/* Sign in on the internal platform */}
-        </Typography>
-        
-        <form
-          {...rest}
-          className={clsx(classes.root, className)}
-          autoComplete={"off"}
-          onSubmit={handleSubmit}
-        >
+        <Typography variant="subtitle2">{/* Sign in on the internal platform */}</Typography>
+
+        <form {...rest} className={clsx(classes.root, className)} autoComplete={"off"} onSubmit={handleSubmit}>
           <div className={classes.fields}>
             <TextField
-              error={hasError('email')}
+              error={hasError("email")}
               fullWidth
-              helperText={hasError('email') ? formState.errors.email[0] : null}
+              helperText={hasError("email") ? formState.errors.email[0] : null}
               label="Email address"
               name="email"
-              
               onChange={handleChange}
-              value={formState.values.email || ''}
+              value={formState.values.email || ""}
               variant="outlined"
             />
             <TextField
-              error={hasError('password')}
+              error={hasError("password")}
               fullWidth
-              helperText={
-                hasError('password') ? formState.errors.password[0] : null
-              }
+              helperText={hasError("password") ? formState.errors.password[0] : null}
               label="Password"
               name="password"
               onChange={handleChange}
               type="password"
-              value={formState.values.password || ''}
+              value={formState.values.password || ""}
               variant="outlined"
             />
           </div>
-          <Button
-            className={classes.submitButton}
-            color="primary"
-            size="large"
-            type="submit"
-            variant="contained"
-          >
-        Log in
+          <Button className={classes.submitButton} color="primary" size="large" type="submit" variant="contained">
+            Log in
           </Button>
-          <Snackbar open={open} autoHideDuration={6000}
-          anchorOrigin={{vertical:'top', horizontal:'center'}}
-          onClose={handleClose}>
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            onClose={handleClose}
+          >
             <Alert onClose={handleClose} severity="error">
-             {showmessage}
+              {showmessage}
             </Alert>
-      </Snackbar>
+          </Snackbar>
         </form>
-       
       </CardContent>
-     
     </Card>
   );
 };
 
 LoginForm.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default withRouter(LoginForm);

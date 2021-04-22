@@ -6,6 +6,12 @@
             "key":"name",
             "id": "Name"
         },
+         
+        {
+            "label": "Alias(auto generated)",
+            "key":"alias",
+            "id": "alias"
+        },
         {
             "label": "Alias",
             "key":"alias",
