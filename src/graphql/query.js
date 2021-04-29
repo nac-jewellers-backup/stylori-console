@@ -1094,6 +1094,12 @@ query {
         shortCode
       }
     }
+    allMasterMetalsPurities {
+      nodes {
+        name
+        shortCode
+      }
+    }
   
   
 }`;

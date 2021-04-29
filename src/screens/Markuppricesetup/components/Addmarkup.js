@@ -163,6 +163,32 @@ export default function Addmarkup(props) {
               />
             </Grid>
             <Grid item xs={6}>
+              <Autocomplete
+                id="free-solo-2-demo"
+                multiple
+                fullWidth
+                disableClearable
+                onChange={handleoptionChange("puritylist")}
+                getOptionLabel={(option) => option.name}
+                options={props.puritylist}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose Purity type"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, readOnly: true, type: "search" }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 margin="dense"
