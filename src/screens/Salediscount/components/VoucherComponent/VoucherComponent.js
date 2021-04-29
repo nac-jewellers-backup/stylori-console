@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const VoucherComponent = (props) => {
   const { className, ...rest } = props;
-  debugger;
+
   console.log(props);
   const classes = useStyles();
   const { voucherCtx, setVoucherCtx, voucherMaster } = React.useContext(VoucherContext);
@@ -204,38 +204,38 @@ const VoucherComponent = (props) => {
               )}
             />
           </Grid>
+         
+            <Grid item xs={4} sm={4}>
+              <Autocomplete
+                id="free-solo-2-demo"
+                multiple
+                //  value={attrobj.componenets}
+                className={classes.fixedTag}
+                fullWidth
+                options={voucherCtx.voucherMaster.purities}
+                onChange={handleoptionChange("purities")}
+                getOptionLabel={(option) => option.name}
+                value={attrobj.purities}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Purity"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    //  error = {productCtx.error_message.selected_sizes}
 
-          <Grid item xs={4} sm={4}>
-            <Autocomplete
-              id="free-solo-2-demo"
-              multiple
-              //  value={attrobj.componenets}
-              className={classes.fixedTag}
-              fullWidth
-              options={voucherCtx.voucherMaster.purities}
-              onChange={handleoptionChange("purities")}
-              getOptionLabel={(option) => option.name}
-              value={attrobj.purities}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Purity"
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                  //  error = {productCtx.error_message.selected_sizes}
-
-                  //  InputProps={{ ...params.InputProps, type: 'search' }}
-                />
-              )}
-            />
-          </Grid>
-
+                    //  InputProps={{ ...params.InputProps, type: 'search' }}
+                  />
+                )}
+              />
+            </Grid>
+         
           {isdiamond ? (
             <Grid item xs={4} sm={4}>
               <Autocomplete

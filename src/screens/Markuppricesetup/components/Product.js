@@ -355,9 +355,9 @@ const AddContact = (props) => {
   }
 
   async function updatemarkup(markupcontent, refetch) {
-    let product_type = markupcontent.producttype[0];
-    let material_list = markupcontent.materiallist[0];
-    let purity_list = markupcontent.puritylist[0];
+    let product_type = markupcontent.producttype[0] ?? "";
+    let material_list = markupcontent.materiallist[0] ?? "";
+    let purity_list = markupcontent.puritylist[0] ?? "";
 
     var bodydata = {};
     bodydata["category"] = markupcontent.category.name;
@@ -366,7 +366,7 @@ const AddContact = (props) => {
     bodydata["sellingPriceMax"] = markupcontent.sellpricemax;
     bodydata["markuptype"] = markupcontent.markuptype.label;
     bodydata["material_list"] = material_list.name;
-    bodydata["purity_list"] = purity_list.name;
+    bodydata["purity_list"] = purity_list.shortCode;
     bodydata["markupValue"] = markupcontent.markup;
     bodydata["material"] = pricecomponent;
 

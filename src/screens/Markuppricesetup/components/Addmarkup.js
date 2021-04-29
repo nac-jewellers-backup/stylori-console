@@ -53,7 +53,6 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function Addmarkup(props) {
-  
   console.log(props);
   const [open, setOpen] = React.useState(props.isadd);
   const [markup, setMarkup] = React.useState({});
