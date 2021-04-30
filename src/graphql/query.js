@@ -851,7 +851,7 @@ const DIAMONDMARKUP = gql`
         sellingPriceMax
         material
         category
-        productType
+        
         markupValue
         markupType
         id
@@ -870,7 +870,7 @@ const ALLMARKUPPRICE = gql`
         sellingPriceMax
         material
         category
-        productType
+        
         markupValue
         markupType
         id
