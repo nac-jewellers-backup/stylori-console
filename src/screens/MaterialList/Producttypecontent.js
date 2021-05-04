@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { MaterialContext } from '../../context';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import uuid from 'uuid/v1';
+import { v4 as uuid } from 'uuid';
 import Page from '../../components/Page'
 import { Header, Results } from './components';
 

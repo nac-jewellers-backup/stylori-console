@@ -844,14 +844,17 @@ const GOLDPRICELIST = gql`
 
 const DIAMONDMARKUP = gql`
   query MyQuery($vendorCode: String!) {
-    allPricingMarkups(condition: { material: $vendorCode }, orderBy: UPDATED_AT_DESC) {
+    allPricingMarkups(
+      condition: { material: $vendorCode }
+      orderBy: UPDATED_AT_DESC
+    ) {
       nodes {
         updatedAt
         sellingPriceMin
         sellingPriceMax
         material
         category
-        
+
         markupValue
         markupType
         id
@@ -870,7 +873,7 @@ const ALLMARKUPPRICE = gql`
         sellingPriceMax
         material
         category
-        
+
         markupValue
         markupType
         id
@@ -903,7 +906,9 @@ const DIAMONDPRICELIST = gql`
 
 const GEMPRICELIST = gql`
   query MyQuery($vendorCode: String!, $ratetype: Int!) {
-    allGemstonePriceSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
+    allGemstonePriceSettings(
+      condition: { vendorCode: $vendorCode, rateType: $ratetype }
+    ) {
       nodes {
         createdAt
         id
@@ -1117,7 +1122,9 @@ query {
 
 const MAKINGCHARGEPRICELIST = gql`
   query MyQuery($vendorCode: String!, $ratetype: Int!) {
-    allMakingChargeSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
+    allMakingChargeSettings(
+      condition: { vendorCode: $vendorCode, rateType: $ratetype }
+    ) {
       nodes {
         weightStart
         weightEnd
@@ -1140,7 +1147,12 @@ const MAKINGCHARGEPRICELIST = gql`
 const PRODUCTLISTSTATUSEDIT = gql`
   mutation MyMutation($productId: String!, $isActive: Boolean!) {
     __typename
-    updateProductListByProductId(input: { productId: $productId, productListPatch: { isactive: $isActive } }) {
+    updateProductListByProductId(
+      input: {
+        productId: $productId
+        productListPatch: { isactive: $isActive }
+      }
+    ) {
       clientMutationId
       productList {
         isactive
@@ -1179,7 +1191,9 @@ const CREATETAXSETUP = gql`
 const VOUCHERSTATUSEDIT = gql`
   mutation MyMutation($voucherId: UUID!, $isActive: Boolean!) {
     __typename
-    updateVoucherById(input: { id: $voucherId, voucherPatch: { isActive: $isActive } }) {
+    updateVoucherById(
+      input: { id: $voucherId, voucherPatch: { isActive: $isActive } }
+    ) {
       clientMutationId
       voucher {
         isActive
@@ -1191,7 +1205,9 @@ const VOUCHERSTATUSEDIT = gql`
 const DISCOUNTSTATUSEDIT = gql`
   mutation MyMutation($discountId: UUID!, $isActive: Boolean!) {
     __typename
-    updateSaleDiscountById(input: { id: $discountId, saleDiscountPatch: { isActive: $isActive } }) {
+    updateSaleDiscountById(
+      input: { id: $discountId, saleDiscountPatch: { isActive: $isActive } }
+    ) {
       clientMutationId
       saleDiscount {
         isActive
@@ -1672,6 +1688,60 @@ mutation MyMutation(
   }
 }
 `;
+
+const HOLIDAYLIST = gql`
+  query {
+    allHolidayManagers(orderBy: DATE_ASC) {
+      nodes {
+        id
+        holiday
+        date
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+const WAREHOUSELIST = gql`
+  query {
+    allWarehouses(orderBy: ID_ASC) {
+      nodes {
+        id
+        name
+        shippingInDays
+      }
+    }
+  }
+`;
+
+const INVENTORYLIST = gql`
+  query($first: Int, $offset: Int, $filter: InventoryFilter) {
+    allInventories(first: $first, offset: $offset, filter: $filter) {
+      nodes {
+        id
+        generatedSku
+        numberOfItems
+        warehouse: warehouseByWarehouseId {
+          id
+          name
+        }
+      }
+      totalCount
+    }
+  }
+`;
+
+const VALIDATEGENERATEDSKU = gql`
+  query($generatedSku: String!) {
+    allTransSkuLists(condition: { generatedSku: $generatedSku }) {
+      nodes {
+        id
+      }
+    }
+  }
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -1753,4 +1823,8 @@ export {
   CREATESILVERLISTINGPAGE,
   ALLSTYLORISILVERROUTINGPAGE,
   CREATESTYLORISILVERROUTINGPAGE,
+  HOLIDAYLIST,
+  WAREHOUSELIST,
+  INVENTORYLIST,
+  VALIDATEGENERATEDSKU,
 };

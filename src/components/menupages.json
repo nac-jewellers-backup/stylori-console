@@ -57,6 +57,18 @@
     {
       "name": "Banners",
       "url": "/banners"
+    },
+    {
+      "name": "Holiday Manager",
+      "url": "/holiday-manager"
+    },
+    {
+      "name": "Warehouse",
+      "url": "/warehouse"
+    },
+    {
+      "name": "Inventory",
+      "url": "/inventory"
     }
   ]
 }

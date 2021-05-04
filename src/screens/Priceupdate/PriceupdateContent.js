@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Fullloader from "../../components/Loader";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import uuid from "uuid/v1";
+import { v4 as uuid } from 'uuid';
 import Page from "../../components/Page";
 import { Header, Results, AboutVoucher } from "./components";
 import { productCategory } from "../../services/mapper";
