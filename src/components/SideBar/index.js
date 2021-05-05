@@ -40,8 +40,13 @@ function SideBar() {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen });
   };
   const handleClick = (type) => (e) => {
-    if (type === "Pricing") {
-      setGlobalCtx({ ...globalCtx, optionname: type, selectedIndex: 5, isExpand: !globalCtx.isExpand });
+    if (type === "Pricing" || type === "Inventory & Shipping Setup") {
+      setGlobalCtx({
+        ...globalCtx,
+        optionname: type,
+        selectedIndex: 5,
+        isExpand: !globalCtx.isExpand,
+      });
     } else {
       setGlobalCtx({ ...globalCtx, optionname: type, isExpand: false });
     }
@@ -96,7 +101,13 @@ function SideBar() {
         open={globalCtx.sideBarOpen}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawer}>{theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+          <IconButton onClick={handleDrawer}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
         </div>
         <Divider />
 
@@ -112,19 +123,40 @@ function SideBar() {
                           <InboxIcon />
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
-                        {globalCtx.isExpand && globalCtx.optionname === menuobj.name ? <ExpandLess /> : <ExpandMore />}
+                        {globalCtx.isExpand &&
+                        globalCtx.optionname === menuobj.name ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )}
                       </ListItem>
-                      <Collapse in={globalCtx.isExpand && globalCtx.optionname === menuobj.name} timeout="auto" unmountOnExit>
+                      <Collapse
+                        in={
+                          globalCtx.isExpand &&
+                          globalCtx.optionname === menuobj.name
+                        }
+                        timeout="auto"
+                        unmountOnExit
+                      >
                         <List component="div" disablePadding>
                           {menuobj.submenu.map((submenuobj, subindex) => (
                             <>
-                              {accesspages && accesspages.indexOf(submenuobj.url) > -1 ? (
-                                <Link underline="none" component={RouterLink} to={submenuobj.url}>
+                              {accesspages &&
+                              accesspages.indexOf(submenuobj.url) > -1 ? (
+                                <Link
+                                  underline="none"
+                                  component={RouterLink}
+                                  to={submenuobj.url}
+                                >
                                   <ListItem
                                     button
                                     className={classes.nested}
-                                    selected={globalCtx.selectedIndex === subindex}
-                                    onClick={(event) => handleListItemClick(event, subindex)}
+                                    selected={
+                                      globalCtx.selectedIndex === subindex
+                                    }
+                                    onClick={(event) =>
+                                      handleListItemClick(event, subindex)
+                                    }
                                   >
                                     <ListItemIcon>
                                       <StarBorder />
@@ -144,7 +176,11 @@ function SideBar() {
                 <>
                   {" "}
                   {accesspages && accesspages.indexOf(menuobj.url) > -1 ? (
-                    <Link underline="none" component={RouterLink} to={menuobj.url}>
+                    <Link
+                      underline="none"
+                      component={RouterLink}
+                      to={menuobj.url}
+                    >
                       <ListItem
                         button
                         key={"Product List"}

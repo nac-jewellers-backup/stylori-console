@@ -76,7 +76,7 @@ export const Inventory = (props) => {
   };
 
   const handleSave = () => {
-    if (type == "Edit") {
+    if (type === "Edit") {
       var id = item.id;
       client
         .mutate({
@@ -110,7 +110,7 @@ export const Inventory = (props) => {
           });
         });
     }
-    if (type == "Add") {
+    if (type === "Add") {
       client
         .mutate({
           mutation: CREATE_INVENTORY,
@@ -143,7 +143,7 @@ export const Inventory = (props) => {
           });
         });
     }
-    if (type == "Delete") {
+    if (type === "Delete") {
       var id = item.id;
       client
         .mutate({

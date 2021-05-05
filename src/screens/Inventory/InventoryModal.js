@@ -46,7 +46,7 @@ const InventoryModal = (props) => {
         variables: { generatedSku },
       })
       .then((res) => {
-        if (res?.data?.allTransSkuLists?.nodes?.length == 0) {
+        if (res?.data?.allTransSkuLists?.nodes?.length === 0) {
           setError("Tag No doesn't exists!");
         } else {
           setError(false);
@@ -135,7 +135,7 @@ const InventoryModal = (props) => {
       </DialogContent>
       <DialogActions className={classes.root}>
         <Button onClick={props.handleSave} color="primary" variant="contained">
-          {`${props.type != "Delete" ? "Save" : "Delete"}`}
+          {`${props.type !== "Delete" ? "Save" : "Delete"}`}
         </Button>
         <Button onClick={props.onClose}>Cancel</Button>
       </DialogActions>

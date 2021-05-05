@@ -49,7 +49,7 @@ export const Warehouse = (props) => {
 
   const handleSave = () => {
     item["shippingInDays"] = parseInt(item.shippingInDays);
-    if (type == "Edit") {
+    if (type === "Edit") {
       var id = item.id;
       delete item.id;
       delete item.createdAt;
@@ -83,7 +83,7 @@ export const Warehouse = (props) => {
           });
         });
     }
-    if (type == "Add") {
+    if (type === "Add") {
       client
         .mutate({
           mutation: CREATE_WAREHOUSE,
@@ -111,13 +111,12 @@ export const Warehouse = (props) => {
           });
         });
     }
-    if (type == "Delete") {
-      var id = item.id;
+    if (type === "Delete") {
       client
         .mutate({
           mutation: DELETE_WAREHOUSE,
           variables: {
-            id,
+            id: item.id,
           },
         })
         .then((res) => {
@@ -190,7 +189,7 @@ export const Warehouse = (props) => {
                   </TableCell>
                 </TableRow>
               )}
-              {data && data?.allWarehouses?.nodes.length == 0 && (
+              {data && data?.allWarehouses?.nodes.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={3} align={"center"}>
                     <Typography>No Warehouses found!</Typography>
