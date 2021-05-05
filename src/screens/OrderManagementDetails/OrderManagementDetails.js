@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
-import uuid from "uuid/v1";
+import { v4 as uuid } from 'uuid';
 import moment from "moment";
 import Page from "../../components/Page";
 import { Header, OrderInfo, OrderItems } from "./components";

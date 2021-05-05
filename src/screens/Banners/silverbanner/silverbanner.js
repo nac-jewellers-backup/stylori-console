@@ -41,8 +41,8 @@ const Silverbanner = (props) => {
     <>
       <Breadcrumbs url="/banners" name="Landing Page Banner"></Breadcrumbs>
       <SilverLandingPage />
-      <SilverListingPage />
-      <SilverListingRoutingPage />
+      {/* <SilverListingPage /> */}
+      {/* <SilverListingRoutingPage /> */}
       {/* <SilverLandingPage /> */}
     </>
   );

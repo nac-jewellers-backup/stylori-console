@@ -10,7 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import uuid from 'uuid/v1';
+import { v4 as uuid } from 'uuid';
 import Page from '../../components/Page'
 import { Header, Results,AboutVoucher ,VoucherComponent} from './components';
 import { Button, Grid,Typography } from '@material-ui/core';

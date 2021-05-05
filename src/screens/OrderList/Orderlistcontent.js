@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
 import { PAYMENTSTATUSMASTER, PRODUCTDIAMONDTYPES } from "../../graphql/query";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import uuid from "uuid/v1";
+import { v4 as uuid } from 'uuid';
 import Page from "../../components/Page";
 import { Header, Results } from "./components";
 import Columns from "./components/columnnames.json";
