@@ -400,7 +400,7 @@ const AddContact = (props) => {
     bodydata["selling_price"] = gemstonedata.sellingPrice;
     bodydata["isadd"] = true;
     bodydata["ratetype"] = props.viewtype;
-    // alert(JSON.stringify(gemstonedata))
+    // alert(JSON.stringify(gemstonedata)
 
     await sendNetworkRequest("/updategemstoneprice", {}, bodydata);
     setOpen(false);
