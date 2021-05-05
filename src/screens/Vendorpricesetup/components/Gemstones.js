@@ -399,7 +399,7 @@ const AddContact = (props) => {
     bodydata["selling_price_type"] = gemstonedata.pricetype.label;
     bodydata["selling_price"] = gemstonedata.sellingPrice;
     bodydata["isadd"] = true;
-
+    bodydata["ratetype"] = props.viewtype;
     // alert(JSON.stringify(gemstonedata))
 
     await sendNetworkRequest("/updategemstoneprice", {}, bodydata);

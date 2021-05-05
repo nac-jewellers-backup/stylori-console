@@ -112,7 +112,8 @@ export default function Addgemstoneprice(props) {
                 )}
               />
             </Grid>
-
+            {props.viewtype == 1 ? 
+             <>          
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -135,7 +136,7 @@ export default function Addgemstoneprice(props) {
                 name="Cost Price"
               />
             </Grid>
-
+              </> : null }
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
