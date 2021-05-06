@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Fullloader from "../../components/Loader";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import Page from "../../components/Page";
 import { Header, Results, AboutVoucher } from "./components";
 import { productCategory } from "../../services/mapper";
@@ -82,14 +82,15 @@ export default function PriceupdateContent(props) {
     }
   }
 
-  async function filterapllied(filterdata, categories, producttypes, material) {
+  async function filterapllied(filterdata, categories, producttypes, material, purity) {
     var bodydata = {};
-
+    debugger;
     bodydata = {
       vendorid: filterdata && filterdata.length > 0 ? filterdata : "",
       product_category: categories && categories.length > 0 ? categories : "",
       product_type: producttypes && producttypes.length > 0 ? producttypes : "",
       material_list: material && material.length > 0 ? material : "",
+      purity_list: purity && purity.length > 0 ? purity : "",
     };
 
     let response = await sendNetworkRequest("/getdistinctproduct", {}, bodydata, false);
@@ -136,6 +137,7 @@ export default function PriceupdateContent(props) {
           vendorlist={masters.vendorcode}
           material={masters.material}
           masterData={masters}
+          puritylist={masters.metalpurity}
           categories={["Fixed Amount", "percentage", "Free Shipping"]}
         />
         <Results products={products} pricingrows={rows} downloadlog={downloadlog} update={updateprices} resumeupdate={rerun} />
