@@ -3,12 +3,15 @@ import {
   Grid,
   IconButton,
   LinearProgress,
+  makeStyles,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Tooltip,
   Typography,
@@ -27,9 +30,41 @@ import HolidayModal from "./HolidayModal";
 import { AlertContext } from "../../context";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import moment from "moment";
+import axios from "axios";
+import { API_URL } from "../../config";
+import { NetworkStatus } from "apollo-client";
+import GetAppIcon from "@material-ui/icons/GetApp";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 export const HolidayManager = (props) => {
-  const { loading, data, error, refetch } = useQuery(HOLIDAYLIST);
+  const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  const { loading, data, error, refetch, networkStatus } = useQuery(
+    HOLIDAYLIST,
+    {
+      variables: { first: rowsPerPage, offset: page * rowsPerPage },
+    }
+  );
   const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState();
   const [item, setItem] = React.useState({ holiday: "", date: null });
@@ -69,6 +104,7 @@ export const HolidayManager = (props) => {
           variables: {
             id,
             item,
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -97,6 +133,8 @@ export const HolidayManager = (props) => {
           mutation: CREATE_HOLIDAY,
           variables: {
             item,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -149,6 +187,32 @@ export const HolidayManager = (props) => {
         });
     }
   };
+
+  const handleUpload = (file) => {
+    var bodyFormData = new FormData();
+    bodyFormData.set("file", file);
+    // console.log(file);
+    axios
+      .post(API_URL + "/addholidays", bodyFormData)
+      .then((res) => {
+        if (res) {
+          snack.setSnack({
+            open: true,
+            msg: "Successfully added holidays!",
+          });
+          refetch();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        snack.setSnack({
+          open: true,
+          severity: "error",
+          msg: "Some error occured!",
+        });
+      });
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid
@@ -160,11 +224,45 @@ export const HolidayManager = (props) => {
         alignItems="center"
       >
         <Typography variant="h4">Holiday Manager</Typography>
-        <IconButton>
-          <Tooltip title="Upload Holidays">
-            <CloudUploadIcon />
+
+        <input
+          accept=".csv"
+          className={classes.input}
+          id="icon-button-file"
+          type="file"
+          onChange={(event) => {
+            const files = event.target.files;
+            if (files) {
+              handleUpload(files[0]);
+            }
+          }}
+        />
+        <label htmlFor="icon-button-file">
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <Tooltip title="Upload Holidays">
+              <CloudUploadIcon />
+            </Tooltip>
+          </IconButton>
+        </label>
+
+        <IconButton
+          color="secondary"
+          onClick={() => {
+            var a = document.createElement("a");
+            a.href = "/sample/holidays.csv";
+            a.setAttribute("download", "holidays.csv");
+            a.click();
+          }}
+        >
+          <Tooltip title="Download sample file">
+            <GetAppIcon />
           </Tooltip>
         </IconButton>
+
         <IconButton
           onClick={() => {
             setOpen(true);
@@ -183,20 +281,22 @@ export const HolidayManager = (props) => {
               <TableRow>
                 <TableCell align={"center"}>Holiday</TableCell>
                 <TableCell align={"center"}>Date</TableCell>
+                <TableCell align={"center"}>Created On</TableCell>
+                <TableCell align={"center"}>Last Updated On</TableCell>
                 <TableCell align={"center"}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {loading && (
+              {(loading || NetworkStatus.refetch === networkStatus) && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"} padding="none">
+                  <TableCell colSpan={5} align={"center"} padding="none">
                     <LinearProgress />
                   </TableCell>
                 </TableRow>
               )}
               {error && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>
                       Some Error occured please try again!
                     </Typography>
@@ -205,7 +305,7 @@ export const HolidayManager = (props) => {
               )}
               {data && data?.allHolidayManagers?.nodes.length == 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>No Holidays found!</Typography>
                   </TableCell>
                 </TableRow>
@@ -219,6 +319,12 @@ export const HolidayManager = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       {moment(item.date, "YYYY-MM-DD").format("MMM DD,YYYY")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      {moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      {moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton
@@ -247,6 +353,20 @@ export const HolidayManager = (props) => {
                   </TableRow>
                 ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={5}
+                  align={"right"}
+                  rowsPerPageOptions={[10, 25, 100]}
+                  count={data?.allHolidayManagers?.totalCount}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </TableContainer>
       </Grid>

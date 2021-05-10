@@ -25,6 +25,7 @@ import { WAREHOUSELIST } from "../../graphql/query";
 import WarehouseModal from "./WarehouseModal";
 import { AlertContext } from "../../context";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import moment from "moment";
 
 export const Warehouse = (props) => {
   const { loading, data, error, refetch } = useQuery(WAREHOUSELIST);
@@ -61,6 +62,7 @@ export const Warehouse = (props) => {
           variables: {
             id,
             item,
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -89,6 +91,8 @@ export const Warehouse = (props) => {
           mutation: CREATE_WAREHOUSE,
           variables: {
             item,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -169,20 +173,22 @@ export const Warehouse = (props) => {
               <TableRow>
                 <TableCell align={"center"}>Name</TableCell>
                 <TableCell align={"center"}>Shipping In Days</TableCell>
+                <TableCell align={"center"}>Created On</TableCell>
+                <TableCell align={"center"}>Last Updated On</TableCell>
                 <TableCell align={"center"}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"} padding="none">
+                  <TableCell colSpan={5} align={"center"} padding="none">
                     <LinearProgress />
                   </TableCell>
                 </TableRow>
               )}
               {error && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>
                       Some Error occured please try again!
                     </Typography>
@@ -191,7 +197,7 @@ export const Warehouse = (props) => {
               )}
               {data && data?.allWarehouses?.nodes.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>No Warehouses found!</Typography>
                   </TableCell>
                 </TableRow>
@@ -205,6 +211,12 @@ export const Warehouse = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       {item.shippingInDays}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      {moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      {moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton
