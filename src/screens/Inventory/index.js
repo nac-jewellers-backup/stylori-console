@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Badge,
-  Card,
   Grid,
   IconButton,
   InputAdornment,
@@ -40,7 +39,6 @@ import axios from "axios";
 import { API_URL } from "../../config";
 import moment from "moment";
 import SearchIcon from "@material-ui/icons/Search";
-import { Skeleton } from "@material-ui/lab";
 import StoreIcon from "@material-ui/icons/Store";
 
 const useStyles = makeStyles((theme) => ({
