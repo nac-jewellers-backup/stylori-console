@@ -156,6 +156,7 @@ export const Warehouse = (props) => {
       >
         <Typography variant="h4">Warehouse</Typography>
         <IconButton
+          style={{ color: "#000" }}
           onClick={() => {
             setOpen(true);
             setType("Add");
@@ -220,6 +221,7 @@ export const Warehouse = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Edit");
                           setOpen(true);
@@ -231,6 +233,7 @@ export const Warehouse = (props) => {
                         </Tooltip>
                       </IconButton>
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Delete");
                           setOpen(true);

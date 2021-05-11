@@ -250,7 +250,7 @@ export const HolidayManager = (props) => {
         </label>
 
         <IconButton
-          color="secondary"
+          style={{ color: "#000" }}
           onClick={() => {
             var a = document.createElement("a");
             a.href = "/sample/holidays.csv";
@@ -264,6 +264,7 @@ export const HolidayManager = (props) => {
         </IconButton>
 
         <IconButton
+          style={{ color: "#000" }}
           onClick={() => {
             setOpen(true);
             setType("Add");
@@ -328,6 +329,7 @@ export const HolidayManager = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Edit");
                           setOpen(true);
@@ -339,6 +341,7 @@ export const HolidayManager = (props) => {
                         </Tooltip>
                       </IconButton>
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Delete");
                           setOpen(true);

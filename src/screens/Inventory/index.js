@@ -57,8 +57,14 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     padding: 0,
+    color: "#000",
     "&:hover": {
       backgroundColor: "inherit",
+    },
+  },
+  searchInput: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 8,
     },
   },
 }));
@@ -326,7 +332,7 @@ export const Inventory = (props) => {
         </label>
 
         <IconButton
-          color="secondary"
+          style={{ color: "#000" }}
           onClick={() => {
             var a = document.createElement("a");
             a.href = "/sample/inventory.csv";
@@ -340,6 +346,7 @@ export const Inventory = (props) => {
         </IconButton>
 
         <IconButton
+          style={{ color: "#000" }}
           onClick={() => {
             setOpen(true);
             setType("Add");
@@ -355,6 +362,7 @@ export const Inventory = (props) => {
           </Tooltip>
         </IconButton>
         <TextField
+          className={classes.searchInput}
           name="tagno"
           placeholder="Search Tag No."
           size="medium"
@@ -439,6 +447,7 @@ export const Inventory = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Edit");
                           setOpen(true);
@@ -450,6 +459,7 @@ export const Inventory = (props) => {
                         </Tooltip>
                       </IconButton>
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Delete");
                           setOpen(true);
