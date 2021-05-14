@@ -264,13 +264,13 @@ export default function Productupload() {
 
       var formdata = productCtx;
       formdata["productseries"] = productseries;
-
+      console.log(JSON.stringify(formdata))
       setLoading(true);
-      await sendNetworkRequest("/productupload", {}, formdata);
+  await sendNetworkRequest("/productupload", {}, formdata);
       setLoading(false);
       setSuccess(true);
       await sleep(500);
-      window.location.replace("/productlist");
+     // window.location.replace("/productlist");
     } else {
       if (isvalid) {
         setActiveStep(activeStep + 1);
