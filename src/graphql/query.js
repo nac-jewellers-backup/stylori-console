@@ -1692,8 +1692,13 @@ mutation MyMutation(
 `;
 
 const HOLIDAYLIST = gql`
-  query {
-    allHolidayManagers(orderBy: DATE_ASC) {
+  query($first: Int, $offset: Int, $filter: HolidayManagerFilter) {
+    allHolidayManagers(
+      first: $first
+      offset: $offset
+      filter: $filter
+      orderBy: DATE_ASC
+    ) {
       nodes {
         id
         holiday
@@ -1701,6 +1706,7 @@ const HOLIDAYLIST = gql`
         createdAt
         updatedAt
       }
+      totalCount
     }
   }
 `;
@@ -1739,6 +1745,23 @@ const VALIDATEGENERATEDSKU = gql`
     allTransSkuLists(condition: { generatedSku: $generatedSku }) {
       nodes {
         id
+      }
+    }
+  }
+`;
+
+const STOCKSTATUS = gql`
+  query {
+    allWarehouses {
+      nodes {
+        name
+        inventoriesByWarehouseId {
+          aggregates {
+            sum {
+              numberOfItems
+            }
+          }
+        }
       }
     }
   }
@@ -1829,4 +1852,5 @@ export {
   WAREHOUSELIST,
   INVENTORYLIST,
   VALIDATEGENERATEDSKU,
+  STOCKSTATUS,
 };

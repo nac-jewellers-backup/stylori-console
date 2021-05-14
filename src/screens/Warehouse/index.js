@@ -25,6 +25,7 @@ import { WAREHOUSELIST } from "../../graphql/query";
 import WarehouseModal from "./WarehouseModal";
 import { AlertContext } from "../../context";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import moment from "moment";
 
 export const Warehouse = (props) => {
   const { loading, data, error, refetch } = useQuery(WAREHOUSELIST);
@@ -49,7 +50,7 @@ export const Warehouse = (props) => {
 
   const handleSave = () => {
     item["shippingInDays"] = parseInt(item.shippingInDays);
-    if (type == "Edit") {
+    if (type === "Edit") {
       var id = item.id;
       delete item.id;
       delete item.createdAt;
@@ -61,6 +62,7 @@ export const Warehouse = (props) => {
           variables: {
             id,
             item,
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -83,12 +85,14 @@ export const Warehouse = (props) => {
           });
         });
     }
-    if (type == "Add") {
+    if (type === "Add") {
       client
         .mutate({
           mutation: CREATE_WAREHOUSE,
           variables: {
             item,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -111,13 +115,12 @@ export const Warehouse = (props) => {
           });
         });
     }
-    if (type == "Delete") {
-      var id = item.id;
+    if (type === "Delete") {
       client
         .mutate({
           mutation: DELETE_WAREHOUSE,
           variables: {
-            id,
+            id: item.id,
           },
         })
         .then((res) => {
@@ -153,6 +156,7 @@ export const Warehouse = (props) => {
       >
         <Typography variant="h4">Warehouse</Typography>
         <IconButton
+          style={{ color: "#000" }}
           onClick={() => {
             setOpen(true);
             setType("Add");
@@ -170,29 +174,31 @@ export const Warehouse = (props) => {
               <TableRow>
                 <TableCell align={"center"}>Name</TableCell>
                 <TableCell align={"center"}>Shipping In Days</TableCell>
+                <TableCell align={"center"}>Created On</TableCell>
+                <TableCell align={"center"}>Last Updated On</TableCell>
                 <TableCell align={"center"}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"} padding="none">
+                  <TableCell colSpan={5} align={"center"} padding="none">
                     <LinearProgress />
                   </TableCell>
                 </TableRow>
               )}
               {error && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>
                       Some Error occured please try again!
                     </Typography>
                   </TableCell>
                 </TableRow>
               )}
-              {data && data?.allWarehouses?.nodes.length == 0 && (
+              {data && data?.allWarehouses?.nodes.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} align={"center"}>
+                  <TableCell colSpan={5} align={"center"}>
                     <Typography>No Warehouses found!</Typography>
                   </TableCell>
                 </TableRow>
@@ -208,7 +214,14 @@ export const Warehouse = (props) => {
                       {item.shippingInDays}
                     </TableCell>
                     <TableCell align={"center"} padding="none">
+                      {moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      {moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Edit");
                           setOpen(true);
@@ -220,6 +233,7 @@ export const Warehouse = (props) => {
                         </Tooltip>
                       </IconButton>
                       <IconButton
+                        color="inherit"
                         onClick={() => {
                           setType("Delete");
                           setOpen(true);

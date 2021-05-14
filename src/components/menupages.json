@@ -59,16 +59,22 @@
       "url": "/banners"
     },
     {
-      "name": "Holiday Manager",
-      "url": "/holiday-manager"
-    },
-    {
-      "name": "Warehouse",
-      "url": "/warehouse"
-    },
-    {
-      "name": "Inventory",
-      "url": "/inventory"
+      "name": "Inventory & Shipping Setup",
+      "url":"inventory-shipping-setup",
+      "submenu": [
+        {
+          "name": "Holiday Manager",
+          "url": "/holiday-manager"
+        },
+        {
+          "name": "Warehouse",
+          "url": "/warehouse"
+        },
+        {
+          "name": "Inventory",
+          "url": "/inventory"
+        }
+      ]
     }
   ]
 }

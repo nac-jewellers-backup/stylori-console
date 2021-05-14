@@ -88,7 +88,7 @@ const HolidayModal = (props) => {
       </DialogContent>
       <DialogActions className={classes.root}>
         <Button onClick={props.handleSave} color="primary" variant="contained">
-          {`${props.type != "Delete" ? "Save" : "Delete"}`}
+          {`${props.type !== "Delete" ? "Save" : "Delete"}`}
         </Button>
         <Button onClick={props.onClose}>Cancel</Button>
       </DialogActions>

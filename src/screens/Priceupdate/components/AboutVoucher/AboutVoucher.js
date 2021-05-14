@@ -84,6 +84,8 @@ const useStyles = makeStyles((theme) => ({
 
 const AboutVoucher = (props) => {
   const { className, ...rest } = props;
+
+  console.log(props);
   const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [vendorlist, setVendorlist] = useState(props.masterData.vendorcode);
@@ -111,44 +113,49 @@ const AboutVoucher = (props) => {
   };
 
   const handleproducttypechange = (type) => (event, option) => {
-    debugger;
     let vendorsarray = [];
     option.forEach((element) => {
       vendorsarray.push(element.name);
     });
     setFormData({ ...formData, producttypes: vendorsarray });
-    props.apply(formData.vendorid, formData.categories, vendorsarray, formData.material);
+    props.apply(formData.vendorid, formData.categories, vendorsarray, formData.material, formData.purity);
   };
   const handlecategorychange = (type) => (event, option) => {
-    debugger;
     let vendorsarray = [];
     option.forEach((element) => {
       vendorsarray.push(element.name);
     });
     setFormData({ ...formData, categories: vendorsarray });
 
-    props.apply(formData.vendorid, vendorsarray, formData.producttypes, formData.material);
+    props.apply(formData.vendorid, vendorsarray, formData.producttypes, formData.material, formData.purity);
   };
   const hangeoptionchange = (type) => (event, option) => {
-    debugger;
     let vendorsarray = [];
     option.forEach((element) => {
       vendorsarray.push(element.shortCode);
     });
     setFormData({ ...formData, vendorid: vendorsarray });
 
-    props.apply(vendorsarray, formData.categories, formData.producttypes, formData.material);
+    props.apply(vendorsarray, formData.categories, formData.producttypes, formData.material, formData.purity);
   };
 
   const handlematerialtypechange = (type) => (event, option) => {
-    debugger;
     let vendorsarray = [];
     option.forEach((element) => {
       vendorsarray.push(element.name);
     });
     setFormData({ ...formData, material: vendorsarray });
 
-    props.apply(formData.vendorid, formData.categories, formData.producttypes, vendorsarray);
+    props.apply(formData.vendorid, formData.categories, formData.producttypes, vendorsarray, formData.purity);
+  };
+  const handlepuritytypechange = (type) => (event, option) => {
+    let vendorsarray = [];
+    option.forEach((element) => {
+      vendorsarray.push(element);
+    });
+    setFormData({ ...formData, purity: vendorsarray });
+
+    props.apply(formData.vendorid, formData.categories, formData.producttypes, formData.material, vendorsarray);
   };
   const handleClick = async (event, option) => {
     let response = await sendNetworkRequest("/updatepricelist", {}, formData, false);
@@ -235,6 +242,19 @@ const AboutVoucher = (props) => {
               fullWidth
               margin="dense"
               renderInput={(params) => <TextField {...params} label="Select Material Type" variant="outlined" fullWidth />}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Autocomplete
+              multiple
+              id="combo-box-demo"
+              disabled={props.isdisabled}
+              options={props.puritylist}
+              getOptionLabel={(option) => option.name}
+              onChange={handlepuritytypechange("puritylist")}
+              fullWidth
+              margin="dense"
+              renderInput={(params) => <TextField {...params} label="Select Purity Type" variant="outlined" fullWidth />}
             />
           </Grid>
           <Grid item xs={12}>
