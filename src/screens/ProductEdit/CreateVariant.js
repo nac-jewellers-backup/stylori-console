@@ -194,7 +194,6 @@ export function CreateVariant(props) {
             ...variant,
             variant_diamond_type: diamondtype_arr
         })
-        alert(JSON.stringify(value))
          setProductCtx({
             ...productCtx,
             [type]:diamondtype_arr
@@ -294,7 +293,7 @@ export function CreateVariant(props) {
                 },
                 body: JSON.stringify(createVariant)
             }
-          
+            console.log(JSON.stringify(createVariant))
             
         }else{
             alert('please fill the Create variant');
