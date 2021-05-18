@@ -285,7 +285,29 @@ export function Component(props) {
     console.log(JSON.stringify(productEditItem));
     // props.history.push('/productlist')
   }
-
+  async function createnewvarient(varientobj) {
+    let response = await sendNetworkRequest("/addvarient", {}, varientobj);
+    // debugger
+    console.log("************");
+    console.log(JSON.stringify(varientobj));
+    if (response) {
+      console.log(response);
+      setSnackMessage({
+        ...snackMessage,
+        message: "This is successfully saved",
+        severity: "success",
+      });
+      handleClick();
+      // setTimeout(()=>{  window.location='/productlist'},1000)
+    } else {
+      setSnackMessage({
+        ...snackMessage,
+        message: "You are not edit product",
+        severity: "info",
+      });
+      handleClick();
+    }
+  }
   const handledisableproduct = (name) => async (event) => {
     setProductCtx({ ...productCtx, [name]: event.target.checked });
     let bodycontent = {
@@ -929,6 +951,7 @@ export function Component(props) {
                   productMetalPurity={productCtx.productMetalPurity}
                   changeVariant={changeVariant}
                   productId={prod_id}
+                  updatevarient={createnewvarient}
                 />
               </ExpansionPanelDetails>
               <Divider />

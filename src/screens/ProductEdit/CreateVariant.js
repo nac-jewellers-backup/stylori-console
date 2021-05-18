@@ -106,7 +106,6 @@ export function CreateVariant(props) {
           })
       }
     const sendNetworkRequest = async (url, params, data, auth = false) => {
-        alert(url)
         url = API_URL + url;
         console.info('URL', url, data)
         const method = data ? 'POST' : 'GET',
@@ -210,20 +209,24 @@ export function CreateVariant(props) {
     //     })
     // }
 
-    const sizeChange = type => (event, value) => {   
+    const sizeChange = type => (event, value) => {      
         let size_arr = []
-        value.map((color, index) => {
-          if(productCtx.productDiamondTypes.some(item => item === color)){
-           }else{ let color_obj = {
-                ...color,
-                label: color
-            }
-            size_arr.push(color_obj)
-          }
-        })
+        // value.map((color, index) => {
+        //   if(productCtx.productDiamondTypes.some(item => item === color)){
+        //    }else{ let color_obj = {
+        //         ...color,
+        //         label: color
+        //     }
+        //     size_arr.push(color_obj)
+        //   }
+        // })
+        setProductCtx({
+            ...productCtx,
+            [type]:value
+          })
         setVariant({
             ...variant,
-            size: size_arr
+            size: value
         })
     }
     // function sizeChange(status_data) {
@@ -286,18 +289,22 @@ export function CreateVariant(props) {
             let productImages = productCtx.productImages;
             productImages = [...productImages,variant.product_images];
             createVariants.push(createVariant);
-            let params = {
-                method:'POST',
-                headers: { 
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(createVariant)
-            }
+            // let params = {
+            //     method:'POST',
+            //     headers: { 
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(createVariant)
+            // }
+
+            props.updatevarient(createVariant)
             console.log(JSON.stringify(createVariant))
             
         }else{
             alert('please fill the Create variant');
         }
+
+        
     }
     function backToProductAttribute(){
         props.changeVariant();
@@ -532,7 +539,7 @@ export function CreateVariant(props) {
                     fullWidth
                     getOptionLabel={option => option}
                     options={productCtx.productVariantSize}
-                    value={productCtx.variant_size}
+                    value={productCtx.productSizes ? productCtx.productSizes : productCtx.variant_size}
                     onChange={sizeChange('productSizes')}
                     renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
