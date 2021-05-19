@@ -9,6 +9,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
+import { BASE_IMAGE_URL } from "../../config";
 
 import { Paper, Card, CardHeader, CardContent, Grid } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
@@ -231,7 +232,7 @@ export default function Productimages(props) {
 
                       <img
                         src={
-                          "https://assets.stylori.com/" +
+                          BASE_IMAGE_URL +
                           url.imageUrl.replace(url.productId, url.productId + "/1000X1000")
                         }
                         style={{ width: "100%", height: "100%", borderRadius: "4px" }}
