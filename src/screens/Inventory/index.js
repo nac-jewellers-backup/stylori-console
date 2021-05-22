@@ -40,6 +40,7 @@ import { API_URL } from "../../config";
 import moment from "moment";
 import SearchIcon from "@material-ui/icons/Search";
 import StoreIcon from "@material-ui/icons/Store";
+import { green } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     padding: 0,
-    color: "#000",
     "&:hover": {
       backgroundColor: "inherit",
     },
@@ -91,12 +91,14 @@ const StockStatus = (props) => {
             <IconButton
               disableRipple
               className={classes.icon}
-              color={item?.name === props.warehouse ? "secondary" : "default"}
               onClick={() => {
                 props.setWarehouse(item?.name);
               }}
             >
-              <StoreIcon style={{ fontSize: 32 }} />
+              <StoreIcon
+                style={{ fontSize: 35 }}
+                color={item?.name === props.warehouse ? "secondary" : "default"}
+              />
             </IconButton>
             <Typography variant="subtitle2">{item?.name}</Typography>
           </Badge>
@@ -180,8 +182,8 @@ export const Inventory = (props) => {
               generatedSku: item.generatedSku,
               numberOfItems: parseInt(item.numberOfItems),
               warehouseId: item.warehouse.id,
+              updatedAt: new Date(),
             },
-            updatedAt: new Date(),
           },
         })
         .then((res) => {

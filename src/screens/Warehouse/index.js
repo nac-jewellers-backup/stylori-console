@@ -12,6 +12,7 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  Switch,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
@@ -56,13 +57,13 @@ export const Warehouse = (props) => {
       delete item.createdAt;
       delete item.updatedAt;
       delete item.__typename;
+      item["updatedAt"] = new Date();
       client
         .mutate({
           mutation: UPDATE_WAREHOUSE,
           variables: {
             id,
             item,
-            updatedAt: new Date(),
           },
         })
         .then((res) => {
@@ -144,6 +145,37 @@ export const Warehouse = (props) => {
         });
     }
   };
+
+  const handleSwitch = (id, isActive) => {
+    client
+      .mutate({
+        mutation: UPDATE_WAREHOUSE,
+        variables: {
+          id,
+          item: { isActive: !isActive, updatedAt: new Date() },
+        },
+      })
+      .then((res) => {
+        if (res) {
+          onClose();
+          snack.setSnack({
+            open: true,
+            msg: "Successfully Updated!",
+          });
+          refetch();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        onClose();
+        snack.setSnack({
+          open: true,
+          severity: "error",
+          msg: "Some error occured!",
+        });
+      });
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid
@@ -176,20 +208,21 @@ export const Warehouse = (props) => {
                 <TableCell align={"center"}>Shipping In Days</TableCell>
                 <TableCell align={"center"}>Created On</TableCell>
                 <TableCell align={"center"}>Last Updated On</TableCell>
+                <TableCell align={"center"}>Status</TableCell>
                 <TableCell align={"center"}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading && (
                 <TableRow>
-                  <TableCell colSpan={5} align={"center"} padding="none">
+                  <TableCell colSpan={6} align={"center"} padding="none">
                     <LinearProgress />
                   </TableCell>
                 </TableRow>
               )}
               {error && (
                 <TableRow>
-                  <TableCell colSpan={5} align={"center"}>
+                  <TableCell colSpan={6} align={"center"}>
                     <Typography>
                       Some Error occured please try again!
                     </Typography>
@@ -198,7 +231,7 @@ export const Warehouse = (props) => {
               )}
               {data && data?.allWarehouses?.nodes.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={5} align={"center"}>
+                  <TableCell colSpan={6} align={"center"}>
                     <Typography>No Warehouses found!</Typography>
                   </TableCell>
                 </TableRow>
@@ -218,6 +251,14 @@ export const Warehouse = (props) => {
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       {moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
+                    </TableCell>
+                    <TableCell align={"center"} padding="none">
+                      <Switch
+                        checked={item.isActive}
+                        onChange={() => handleSwitch(item.id, item.isActive)}
+                        name="active"
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell align={"center"} padding="none">
                       <IconButton

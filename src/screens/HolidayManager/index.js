@@ -98,13 +98,13 @@ export const HolidayManager = (props) => {
       delete item.createdAt;
       delete item.updatedAt;
       delete item.__typename;
+      item["updatedAt"] = new Date();
       client
         .mutate({
           mutation: UPDATE_HOLIDAY,
           variables: {
             id,
             item,
-            updatedAt: new Date(),
           },
         })
         .then((res) => {

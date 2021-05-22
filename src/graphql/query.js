@@ -233,7 +233,7 @@ const ALLPRODUCTLIST = gql`
   }
 `;
 const PRODUCTLIST = (category) => gql`
-  query($Veiw: Int!, $Offset: Int!) {
+  query ($Veiw: Int!, $Offset: Int!) {
     allProductLists(first: $Veiw, offset: $Offset) {
       nodes {
         id
@@ -1692,7 +1692,7 @@ mutation MyMutation(
 `;
 
 const HOLIDAYLIST = gql`
-  query($first: Int, $offset: Int, $filter: HolidayManagerFilter) {
+  query ($first: Int, $offset: Int, $filter: HolidayManagerFilter) {
     allHolidayManagers(
       first: $first
       offset: $offset
@@ -1718,18 +1718,23 @@ const WAREHOUSELIST = gql`
         id
         name
         shippingInDays
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }
 `;
 
 const INVENTORYLIST = gql`
-  query($first: Int, $offset: Int, $filter: InventoryFilter) {
+  query ($first: Int, $offset: Int, $filter: InventoryFilter) {
     allInventories(first: $first, offset: $offset, filter: $filter) {
       nodes {
         id
         generatedSku
         numberOfItems
+        createdAt
+        updatedAt
         warehouse: warehouseByWarehouseId {
           id
           name
@@ -1741,7 +1746,7 @@ const INVENTORYLIST = gql`
 `;
 
 const VALIDATEGENERATEDSKU = gql`
-  query($generatedSku: String!) {
+  query ($generatedSku: String!) {
     allTransSkuLists(condition: { generatedSku: $generatedSku }) {
       nodes {
         id
@@ -1755,6 +1760,7 @@ const STOCKSTATUS = gql`
     allWarehouses {
       nodes {
         name
+        isActive
         inventoriesByWarehouseId {
           aggregates {
             sum {
