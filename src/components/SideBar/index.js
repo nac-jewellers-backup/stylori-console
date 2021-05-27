@@ -40,7 +40,11 @@ function SideBar() {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen });
   };
   const handleClick = (type) => (e) => {
-    if (type === "Pricing" || type === "Inventory & Shipping Setup") {
+    if (
+      type === "Pricing" ||
+      type === "Inventory & Shipping Setup" ||
+      type === "Orders"
+    ) {
       setGlobalCtx({
         ...globalCtx,
         optionname: type,
@@ -101,7 +105,13 @@ function SideBar() {
         open={globalCtx.sideBarOpen}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawer}>{theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+          <IconButton onClick={handleDrawer}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
         </div>
         <Divider />
 
@@ -113,29 +123,56 @@ function SideBar() {
                   {accesspages && accesspages.indexOf(menuobj.url) > -1 ? (
                     <>
                       <ListItem button onClick={handleClick(menuobj.name)}>
-                        <ListItemIcon >
+                        <ListItemIcon>
                           {/* <SidebarIcons.ProductList></SidebarIcons.ProductList> */}
                           {/* <menuobj.icon /> */}
-                          <img style={{ width: "18px" }} src={menuobj.icon}></img>
+                          <img
+                            style={{ width: "18px" }}
+                            src={menuobj.icon}
+                          ></img>
                           {/* <InboxIcon /> */}
                         </ListItemIcon>
-                        <ListItemText primary={menuobj.name}  />
-                        {globalCtx.isExpand && globalCtx.optionname === menuobj.name ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary={menuobj.name} />
+                        {globalCtx.isExpand &&
+                        globalCtx.optionname === menuobj.name ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )}
                       </ListItem>
-                      <Collapse in={globalCtx.isExpand && globalCtx.optionname === menuobj.name} timeout="auto" unmountOnExit>
+                      <Collapse
+                        in={
+                          globalCtx.isExpand &&
+                          globalCtx.optionname === menuobj.name
+                        }
+                        timeout="auto"
+                        unmountOnExit
+                      >
                         <List component="div" disablePadding>
                           {menuobj.submenu.map((submenuobj, subindex) => (
                             <>
-                              {accesspages && accesspages.indexOf(submenuobj.url) > -1 ? (
-                                <Link underline="none" component={RouterLink} to={submenuobj.url}>
+                              {accesspages &&
+                              accesspages.indexOf(submenuobj.url) > -1 ? (
+                                <Link
+                                  underline="none"
+                                  component={RouterLink}
+                                  to={submenuobj.url}
+                                >
                                   <ListItem
                                     button
                                     className={classes.nested}
-                                    selected={globalCtx.selectedIndex === subindex}
-                                    onClick={(event) => handleListItemClick(event, subindex)}
+                                    selected={
+                                      globalCtx.selectedIndex === subindex
+                                    }
+                                    onClick={(event) =>
+                                      handleListItemClick(event, subindex)
+                                    }
                                   >
-                                    <ListItemIcon >
-                                      <img style={{ width: "18px" }} src={submenuobj.icons}></img>
+                                    <ListItemIcon>
+                                      <img
+                                        style={{ width: "18px" }}
+                                        src={submenuobj.icons}
+                                      ></img>
                                     </ListItemIcon>
                                     <ListItemText primary={submenuobj.name} />
                                   </ListItem>
@@ -152,15 +189,22 @@ function SideBar() {
                 <>
                   {" "}
                   {accesspages && accesspages.indexOf(menuobj.url) > -1 ? (
-                    <Link underline="none" component={RouterLink} to={menuobj.url}>
+                    <Link
+                      underline="none"
+                      component={RouterLink}
+                      to={menuobj.url}
+                    >
                       <ListItem
                         button
                         key={"Product List"}
                         selected={globalCtx.optionname === menuobj.name}
                         onClick={handleClick(menuobj.name)}
                       >
-                        <ListItemIcon >
-                          <img style={{ width: "18px" }} src={menuobj.icon}></img>
+                        <ListItemIcon>
+                          <img
+                            style={{ width: "18px" }}
+                            src={menuobj.icon}
+                          ></img>
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
                       </ListItem>

@@ -79,11 +79,12 @@ const route = {
 
   banners: "/banners",
   styloribanner: "/styloribanner",
-  silverbanner : "/silverbanner",
+  silverbanner: "/silverbanner",
 
-  warehouse:"/warehouse",
-  holiday_manager:"/holiday-manager",
-  inventory:"/inventory"
+  warehouse: "/warehouse",
+  holiday_manager: "/holiday-manager",
+  inventory: "/inventory",
+  abandoned_cart: "/cart-details",
 };
 
 export default route;

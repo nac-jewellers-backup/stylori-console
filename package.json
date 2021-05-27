@@ -20,6 +20,7 @@
     "filepond-plugin-image-preview": "^4.6.6",
     "filepond-plugin-image-validate-size": "^1.2.6",
     "graphql": "^14.7.0",
+    "material-ui-image": "^3.3.2",
     "moment": "^2.29.1",
     "plotly.js": "^1.49.4",
     "react": "^16.14.0",

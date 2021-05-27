@@ -66,6 +66,7 @@ import {
   HolidayManager,
   Warehouse,
   Inventory,
+  AbandonedCart,
 } from "../screens";
 import Banners from "../screens/Banners/banners";
 import Styloribanner from "../screens/Banners/styloribanner/styloribanner";
@@ -272,6 +273,7 @@ const MainApp = () => {
           />
           <PrivateRoute path={route.warehouse} component={Warehouse} />
           <PrivateRoute path={route.inventory} component={Inventory} />
+          <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
         </Switch>
       </NetworkProvider>
       {/* </ProductProvider> */}
