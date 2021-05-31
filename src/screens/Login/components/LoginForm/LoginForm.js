@@ -14,7 +14,15 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { GlobalContext } from "../../../../context";
 
-import { Card, CardContent, CardMedia, Typography, Divider, Link, Avatar } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Divider,
+  Link,
+  Avatar,
+} from "@material-ui/core";
 var validate = require("validate.js");
 
 const schema = {
@@ -138,7 +146,10 @@ const LoginForm = (props) => {
       ...formState,
       values: {
         ...formState.values,
-        [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value,
+        [event.target.name]:
+          event.target.type === "checkbox"
+            ? event.target.checked
+            : event.target.value,
       },
       touched: {
         ...formState.touched,
@@ -151,16 +162,30 @@ const LoginForm = (props) => {
     event.preventDefault();
     if (formState.isValid) {
       //alert(JSON.stringify(formState.values))
-      let signinobj = await sendNetworkRequest("/api/auth/signin", {}, formState.values);
+      let signinobj = await sendNetworkRequest(
+        "/api/auth/signin",
+        {},
+        formState.values
+      );
 
       if (signinobj.statuscode === 200) {
         localStorage.setItem("accesstoken", signinobj.accessToken);
 
-        let pageaccess = await sendNetworkRequest("/getpageaccess", {}, {}, true);
+        let pageaccess = await sendNetworkRequest(
+          "/getpageaccess",
+          {},
+          {},
+          true
+        );
         let pages = [];
         let pagepermissions = [];
-        let bannerpage = { pagename: "Banners", pageurl: "/banners", is_view: true, is_write: true };
-    
+        let bannerpage = {
+          pagename: "Banners",
+          pageurl: "/banners",
+          is_view: true,
+          is_write: true,
+        };
+
         debugger;
         console.log(pageaccess);
         // pageaccess.pages.push(bannerpage);
@@ -194,7 +219,8 @@ const LoginForm = (props) => {
     //alert("i am here")
   };
 
-  const hasError = (field) => (formState.touched[field] && formState.errors[field] ? true : false);
+  const hasError = (field) =>
+    formState.touched[field] && formState.errors[field] ? true : false;
 
   return (
     <Card className={classes.card}>
@@ -202,9 +228,16 @@ const LoginForm = (props) => {
         <Typography gutterBottom variant="h3">
           Log in Page
         </Typography>
-        <Typography variant="subtitle2">{/* Sign in on the internal platform */}</Typography>
+        <Typography variant="subtitle2">
+          {/* Sign in on the internal platform */}
+        </Typography>
 
-        <form {...rest} className={clsx(classes.root, className)} autoComplete={"off"} onSubmit={handleSubmit}>
+        <form
+          {...rest}
+          className={clsx(classes.root, className)}
+          autoComplete={"off"}
+          onSubmit={handleSubmit}
+        >
           <div className={classes.fields}>
             <TextField
               error={hasError("email")}
@@ -219,7 +252,9 @@ const LoginForm = (props) => {
             <TextField
               error={hasError("password")}
               fullWidth
-              helperText={hasError("password") ? formState.errors.password[0] : null}
+              helperText={
+                hasError("password") ? formState.errors.password[0] : null
+              }
               label="Password"
               name="password"
               onChange={handleChange}
@@ -228,7 +263,13 @@ const LoginForm = (props) => {
               variant="outlined"
             />
           </div>
-          <Button className={classes.submitButton} color="primary" size="large" type="submit" variant="contained">
+          <Button
+            className={classes.submitButton}
+            color="primary"
+            size="large"
+            type="submit"
+            variant="contained"
+          >
             Log in
           </Button>
           <Snackbar
