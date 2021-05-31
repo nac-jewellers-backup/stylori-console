@@ -6,7 +6,15 @@ import { makeStyles } from "@material-ui/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Checkbox, Card, CardHeader, TextField, Divider, Chip, CardContent } from "@material-ui/core";
+import {
+  Checkbox,
+  Card,
+  CardHeader,
+  TextField,
+  Divider,
+  Chip,
+  CardContent,
+} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Select from "react-select";
@@ -33,7 +41,10 @@ export default function PaymentForm(props) {
     setProductCtx({ ...productCtx, [type]: e.target.value });
   };
   const materialChange = (type) => (e) => {
-    let selected_metal_colour = { ...productCtx.selected_metal_colour, [type]: e.target.checked };
+    let selected_metal_colour = {
+      ...productCtx.selected_metal_colour,
+      [type]: e.target.checked,
+    };
     setProductCtx({ ...productCtx, selected_metal_colour });
   };
   const purityChange = (type) => (selectedOption) => {
@@ -63,11 +74,17 @@ export default function PaymentForm(props) {
                       id="size"
                       onChange={handleInputChange("product_code")}
                       name="size"
-                      value={"S" + productCtx.product_type.shortCode + (productCtx.masterData.productseries[0].value + 1)}
+                      value={
+                        "S" +
+                        productCtx.product_type.shortCode +
+                        (productCtx.masterData?.productseries[0].value + 1)
+                      }
                     />
                   </Grid>
                 </Grid>
-                {["R", "B"].includes(productCtx.product_type.shortCode) ? null : (
+                {["R", "B"].includes(
+                  productCtx.product_type.shortCode
+                ) ? null : (
                   <>
                     <Grid item xs={4}>
                       <Input
@@ -79,7 +96,11 @@ export default function PaymentForm(props) {
                         name="size"
                         autoComplete="size"
                         onChange={handleInputChange("metal_height")}
-                        value={productCtx.metal_height === 0 ? "" : productCtx.metal_height}
+                        value={
+                          productCtx.metal_height === 0
+                            ? ""
+                            : productCtx.metal_height
+                        }
                       />
                     </Grid>
 
@@ -92,7 +113,11 @@ export default function PaymentForm(props) {
                         label="Width"
                         name="size"
                         onChange={handleInputChange("metal_width")}
-                        value={productCtx.metal_width === 0 ? "" : productCtx.metal_width}
+                        value={
+                          productCtx.metal_width === 0
+                            ? ""
+                            : productCtx.metal_width
+                        }
                         autoComplete="size"
                       />
                     </Grid>
@@ -110,7 +135,11 @@ export default function PaymentForm(props) {
                       name="size"
                       autoComplete="size"
                       onChange={handleInputChange("metal_length")}
-                      value={productCtx.metal_length === 0 ? "" : productCtx.metal_length}
+                      value={
+                        productCtx.metal_length === 0
+                          ? ""
+                          : productCtx.metal_length
+                      }
                     />
                   </Grid>
                 ) : null}
@@ -149,10 +178,16 @@ export default function PaymentForm(props) {
                         id="size"
                         label="Weight"
                         name="size"
-                        error={productCtx.error_message[`${row.name}_metal_weight`]}
+                        error={
+                          productCtx.error_message[`${row.name}_metal_weight`]
+                        }
                         autoComplete="size"
                         onChange={handleInputChange(`${row.name}_metal_weight`)}
-                        value={productCtx[`${row.name}_metal_weight`] === 0 ? "" : productCtx[`${row.name}_metal_weight`]}
+                        value={
+                          productCtx[`${row.name}_metal_weight`] === 0
+                            ? ""
+                            : productCtx[`${row.name}_metal_weight`]
+                        }
                       />
                     </Grid>
                   </Grid>
@@ -174,10 +209,17 @@ export default function PaymentForm(props) {
                     className={classes.fixedTag}
                     defaultValue={productCtx.themes}
                     onChange={handleoptionChange("themes")}
-                    options={productCtx.masterData.themes.map((option) => option.label)}
+                    options={productCtx?.masterData?.themes.map(
+                      (option) => option.name
+                    )}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                        <Chip
+                          variant="outlined"
+                          size="small"
+                          label={option}
+                          {...getTagProps({ index })}
+                        />
                       ))
                     }
                     renderInput={(params) => (
@@ -201,10 +243,19 @@ export default function PaymentForm(props) {
                     className={classes.fixedTag}
                     defaultValue={productCtx.prod_styles}
                     onChange={handleoptionChange("prod_styles")}
-                    options={productCtx.masterData.styles.map((option) => option.label)}
+                    options={
+                      productCtx.masterData?.styles.map(
+                        (option) => option.name
+                      ) ?? []
+                    }
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                        <Chip
+                          variant="outlined"
+                          size="small"
+                          label={option}
+                          {...getTagProps({ index })}
+                        />
                       ))
                     }
                     renderInput={(params) => (
@@ -227,10 +278,19 @@ export default function PaymentForm(props) {
                     className={classes.fixedTag}
                     defaultValue={productCtx.occassions}
                     onChange={handleoptionChange("occassions")}
-                    options={productCtx.masterData.occasions.map((option) => option.label)}
+                    options={
+                      productCtx.masterData?.occasions.map(
+                        (option) => option.name
+                      ) ?? []
+                    }
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                        <Chip
+                          variant="outlined"
+                          size="small"
+                          label={option}
+                          {...getTagProps({ index })}
+                        />
                       ))
                     }
                     renderInput={(params) => (
@@ -253,10 +313,19 @@ export default function PaymentForm(props) {
                     className={classes.fixedTag}
                     defaultValue={productCtx.collections}
                     onChange={handleoptionChange("collections")}
-                    options={productCtx.masterData.collections.map((option) => option.label)}
+                    options={
+                      productCtx.masterData?.collections.map(
+                        (option) => option.name
+                      ) ?? []
+                    }
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                        <Chip
+                          variant="outlined"
+                          size="small"
+                          label={option}
+                          {...getTagProps({ index })}
+                        />
                       ))
                     }
                     renderInput={(params) => (
@@ -281,10 +350,19 @@ export default function PaymentForm(props) {
                         className={classes.fixedTag}
                         defaultValue={productCtx.stonecount}
                         onChange={handleoptionChange("stonecount")}
-                        options={productCtx.masterData.stones.map((option) => option.label)}
+                        options={
+                          productCtx.masterData?.stones.map(
+                            (option) => option.name
+                          ) ?? []
+                        }
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
-                            <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                            <Chip
+                              variant="outlined"
+                              size="small"
+                              label={option}
+                              {...getTagProps({ index })}
+                            />
                           ))
                         }
                         renderInput={(params) => (
@@ -294,7 +372,10 @@ export default function PaymentForm(props) {
                             margin="dense"
                             variant="outlined"
                             fullWidth
-                            InputProps={{ ...params.InputProps, type: "search" }}
+                            InputProps={{
+                              ...params.InputProps,
+                              type: "search",
+                            }}
                           />
                         )}
                       />
@@ -306,10 +387,19 @@ export default function PaymentForm(props) {
                         className={classes.fixedTag}
                         defaultValue={productCtx.stonecolour}
                         onChange={handleoptionChange("stonecolour")}
-                        options={productCtx.masterData.gemstonecolor.map((option) => option.label)}
+                        options={
+                          productCtx.masterData?.gemstonecolor.map(
+                            (option) => option.name
+                          ) ?? []
+                        }
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
-                            <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />
+                            <Chip
+                              variant="outlined"
+                              size="small"
+                              label={option}
+                              {...getTagProps({ index })}
+                            />
                           ))
                         }
                         renderInput={(params) => (
@@ -319,7 +409,10 @@ export default function PaymentForm(props) {
                             margin="dense"
                             variant="outlined"
                             fullWidth
-                            InputProps={{ ...params.InputProps, type: "search" }}
+                            InputProps={{
+                              ...params.InputProps,
+                              type: "search",
+                            }}
                           />
                         )}
                       />

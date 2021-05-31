@@ -79,7 +79,8 @@ const useStyles2 = makeStyles((theme) => ({
   card: {
     minHeight: "150px",
     textAlign: "left",
-    boxShadow: "0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)",
+    boxShadow:
+      "0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)",
   },
   formContainer: {
     paddingLeft: 40,
@@ -108,7 +109,15 @@ export default function Productimages(props) {
       // setTotalimages(image_count)
     }
   });
-  async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
+  async function uploadimagetoserver(
+    fileobj,
+    filetype,
+    imagename,
+    prodid,
+    imagecontent,
+    isedit,
+    position
+  ) {
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
       {},
@@ -135,7 +144,9 @@ export default function Productimages(props) {
         productColor: props.color,
         productId: product_id,
         imageUrl: filepathname.replace("jpeg", "jpg"),
-        url: "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname,
+        url:
+          "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" +
+          filepathname,
       };
       imagecontent = imageobj;
     }
@@ -147,7 +158,12 @@ export default function Productimages(props) {
       productimgs.push(imagecontent);
     }
     await axios.put(signedRequest, fileobj, options);
-    let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
+    let responsecontent = await sendNetworkRequest(
+      "/updateproductimage",
+      {},
+      { imageobj: imagecontent, isedit: isedit },
+      false
+    );
     image_count = image_count + 1;
     if (!isedit) {
       setProductimages(productimgs);
@@ -165,7 +181,14 @@ export default function Productimages(props) {
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
 
-      uploadimagetoserver(files[index], fileType, imagename, product_id, {}, false);
+      uploadimagetoserver(
+        files[index],
+        fileType,
+        imagename,
+        product_id,
+        {},
+        false
+      );
     });
   };
   const handleAssetChange = (e, imageposition, category, endPoint) => {
@@ -175,7 +198,10 @@ export default function Productimages(props) {
       alert(imageposition);
       let productimageobj = {};
       productimages.forEach((content) => {
-        if (content.productColor === props.color && imageposition === content.imagePosition) {
+        if (
+          content.productColor === props.color &&
+          imageposition === content.imagePosition
+        ) {
           productimageobj = content;
         }
       });
@@ -186,11 +212,19 @@ export default function Productimages(props) {
       if (productimages) {
         //  imagecount = image_count + 1;
       }
-      let imagename = prodid + "-" + imageposition + randomnum + prodcolor.charAt(0);
+      let imagename =
+        prodid + "-" + imageposition + randomnum + prodcolor.charAt(0);
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
       //alert(imagename)
-      uploadimagetoserver(files[index], fileType, imagename, prodid, productimageobj, true);
+      uploadimagetoserver(
+        files[index],
+        fileType,
+        imagename,
+        prodid,
+        productimageobj,
+        true
+      );
       // alert(imagename)
     });
   };
@@ -198,7 +232,13 @@ export default function Productimages(props) {
   return (
     <Paper className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader title={props.color && props.isdefault ? props.color + " (Default Colour)" : props.color} />
+        <CardHeader
+          title={
+            props.color && props.isdefault
+              ? props.color + " (Default Colour)"
+              : props.color
+          }
+        />
         <CardContent>
           <Grid container spacing={2} className={classes.styleFile}>
             {productimages.map((url) => (
@@ -207,7 +247,13 @@ export default function Productimages(props) {
                   <div style={{ position: "relative" }}>
                     <i
                       className="fa fa-window-edit"
-                      style={{ position: "absolute", right: 10, top: 11, color: "red", zIndex: "12" }}
+                      style={{
+                        position: "absolute",
+                        right: 10,
+                        top: 11,
+                        color: "red",
+                        zIndex: "12",
+                      }}
                     />
 
                     <Grid
@@ -227,15 +273,24 @@ export default function Productimages(props) {
                         type="file"
                         className="custom-file-input"
                         multiple
-                        onChange={(e) => handleAssetChange(e, url.imagePosition, "", "")}
+                        onChange={(e) =>
+                          handleAssetChange(e, url.imagePosition, "", "")
+                        }
                       ></input>
 
                       <img
                         src={
                           BASE_IMAGE_URL +
-                          url.imageUrl.replace(url.productId, url.productId + "/1000X1000")
+                          url.imageUrl.replace(
+                            url.productId,
+                            url.productId + "/1000X1000"
+                          )
                         }
-                        style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "4px",
+                        }}
                       />
                     </Grid>
                     <Typography style={{ textAlign: "center" }} variant="h5">
@@ -266,13 +321,25 @@ export default function Productimages(props) {
               className="container"
             >
               {
-                <label class="custom-file-upload" style={{ display: "flex" }}>
+                <label
+                  className="custom-file-upload"
+                  style={{ display: "flex" }}
+                >
                   <i
                     className="fa fa-plus"
                     aria-hidden="true"
-                    style={{ color: "rgba(60,64,67,.15)", fontSize: "45px", margin: "auto" }}
+                    style={{
+                      color: "rgba(60,64,67,.15)",
+                      fontSize: "45px",
+                      margin: "auto",
+                    }}
                   ></i>
-                  <input type="file" className="custom-file-input" multiple onChange={(e) => handlenewAssetChange(e)}></input>
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    multiple
+                    onChange={(e) => handlenewAssetChange(e)}
+                  ></input>
                 </label>
               }
             </Grid>
