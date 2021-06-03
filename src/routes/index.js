@@ -71,6 +71,7 @@ import {
 import Banners from "../screens/Banners/banners";
 import Styloribanner from "../screens/Banners/styloribanner/styloribanner";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
+import SilverListingbanner from "../screens/Banners/silverbanner/silverListingBanner/silverListingBanner"
 import PrivateRoute from "./PrivateRoute";
 import { NetworkProvider } from "../context/NetworkContext";
 import { GlobalContext } from "../context";
@@ -267,6 +268,7 @@ const MainApp = () => {
           <PrivateRoute path={route.banners} component={Banners} />
           <PrivateRoute path={route.styloribanner} component={Styloribanner} />
           <PrivateRoute path={route.silverbanner} component={Silverbanner} />
+          <PrivateRoute path={route.silverlistingbanner} component={SilverListingbanner} />
           <PrivateRoute
             path={route.holiday_manager}
             component={HolidayManager}
