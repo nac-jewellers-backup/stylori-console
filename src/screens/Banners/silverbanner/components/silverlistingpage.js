@@ -159,7 +159,7 @@ const SilverListingPage = (props) => {
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="form-dialog-title">Stylori Landing Page : </DialogTitle>
+          <DialogTitle id="form-dialog-title">Silver Listing Page : </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
