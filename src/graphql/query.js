@@ -844,10 +844,7 @@ const GOLDPRICELIST = gql`
 
 const DIAMONDMARKUP = gql`
   query MyQuery($vendorCode: String!) {
-    allPricingMarkups(
-      condition: { material: $vendorCode }
-      orderBy: UPDATED_AT_DESC
-    ) {
+    allPricingMarkups(condition: { material: $vendorCode }, orderBy: UPDATED_AT_DESC) {
       nodes {
         updatedAt
         sellingPriceMin
@@ -908,9 +905,7 @@ const DIAMONDPRICELIST = gql`
 
 const GEMPRICELIST = gql`
   query MyQuery($vendorCode: String!, $ratetype: Int!) {
-    allGemstonePriceSettings(
-      condition: { vendorCode: $vendorCode, rateType: $ratetype }
-    ) {
+    allGemstonePriceSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
       nodes {
         createdAt
         id
@@ -1124,9 +1119,7 @@ query {
 
 const MAKINGCHARGEPRICELIST = gql`
   query MyQuery($vendorCode: String!, $ratetype: Int!) {
-    allMakingChargeSettings(
-      condition: { vendorCode: $vendorCode, rateType: $ratetype }
-    ) {
+    allMakingChargeSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
       nodes {
         weightStart
         weightEnd
@@ -1149,12 +1142,7 @@ const MAKINGCHARGEPRICELIST = gql`
 const PRODUCTLISTSTATUSEDIT = gql`
   mutation MyMutation($productId: String!, $isActive: Boolean!) {
     __typename
-    updateProductListByProductId(
-      input: {
-        productId: $productId
-        productListPatch: { isactive: $isActive }
-      }
-    ) {
+    updateProductListByProductId(input: { productId: $productId, productListPatch: { isactive: $isActive } }) {
       clientMutationId
       productList {
         isactive
@@ -1193,9 +1181,7 @@ const CREATETAXSETUP = gql`
 const VOUCHERSTATUSEDIT = gql`
   mutation MyMutation($voucherId: UUID!, $isActive: Boolean!) {
     __typename
-    updateVoucherById(
-      input: { id: $voucherId, voucherPatch: { isActive: $isActive } }
-    ) {
+    updateVoucherById(input: { id: $voucherId, voucherPatch: { isActive: $isActive } }) {
       clientMutationId
       voucher {
         isActive
@@ -1207,9 +1193,7 @@ const VOUCHERSTATUSEDIT = gql`
 const DISCOUNTSTATUSEDIT = gql`
   mutation MyMutation($discountId: UUID!, $isActive: Boolean!) {
     __typename
-    updateSaleDiscountById(
-      input: { id: $discountId, saleDiscountPatch: { isActive: $isActive } }
-    ) {
+    updateSaleDiscountById(input: { id: $discountId, saleDiscountPatch: { isActive: $isActive } }) {
       clientMutationId
       saleDiscount {
         isActive
@@ -1465,7 +1449,7 @@ query MyQuery {
 `;
 const ALLSTYLORISILVERLANDINGBANNERS = `
 query MyQuery {
-  allStyloriSilverBanners {
+  allStyloriSilverBanners(condition: {urlParam: "landing"}) {
     nodes {
       id
       mobile
@@ -1544,6 +1528,7 @@ mutation MyMutation(
         position: $position
         url: $url
         web: $web
+        urlParam :"landing"
       }
     }
   ) {
@@ -1596,13 +1581,12 @@ query MyQuery {
 const ALLSPECIFICLISTINGPAGE = `
 query MyQuery {
   allStyloriSilverBanners
-  (condition: {urlParam: "specificListingPage"}) 
+  (condition: {url: "specificListingPage"}) 
   {
     nodes {
       id
       mobile
       position
-      url
       web
       urlParam
     }
@@ -1610,13 +1594,12 @@ query MyQuery {
 }
 `;
 
-const CREATESPECIFICLISTINGPAGE =`
+const CREATESPECIFICLISTINGPAGE = `
 mutation MyMutation(
   $now: Datetime!
-  $url: String
   $web: String
   $mobile: String
-  $position: String
+  $urlParam :String
 ) {
   createStyloriSilverBanner(
     input: {
@@ -1624,10 +1607,10 @@ mutation MyMutation(
         createdAt: $now
         updatedAt: $now
         mobile: $mobile
-        position: $position
-        url: $url
+       
+        url: "specificListingPage"
         web: $web
-        urlParam : "specificListingPage"
+        urlParam : $urlParam
       }
     }
   ) {
@@ -1644,7 +1627,6 @@ mutation MyMutation(
   }
 }
 `;
-
 
 const CREATESILVERLISTINGPAGE = `
 mutation MyMutation(
@@ -1726,7 +1708,7 @@ mutation MyMutation(
         updatedAt: $now
         mobile: $mobile
         position: $position
-        url: "#"
+        url: "S"
         web: $web
         urlParam: $urlParam
       }
@@ -1749,12 +1731,7 @@ mutation MyMutation(
 
 const HOLIDAYLIST = gql`
   query ($first: Int, $offset: Int, $filter: HolidayManagerFilter) {
-    allHolidayManagers(
-      first: $first
-      offset: $offset
-      filter: $filter
-      orderBy: DATE_ASC
-    ) {
+    allHolidayManagers(first: $first, offset: $offset, filter: $filter, orderBy: DATE_ASC) {
       nodes {
         id
         holiday
@@ -1837,13 +1814,7 @@ const ABANDONEDCART = gql`
     $condition: ShoppingCartCondition
     $filter: ShoppingCartFilter
   ) {
-    allShoppingCarts(
-      first: $first
-      offset: $offset
-      orderBy: $orderBy
-      condition: $condition
-      filter: $filter
-    ) {
+    allShoppingCarts(first: $first, offset: $offset, orderBy: $orderBy, condition: $condition, filter: $filter) {
       nodes {
         id
         isActive
@@ -1939,9 +1910,7 @@ const CARTBYID = gql`
             skuId
             productListByProductId {
               productName
-              productImagesByProductId(
-                condition: { isdefault: true, imagePosition: 1 }
-              ) {
+              productImagesByProductId(condition: { isdefault: true, imagePosition: 1 }) {
                 nodes {
                   productId
                   imageUrl
@@ -2044,5 +2013,5 @@ export {
   ABANDONEDCART,
   CARTBYID,
   ALLSPECIFICLISTINGPAGE,
-  CREATESPECIFICLISTINGPAGE
+  CREATESPECIFICLISTINGPAGE,
 };
