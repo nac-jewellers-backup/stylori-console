@@ -80,7 +80,7 @@ const route = {
   banners: "/banners",
   styloribanner: "/styloribanner",
   silverbanner: "/silverbanner",
-  silverlistingbanner: "/silverlistingbanner",
+  silverlistingbanner: "/listingPage",
   warehouse: "/warehouse",
   holiday_manager: "/holiday-manager",
   inventory: "/inventory",

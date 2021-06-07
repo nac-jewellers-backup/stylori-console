@@ -40,8 +40,8 @@ const Banners = (props) => {
           </Card>
         </Link>
       </Grid>
-      <Grid item xs={6} sm={4} lg={3}>
-        <Link underline="none" component={RouterLink} to="/silverlistingbanner">
+      {/* <Grid item xs={6} sm={4} lg={3}>
+        <Link underline="none" component={RouterLink} to="/listingPage">
           <Card fullwidth className="card2">
             <CardContent>
               <Typography style={{ textAlign: "center", marginTop: 8 }} component="h6" variant="h5">
@@ -50,7 +50,7 @@ const Banners = (props) => {
             </CardContent>
           </Card>
         </Link>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

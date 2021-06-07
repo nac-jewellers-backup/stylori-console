@@ -1577,7 +1577,27 @@ mutation MyMutation($id : Int!) {
 `;
 const ALLSTYLORISILVERLISTINGPAGE = `
 query MyQuery {
-  allStyloriSilverBanners(condition: {urlParam: "listingPage"}) {
+  allStyloriSilverBanners
+  (condition: {urlParam: "listingPage"}) 
+  {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam 
+    }
+  }
+}
+
+`;
+
+const ALLSPECIFICLISTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners
+  (condition: {urlParam: "specificListingPage"}) 
+  {
     nodes {
       id
       mobile
@@ -1588,8 +1608,44 @@ query MyQuery {
     }
   }
 }
-
 `;
+
+const CREATESPECIFICLISTINGPAGE =`
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+  $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: $url
+        web: $web
+        urlParam : "specificListingPage"
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}
+`;
+
+
 const CREATESILVERLISTINGPAGE = `
 mutation MyMutation(
   $now: Datetime!
@@ -1987,4 +2043,6 @@ export {
   STOCKSTATUS,
   ABANDONEDCART,
   CARTBYID,
+  ALLSPECIFICLISTINGPAGE,
+  CREATESPECIFICLISTINGPAGE
 };
