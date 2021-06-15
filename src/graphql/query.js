@@ -1511,6 +1511,68 @@ mutation MyMutation($id : Int!) {
   }
 }`;
 
+const ALLSTYLORISILVERLISTINGBOTTOMBANNERS = `
+query MyQuery {
+  allStyloriSilverBanners(condition: {urlParam: "bottom"}) {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam
+    }
+  }
+}
+`;
+const CREATESILVERLISTINGBOTTOMBANNER = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+   $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        url: $url
+        web: $web
+        urlParam: "bottom"
+        position: $position
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      updatedAt
+      url
+      web
+      createdAt
+      urlParam
+    }
+  }
+}
+
+`;
+const DELETESILVERLISTINGBOTTOMBANNER = `
+mutation MyMutation($id: Int!) {
+  deleteStyloriSilverBannerById(input: { id: $id }) {
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      url
+      web
+    }
+  }
+}`;
+
 const CREATESILVERLANDINGBANNER = `
 mutation MyMutation(
   $now: Datetime!
@@ -2014,4 +2076,7 @@ export {
   CARTBYID,
   ALLSPECIFICLISTINGPAGE,
   CREATESPECIFICLISTINGPAGE,
+  ALLSTYLORISILVERLISTINGBOTTOMBANNERS,
+  CREATESILVERLISTINGBOTTOMBANNER,
+  DELETESILVERLISTINGBOTTOMBANNER,
 };

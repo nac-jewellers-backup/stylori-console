@@ -6,6 +6,7 @@ import SilverLandingPage from "./components/silverlandingpage";
 import SilverListingPage from "./components/silverlistingpage";
 import SpecificListPages from "./components/specificListPages";
 import SilverListingRoutingPage from "./components/silverlistingroutingpage";
+import SilverListingBottom from "./components/silverbottmpage";
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -44,6 +45,7 @@ const Silverbanner = (props) => {
       <SilverLandingPage />
       <SilverListingPage />
       <SpecificListPages />
+      <SilverListingBottom />
       {/* <SilverListingRoutingPage /> */}
     </>
   );
