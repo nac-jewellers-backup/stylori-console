@@ -114,7 +114,6 @@ const StyloriLandingPage = (props) => {
   };
 
   const onsubmitvalue = async () => {
-    
     let create_banner_data = {
       position: Number(createlandingbanner.position),
       url: createlandingbanner.link,
@@ -148,7 +147,7 @@ const StyloriLandingPage = (props) => {
         <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={9} sm={9}>
             <Typography component="h6" variant="h6">
-              Stylori Landing Page Banners
+              Stylori Home Page Banners
             </Typography>
           </Grid>
 
@@ -176,7 +175,7 @@ const StyloriLandingPage = (props) => {
             <TextField
               margin="dense"
               id="link"
-              label="Link"
+              label="Link of the page (Route Only)"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -215,7 +214,7 @@ const StyloriLandingPage = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Position</TableCell>
-                <TableCell>Link</TableCell>
+                <TableCell> Link</TableCell>
                 <TableCell>Mobile URL</TableCell>
                 <TableCell>Web URL</TableCell>
                 <TableCell>Action</TableCell>
@@ -226,18 +225,18 @@ const StyloriLandingPage = (props) => {
                 <TableRow key={val.id}>
                   <TableCell>{val.position}</TableCell>
                   <TableCell>
-                    <Link href={val.url} target="_blank" className={classes.link_style}>
-                      {val.url}
+                    <Link href={`${window.location.hostname + val.url}`} target="_blank" className={classes.link_style}>
+                      {window.location.hostname + val.url}
                     </Link>
                   </TableCell>
                   <TableCell>
                     <Link href={val.mobile} target="_blank" className={classes.link_style}>
-                      {val.mobile}
+                      <img src={val.mobile} style={{ width: "150px", height: "auto" }} />
                     </Link>
                   </TableCell>
                   <TableCell>
                     <Link href={val.web} target="_blank" className={classes.link_style}>
-                      {val.web}
+                      <img src={val.web} style={{ width: "150px", height: "auto" }} />
                     </Link>
                   </TableCell>
                   <TableCell>
