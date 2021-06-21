@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 
 import { ALLSTYLORILANDINGBANNERS, CREATESTYLORILANDINGBANNER, DELETESTYLORILANDINGBANNER } from "../../../../graphql/query";
-import { GRAPHQL_DEV_CLIENT } from "../../../../config";
+import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -147,7 +147,7 @@ const StyloriLandingPage = (props) => {
         <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={9} sm={9}>
             <Typography component="h6" variant="h6">
-              Stylori Home Page Banners
+              Stylori - Home Page - Banners
             </Typography>
           </Grid>
 
@@ -175,7 +175,7 @@ const StyloriLandingPage = (props) => {
             <TextField
               margin="dense"
               id="link"
-              label="Link of the page (Route Only)"
+              label="Banner's Redirect Link (Routes Only)"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -185,7 +185,7 @@ const StyloriLandingPage = (props) => {
             <TextField
               margin="dense"
               id="mobile"
-              label="Mobile Image"
+              label="Mobile ImagecURL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -195,7 +195,7 @@ const StyloriLandingPage = (props) => {
             <TextField
               margin="dense"
               id="web"
-              label="Web Image"
+              label="Desktop Image URL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -214,9 +214,9 @@ const StyloriLandingPage = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Position</TableCell>
-                <TableCell> Link</TableCell>
-                <TableCell>Mobile URL</TableCell>
-                <TableCell>Web URL</TableCell>
+                <TableCell>Link to Check</TableCell>
+                <TableCell>Mobile Image </TableCell>
+                <TableCell>Desktop Image </TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -225,8 +225,8 @@ const StyloriLandingPage = (props) => {
                 <TableRow key={val.id}>
                   <TableCell>{val.position}</TableCell>
                   <TableCell>
-                    <Link href={`${window.location.hostname + val.url}`} target="_blank" className={classes.link_style}>
-                      {window.location.hostname + val.url}
+                    <Link href={`${APP_URL}`} target="_blank" className={classes.link_style}>
+                      {APP_URL}
                     </Link>
                   </TableCell>
                   <TableCell>

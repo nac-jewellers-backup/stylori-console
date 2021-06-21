@@ -17,13 +17,13 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-import { GRAPHQL_DEV_CLIENT } from "../../../../config";
+import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
 import { CREATESPECIFICLISTINGPAGE, ALLSPECIFICLISTINGPAGE, DELETESILVERLANDINGBANNER } from "../../../../graphql/query";
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing(3),
+    marginTop: "60px",
   },
   imagecontainer: {
     display: "flex",
@@ -119,8 +119,8 @@ function SpecificListPages(props) {
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        debugger
-        console.log(fatchvalue)
+        debugger;
+        console.log(fatchvalue);
         setOpen(false);
         window.location.reload();
       })
@@ -152,7 +152,7 @@ function SpecificListPages(props) {
         <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={9} sm={9}>
             <Typography component="h6" variant="h6" style={{ fontWeight: "bold" }}>
-              Silver Specific Listing Page Banners
+              Silver - Specific Listing Page - Banners
             </Typography>
           </Grid>
 
@@ -164,7 +164,7 @@ function SpecificListPages(props) {
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="form-dialog-title">Silver Listing Page : </DialogTitle>
+          <DialogTitle id="form-dialog-title">Silver - Specific Listing Page - Banners : </DialogTitle>
           <DialogContent>
             {/* <TextField
               autoFocus
@@ -180,7 +180,7 @@ function SpecificListPages(props) {
             <TextField
               margin="dense"
               id="urlParam"
-              label="Specific Router Link"
+              label="Banner's Page Link (Routes Only)"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -190,7 +190,7 @@ function SpecificListPages(props) {
             <TextField
               margin="dense"
               id="mobile"
-              label="Mobile Image"
+              label="Mobile Image URL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -200,7 +200,7 @@ function SpecificListPages(props) {
             <TextField
               margin="dense"
               id="web"
-              label="Web Image"
+              label="Desktop Image URL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -218,28 +218,30 @@ function SpecificListPages(props) {
           <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell>Specific Routing Link</TableCell>
-                <TableCell>Mobile URL</TableCell>
-                <TableCell>Web URL</TableCell>
+                <TableCell>S.No</TableCell>
+                <TableCell>Link to Check</TableCell>
+                {/* <TableCell>Mobile Image</TableCell> */}
+                <TableCell>Banner Image</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {alllandingbanner.map((val, index) => (
                 <TableRow key={val.id}>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>
-                    <Link href={val.url} target="_blank" className={classes.link_style}>
-                      {val.urlParam}
+                    <Link href={`${APP_URL + val.urlParam}`} target="_blank" className={classes.link_style}>
+                      {`${APP_URL + val.urlParam}`}
                     </Link>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Link href={val.mobile} target="_blank" className={classes.link_style}>
-                      {val.mobile}
+                      <img src={val.mobile} style={{ width: "150px", height: "auto" }} />
                     </Link>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Link href={val.web} target="_blank" className={classes.link_style}>
-                      {val.web}
+                      <img src={val.web} style={{ width: "150px", height: "auto" }} />
                     </Link>
                   </TableCell>
                   <TableCell>

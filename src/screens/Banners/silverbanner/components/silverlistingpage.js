@@ -19,11 +19,11 @@ import {
 } from "@material-ui/core";
 
 import { ALLSTYLORISILVERLISTINGPAGE, CREATESILVERLISTINGPAGE, DELETESILVERLANDINGBANNER } from "../../../../graphql/query";
-import { GRAPHQL_DEV_CLIENT } from "../../../../config";
+import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing(3),
+    marginTop: "60px",
   },
   imagecontainer: {
     display: "flex",
@@ -147,7 +147,7 @@ const SilverListingPage = (props) => {
         <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
           <Grid fullwidth item xs={9} sm={9}>
             <Typography component="h6" variant="h6" style={{ fontWeight: "bold" }}>
-              Silver Listing Page Banners
+              Silver - Listing Page - Banners
             </Typography>
           </Grid>
 
@@ -159,7 +159,7 @@ const SilverListingPage = (props) => {
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="form-dialog-title">Silver Listing Page : </DialogTitle>
+          <DialogTitle id="form-dialog-title">Silver - Listing Page - Banners : </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -175,7 +175,7 @@ const SilverListingPage = (props) => {
             <TextField
               margin="dense"
               id="link"
-              label="Link"
+              label="Banner's Redirect Link (Routes Only)"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -185,7 +185,7 @@ const SilverListingPage = (props) => {
             <TextField
               margin="dense"
               id="mobile"
-              label="Mobile Image"
+              label="Mobile Image URL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -195,7 +195,7 @@ const SilverListingPage = (props) => {
             <TextField
               margin="dense"
               id="web"
-              label="Web Image"
+              label="Desktop Image URL"
               variant="outlined"
               fullWidth
               onChange={onChangeData}
@@ -214,9 +214,9 @@ const SilverListingPage = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Position</TableCell>
-                <TableCell>Link</TableCell>
-                <TableCell>Mobile URL</TableCell>
-                <TableCell>Web URL</TableCell>
+                <TableCell>Link to Check</TableCell>
+                {/* <TableCell>Mobile Image</TableCell> */}
+                <TableCell>Banner Image</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -225,18 +225,20 @@ const SilverListingPage = (props) => {
                 <TableRow key={val.id}>
                   <TableCell>{val.position}</TableCell>
                   <TableCell>
-                    <Link href={val.url} target="_blank" className={classes.link_style}>
-                      {val.url}
+                    <Link href={`${APP_URL}/silver-jewellery`} target="_blank" className={classes.link_style}>
+                      {`${APP_URL}/silver-jewellery`}
                     </Link>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Link href={val.mobile} target="_blank" className={classes.link_style}>
-                      {val.mobile}
+                     
+                      <img src={val.mobile} style={{ width: "150px", height: "auto" }} />
                     </Link>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Link href={val.web} target="_blank" className={classes.link_style}>
-                      {val.web}
+                      {/* {val.web} */}
+                      <img src={val.web} style={{ width: "150px", height: "auto" }} />
                     </Link>
                   </TableCell>
                   <TableCell>
