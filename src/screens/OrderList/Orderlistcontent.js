@@ -40,9 +40,9 @@ export default function Producttypecontent() {
     Columns.defaultcolumnnames
   );
 
-  function columnchanged(columnnames) {
+  function columnchanged(columnnames) {  
     let displycolumns = [];
-    columnnames.forEach((element) => {
+    columnnames.filter((element) => {
       displycolumns.push(element.name);
     });
     setDisplaycolumns(columnnames);
@@ -73,10 +73,47 @@ export default function Producttypecontent() {
       setFilteredorder(orders);
     }
   }
+
+  function searchOption(searchtext) {
+    if (searchtext.length > 0) {
+      var data_filter = orders.filter((element) => {
+         if(element.orderstatus === searchtext){
+            return element
+         }
+          });
+      setFilteredorder(data_filter);
+    } else {
+      setFilteredorder(orders);
+    }
+  }
+
+  function searchDate(min,max) {
+    let  fromdate = JSON.stringify(min)
+    fromdate = fromdate.slice(1,11)
+    console.log(fromdate)
+    let  todate = JSON.stringify(max)
+    todate = todate.slice(1,11)
+    console.log(todate)
+   if(fromdate && todate !== ""){
+    var date_filter = orders.filter((element)=>{
+    //  console.log(element.orderdate.slice(0,10))
+      if(element.orderdate.slice(0,10) > fromdate && element.orderdate.slice(0,10) <=todate){
+        return element
+      }   
+    });
+    setFilteredorder(date_filter)
+  }
+  else {
+    setFilteredorder(orders);
+  }
+  }
+
+
+
   async function getorders() {
     var orders_arr = [];
     orderCtx.orderMaster.orders.forEach((element) => {
-      let orderobj = {};
+      let orderobj = {};   
       orderobj["orderid"] = element.id;
       orderobj["orderdate"] = element.createdAt;
       orderobj["paymentmode"] = element.paymentMode;
@@ -219,23 +256,22 @@ export default function Producttypecontent() {
     };
   }, []);
 //   debugger
-// console.log(displaycolumnnames)
-// console.log(displaycolumns)
+console.log(orders,"main")
   return (
     <Page className={classes.root} title="Orders Management List">
-      {/* <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
-        <Grid fullwidth item xs={6} sm={6}>
+      
 
-            <Typography component="h6" variant="h6">
+            <Typography component="h3" variant="h3" style={{margin:"10px"}}>
             Orders
-          </Typography>
-          </Grid>
+           </Typography>
           
-    </Grid> */}
       <Header
         getColumnnames={columnchanged}
         onSearch={searchorder}
+        onSelect={searchOption}
+        onDate={searchDate}
         columns={columnnames}
+        orderstatus={paymentstatus}
       />
       {filteredorder ? (
         <Results
