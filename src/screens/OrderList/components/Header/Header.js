@@ -161,8 +161,8 @@ console.log(statusval,"options")
             </Button>
           </Grid>
         </Grid>
-        <Grid container item xs={8} spacing={2}>
-          <Grid item xs={3}>
+        <Grid container item xs={8} spacing={1}>
+          <Grid item xs={4}>
             <TextField
           select
           fullWidth
@@ -179,24 +179,23 @@ console.log(statusval,"options")
           ))}
         </TextField>
           </Grid>
-          <Grid item xs={1}>
-         <Button color="primary" variant="contained" style={{marginTop:"17px",marginLeft:"5px"}} onClick={()=>handleSelect()}>Filter</Button>
+          <Grid item xs={2}>
+         <Button color="primary" variant="contained" style={{marginTop:"17px",marginLeft:"7px"}} onClick={()=>handleSelect()}>Filter</Button>
          </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 variant="inline"
                 format="yyyy/MM/dd"
                 margin="normal"
                 label="From"
-                style={{marginLeft:"30px"}}
                 value={fromDate}
                 onChange={(date)=>handleDateChange(date,"from")}
               />
               
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item xs={3}> 
+          <Grid item xs={2}> 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
                 variant="inline"
