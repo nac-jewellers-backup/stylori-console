@@ -2,7 +2,8 @@ import React, { useState,useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
-import { Grid, Typography, Button, TextField,MenuItem } from "@material-ui/core";
+import { Grid, Typography, Button, TextField,MenuItem,InputAdornment } from "@material-ui/core";
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 // import {  SnackBarContext } from '../../../../context';
 import SortHeader from "./SortHeader";
 import DateFnsUtils from "@date-io/date-fns";
@@ -54,8 +55,8 @@ const Header = (props) => {
   // const showSnackbar = React.useContext(SnackBarContext);
   const [searchtext, setSearchtext] = useState("");
   const [status,setStatus] = useState("");
-  const [fromDate, setFromDate] = useState(new Date());
-  const [ToDate, setToDate] = useState(new Date(myDate));
+  const [fromDate, setFromDate] = useState(null);
+  const [ToDate, setToDate] = useState(null);
   const [statusval,setStatusval]= useState([]);
 
   const handleDateChange = (date,value) => {
@@ -97,10 +98,9 @@ const Header = (props) => {
     setSearchtext(e.target.value);
     //props.onSearch(e.target.value)
   };
-  function handleSelect(){
-    if(status !== ""){
-     props.onSelect(status)
-    }
+  function handleCancel(){
+    props.onCancel()
+    setStatus("")
   }
   function handleDate(){
     if(fromDate && ToDate !== ""){
@@ -108,7 +108,10 @@ const Header = (props) => {
     }
  }
   const handleChange = (event) => {
-    setStatus(event.target.value);
+    
+    props.onSelect(event.target.value)
+    setStatus(event.target.value)
+  
   };
   const classes = useStyles();
 console.log(statusval,"options")
@@ -129,7 +132,7 @@ console.log(statusval,"options")
           </Typography>
         </Grid> */}
         <Grid container item xs={4}>
-          <Grid item xs={9}>
+          <Grid item xs={9} >
             <TextField
               className={classes.helperinput}
               variant="outlined"
@@ -140,7 +143,7 @@ console.log(statusval,"options")
               name="productname"
               label="Search by name/email/mobile"
               //onInput={keyPress.bind(this)}
-              style={{marginLeft:"4px"}}
+              style={{marginLeft:"4px",marginTop:"21px"}}
               onChange={handleinputChange("searchtext")}
 
               //onChange={(e)=>handleinputChange(e,'productname')}
@@ -152,8 +155,8 @@ console.log(statusval,"options")
               color="primary"
               onClick={() => handlesearch()}
               style={{
-                marginLeft: "5px",
-                marginTop: "9px",
+                marginLeft: "7px",
+                marginTop: "22px",
                 marginBottom: "10px",
               }}
             >
@@ -161,16 +164,25 @@ console.log(statusval,"options")
             </Button>
           </Grid>
         </Grid>
-        <Grid container item xs={8} spacing={1}>
+        <Grid container item xs={8} spacing={3}>
           <Grid item xs={4}>
             <TextField
+             variant="outlined"
+             margin="dense"
           select
           fullWidth
           label="OrderStatus"
           value={status}
           onChange={handleChange}
-          style={{margin:"10px"}}
+          style={{marginTop:"17px"}}
           variant="outlined"
+          InputProps={status !== "" && {
+            endAdornment: (
+              <InputAdornment position="start" style={{marginRight:20,cursor:"pointer"}} >
+                <CancelOutlinedIcon onClick={()=>handleCancel()} />
+              </InputAdornment>
+            ),
+          }}
         >
           {statusval.map((option) => (
             <MenuItem key={option.value} value={option.label}>
@@ -179,10 +191,7 @@ console.log(statusval,"options")
           ))}
         </TextField>
           </Grid>
-          <Grid item xs={2}>
-         <Button color="primary" variant="contained" style={{marginTop:"17px",marginLeft:"7px"}} onClick={()=>handleSelect()}>Filter</Button>
-         </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 variant="inline"
@@ -190,12 +199,13 @@ console.log(statusval,"options")
                 margin="normal"
                 label="From"
                 value={fromDate}
+                style={{marginTop:6}}
                 onChange={(date)=>handleDateChange(date,"from")}
               />
               
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item xs={2}> 
+          <Grid item xs={3}> 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
                 variant="inline"
@@ -203,13 +213,14 @@ console.log(statusval,"options")
                 margin="normal"
                 label="To"
                 value={ToDate}
+                style={{marginTop:6}}
                 onChange={(date)=>handleDateChange(date,"to")}
               />
            </MuiPickersUtilsProvider>
            
           </Grid>
          <Grid item xs={2}>
-         <Button color="primary" variant="contained" style={{marginTop:"17px"}} onClick={()=>handleDate()}>Filter</Button>
+         <Button color="primary" variant="contained" style={{marginTop:"17px"}} onClick={()=>handleDate()}>Apply</Button>
          </Grid>
          
         </Grid>

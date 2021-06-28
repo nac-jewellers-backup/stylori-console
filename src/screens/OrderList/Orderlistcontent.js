@@ -75,7 +75,7 @@ export default function Producttypecontent() {
   }
 
   function searchOption(searchtext) {
-    if (searchtext.length > 0) {
+    if (searchtext !== "") {
       var data_filter = orders.filter((element) => {
          if(element.orderstatus === searchtext){
             return element
@@ -85,6 +85,9 @@ export default function Producttypecontent() {
     } else {
       setFilteredorder(orders);
     }
+  }
+  function onCancel(){
+    setFilteredorder(orders);
   }
 
   function searchDate(min,max) {
@@ -270,6 +273,7 @@ console.log(orders,"main")
         onSearch={searchorder}
         onSelect={searchOption}
         onDate={searchDate}
+        onCancel={onCancel}
         columns={columnnames}
         orderstatus={paymentstatus}
       />
