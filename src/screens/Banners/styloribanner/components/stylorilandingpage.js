@@ -78,6 +78,7 @@ const StyloriLandingPage = (props) => {
           data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
 
           setalllandingbanner(data);
+          alert(JSON.stringify(data));
         })
         .catch(console.error);
     }
@@ -136,6 +137,7 @@ const StyloriLandingPage = (props) => {
       .then((res) => res.json())
       .then((fatchvalue) => {
         setOpen(false);
+
         window.location.reload();
       })
       .catch(console.error);
