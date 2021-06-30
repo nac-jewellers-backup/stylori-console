@@ -98,14 +98,12 @@ function SpecificListPages(props) {
   }, []);
 
   const onsubmitvalue = async () => {
-    debugger;
     let create_banner_data = {
       urlParam: createlandingbanner.urlParam,
       mobile: createlandingbanner.mobile,
       web: createlandingbanner.web,
       now: new Date().toISOString(),
     };
-    console.log(create_banner_data);
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
@@ -119,8 +117,6 @@ function SpecificListPages(props) {
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        debugger;
-        console.log(fatchvalue);
         setOpen(false);
         window.location.reload();
       })

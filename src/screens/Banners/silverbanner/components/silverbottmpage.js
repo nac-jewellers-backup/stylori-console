@@ -74,11 +74,9 @@ const SilverListingBottom = (props) => {
           query: ALLSTYLORISILVERLISTINGBOTTOMBANNERS,
         }),
       };
-      debugger;
       await fetch(url, opts)
         .then((res) => res.json())
         .then((fatchvalue) => {
-          debugger;
           let data = fatchvalue.data.allStyloriSilverBanners.nodes;
           data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
 
@@ -109,11 +107,9 @@ const SilverListingBottom = (props) => {
         variables: { id: id },
       }),
     };
-    debugger;
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        debugger;
         window.location.reload();
       })
       .catch(console.error);
@@ -137,12 +133,10 @@ const SilverListingBottom = (props) => {
         variables: create_banner_data,
       }),
     };
-    debugger;
-    console.log(opts);
+  
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        debugger;
         setOpen(false);
         window.location.reload();
       })
