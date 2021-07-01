@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import uuid from 'uuid/v1';
+import { v4 as uuid } from 'uuid';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import {palette} from '../../theme'

@@ -233,7 +233,7 @@ const ALLPRODUCTLIST = gql`
   }
 `;
 const PRODUCTLIST = (category) => gql`
-  query($Veiw: Int!, $Offset: Int!) {
+  query ($Veiw: Int!, $Offset: Int!) {
     allProductLists(first: $Veiw, offset: $Offset) {
       nodes {
         id
@@ -442,18 +442,20 @@ query  {
   }
 }`;
 const DIAMONDMASTER = `
-query  {
-allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
-  nodes {
-    diamondClarity
-    diamondColor
-    id
-    isFilter
-    isActive
-    filterOrder
+query {
+  allMasterDiamondTypes(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      shortCode
+      diamondClarity
+      diamondColor
+      id
+      isFilter
+      isActive
+      filterOrder
+    }
   }
 }
-}
+
 `;
 
 const PAYMENTSTATUSMASTER = `
@@ -850,6 +852,7 @@ const DIAMONDMARKUP = gql`
         material
         category
         productType
+        purities
         markupValue
         markupType
         id
@@ -869,6 +872,7 @@ const ALLMARKUPPRICE = gql`
         material
         category
         productType
+        purities
         markupValue
         markupType
         id
@@ -895,6 +899,29 @@ const DIAMONDPRICELIST = gql`
         vendorCode
       }
       totalCount
+    }
+  }
+`;
+
+const GEMPRICELIST = gql`
+  query MyQuery($vendorCode: String!, $ratetype: Int!) {
+    allGemstonePriceSettings(condition: { vendorCode: $vendorCode, rateType: $ratetype }) {
+      nodes {
+        createdAt
+        id
+        sellingPriceType
+        updatedAt
+        vendorCode
+        gemstoneType
+        price
+        priceType
+        rateType
+        weightEnd
+        weightStart
+        __typename
+      }
+      totalCount
+      __typename
     }
   }
 `;
@@ -1049,18 +1076,34 @@ query {
 
 const MASTERCATEGORY = `
 query {
-  allMasterProductCategories {
-    nodes {
-      name
-      shortCode
+  
+    allMasterProductCategories {
+      nodes {
+        name
+        shortCode
+      }
     }
-  },
-  allMasterProductTypes {
-    nodes {
-      name
-      shortCode
+    allMasterProductTypes {
+      nodes {
+        name
+        shortCode
+      }
     }
-  }
+    allMasterMaterials {
+      nodes {
+        name
+        id
+        shortCode
+      }
+    }
+    allMasterMetalsPurities {
+      nodes {
+        name
+        shortCode
+      }
+    }
+  
+  
 }`;
 
 const GEMSTONEMASTER = `
@@ -1095,26 +1138,7 @@ const MAKINGCHARGEPRICELIST = gql`
     }
   }
 `;
-const GEMPRICELIST = gql`
-  query MyQuery($vendorCode: String!) {
-    allGemstonePriceSettings(condition: { vendorCode: $vendorCode }) {
-      nodes {
-        price
-        rateType
-        priceType
-        sellingPriceType
-        vendorCode
-        weightEnd
-        weightStart
-        updatedAt
-        id
-        createdAt
-        gemstoneType
-      }
-      totalCount
-    }
-  }
-`;
+
 const PRODUCTLISTSTATUSEDIT = gql`
   mutation MyMutation($productId: String!, $isActive: Boolean!) {
     __typename
@@ -1425,16 +1449,18 @@ query MyQuery {
 `;
 const ALLSTYLORISILVERLANDINGBANNERS = `
 query MyQuery {
-  allStyloriSilverBanners {
+  allStyloriSilverBanners(condition: {urlParam: "landing"}) {
     nodes {
       id
       mobile
       position
       url
       web
+      urlParam
     }
   }
 }
+
 
 `;
 
@@ -1485,6 +1511,68 @@ mutation MyMutation($id : Int!) {
   }
 }`;
 
+const ALLSTYLORISILVERLISTINGBOTTOMBANNERS = `
+query MyQuery {
+  allStyloriSilverBanners(condition: {urlParam: "bottom"}) {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam
+    }
+  }
+}
+`;
+const CREATESILVERLISTINGBOTTOMBANNER = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+   $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        url: $url
+        web: $web
+        urlParam: "bottom"
+        position: $position
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      updatedAt
+      url
+      web
+      createdAt
+      urlParam
+    }
+  }
+}
+
+`;
+const DELETESILVERLISTINGBOTTOMBANNER = `
+mutation MyMutation($id: Int!) {
+  deleteStyloriSilverBannerById(input: { id: $id }) {
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      url
+      web
+    }
+  }
+}`;
+
 const CREATESILVERLANDINGBANNER = `
 mutation MyMutation(
   $now: Datetime!
@@ -1502,6 +1590,7 @@ mutation MyMutation(
         position: $position
         url: $url
         web: $web
+        urlParam :"landing"
       }
     }
   ) {
@@ -1533,7 +1622,108 @@ mutation MyMutation($id : Int!) {
   }
 }
 `;
+const ALLSTYLORISILVERLISTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners
+  (condition: {urlParam: "listingPage"}) 
+  {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam 
+    }
+  }
+}
 
+`;
+
+const ALLSPECIFICLISTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners
+  (condition: {url: "specificListingPage"}) 
+  {
+    nodes {
+      id
+      mobile
+      position
+      web
+      urlParam
+    }
+  }
+}
+`;
+
+const CREATESPECIFICLISTINGPAGE = `
+mutation MyMutation(
+  $now: Datetime!
+  $web: String
+  $mobile: String
+  $urlParam :String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+       
+        url: "specificListingPage"
+        web: $web
+        urlParam : $urlParam
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}
+`;
+
+const CREATESILVERLISTINGPAGE = `
+mutation MyMutation(
+  $now: Datetime!
+  $url: String
+  $web: String
+  $mobile: String
+  $position: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: $url
+        web: $web
+        urlParam : "listingPage"
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+    }
+  }
+}
+`;
 const PRODUCTDESCRIPTIONEDIT = `
 mutation MyMutation($productId: String!, $prod_desc: String!) {
   updateProductListByProductId(
@@ -1550,6 +1740,250 @@ mutation MyMutation($productId: String!, $prod_desc: String!) {
   }
 }
 
+`;
+
+const ALLSTYLORISILVERROUTINGPAGE = `
+query MyQuery {
+  allStyloriSilverBanners(condition: {url: "#"}) {
+    nodes {
+      id
+      mobile
+      position
+      url
+      web
+      urlParam
+    }
+  }
+}`;
+const CREATESTYLORISILVERROUTINGPAGE = `
+mutation MyMutation(
+  $now: Datetime!
+  $web: String
+  $mobile: String
+  $position: String
+  $urlParam: String
+) {
+  createStyloriSilverBanner(
+    input: {
+      styloriSilverBanner: {
+        createdAt: $now
+        updatedAt: $now
+        mobile: $mobile
+        position: $position
+        url: "S"
+        web: $web
+        urlParam: $urlParam
+      }
+    }
+  ) {
+    clientMutationId
+    styloriSilverBanner {
+      id
+      mobile
+      position
+      updatedAt
+      url
+      web
+      createdAt
+      urlParam
+    }
+  }
+}
+`;
+
+const HOLIDAYLIST = gql`
+  query ($first: Int, $offset: Int, $filter: HolidayManagerFilter) {
+    allHolidayManagers(first: $first, offset: $offset, filter: $filter, orderBy: DATE_ASC) {
+      nodes {
+        id
+        holiday
+        date
+        createdAt
+        updatedAt
+      }
+      totalCount
+    }
+  }
+`;
+
+const WAREHOUSELIST = gql`
+  query {
+    allWarehouses(orderBy: ID_ASC) {
+      nodes {
+        id
+        name
+        shippingInDays
+        isActive
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+const INVENTORYLIST = gql`
+  query ($first: Int, $offset: Int, $filter: InventoryFilter) {
+    allInventories(first: $first, offset: $offset, filter: $filter) {
+      nodes {
+        id
+        generatedSku
+        numberOfItems
+        createdAt
+        updatedAt
+        warehouse: warehouseByWarehouseId {
+          id
+          name
+        }
+      }
+      totalCount
+    }
+  }
+`;
+
+const VALIDATEGENERATEDSKU = gql`
+  query ($generatedSku: String!) {
+    allTransSkuLists(condition: { generatedSku: $generatedSku }) {
+      nodes {
+        id
+      }
+    }
+  }
+`;
+
+const STOCKSTATUS = gql`
+  query {
+    allWarehouses {
+      nodes {
+        name
+        isActive
+        inventoriesByWarehouseId {
+          aggregates {
+            sum {
+              numberOfItems
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const ABANDONEDCART = gql`
+  query (
+    $first: Int
+    $offset: Int
+    $orderBy: [ShoppingCartsOrderBy!]
+    $condition: ShoppingCartCondition
+    $filter: ShoppingCartFilter
+  ) {
+    allShoppingCarts(first: $first, offset: $offset, orderBy: $orderBy, condition: $condition, filter: $filter) {
+      nodes {
+        id
+        isActive
+        netAmount
+        status
+        taxAmount
+        userprofileId
+        user: userProfileByUserprofileId {
+          id
+          firstName
+          lastName
+          username
+          email
+          mobile
+        }
+        cart_items: shoppingCartItemsByShoppingCartId {
+          nodes {
+            productSku
+            qty
+            transSkuListByProductSku {
+              generatedSku
+              skuId
+              productListByProductId {
+                productName
+              }
+            }
+          }
+        }
+        grossAmount
+        discountedPrice
+        discount
+        createdAt
+        updatedAt
+      }
+      totalCount
+    }
+  }
+`;
+
+const CARTBYID = gql`
+  query ($id: UUID!) {
+    cart: shoppingCartById(id: $id) {
+      id
+      isActive
+      netAmount
+      status
+      taxAmount
+      userprofileId
+      grossAmount
+      discountedPrice
+      discount
+      createdAt
+      updatedAt
+      address: cartAddressesByCartId {
+        nodes {
+          id
+          addressline1
+          addressline2
+          city
+          contactNumber
+          country
+          countryCode
+          createdAt
+          firstname
+          lastname
+          pincode
+          salutation
+          state
+          updatedAt
+          addressType
+        }
+      }
+      user: userProfileByUserprofileId {
+        id
+        firstName
+        lastName
+        username
+        email
+        mobile
+        isemailverified
+        ismobileverified
+      }
+      cart_items: shoppingCartItemsByShoppingCartId {
+        nodes {
+          productSku
+          qty
+          transSkuListByProductSku {
+            markupPrice
+            markupPriceTax
+            discountPrice
+            discountPriceTax
+            generatedSku
+            skuId
+            productListByProductId {
+              productName
+              productImagesByProductId(condition: { isdefault: true, imagePosition: 1 }) {
+                nodes {
+                  productId
+                  imageUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
 export {
@@ -1629,4 +2063,20 @@ export {
   DELETESILVERLANDINGBANNER,
   PRODUCTDESCRIPTIONEDIT,
   ALLMARKUPPRICE,
+  ALLSTYLORISILVERLISTINGPAGE,
+  CREATESILVERLISTINGPAGE,
+  ALLSTYLORISILVERROUTINGPAGE,
+  CREATESTYLORISILVERROUTINGPAGE,
+  HOLIDAYLIST,
+  WAREHOUSELIST,
+  INVENTORYLIST,
+  VALIDATEGENERATEDSKU,
+  STOCKSTATUS,
+  ABANDONEDCART,
+  CARTBYID,
+  ALLSPECIFICLISTINGPAGE,
+  CREATESPECIFICLISTINGPAGE,
+  ALLSTYLORISILVERLISTINGBOTTOMBANNERS,
+  CREATESILVERLISTINGBOTTOMBANNER,
+  DELETESILVERLISTINGBOTTOMBANNER,
 };

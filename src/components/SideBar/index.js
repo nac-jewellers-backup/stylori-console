@@ -109,7 +109,7 @@ function SideBar() {
                     <>
                       <ListItem button onClick={handleClick(menuobj.name)}>
                         <ListItemIcon>
-                          <InboxIcon />
+                          <img style={{ width: "18px" }} src={menuobj.icon} alt="menu"></img>
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
                         {globalCtx.isExpand && globalCtx.optionname === menuobj.name ? <ExpandLess /> : <ExpandMore />}
@@ -127,7 +127,7 @@ function SideBar() {
                                     onClick={(event) => handleListItemClick(event, subindex)}
                                   >
                                     <ListItemIcon>
-                                      <StarBorder />
+                                      <img style={{ width: "18px" }} src={submenuobj.icons} alt="sub menu"></img>
                                     </ListItemIcon>
                                     <ListItemText primary={submenuobj.name} />
                                   </ListItem>
@@ -152,7 +152,7 @@ function SideBar() {
                         onClick={handleClick(menuobj.name)}
                       >
                         <ListItemIcon>
-                          <InboxIcon />{" "}
+                          <img style={{ width: "18px" }} src={menuobj.icon} alt="menu"></img>
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
                       </ListItem>
