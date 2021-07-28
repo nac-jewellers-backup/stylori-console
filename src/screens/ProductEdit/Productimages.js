@@ -109,15 +109,9 @@ export default function Productimages(props) {
       // setTotalimages(image_count)
     }
   });
-  async function uploadimagetoserver(
-    fileobj,
-    filetype,
-    imagename,
-    prodid,
-    imagecontent,
-    isedit,
-    position
-  ) {
+  async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
+    debugger;
+    console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
       {},
@@ -157,19 +151,17 @@ export default function Productimages(props) {
       });
       productimgs.push(imagecontent);
     }
+    debugger;
     await axios.put(signedRequest, fileobj, options);
-    let responsecontent = await sendNetworkRequest(
-      "/updateproductimage",
-      {},
-      { imageobj: imagecontent, isedit: isedit },
-      false
-    );
+    debugger
+    let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
     image_count = image_count + 1;
     if (!isedit) {
       setProductimages(productimgs);
     }
   }
   const handlenewAssetChange = (e) => {
+    debugger;
     const files = e.target.files;
     Object.keys(files).map((file, index) => {
       // const size = files[index].size;
@@ -279,13 +271,7 @@ export default function Productimages(props) {
                       ></input>
 
                       <img
-                        src={
-                          BASE_IMAGE_URL +
-                          url.imageUrl.replace(
-                            url.productId,
-                            url.productId + "/1000X1000"
-                          )
-                        }
+                        src={BASE_IMAGE_URL + url.imageUrl.replace(url.productId, url.productId + "/1000X1000")}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -321,10 +307,7 @@ export default function Productimages(props) {
               className="container"
             >
               {
-                <label
-                  className="custom-file-upload"
-                  style={{ display: "flex" }}
-                >
+                <label className="custom-file-upload" style={{ display: "flex" }}>
                   <i
                     className="fa fa-plus"
                     aria-hidden="true"

@@ -70,11 +70,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Results = (props) => {
   // debugger
-  console.log(props);
+  console.log(props,"the list data")
   const { className, orders, ...rest } = props;
-  const [editcontent, setEditcontent] = React.useState({});
-  const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].orderdate : "Order Date");
+  const [editcontent,setEditcontent] = React.useState({})
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState(props.columnobjs.length > 0 ? props.columnobjs[0].orderdate : 'Order Date');   
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
 
@@ -201,6 +202,8 @@ const Results = (props) => {
     rejected: colors.red[600],
   };
 
+
+
   return (
     <Card>
       <CardContent className={classes.content}>
@@ -221,6 +224,7 @@ const Results = (props) => {
               ))} */}
             <EnhancedTableHead
               columns={props.columnobjs}
+              columnsname={props.showcolumns}
               classes={classes}
               order={order}
               orderBy={orderBy}

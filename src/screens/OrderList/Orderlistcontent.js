@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
 import { PAYMENTSTATUSMASTER, PRODUCTDIAMONDTYPES } from "../../graphql/query";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 import Page from "../../components/Page";
 import { Header, Results } from "./components";
 import Columns from "./components/columnnames.json";
@@ -33,12 +33,16 @@ export default function Producttypecontent() {
 
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
-  const [displaycolumnnames, setDisplaycolumnnames] = useState(Columns.defaultcolumns);
-  const [displaycolumns, setDisplaycolumns] = useState(Columns.defaultcolumnnames);
+  const [displaycolumnnames, setDisplaycolumnnames] = useState(
+    Columns.defaultcolumns
+  );
+  const [displaycolumns, setDisplaycolumns] = useState(
+    Columns.defaultcolumnnames
+  );
 
-  function columnchanged(columnnames) {
+  function columnchanged(columnnames) {  
     let displycolumns = [];
-    columnnames.forEach((element) => {
+    columnnames.filter((element) => {
       displycolumns.push(element.name);
     });
     setDisplaycolumns(columnnames);
@@ -46,7 +50,11 @@ export default function Producttypecontent() {
   }
 
   async function updateorder(ordercontent) {
-    let response = await sendNetworkRequest("/updateorderstatus", {}, ordercontent);
+    let response = await sendNetworkRequest(
+      "/updateorderstatus",
+      {},
+      ordercontent
+    );
     window.location.reload();
 
     // getorders()
@@ -65,10 +73,50 @@ export default function Producttypecontent() {
       setFilteredorder(orders);
     }
   }
+
+  function searchOption(searchtext) {
+    if (searchtext !== "") {
+      var data_filter = orders.filter((element) => {
+         if(element.orderstatus === searchtext){
+            return element
+         }
+          });
+      setFilteredorder(data_filter);
+    } else {
+      setFilteredorder(orders);
+    }
+  }
+  function onCancel(){
+    setFilteredorder(orders);
+  }
+
+  function searchDate(min,max) {
+    let  fromdate = JSON.stringify(min)
+    fromdate = fromdate.slice(1,11)
+    console.log(fromdate)
+    let  todate = JSON.stringify(max)
+    todate = todate.slice(1,11)
+    console.log(todate)
+   if(fromdate && todate !== ""){
+    var date_filter = orders.filter((element)=>{
+    //  console.log(element.orderdate.slice(0,10))
+      if(element.orderdate.slice(0,10) > fromdate && element.orderdate.slice(0,10) <=todate){
+        return element
+      }   
+    });
+    setFilteredorder(date_filter)
+  }
+  else {
+    setFilteredorder(orders);
+  }
+  }
+
+
+
   async function getorders() {
     var orders_arr = [];
     orderCtx.orderMaster.orders.forEach((element) => {
-      let orderobj = {};
+      let orderobj = {};   
       orderobj["orderid"] = element.id;
       orderobj["orderdate"] = element.createdAt;
       orderobj["paymentmode"] = element.paymentMode;
@@ -85,8 +133,18 @@ export default function Producttypecontent() {
         pgresponseobj.forEach((pgres) => {
           let response_pg = JSON.parse(pgres.paymentResponse);
           if (element.paymentMode === "Prepaid") {
-            orderobj["paymentstatus"] =
-              response_pg.ipgTransactionId + " \n" + response_pg.fail_reason + " \n" + response_pg.status;
+            orderobj["paymentstatus"] = `${
+              response_pg?.ipgTransactionId || response_pg?.APTRANSACTIONID
+            }\n${response_pg?.fail_reason || ""}\n${
+              response_pg?.status || response_pg?.TRANSACTIONPAYMENTSTATUS
+            }`;
+            /* response_pg?.ipgTransactionId ||
+              response_pg?.APTRANSACTIONID +
+                " \n" +
+                response_pg?.fail_reason +
+                " \n" +
+                response_pg?.status ||
+              response_pg?.TRANSACTIONPAYMENTSTATUS; */
           }
         });
       }
@@ -101,12 +159,15 @@ export default function Producttypecontent() {
               orderobj["mobile"] = addressobj.contactNumber;
             }
             if (!orderobj["username"]) {
-              orderobj["username"] = addressobj.firstname ? addressobj.firstname : "";
+              orderobj["username"] = addressobj.firstname
+                ? addressobj.firstname
+                : "";
             }
           });
         }
         if (cartcontent.shoppingCartItemsByShoppingCartId) {
-          let cartitemscontent = cartcontent.shoppingCartItemsByShoppingCartId.nodes;
+          let cartitemscontent =
+            cartcontent.shoppingCartItemsByShoppingCartId.nodes;
           let skus = [];
 
           cartitemscontent.forEach((element) => {
@@ -120,11 +181,15 @@ export default function Producttypecontent() {
           // alert(JSON.stringify(orderCtx.orderMaster.orders[0]))
           let usercontent = cartcontent.userProfileByUserprofileId;
           if (usercontent.firstName) {
-            orderobj["username"] = usercontent.firstName ? usercontent.firstName : "";
+            orderobj["username"] = usercontent.firstName
+              ? usercontent.firstName
+              : "";
           }
           orderobj["email"] = usercontent.email ? usercontent.email : "";
           if (!orderobj["username"]) {
-            orderobj["username"] = usercontent.firstname ? usercontent.firstname : "";
+            orderobj["username"] = usercontent.firstname
+              ? usercontent.firstname
+              : "";
           }
 
           let useraddressess = usercontent.userAddressesByUserProfileId;
@@ -193,21 +258,25 @@ export default function Producttypecontent() {
       mounted = false;
     };
   }, []);
-  //   debugger
-  // console.log(displaycolumnnames)
-  // console.log(displaycolumns)
+//   debugger
+console.log(orders,"main")
   return (
     <Page className={classes.root} title="Orders Management List">
-      {/* <Grid container spacing={2} item xs={12} sm={12} alignItems={"flex-end"}>
-        <Grid fullwidth item xs={6} sm={6}>
+      
 
-            <Typography component="h6" variant="h6">
+            <Typography component="h3" variant="h3" style={{margin:"10px"}}>
             Orders
-          </Typography>
-          </Grid>
+           </Typography>
           
-    </Grid> */}
-      <Header getColumnnames={columnchanged} onSearch={searchorder} columns={columnnames} />
+      <Header
+        getColumnnames={columnchanged}
+        onSearch={searchorder}
+        onSelect={searchOption}
+        onDate={searchDate}
+        onCancel={onCancel}
+        columns={columnnames}
+        orderstatus={paymentstatus}
+      />
       {filteredorder ? (
         <Results
           className={classes.results}

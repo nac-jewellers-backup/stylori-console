@@ -27,7 +27,7 @@ import { Input, Grid, Card } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import { Query, withApollo } from "react-apollo";
-import { DIAMONDMARKUP, PRODUCTLISTSTATUSEDIT, DELETEMARKUPPRICE , ALLMARKUPPRICE} from "../../../graphql/query";
+import { DIAMONDMARKUP, PRODUCTLISTSTATUSEDIT, DELETEMARKUPPRICE, ALLMARKUPPRICE } from "../../../graphql/query";
 import { useHistory } from "react-router-dom";
 import { Button, Switch } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -355,16 +355,22 @@ const AddContact = (props) => {
   }
 
   async function updatemarkup(markupcontent, refetch) {
+    let product_type = markupcontent.producttype ? markupcontent.producttype :  [];
+    let material_list = markupcontent.materiallist ? markupcontent.materiallist : [];
+    let purity_list = markupcontent.puritylist ? markupcontent.puritylist : [];
+
     var bodydata = {};
     bodydata["category"] = markupcontent.category.name;
-    bodydata["producttype"] = markupcontent.producttype.name;
+    bodydata["producttype"] = product_type;
     bodydata["sellingPriceMin"] = markupcontent.sellpricemin;
     bodydata["sellingPriceMax"] = markupcontent.sellpricemax;
     bodydata["markuptype"] = markupcontent.markuptype.label;
+    bodydata["material_list"] = material_list;
+    bodydata["purity_list"] = purity_list;
     bodydata["markupValue"] = markupcontent.markup;
     bodydata["material"] = pricecomponent;
     console.log("XXXXXXXX");
-    await sendNetworkRequest("/addmarkup", {}, bodydata);
+     await sendNetworkRequest("/addmarkup", {}, bodydata);
     setOpen(false);
     setBtnEdit({ ...btnEdit, id: "", action: false });
     refetch();
@@ -451,6 +457,7 @@ const AddContact = (props) => {
               id="free-solo-2-demo"
               className={classes.fixedTag}
               defaultValue={pricecomponent}
+              disableClearable
               options={["Diamond", "Gem Stone", "Gold", "Making Charge", "All"]}
               onChange={handlecomponentChange("earringbacking")}
               renderTags={(value, getTagProps) =>
@@ -496,7 +503,7 @@ const AddContact = (props) => {
             </TableHead>
             <TableBody>
               <Query
-                query={pricecomponent === "All" ? ALLMARKUPPRICE : DIAMONDMARKUP}
+                query={DIAMONDMARKUP}
                 onCompleted={(data) => setPageCount(data.allPricingMarkups.totalCount)}
                 variables={{ vendorCode: pricecomponent }}
               >
@@ -530,6 +537,8 @@ const AddContact = (props) => {
                             actionSave={updatemarkup}
                             category={props.categories}
                             producttype={props.producttypes}
+                            materiallist={props.materiallist}
+                            puritylist={props.puritylist}
                             title={props.title}
                             actionclose={handleClose}
                           />
@@ -545,7 +554,10 @@ const AddContact = (props) => {
                                 {row.category}
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {row.productType ? row.productType : "All"}
+                                {row.productType ? row.productType.join(' , ') : "All"}
+                              </TableCell>
+                              <TableCell component="th" scope="row">
+                                {row.purities ? row.purities.join(' , ') : "All"}
                               </TableCell>
                               <TableCell align="left">
                                 {/* {

@@ -19,7 +19,7 @@ function EnhancedTableHead(props) {
     onRequestSort(event, property);
   };
  
-  console.log(props);
+  console.log(props.columns,"column objs")
   return (
     <TableHead>
       <TableRow>
@@ -31,7 +31,8 @@ function EnhancedTableHead(props) {
               inputProps={{ 'aria-label': 'select all desserts' }}
             />
           </TableCell> */}
-        {props.columns.map((headCell) => (
+
+        {/* {props.columns.map((headCell) => (
           <TableCell
             key={headCell.id}
             width={headCell.type == 9 ? 300 : null}
@@ -41,10 +42,11 @@ function EnhancedTableHead(props) {
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : "desc"}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label ? headCell.label : headCell.name}
+              
+              {headCell.name}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === "desc" ? "" : ""}
@@ -52,6 +54,28 @@ function EnhancedTableHead(props) {
               ) : null}
             </TableSortLabel>
           </TableCell>
+        ))} */}
+        {props.columns.map((item,index)=>(
+    <TableCell
+    key={index}
+    width={item.type == 9 ? 300 : null}
+    align={item.numeric ? "right" : "left"}
+    padding={item.disablePadding ? "none" : "default"}
+    sortDirection={orderBy === item.id ? order : false}
+    >
+      <TableSortLabel
+       active={orderBy === item.id}
+       direction={orderBy === item.id ? order : "desc"}
+       onClick={createSortHandler(item.id)}
+      >
+      {item.name}
+      {orderBy === item.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === "desc" ? "" : ""}
+                </span>
+              ) : null}
+      </TableSortLabel>
+    </TableCell>
         ))}
       </TableRow>
     </TableHead>

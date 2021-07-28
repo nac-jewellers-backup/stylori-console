@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Grid} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 function SortHeader(props){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [options, setOptions] = React.useState(props.columnnames);
+    const [options, setOptions] = React.useState(null);
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -35,11 +35,13 @@ function SortHeader(props){
       const open = Boolean(anchorEl);
       const id = open ? 'simple-popover' : undefined;
     
-     
+      useEffect(() => {
+        setOptions(props.columnnames)
+      });
         return(
             <Grid container lg={12} md={12} sm={12} xs={12} >
                
-                <Grid container xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex',margin: '8px', justifyContent: 'flex-end'}}>
+                <Grid container xl={12} lg={12} md={12} sm={12} xs={12} style={{display: 'flex',margin: '10px', justifyContent: 'flex-end'}}>
                     <Grid className="column-btn" lg={12} md={12} sm={12} xs={12} style={{display: 'flex', justifyContent: 'flex-end'}} >
                         {/* <Button className="product" size="small" id="one" color="primary" backgroundColor="secondary"  onClick={handleClick} variant="outlined"  color="primary" >
                             COLUMNS<ArrowDownwardIcon fontSize="inherit" />

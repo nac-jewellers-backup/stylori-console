@@ -63,7 +63,7 @@ export default function Columns(props) {
     }
     function resetButton(){
         let listOfValue = columns.listOfValue.map((data,index)=>{
-            if(!data.disabled)
+            if(data.disabled === false)
             {
                 data.isActive = false;
             }    
@@ -75,15 +75,9 @@ export default function Columns(props) {
         })
     }
     function saveaction(){
-        // let listOfValue = columns.listOfValue.map((data,index)=>{
-        //     if(data.isActive){
-        //               }
-        //               return data;  
-
-        // })
         let columnnames = []
-        columns.listOfValue.forEach(element => {
-            if(element.isActive)
+        columns.listOfValue.map(element => {
+            if(element.isActive && element.disabled === false)
             {
                 columnnames.push(element)
             }
@@ -110,7 +104,7 @@ export default function Columns(props) {
     // );
 
    
-
+console.log(columns,"the main columns")
 
 
 
@@ -121,7 +115,8 @@ export default function Columns(props) {
             <Grid style={{ height: "270px", borderBottom: "1px solid #ddd", width: "100%", margin: "auto", paddingTop: "5px", paddingBottom: "10px" }}>
                 <Grid conatiner>
               <Grid item   className={classes.conatainerRow}>
-                   {columns.listOfValue.map((head) =><Grid container>
+                   {columns.listOfValue.map((head) =>
+                   <Grid container>
                         <Checkbox
                             color="primary"
                             inputProps={{ 'aria-label': 'secondary checkbox' }}

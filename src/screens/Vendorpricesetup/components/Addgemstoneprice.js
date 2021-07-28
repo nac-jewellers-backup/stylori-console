@@ -1,31 +1,31 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { TextField, Grid, Chip } from '@material-ui/core';
+import { TextField, Grid, Chip } from "@material-ui/core";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
 });
 
-const DialogTitle = withStyles(styles)(props => {
+const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -39,13 +39,13 @@ const DialogTitle = withStyles(styles)(props => {
   );
 });
 
-const DialogContent = withStyles(theme => ({
+const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
+const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -60,143 +60,144 @@ export default function Addgemstoneprice(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    props.actionclose()
+    props.actionclose();
   };
 
   const handleSave = () => {
-    props.actionSave(gemstonedata)
+    debugger;
+    props.actionSave(gemstonedata);
   };
-  const handleoptionChange = type => (event, value) => {
-    setGemstonedata({ ...gemstonedata, [type]: value})
-}
-const handleinputChange =type => e => {
-  setGemstonedata({
-    ...gemstonedata,
-    [type]: e.target.value
-  })
-}
+  const handleoptionChange = (type) => (event, value) => {
+    debugger;
+    setGemstonedata({ ...gemstonedata, [type]: value });
+  };
+  const handleinputChange = (type) => (e) => {
+    debugger;
+    setGemstonedata({
+      ...gemstonedata,
+      [type]: e.target.value,
+    });
+  };
 
   return (
     <div>
-  
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-         {props.title}
+          {props.title}
         </DialogTitle>
         <DialogContent dividers>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Autocomplete
-              id="free-solo-2-demo"
-              fullWidth
-              disableClearable
-              onChange={handleoptionChange('gemstone')}
-              getOptionLabel={option => option.name}
-              options={props.gems}
-              renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
-              ))
-              }
-              renderInput={params => (
-              <TextField
-              {...params}
-              label="Choose Gemstone"
-              margin="dense"
-              variant="outlined"
-              fullWidth
-              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Autocomplete
+                id="free-solo-2-demo"
+                fullWidth
+                disableClearable
+                onChange={handleoptionChange("gemstone")}
+                getOptionLabel={(option) => option.name}
+                options={props.gems}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose Gemstone"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, readOnly: true, type: "search" }}
+                  />
+                )}
               />
-              )}
-            />
-          </Grid>
-          {props.viewtype == 1 ? 
-          <>
-          <Grid item xs={6}>
+            </Grid>
+            {props.viewtype == 1 ? 
+             <>          
+            <Grid item xs={6}>
               <TextField
-              variant="outlined"
-              margin="dense"
-              label="Weight Start"
-              fullWidth
-              onChange={handleinputChange('weightstart')}
-              id="productvendorcode"
-              name="Cost Price"
+                variant="outlined"
+                margin="dense"
+                label="Weight Start"
+                fullWidth
+                onChange={handleinputChange("weightstart")}
+                id="productvendorcode"
+                name="Cost Price"
               />
-          </Grid>
-          <Grid item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
-              variant="outlined"
-              margin="dense"
-              label="Weight End"
-              onChange={handleinputChange('weightend')}
-              fullWidth
-              id="productvendorcode"
-              name="Cost Price"
+                variant="outlined"
+                margin="dense"
+                label="Weight End"
+                onChange={handleinputChange("weightend")}
+                fullWidth
+                id="productvendorcode"
+                name="Cost Price"
               />
-          </Grid>
-          </> : null }
-          <Grid item xs={12}>
+            </Grid>
+              </> : null }
+            <Grid item xs={12}>
               <TextField
-              variant="outlined"
-              margin="dense"
-              label="Cost Price"
-              fullWidth
-              id="productvendorcode"
-              onChange={handleinputChange('costprice')}
-              name="Cost Price"
+                variant="outlined"
+                margin="dense"
+                label="Cost Price"
+                fullWidth
+                id="productvendorcode"
+                onChange={handleinputChange("costprice")}
+                name="Cost Price"
               />
-          </Grid>
-          
-          <Grid item xs={6}>
-          <Autocomplete
-              id="free-solo-2-demo"
-              fullWidth
-              disableClearable
-              onChange={handleoptionChange('pricetype')}
-              getOptionLabel={option => option.name}
-              options={[{label: 1,name:"Flat"},{label:2,name:"Percentage"}]}
-              renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-              <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
-              ))
-              }
-              renderInput={params => (
+            </Grid>
+
+            <Grid item xs={6}>
+              <Autocomplete
+                id="free-solo-2-demo"
+                fullWidth
+                disableClearable
+                onChange={handleoptionChange("pricetype")}
+                getOptionLabel={(option) => option.name}
+                options={[
+                  { label: 1, name: "Flat" },
+                  { label: 2, name: "Percentage" },
+                ]}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip variant="outlined" size="small" label={option.name} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Selling Price Type"
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, readOnly: true, type: "search" }}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <TextField
-              {...params}
-              label="Selling Price Type"
-              margin="dense"
-              variant="outlined"
-              fullWidth
-              InputProps={{ ...params.InputProps, readOnly: true, type: 'search' }}
+                variant="outlined"
+                margin="dense"
+                label="Selling Price"
+                fullWidth
+                onChange={handleinputChange("sellingPrice")}
+                id="productvendorcode"
+                name="Cost Price"
               />
-              )}
-            />
+            </Grid>
           </Grid>
-         
-          
-          <Grid item xs={6}>
-              <TextField
-              variant="outlined"
-              margin="dense"
-              label="Selling Price"
-              fullWidth
-              onChange={handleinputChange('sellingPrice')}
-              id="productvendorcode"
-              name="Cost Price"
-              />
-          </Grid>
-        </Grid>
-        
-        
         </DialogContent>
         <DialogActions>
-        <Button autoFocus onClick={handleClose} >
+          <Button autoFocus onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleSave}  color="primary">
+          <Button variant="contained" onClick={handleSave} color="primary">
             Save
           </Button>
-          
         </DialogActions>
       </Dialog>
     </div>

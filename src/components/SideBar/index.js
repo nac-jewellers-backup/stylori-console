@@ -23,7 +23,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import { GlobalContext } from "../../context";
 import { NetworkContext } from "../../context/NetworkContext";
-
+// import { ProductList } from "../../assets/index";
 import { Paper, Avatar, Typography } from "@material-ui/core";
 import data from "../menupages.json";
 
@@ -40,8 +40,13 @@ function SideBar() {
     setGlobalCtx({ ...globalCtx, sideBarOpen: !globalCtx.sideBarOpen });
   };
   const handleClick = (type) => (e) => {
-    if (type === "Pricing") {
-      setGlobalCtx({ ...globalCtx, optionname: type, selectedIndex: 5, isExpand: !globalCtx.isExpand });
+    if (type === "Pricing" || type === "Inventory & Shipping Setup" || type === "Orders") {
+      setGlobalCtx({
+        ...globalCtx,
+        optionname: type,
+        selectedIndex: 5,
+        isExpand: !globalCtx.isExpand,
+      });
     } else {
       setGlobalCtx({ ...globalCtx, optionname: type, isExpand: false });
     }

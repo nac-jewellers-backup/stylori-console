@@ -99,3 +99,7 @@ typings/
 !.elasticbeanstalk/*.global.yml
 
 .DS_Store
+
+
+
+.package-lock.json

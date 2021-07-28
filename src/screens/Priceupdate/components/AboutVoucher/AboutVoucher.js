@@ -187,8 +187,6 @@ const AboutVoucher = (props) => {
     // alert(JSON.stringify(voucherCtx))
     setVouchercode(makeid(10));
   };
-  debugger;
-  console.log(props);
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader title="General Information" />
