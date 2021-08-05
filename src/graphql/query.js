@@ -1299,7 +1299,6 @@ query MyQuery($productId: String!) {
         materialName
       }
     }
-   
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -1385,7 +1384,7 @@ query MyQuery($productId: String!) {
         purity
         productId
         skuWeight
-        generatedSku,
+        generatedSku
         costPrice
         costPriceTax
         discountPrice
@@ -1401,7 +1400,7 @@ query MyQuery($productId: String!) {
         discount
         isActive
         availableStockQty
-        isdefault,
+        isdefault
         vendorDeliveryTime
         id
         isActive
@@ -1416,8 +1415,12 @@ query MyQuery($productId: String!) {
     }
     productCategory
     sizeVarient
+    masterVendorByVendorCode {
+      name
+    }
   }
 }
+
 `;
 
 const ALLMASTERRINGSIZE = `

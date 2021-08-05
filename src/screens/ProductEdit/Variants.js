@@ -78,34 +78,14 @@ function TablePaginationActions(props) {
 
   return (
     <div className={classes.root}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
+      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label="next page">
+        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
@@ -208,33 +188,20 @@ export default function Variants(props) {
       productCtx.variants &&
       productCtx.variants.map((variant, index) => {
         if (variant.id === variantId) {
-          let status = variant.isActive
-            ? (variant.isActive = false)
-            : (variant.isActive = true);
+          let status = variant.isActive ? (variant.isActive = false) : (variant.isActive = true);
         }
         return variant;
       });
-    let filterVariant =
-      variantslist &&
-      variantslist.filter(
-        (filter_data, index) => filter_data.id === variantId
-      )[0];
+    let filterVariant = variantslist && variantslist.filter((filter_data, index) => filter_data.id === variantId)[0];
     let editVaraint = {
       id: filterVariant.id,
       isActive: filterVariant.isActive,
     };
     let editVariants = productCtx.editVariants;
     let editStatus =
-      editVariants &&
-      editVariants.some(
-        (check_variant, index) => check_variant.id === variantId
-      )
+      editVariants && editVariants.some((check_variant, index) => check_variant.id === variantId)
         ? (editVariants =
-            editVariants &&
-            editVariants.filter(
-              (edit_variant_filter, index) =>
-                edit_variant_filter.id !== variantId
-            ))
+            editVariants && editVariants.filter((edit_variant_filter, index) => edit_variant_filter.id !== variantId))
         : editVariants.push(editVaraint);
     setProductCtx({
       ...productCtx,
@@ -242,12 +209,7 @@ export default function Variants(props) {
       editVariants,
     });
   }
-  const emptyRows =
-    rowsPerPage -
-    Math.min(
-      rowsPerPage,
-      props.variants && props.variants.length - page * rowsPerPage
-    );
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.variants && props.variants.length - page * rowsPerPage);
   // function VariantEdit(id) {
   //   alert(id)
   //   setBtnEdit({ ...btnEdit, id, action: true })
@@ -318,22 +280,12 @@ export default function Variants(props) {
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
-        <Table
-          className={classes.table}
-          border={1}
-          borderColor={"#ddd"}
-          size="small"
-          stickyHeader
-        >
+        <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {props.columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.name === "Gold Weight" ? "Metal Weight" : column.name}
+                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                  {column.name === "Gold Weight" ? "Approximate Metal Weight" : column.name}
                 </TableCell>
               ))}
             </TableRow>
@@ -341,246 +293,187 @@ export default function Variants(props) {
 
           <TableBody>
             {props.variants &&
-              props.variants
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow key={index}>
-                    {props.displycolumns.indexOf("SKU") > -1 ? (
-                      <TableCell component="th" scope="row">
-                        {row.generatedSku}
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Metal Colour") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        scope="row"
-                      >
-                        {row.metalColor}
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Metal Purity") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.purity}
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Gold Weight") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.skuWeight}
-                      </TableCell>
-                    ) : null}
-                    {/* <TableCell align="center" style = {{width: 20}} component="th" scope="row">
+              props.variants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                <TableRow key={index}>
+                  {props.displycolumns.indexOf("SKU") > -1 ? (
+                    <TableCell component="th" scope="row">
+                      {row.generatedSku}
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Metal Colour") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} scope="row">
+                      {row.metalColor}
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Metal Purity") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {row.purity}
+                    </TableCell>
+                  ) : null}
+
+                  {/* {props.displycolumns.indexOf("Approximate Matel Weight") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {btnEdit.action && btnEdit.id == row.generatedSku ? (
+                        <Input
+                          className={classes.helperinput}
+                          variant="outlined"
+                          margin="dense"
+                          style={{ width: 40 }}
+                          value={productCtx.editleadtime}
+                          id="productname"
+                          error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                          name="productname"
+                          label="Vendor Lead Time"
+                          //onInput={keyPress.bind(this)}
+                          onChange={handleinputChange("editleadtime")}
+
+                          //onChange={(e)=>handleinputChange(e,'productname')}
+                        />
+                      ) : (
+                        <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                          {row.skuWeight}
+                        </TableCell>
+                      )}{" "}
+                    </TableCell>
+                  ) : null} */}
+
+                  {props.displycolumns.indexOf("Gold Weight") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {row.skuWeight}
+                    </TableCell>
+                  ) : null}
+                  {/* <TableCell align="center" style = {{width: 20}} component="th" scope="row">
                     {row.diamondType}
                   </TableCell> */}
-                    {props.displycolumns.indexOf("Size") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.skuSize}
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Vendor lead Time") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {btnEdit.action && btnEdit.id == row.generatedSku ? (
-                          <Input
-                            className={classes.helperinput}
-                            variant="outlined"
-                            margin="dense"
-                            style={{ width: 40 }}
-                            value={productCtx.editleadtime}
-                            id="productname"
-                            error={
-                              productCtx &&
-                              productCtx.error_message &&
-                              productCtx.error_message.productname
-                            }
-                            name="productname"
-                            label="Vendor Lead Time"
-                            //onInput={keyPress.bind(this)}
-                            onChange={handleinputChange("editleadtime")}
+                  {props.displycolumns.indexOf("Size") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {row.skuSize}
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Vendor lead Time") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {btnEdit.action && btnEdit.id == row.generatedSku ? (
+                        <Input
+                          className={classes.helperinput}
+                          variant="outlined"
+                          margin="dense"
+                          style={{ width: 40 }}
+                          value={productCtx.editleadtime}
+                          id="productname"
+                          error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                          name="productname"
+                          label="Vendor Lead Time"
+                          //onInput={keyPress.bind(this)}
+                          onChange={handleinputChange("editleadtime")}
 
-                            //onChange={(e)=>handleinputChange(e,'productname')}
-                          />
-                        ) : (
-                          <Typography className={classes.heading}>
-                            {row.vendorDeliveryTime}
-                          </Typography>
-                        )}{" "}
-                      </TableCell>
-                    ) : null}
-
-                    {props.displycolumns.indexOf("Quantity") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {btnEdit.action && btnEdit.id == row.generatedSku ? (
-                          <Input
-                            className={classes.helperinput}
-                            variant="outlined"
-                            margin="dense"
-                            style={{ width: 40 }}
-                            value={productCtx.availableStockQty}
-                            id="qty"
-                            error={
-                              productCtx &&
-                              productCtx.error_message &&
-                              productCtx.error_message.productname
-                            }
-                            name="Qty"
-                            label="Quantity"
-                            //onInput={keyPress.bind(this)}
-                            onChange={handleinputChange("available_stock_qty")}
-
-                            //onChange={(e)=>handleinputChange(e,'productname')}
-                          />
-                        ) : (
-                          <Typography className={classes.heading}>
-                            {row.availableStockQty}
-                          </Typography>
-                        )}{" "}
-                      </TableCell>
-                    ) : null}
-
-                    {props.displycolumns.indexOf("Discount") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        {btnEdit.action && btnEdit.id == row.generatedSku ? (
-                          <Input
-                            className={classes.helperinput}
-                            variant="outlined"
-                            margin="dense"
-                            style={{ width: 40 }}
-                            value={productCtx.discount}
-                            id="productname"
-                            error={
-                              productCtx &&
-                              productCtx.error_message &&
-                              productCtx.error_message.productname
-                            }
-                            name="productname"
-                            label="Discount"
-                            //onInput={keyPress.bind(this)}
-                            onChange={handleinputChange("discount")}
-
-                            //onChange={(e)=>handleinputChange(e,'productname')}
-                          />
-                        ) : (
-                          <Typography className={classes.heading}>
-                            {row.discountDesc}
-                          </Typography>
-                        )}{" "}
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Ready To Ship") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        <Switch
-                          checked={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? productCtx.editreadytoship
-                              : row.isReadyToShip
-                          }
-                          // onChange={()=>handleChange(row.id)}
-                          value="checkedA"
-                          // onChange={handleChangeswitch('editreadytoship')}
-                          onChange={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? handleChangeswitch("editreadytoship")
-                              : null
-                          }
-                          inputProps={{ "aria-label": "secondary checkbox" }}
+                          //onChange={(e)=>handleinputChange(e,'productname')}
                         />
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Default") > -1 ? (
-                      <TableCell
-                        align="center"
-                        style={{ width: 40 }}
-                        component="th"
-                        scope="row"
-                      >
-                        <Switch
-                          checked={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? productCtx.editisdefault
-                              : row.isdefault
-                          }
-                          value="checkedA"
-                          onChange={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? handleChangeswitch("editisdefault")
-                              : null
-                          }
-                          inputProps={{ "aria-label": "secondary checkbox" }}
+                      ) : (
+                        <Typography className={classes.heading}>{row.vendorDeliveryTime}</Typography>
+                      )}{" "}
+                    </TableCell>
+                  ) : null}
+
+                  {props.displycolumns.indexOf("Quantity") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {btnEdit.action && btnEdit.id == row.generatedSku ? (
+                        <Input
+                          className={classes.helperinput}
+                          variant="outlined"
+                          margin="dense"
+                          style={{ width: 40 }}
+                          value={productCtx.availableStockQty}
+                          id="qty"
+                          error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                          name="Qty"
+                          label="Quantity"
+                          //onInput={keyPress.bind(this)}
+                          onChange={handleinputChange("available_stock_qty")}
+
+                          //onChange={(e)=>handleinputChange(e,'productname')}
                         />
-                      </TableCell>
-                    ) : null}
-                    {props.displycolumns.indexOf("Active") > -1 ? (
-                      <TableCell style={{ width: 40 }} align="center">
-                        <Switch
-                          checked={row.isActive}
-                          checked={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? productCtx.editisactive
-                              : row.isActive
-                          }
-                          onChange={
-                            btnEdit.action && btnEdit.id == row.generatedSku
-                              ? handleChangeswitch("editisactive")
-                              : null
-                          }
-                          value="checkedA"
-                          inputProps={{ "aria-label": "secondary checkbox" }}
+                      ) : (
+                        <Typography className={classes.heading}>{row.availableStockQty}</Typography>
+                      )}{" "}
+                    </TableCell>
+                  ) : null}
+
+                  {props.displycolumns.indexOf("Discount") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      {btnEdit.action && btnEdit.id == row.generatedSku ? (
+                        <Input
+                          className={classes.helperinput}
+                          variant="outlined"
+                          margin="dense"
+                          style={{ width: 40 }}
+                          value={productCtx.discount}
+                          id="productname"
+                          error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                          name="productname"
+                          label="Discount"
+                          //onInput={keyPress.bind(this)}
+                          onChange={handleinputChange("discount")}
+
+                          //onChange={(e)=>handleinputChange(e,'productname')}
                         />
-                      </TableCell>
-                    ) : null}
-                    {btnEdit.action && btnEdit.id == row.generatedSku ? (
-                      <TableCell style={{ width: 20 }} align="center">
-                        <Button onClick={(e) => DiamondSave(row.generatedSku)}>
-                          <SaveIcon />
-                        </Button>
-                        <Button onClick={(e) => CancelEdit(row)}>
-                          <CancelIcon />
-                        </Button>
-                      </TableCell>
-                    ) : (
-                      <TableCell align="center" style={{ width: 20 }}>
-                        <Button onClick={(e) => DiamondEdit(row)}>
-                          <EditIcon />
-                        </Button>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                ))}
+                      ) : (
+                        <Typography className={classes.heading}>{row.discountDesc}</Typography>
+                      )}{" "}
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Ready To Ship") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      <Switch
+                        checked={
+                          btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editreadytoship : row.isReadyToShip
+                        }
+                        // onChange={()=>handleChange(row.id)}
+                        value="checkedA"
+                        // onChange={handleChangeswitch('editreadytoship')}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch("editreadytoship") : null}
+                        inputProps={{ "aria-label": "secondary checkbox" }}
+                      />
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Default") > -1 ? (
+                    <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
+                      <Switch
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisdefault : row.isdefault}
+                        value="checkedA"
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch("editisdefault") : null}
+                        inputProps={{ "aria-label": "secondary checkbox" }}
+                      />
+                    </TableCell>
+                  ) : null}
+                  {props.displycolumns.indexOf("Active") > -1 ? (
+                    <TableCell style={{ width: 40 }} align="center">
+                      <Switch
+                        checked={row.isActive}
+                        checked={btnEdit.action && btnEdit.id == row.generatedSku ? productCtx.editisactive : row.isActive}
+                        onChange={btnEdit.action && btnEdit.id == row.generatedSku ? handleChangeswitch("editisactive") : null}
+                        value="checkedA"
+                        inputProps={{ "aria-label": "secondary checkbox" }}
+                      />
+                    </TableCell>
+                  ) : null}
+                  {btnEdit.action && btnEdit.id == row.generatedSku ? (
+                    <TableCell style={{ width: 20 }} align="center">
+                      <Button onClick={(e) => DiamondSave(row.generatedSku)}>
+                        <SaveIcon />
+                      </Button>
+                      <Button onClick={(e) => CancelEdit(row)}>
+                        <CancelIcon />
+                      </Button>
+                    </TableCell>
+                  ) : (
+                    <TableCell align="center" style={{ width: 20 }}>
+                      <Button onClick={(e) => DiamondEdit(row)}>
+                        <EditIcon />
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
             {emptyRows == 0 && (
               <TableRow style={{ height: 1 * emptyRows }}>
                 <TableCell colSpan={6} />
