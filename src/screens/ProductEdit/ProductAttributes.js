@@ -143,10 +143,10 @@ export function Component(props) {
   };
 
   const handleinputChange = (type) => (e) => {
-    const re = /^[a-zA-Z \b]+$/;
-    if (e.target.value === "" || re.test(e.target.value)) {
-      setProductCtx({ ...productCtx, [type]: e.target.value });
-    }
+    // const re = /^[a-zA-Z \b]+$/;
+    // if (e.target.value === "" || re.test(e.target.value)) {
+    setProductCtx({ ...productCtx, [type]: e.target.value });
+    // }
   };
   const handledesinputChange = (type) => (e) => {
     setProductCtx({ ...productCtx, [type]: e.target.value });
@@ -226,6 +226,8 @@ export function Component(props) {
       stonecolour: productCtx.stonecolour,
       gender: productCtx.product_gender,
       earingBacking: productCtx?.earringbacking?.label ?? null,
+      minOrderQty: productCtx.minOrderQty,
+      maxOrderQty: productCtx.maxOrderQty,
       // prodDescription: productCtx.prod_desc,
       // productDiamondsByProductSku: productCtx.editDiamondLists,
       // productGemstonesByProductSku: productCtx.editGemstoneLists,
@@ -499,7 +501,7 @@ export function Component(props) {
             metalcolors.push(colorobj);
           }
         });
-        debugger;
+
         console.log(fatchvalue);
         setProductCtx({
           ...productCtx,
@@ -528,9 +530,11 @@ export function Component(props) {
           stonecolour: fatchvalue.data.productListByProductId.productStonecolorsByProductId.nodes,
           prod_desc: fatchvalue.data.productListByProductId.prodDescription,
           earringbacking: earring_backing,
+          minOrderQty: fatchvalue.data.productListByProductId?.transSkuListsByProductId?.nodes[0]?.minOrderQty,
+          maxOrderQty: fatchvalue.data.productListByProductId?.transSkuListsByProductId?.nodes[0]?.maxOrderQty,
           // productDiamondClarity:diamondClaritySku,
         });
-        debugger;
+
         setstate({
           ...state,
           duplicate_productName: JSON.parse(JSON.stringify(fatchvalue.data.productListByProductId.productName)),
@@ -540,7 +544,7 @@ export function Component(props) {
       .catch(console.error);
   }, []);
   // debugger
-  debugger;
+
   console.log(productCtx);
   console.log(productCtx.masterData);
   return state.create_variant ? (
@@ -626,7 +630,6 @@ export function Component(props) {
             name="product_type"
             label="Product Type"
           />
-
           {productCtx?.product_type === "Earrings" || productCtx?.product_type === "earrings" ? (
             <Autocomplete
               id="free-solo-2-demos"
@@ -685,22 +688,32 @@ export function Component(props) {
             variant="outlined"
             margin="dense"
             fullWidth
-            defaultValue={productCtx.productname}
-            id="seo_text"
-            error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-            name="seo_text"
+            // pattern="[a-zA-Z]*"
+            value={productCtx.minOrderQty}
+            id="minOrderQty"
+            error={productCtx && productCtx.error_message && productCtx.error_message.minOrderQty}
+            name="minOrderQty"
             label="Minimum Order Quantity"
-          />
+            //onInput={keyPress.bind(this)}
+            onChange={handleinputChange("minOrderQty")}
+
+            //onChange={(e)=>handleinputChange(e,'productname')}
+          />{" "}
           <TextField
             className={classes.helperinput}
             variant="outlined"
             margin="dense"
             fullWidth
-            defaultValue={productCtx.productname}
-            id="url"
-            error={productCtx && productCtx.error_message && productCtx.error_message.productname}
-            name="url"
+            // pattern="[a-zA-Z]*"
+            value={productCtx.maxOrderQty}
+            id="maxOrderQty"
+            error={productCtx && productCtx.error_message && productCtx.error_message.maxOrderQty}
+            name="maxOrderQty"
             label="Maximum Order Quantity"
+            //onInput={keyPress.bind(this)}
+            onChange={handleinputChange("maxOrderQty")}
+
+            //onChange={(e)=>handleinputChange(e,'productname')}
           />
           <Autocomplete
             multiple
@@ -778,7 +791,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -804,7 +816,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -857,7 +868,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -933,7 +943,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -959,12 +968,10 @@ export function Component(props) {
               />
             )}
           />
-
           <FormControlLabel
             label={productCtx.isactive ? "Disable this product" : "Enable this product"}
             control={<Switch checked={productCtx.isactive} onChange={handledisableproduct("isactive")} value="checkedA" />}
           />
-
           <Grid
             item
             container
@@ -1034,7 +1041,12 @@ export function Component(props) {
             <SortHeader columnnames={columnnames.varients} getColumnnames={getColumnnames} displytype={1} />{" "}
           </Grid>
 
-          <Variants variants={productCtx.variants} columns={varientcolumns} displycolumns={displycolumns} />
+          <Variants
+            variants={productCtx.variants}
+            columns={varientcolumns}
+            displycolumns={displycolumns}
+            productcompletedata={productCtx.productmaterials}
+          />
 
           <Grid style={{ fontSize: ".9rem", padding: "8px", marginTop: "16px" }}>
             <SortHeader

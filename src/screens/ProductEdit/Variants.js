@@ -162,6 +162,8 @@ export default function Variants(props) {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
+  debugger;
+  console.log(productCtx);
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: "",
@@ -218,6 +220,8 @@ export default function Variants(props) {
     setPage(newPage);
   }
   const handleinputChange = (type) => (e) => {
+    debugger;
+    console.log(type, e.target.value);
     // const re = /^[a-zA-Z \b]+$/;
     // if (e.target.value === '' || re.test(e.target.value)) {
     setProductCtx({ ...productCtx, [type]: e.target.value });
@@ -229,14 +233,18 @@ export default function Variants(props) {
     setPage(0);
   }
   function DiamondEdit(diamondData) {
+    debugger;
+    console.log(diamondData);
     setProductCtx({
       ...productCtx,
+      approximateMetalWeight: diamondData.skuWeight,
       editleadtime: diamondData.vendorDeliveryTime,
       discount: diamondData.discountDesc,
       editreadytoship: diamondData.isReadyToShip,
       editisdefault: diamondData.isdefault,
       editisactive: diamondData.isActive,
     });
+    console.log(productCtx);
     setBtnEdit({ ...btnEdit, id: diamondData.generatedSku, action: true });
   }
   function DiamondSave(id) {
@@ -245,12 +253,15 @@ export default function Variants(props) {
       let list_data = props.variants;
       let Skuchangedata = list_data.map((skulistdata, index) => {
         if (id === skulistdata.generatedSku) {
+          debugger;
+          console.log(skulistdata);
           skulistdata.vendorDeliveryTime = productCtx.editleadtime;
           skulistdata.isdefault = productCtx.editisdefault;
           skulistdata.isActive = productCtx.editisactive;
           skulistdata.isReadyToShip = productCtx.editreadytoship;
 
           skulistdata.discountDesc = productCtx.discount;
+          skulistdata.skuWeight = productCtx.approximateMetalWeight;
           // diamondListData.stoneCount = productCtx.diamondcount;
           // diamondListData.stoneWeight = productCtx.diamondweight;
           bodydata["vendorDeliveryTime"] = productCtx.editleadtime;
@@ -260,6 +271,7 @@ export default function Variants(props) {
 
           bodydata["isReadyToShip"] = productCtx.editreadytoship;
           bodydata["generatedSku"] = id;
+          bodydata["approxMetalWeight"] = productCtx.approximateMetalWeight;
           console.log(JSON.stringify(bodydata));
           return skulistdata;
         }
@@ -285,7 +297,9 @@ export default function Variants(props) {
             <TableRow>
               {props.columns.map((column) => (
                 <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
-                  {column.name === "Gold Weight" ? "Approximate Metal Weight" : column.name}
+                  {column.name === "Gold Weight" && props.productcompletedata[0]?.materialName === "Silver"
+                    ? "Approximate Metal Weight"
+                    : column.name}
                 </TableCell>
               ))}
             </TableRow>
@@ -339,7 +353,27 @@ export default function Variants(props) {
 
                   {props.displycolumns.indexOf("Gold Weight") > -1 ? (
                     <TableCell align="center" style={{ width: 40 }} component="th" scope="row">
-                      {row.skuWeight}
+                      {btnEdit.action &&
+                      btnEdit.id == row.generatedSku &&
+                      props.productcompletedata[0]?.materialName === "Silver" ? (
+                        <Input
+                          className={classes.helperinput}
+                          variant="outlined"
+                          margin="dense"
+                          style={{ width: 40 }}
+                          value={productCtx.approximateMetalWeight}
+                          id="approximateMetalWeight"
+                          error={productCtx && productCtx.error_message && productCtx.error_message.productname}
+                          name="approximateMetalWeight"
+                          label="Approximate Metal Weight"
+                          //onInput={keyPress.bind(this)}
+                          onChange={handleinputChange("approximateMetalWeight")}
+
+                          //onChange={(e)=>handleinputChange(e,'productname')}
+                        />
+                      ) : (
+                        <Typography className={classes.heading}> {row.skuWeight}</Typography>
+                      )}{" "}
                     </TableCell>
                   ) : null}
                   {/* <TableCell align="center" style = {{width: 20}} component="th" scope="row">
