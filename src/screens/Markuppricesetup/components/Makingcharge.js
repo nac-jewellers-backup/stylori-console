@@ -417,7 +417,7 @@ const   AddContact=(props)=> {
               variables={{ "vendorCode": 'STYPA 010'}}>
               {
                   ({ data, loading, error, refetch }) => {
-                    debugger
+               
                       if (loading) {
                           // return <Loader />
                       }

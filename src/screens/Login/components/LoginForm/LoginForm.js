@@ -186,7 +186,7 @@ const LoginForm = (props) => {
           is_write: true,
         };
 
-        debugger;
+      
         console.log(pageaccess);
         // pageaccess.pages.push(bannerpage);
         pageaccess.pages.forEach((element) => {

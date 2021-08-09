@@ -207,7 +207,7 @@ export default function Salediscountcontent(props) {
   }
   function attributeadded(value) {
     
-    debugger;
+    
     let componentsstring = {};
     let attrs = [];
     let display_arr = [];

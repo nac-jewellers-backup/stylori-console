@@ -109,7 +109,7 @@ export default function Productimages(props) {
     }
   });
   async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
-    debugger;
+  
     console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
@@ -148,9 +148,9 @@ export default function Productimages(props) {
       });
       productimgs.push(imagecontent);
     }
-    debugger;
+  
     await axios.put(signedRequest, fileobj, options);
-    debugger
+   
     let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
     image_count = image_count + 1;
     if (!isedit) {
@@ -158,7 +158,7 @@ export default function Productimages(props) {
     }
   }
   const handlenewAssetChange = (e) => {
-    debugger;
+  
     const files = e.target.files;
     Object.keys(files).map((file, index) => {
       // const size = files[index].size;

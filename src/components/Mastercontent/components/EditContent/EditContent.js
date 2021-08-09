@@ -99,7 +99,7 @@ const EditContent = (props) => {
     // setShowpreview(true)
   }
   const handleInputChange = (type) => (e) => {
-    debugger;
+ 
     setEditcontent({ ...editcontent, [type]: e.target.value });
   };
   const toggleChecked = (type) => (e) => {

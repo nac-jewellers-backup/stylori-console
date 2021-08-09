@@ -64,15 +64,15 @@ export default function Addgemstoneprice(props) {
   };
 
   const handleSave = () => {
-    debugger;
+  
     props.actionSave(gemstonedata);
   };
   const handleoptionChange = (type) => (event, value) => {
-    debugger;
+ 
     setGemstonedata({ ...gemstonedata, [type]: value });
   };
   const handleinputChange = (type) => (e) => {
-    debugger;
+  
     setGemstonedata({
       ...gemstonedata,
       [type]: e.target.value,

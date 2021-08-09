@@ -162,8 +162,7 @@ export default function Variants(props) {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
-  debugger;
-  console.log(productCtx);
+
   const [btnEdit, setBtnEdit] = React.useState({
     action: false,
     id: "",
@@ -220,8 +219,6 @@ export default function Variants(props) {
     setPage(newPage);
   }
   const handleinputChange = (type) => (e) => {
-    debugger;
-    console.log(type, e.target.value);
     // const re = /^[a-zA-Z \b]+$/;
     // if (e.target.value === '' || re.test(e.target.value)) {
     setProductCtx({ ...productCtx, [type]: e.target.value });
@@ -233,8 +230,6 @@ export default function Variants(props) {
     setPage(0);
   }
   function DiamondEdit(diamondData) {
-    debugger;
-    console.log(diamondData);
     setProductCtx({
       ...productCtx,
       approximateMetalWeight: diamondData.skuWeight,
@@ -253,8 +248,6 @@ export default function Variants(props) {
       let list_data = props.variants;
       let Skuchangedata = list_data.map((skulistdata, index) => {
         if (id === skulistdata.generatedSku) {
-          debugger;
-          console.log(skulistdata);
           skulistdata.vendorDeliveryTime = productCtx.editleadtime;
           skulistdata.isdefault = productCtx.editisdefault;
           skulistdata.isActive = productCtx.editisactive;
