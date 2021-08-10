@@ -398,7 +398,7 @@ function applyfilter(searchtext, categoryname, typename)
               >
               {
                   ({ data, loading, error, refetch }) => {
-                    debugger
+                 
                       if (loading) {
                           // return <Loader />
                       }

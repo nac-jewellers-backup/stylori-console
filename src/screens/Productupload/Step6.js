@@ -241,7 +241,7 @@ export default function Review() {
                           new Promise((resolve, reject) => {
                             console.log(file);
                             console.log("filepond property");
-                            debugger;
+                          
                           })
                         }
                         labelIdle="Upload Image"

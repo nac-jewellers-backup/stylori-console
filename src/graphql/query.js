@@ -1411,6 +1411,8 @@ query MyQuery($productId: String!) {
             ringsizeImage
           }
         }
+        minOrderQty
+        maxOrderQty
       }
     }
     productCategory
