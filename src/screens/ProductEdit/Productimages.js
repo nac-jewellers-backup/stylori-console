@@ -11,7 +11,8 @@ import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
 import { BASE_IMAGE_URL } from "../../config";
 import { IMAGEDELETE } from "../../graphql/query";
-import { Paper, Card, CardHeader, CardContent, Grid } from "@material-ui/core";
+import { Paper, Card, CardHeader, CardContent, Grid, Snackbar } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -93,7 +94,7 @@ export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
   let product_id = "";
-
+  const [success, setSuccess] = React.useState(false);
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
   // const [totalimages, setTotalimages] = React.useState(1);
@@ -108,6 +109,13 @@ export default function Productimages(props) {
       // setTotalimages(image_count)
     }
   });
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+  };
   async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
     console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
@@ -152,7 +160,10 @@ export default function Productimages(props) {
 
     let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
 
-    responsecontent.statuscode === 200 && window.location.reload();
+    responsecontent.statuscode === 200 && setSuccess(true);
+    setTimeout(function () {
+      responsecontent.statuscode === 200 && window.location.reload();
+    }, 3000);
 
     image_count = image_count + 1;
     if (!isedit) {
@@ -262,8 +273,6 @@ export default function Productimages(props) {
                       ></input>
 
                       <img
-
-                      
                         src={BASE_IMAGE_URL + url.imageUrl.replace(url.productId, url.productId + "/1000X1000")}
                         alt="image"
                         style={{
@@ -322,6 +331,9 @@ export default function Productimages(props) {
           </Grid>
         </CardContent>
       </Card>
+      <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose}>Image Upload Successfully.. Redirecting to Product Edit Page</Alert>
+      </Snackbar>
     </Paper>
   );
 }
