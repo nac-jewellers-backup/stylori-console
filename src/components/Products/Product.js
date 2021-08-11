@@ -327,6 +327,7 @@ const AddContact = (props) => {
     getproductlist("", "", "", event.target.value, "");
   }
   async function showproductdetails(prod_id) {
+    debugger;
     let bodycontent = {
       productid: prod_id,
     };

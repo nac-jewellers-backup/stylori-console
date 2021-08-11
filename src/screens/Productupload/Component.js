@@ -19,7 +19,7 @@ import List from "@material-ui/core/List";
 import StarBorder from "@material-ui/icons/StarBorder";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { Alert, AlertTitle } from "@material-ui/lab";
-
+import { useHistory } from "react-router-dom";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import Step6 from "./Step6";
@@ -96,6 +96,7 @@ function getStepContent(step) {
 }
 
 export default function Productupload() {
+  let history = useHistory();
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
@@ -178,10 +179,7 @@ export default function Productupload() {
         isvalid = false;
         error_content["productvendorcode"] = "Error messsage";
       }
-      if (
-        !productCtx.earringbacking &&
-        productCtx.product_type.alias === "Earrings"
-      ) {
+      if (!productCtx.earringbacking && productCtx.product_type.alias === "Earrings") {
         isvalid = false;
         error_content["earringbacking"] = "Error messsage";
       }
@@ -189,19 +187,12 @@ export default function Productupload() {
         isvalid = false;
         error_content["selectedgender"] = "Error messsage";
       }
-      if (
-        (!productCtx.selected_sizes ||
-          productCtx.selected_sizes.length === 0) &&
-        productCtx.product_type === "Rings"
-      ) {
+      if ((!productCtx.selected_sizes || productCtx.selected_sizes.length === 0) && productCtx.product_type === "Rings") {
         isvalid = false;
         error_content["selected_sizes"] = "Error messsage";
       }
 
-      if (
-        (!productCtx.default_size || productCtx.default_size.length === 0) &&
-        productCtx.product_type === "Rings"
-      ) {
+      if ((!productCtx.default_size || productCtx.default_size.length === 0) && productCtx.product_type === "Rings") {
         isvalid = false;
         error_content["default_size"] = "Error messsage";
       }
@@ -257,20 +248,20 @@ export default function Productupload() {
     setProductCtx({ ...productCtx, error_message: error_content });
     if (activeStep === productCtx.steps.length - 1) {
       console.info("HANDLE", sendNetworkRequest);
-      const productseries =
-        productCtx.masterData.productseries[0].productSeries;
+      const productseries = productCtx.masterData.productseries[0].productSeries;
 
       delete productCtx["masterData"];
 
       var formdata = productCtx;
       formdata["productseries"] = productseries;
-      console.log(JSON.stringify(formdata))
+      console.log(JSON.stringify(formdata));
       setLoading(true);
-  await sendNetworkRequest("/productupload", {}, formdata);
+      const productuploadresponse = await sendNetworkRequest("/productupload", {}, formdata);
+
       setLoading(false);
       setSuccess(true);
-      await sleep(500);
-     // window.location.replace("/productlist");
+      await ProductEditPage(productuploadresponse);
+      // window.location.replace("/productlist");
     } else {
       if (isvalid) {
         setActiveStep(activeStep + 1);
@@ -285,14 +276,16 @@ export default function Productupload() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  async function sleep(millis) {
-    return new Promise((resolve) => setTimeout(resolve, millis));
+  async function ProductEditPage(productuploadresponse) {
+    setTimeout(function () {
+      history.push(`product_attributes/${productuploadresponse[0].product_id}`);
+    }, 2500);
   }
-  console.log(productCtx, "Component Samir");
+
   return (
     <Grid item xs={12} sm={12}>
       <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose}>Product Created Successfully</Alert>
+        <Alert onClose={handleClose}>Product Created Successfully.. Redirecting to Product Edit Page</Alert>
       </Snackbar>
 
       <Snackbar open={loading} autoHideDuration={6000} onClose={handleClose}>
@@ -333,15 +326,8 @@ export default function Productupload() {
                   Back
                 </Button>
               )}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === productCtx.steps.length - 1
-                  ? "Product Upload"
-                  : "Next"}
+              <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
+                {activeStep === productCtx.steps.length - 1 ? "Product Upload" : "Next"}
               </Button>
             </div>
           </React.Fragment>

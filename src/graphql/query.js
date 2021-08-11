@@ -1991,6 +1991,17 @@ const CARTBYID = gql`
   }
 `;
 
+const IMAGEDELETE = `
+mutation MyMutation($productimageid: UUID!) {
+  deleteProductImageById(input: { id: $productimageid }) {
+    productListByProductId {
+      productId
+    }
+  }
+}
+
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2084,4 +2095,5 @@ export {
   ALLSTYLORISILVERLISTINGBOTTOMBANNERS,
   CREATESILVERLISTINGBOTTOMBANNER,
   DELETESILVERLISTINGBOTTOMBANNER,
+  IMAGEDELETE,
 };
