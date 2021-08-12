@@ -300,7 +300,7 @@ const Vendor = (props) => {
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   const [searchtext, setSearchtext] = React.useState("");
   const [openedit, setOpenedit] = React.useState(false);
-
+  const [editEmail, setEditEmail] = React.useState(false);
   const [isadd, setIsadd] = React.useState(false);
   const [isedit, setIsedit] = React.useState(false);
   const handleApplicationClose = () => {
@@ -335,6 +335,7 @@ const Vendor = (props) => {
     this.splice(index, 0, item);
   };
   function Editvendor(vendordata) {
+    setEditEmail(true);
     delete vendordata["action"];
 
     setEditcontent({
@@ -673,8 +674,6 @@ const Vendor = (props) => {
                               </TableCell>
                             ) : (
                               <TableCell>
-                 
-
                                 {columnname.type == 8 ? (
                                   <Button
                                     onClick={() => props.onPermissionadd(row)}
@@ -771,6 +770,7 @@ const Vendor = (props) => {
               onClose={handleApplicationClose}
               open={openedit}
               prefix={aliasName}
+              editemail={editEmail}
             />
           )}
         </div>
