@@ -234,14 +234,13 @@ export default function Review() {
              ))} */}
                     <Grid xs={12} sm={12} md={12} item>
                       <FilePond
-                        // allowImageValidateSize
-                        // imageValidateSizeMinWidth="2400"
-                        // imageValidateSizeMinHeight="2400"
+                        allowImageValidateSize
+                        imageValidateSizeMinWidth="2400"
+                        imageValidateSizeMinHeight="2400"
                         imageValidateSizeMeasure={(file) =>
                           new Promise((resolve, reject) => {
                             console.log(file);
                             console.log("filepond property");
-                          
                           })
                         }
                         labelIdle="Upload Image"
