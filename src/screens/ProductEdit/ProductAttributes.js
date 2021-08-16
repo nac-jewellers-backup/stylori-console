@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, TextField, Button, Fab } from "@material-ui/core";
 import { Input } from "../../components/Input.js";
-import { ProductContext, ProductProvider } from "../../context";
+import { AlertContext, ProductContext, ProductProvider } from "../../context";
 import { withRouter } from "react-router-dom";
 import DiamondDetails from "./DiamondDetails";
 import GemstoneDetails from "./GemstoneDetails";
@@ -117,6 +117,7 @@ export function Component(props) {
   const [loadopen, setLoadopen] = React.useState(true);
 
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const snack = React.useContext(AlertContext);
   const [snackMessage, setSnackMessage] = React.useState({
     message: "",
     severity: "",
@@ -136,7 +137,6 @@ export function Component(props) {
     }
     setOpen(false);
   };
-
   const { productCtx, setProductCtx } = useContext(ProductContext);
   const [state, setstate] = useState({
     create_variant: false,
@@ -159,10 +159,10 @@ export function Component(props) {
   };
 
   const handleinputChange = (type) => (e) => {
-    const re = /^[a-zA-Z \b]+$/;
-    if (e.target.value === "" || re.test(e.target.value)) {
-      setProductCtx({ ...productCtx, [type]: e.target.value });
-    }
+    // const re = /^[a-zA-Z \b]+$/;
+    // if (e.target.value === "" || re.test(e.target.value)) {
+    setProductCtx({ ...productCtx, [type]: e.target.value });
+    // }
   };
   const handledesinputChange = (type) => (e) => {
     setProductCtx({ ...productCtx, [type]: e.target.value });
@@ -247,6 +247,9 @@ export function Component(props) {
       stonecount: productCtx.stonecount,
       stonecolour: productCtx.stonecolour,
       gender: productCtx.product_gender,
+      earingBacking: productCtx?.earringbacking?.label ?? null,
+      minOrderQty: productCtx.minOrderQty,
+      maxOrderQty: productCtx.maxOrderQty,
       // prodDescription: productCtx.prod_desc,
       // productDiamondsByProductSku: productCtx.editDiamondLists,
       // productGemstonesByProductSku: productCtx.editGemstoneLists,
@@ -272,8 +275,8 @@ export function Component(props) {
         setProductCtx({
           ...productCtx,
           prod_desc:
-            fetchvalue.data.updateProductListByProductId.productList
-              .prodDescription,
+            fetchvalue?.data?.updateProductListByProductId?.productList
+              ?.prodDescription ?? "",
         });
       });
     let response = await sendNetworkRequest(
@@ -470,6 +473,27 @@ export function Component(props) {
     };
     sendNetworkRequest("/productpriceupdate", {}, bodydata);
   }
+  function updateAttributes(product_id) {
+    sendNetworkRequest(
+      "/updateproductattribute",
+      {},
+      { product_id: product_id }
+    )
+      .then((res) => {
+        snack.setSnack({
+          open: true,
+          msg: "Please wait attributes are being updated.",
+          severity: "warning",
+        });
+      })
+      .catch((err) => {
+        snack.setSnack({
+          open: true,
+          msg: "Some error occurred while updating, Please try again.",
+          severity: "error",
+        });
+      });
+  }
   function backProductList() {
     window.location = "/productlist";
   }
@@ -489,6 +513,8 @@ export function Component(props) {
       .then((fatchvalue) => {
         var genders = fatchvalue.data.productListByProductId.gender;
         var size_obj = fatchvalue.data.productListByProductId.sizeVarient;
+        var earringBackings =
+          fatchvalue.data.productListByProductId.earringBacking;
         let sizes_arr = [];
         if (size_obj) {
           let sizes = size_obj.split(",");
@@ -514,6 +540,12 @@ export function Component(props) {
             defaultcolour = element.productColor;
           }
         });
+        let earring_backing = null;
+        if (earringBackings !== null && earringBackings !== undefined) {
+          earring_backing = {
+            label: earringBackings,
+          };
+        }
         var metalcolors = [];
         Array.prototype.insert = function (index, item) {
           this.splice(index, 0, item);
@@ -530,6 +562,8 @@ export function Component(props) {
             metalcolors.push(colorobj);
           }
         });
+
+        console.log(fatchvalue);
         setProductCtx({
           ...productCtx,
           productname: fatchvalue.data.productListByProductId.productName,
@@ -563,7 +597,11 @@ export function Component(props) {
           productmaterials:
             fatchvalue.data.productListByProductId.productMaterialsByProductSku
               .nodes,
-          vendorcode: fatchvalue.data.productListByProductId.vendorCode,
+          vendorname:
+            fatchvalue?.data?.productListByProductId?.masterVendorByVendorCode
+              ?.name,
+          productvendorcode:
+            fatchvalue.data.productListByProductId.productVendorCode,
           product_gender: gender_arr,
           themes:
             fatchvalue.data.productListByProductId.productThemesByProductId
@@ -584,6 +622,9 @@ export function Component(props) {
             fatchvalue.data.productListByProductId.productStonecolorsByProductId
               .nodes,
           prod_desc: fatchvalue.data.productListByProductId.prodDescription,
+          earringbacking: earring_backing,
+          minOrderQty: fatchvalue.data.productListByProductId?.transSkuListsByProductId?.nodes[0]?.minOrderQty,
+          maxOrderQty: fatchvalue.data.productListByProductId?.transSkuListsByProductId?.nodes[0]?.maxOrderQty,
           // productDiamondClarity:diamondClaritySku,
         });
 
@@ -598,6 +639,8 @@ export function Component(props) {
       .catch(console.error);
   }, []);
   // debugger
+
+  console.log(productCtx);
   console.log(productCtx.masterData);
   return state.create_variant ? (
     <CreateVariant
@@ -702,49 +745,95 @@ export function Component(props) {
             name="product_type"
             label="Product Type"
           />
+          {productCtx?.product_type === "Earrings" || productCtx?.product_type === "earrings" ? (
+            <Autocomplete
+              id="free-solo-2-demos"
+              className={classes.fixedTag}
+              value={productCtx.earringbacking}
+              getOptionLabel={(option) => option.label}
+              onChange={handleoptionChange("earringbacking")}
+              options={productCtx.masterData.earringbacking}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    size="small"
+                    label={option.label}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Earring Backing"
+                  margin="dense"
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{ ...params.InputProps, type: "search" }}
+                />
+              )}
+            />
+          ) : (
+            ""
+          )}
           <Input
             variant="outlined"
             margin="dense"
             label="Vendor Name"
             fullWidth
             className={classes.helperinput}
-            value={productCtx.vendorcode}
+            value={productCtx.vendorname}
             id="productvendorcode"
             InputProps={{
               readOnly: true,
             }}
             name="Vendor Name"
           />
-
-          <TextField
-            className={classes.helperinput}
+          <Input
             variant="outlined"
             margin="dense"
+            label="Vendor Code"
             fullWidth
-            defaultValue={productCtx.productname}
-            id="seo_text"
-            error={
-              productCtx &&
-              productCtx.error_message &&
-              productCtx.error_message.productname
-            }
-            name="seo_text"
-            label="Minimum Order Quantity"
+            className={classes.helperinput}
+            value={productCtx.productvendorcode}
+            id="productvendorcode"
+            InputProps={{
+              readOnly: true,
+            }}
+            name="Vendor Code"
           />
           <TextField
             className={classes.helperinput}
             variant="outlined"
             margin="dense"
             fullWidth
-            defaultValue={productCtx.productname}
-            id="url"
-            error={
-              productCtx &&
-              productCtx.error_message &&
-              productCtx.error_message.productname
-            }
-            name="url"
+            // pattern="[a-zA-Z]*"
+            value={productCtx.minOrderQty}
+            id="minOrderQty"
+            error={productCtx && productCtx.error_message && productCtx.error_message.minOrderQty}
+            name="minOrderQty"
+            label="Minimum Order Quantity"
+            //onInput={keyPress.bind(this)}
+            onChange={handleinputChange("minOrderQty")}
+
+            //onChange={(e)=>handleinputChange(e,'productname')}
+          />{" "}
+          <TextField
+            className={classes.helperinput}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            // pattern="[a-zA-Z]*"
+            value={productCtx.maxOrderQty}
+            id="maxOrderQty"
+            error={productCtx && productCtx.error_message && productCtx.error_message.maxOrderQty}
+            name="maxOrderQty"
             label="Maximum Order Quantity"
+            //onInput={keyPress.bind(this)}
+            onChange={handleinputChange("maxOrderQty")}
+
+            //onChange={(e)=>handleinputChange(e,'productname')}
           />
           <Autocomplete
             multiple
@@ -837,7 +926,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -868,7 +956,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -931,7 +1018,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -1022,7 +1108,6 @@ export function Component(props) {
               />
             )}
           />
-
           <Autocomplete
             multiple
             id="free-solo-2-demo"
@@ -1053,7 +1138,6 @@ export function Component(props) {
               />
             )}
           />
-
           <FormControlLabel
             label={
               productCtx.isactive
@@ -1068,7 +1152,6 @@ export function Component(props) {
               />
             }
           />
-
           <Grid
             item
             container
@@ -1172,6 +1255,7 @@ export function Component(props) {
             variants={productCtx.variants}
             columns={varientcolumns}
             displycolumns={displycolumns}
+            productcompletedata={productCtx.productmaterials}
           />
 
           <Grid
@@ -1200,6 +1284,15 @@ export function Component(props) {
               color="primary"
             >
               Run Markup For This Product
+            </Button>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <Button
+              onClick={(e) => updateAttributes(prod_id)}
+              size="small"
+              variant="outlined"
+              color="primary"
+            >
+              Update Attributes
             </Button>
           </Grid>
           {isshowpricesummary ? (

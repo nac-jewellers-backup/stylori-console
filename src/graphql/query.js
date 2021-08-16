@@ -1299,7 +1299,6 @@ query MyQuery($productId: String!) {
         materialName
       }
     }
-   
     productDiamondsByProductSku {
       nodes {
         diamondClarity
@@ -1385,7 +1384,7 @@ query MyQuery($productId: String!) {
         purity
         productId
         skuWeight
-        generatedSku,
+        generatedSku
         costPrice
         costPriceTax
         discountPrice
@@ -1401,7 +1400,7 @@ query MyQuery($productId: String!) {
         discount
         isActive
         availableStockQty
-        isdefault,
+        isdefault
         vendorDeliveryTime
         id
         isActive
@@ -1412,12 +1411,18 @@ query MyQuery($productId: String!) {
             ringsizeImage
           }
         }
+        minOrderQty
+        maxOrderQty
       }
     }
     productCategory
     sizeVarient
+    masterVendorByVendorCode {
+      name
+    }
   }
 }
+
 `;
 
 const ALLMASTERRINGSIZE = `
@@ -1986,6 +1991,17 @@ const CARTBYID = gql`
   }
 `;
 
+const IMAGEDELETE = `
+mutation MyMutation($productimageid: UUID!) {
+  deleteProductImageById(input: { id: $productimageid }) {
+    productListByProductId {
+      productId
+    }
+  }
+}
+
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2079,4 +2095,5 @@ export {
   ALLSTYLORISILVERLISTINGBOTTOMBANNERS,
   CREATESILVERLISTINGBOTTOMBANNER,
   DELETESILVERLISTINGBOTTOMBANNER,
+  IMAGEDELETE,
 };

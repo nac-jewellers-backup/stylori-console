@@ -384,7 +384,7 @@ const AddContact = (props) => {
     getgemlist();
   }
   function handleDelete(diamondData) {
-    debugger;
+   
     setDeleteid(diamondData.id);
     setIsconformation(true);
   }

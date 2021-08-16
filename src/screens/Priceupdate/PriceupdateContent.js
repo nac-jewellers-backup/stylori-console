@@ -84,7 +84,7 @@ export default function PriceupdateContent(props) {
 
   async function filterapllied(filterdata, categories, producttypes, material, purity) {
     var bodydata = {};
-    debugger;
+  
     bodydata = {
       vendorid: filterdata && filterdata.length > 0 ? filterdata : "",
       product_category: categories && categories.length > 0 ? categories : "",

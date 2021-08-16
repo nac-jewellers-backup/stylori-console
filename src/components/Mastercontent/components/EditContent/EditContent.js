@@ -99,7 +99,6 @@ const EditContent = (props) => {
     // setShowpreview(true)
   }
   const handleInputChange = (type) => (e) => {
-    debugger;
     setEditcontent({ ...editcontent, [type]: e.target.value });
   };
   const toggleChecked = (type) => (e) => {
@@ -151,7 +150,7 @@ const EditContent = (props) => {
     setValue(event.target.value);
   };
   React.useEffect(() => {}, [editcontent]);
-
+  
   return (
     <Dialog maxWidth="lg" onClose={onClose} open={open}>
       <div {...rest} className={clsx(classes.root, className)}>
@@ -176,6 +175,21 @@ const EditContent = (props) => {
               )}
               <Grid container xs={12} spacing={2}>
                 {(!columnname.type || columnname.type == 1 || columnname.type === 10) && columnname.key != "action" ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      margin="dense"
+                      fullWidth
+                      id={columnname.key}
+                      name={columnname.key}
+                      value={editcontent[columnname.key]}
+                      onChange={handleInputChange(columnname.key)}
+                      label={columnname.label}
+                      disabled={columnname.type === 10}
+                    />
+                  </Grid>
+                ) : null}
+                {columnname.key == "email" && !diamond.isedit ? (
                   <Grid item xs={12}>
                     <TextField
                       variant="outlined"

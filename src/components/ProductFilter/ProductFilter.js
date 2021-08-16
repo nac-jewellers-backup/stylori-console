@@ -44,17 +44,29 @@ const ProductFilter = (props) => {
   };
 
   return (
-    <Grid
-      {...rest}
-      className={clsx(classes.root, className)}
-      container
-      spacing={3}
-    >
+    <Grid {...rest} className={clsx(classes.root, className)} container spacing={3}>
       <Grid item>
         <Search className={classes.search} onSearch={onSearch} />
       </Grid>
 
       <Grid item>
+        {/* {window.location.pathname === "/productlist" ? (
+          <>
+            {" "}
+            <CSVLink
+              header={dataCSV.keyCSV}
+              data={dataCSV.valueCSV}
+              filename={"ProductDetails.csv"}
+              style={{ textDecoration: "none " }}
+            >
+              <Button color="primary" style={{ marginRight: "8px" }} size="small" variant="outlined">
+                All Product CSV
+              </Button>
+            </CSVLink>
+          </>
+        ) : (
+          ""
+        )} */}
         {window.location.pathname === "/productlist" ? (
           <>
             {" "}
@@ -64,13 +76,9 @@ const ProductFilter = (props) => {
               filename={"ProductDetails.csv"}
               style={{ textDecoration: "none " }}
             >
-              <Button
-                color="primary"
-                style={{ marginRight: "8px" }}
-                size="small"
-                variant="outlined"
-              >
-                Download CSV
+              <Button color="primary" style={{ marginRight: "8px" }} size="small" variant="outlined">
+                {/* Recent  */}
+                CSV Download
               </Button>
             </CSVLink>
           </>
@@ -78,23 +86,12 @@ const ProductFilter = (props) => {
           ""
         )}
 
-        <Button
-          className={classes.filterButton}
-          color="primary"
-          onClick={handleFilterOpen}
-          size="small"
-          variant="outlined"
-        >
+        <Button className={classes.filterButton} color="primary" onClick={handleFilterOpen} size="small" variant="outlined">
           <FilterListIcon className={classes.filterIcon} /> Filter
         </Button>
       </Grid>
 
-      <Filter
-        onClose={handleFilterClose}
-        onFilter={onFilter}
-        open={openFilter}
-        masters={masters}
-      />
+      <Filter onClose={handleFilterClose} onFilter={onFilter} open={openFilter} masters={masters} />
     </Grid>
   );
 };

@@ -79,6 +79,7 @@ const InventoryModal = (props) => {
               className={classes.inputField}
               required
               label={"Tag No"}
+              disabled={props.type === "Edit"}
               name="generatedSku"
               fullWidth
               variant="outlined"
@@ -102,6 +103,7 @@ const InventoryModal = (props) => {
             <Autocomplete
               loading={loading}
               options={data?.allWarehouses?.nodes}
+              disabled={props.type === "Edit"}
               getOptionSelected={(option, value) => option.name === value.name}
               getOptionLabel={(option) => option.name}
               value={props.item.warehouse}

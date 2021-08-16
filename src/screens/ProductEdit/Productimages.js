@@ -10,8 +10,9 @@ import TableRow from "@material-ui/core/TableRow";
 import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
 import { BASE_IMAGE_URL } from "../../config";
-
-import { Paper, Card, CardHeader, CardContent, Grid } from "@material-ui/core";
+import { IMAGEDELETE } from "../../graphql/query";
+import { Paper, Card, CardHeader, CardContent, Grid, Snackbar } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -26,7 +27,7 @@ import { ProductContext } from "../../context";
 import Switch from "@material-ui/core/Switch";
 import { NetworkContext } from "../../context/NetworkContext";
 import "./upload.css";
-
+import { GRAPHQL_DEV_CLIENT } from "../../config";
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -94,7 +95,7 @@ export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
   let product_id = "";
-
+  const [success, setSuccess] = React.useState(false);
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
   // const [totalimages, setTotalimages] = React.useState(1);
@@ -109,8 +110,14 @@ export default function Productimages(props) {
       // setTotalimages(image_count)
     }
   });
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+  };
   async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
-    debugger;
     console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
@@ -151,17 +158,41 @@ export default function Productimages(props) {
       });
       productimgs.push(imagecontent);
     }
-    debugger;
+
     await axios.put(signedRequest, fileobj, options);
-    debugger
+
     let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
+
+    responsecontent.statuscode === 200 && setSuccess(true);
+    setTimeout(function () {
+      responsecontent.statuscode === 200 && window.location.reload();
+    }, 3000);
+
     image_count = image_count + 1;
     if (!isedit) {
       setProductimages(productimgs);
     }
   }
+  const deleteImage = async (imageData) => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: IMAGEDELETE,
+        variables: { productimageid: imageData.id },
+      }),
+    };
+
+    await fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        fatchvalue.statuscode = 200 && window.location.reload();
+      })
+      .catch(console.error);
+  };
+
   const handlenewAssetChange = (e) => {
-    debugger;
     const files = e.target.files;
     Object.keys(files).map((file, index) => {
       // const size = files[index].size;
@@ -272,6 +303,7 @@ export default function Productimages(props) {
 
                       <img
                         src={BASE_IMAGE_URL + url.imageUrl.replace(url.productId, url.productId + "/1000X1000")}
+                        alt="image"
                         style={{
                           width: "100%",
                           height: "100%",
@@ -279,6 +311,10 @@ export default function Productimages(props) {
                         }}
                       />
                     </Grid>
+                    <Button variant="outlined" style={{ margin: "auto", display: "flex" }} onClick={() => deleteImage(url)}>
+                      <DeleteIcon style={{ color: "grey" }} />
+                    </Button>
+                    <br />
                     <Typography style={{ textAlign: "center" }} variant="h5">
                       {" "}
                       {url.imagePosition}{" "}
@@ -329,6 +365,9 @@ export default function Productimages(props) {
           </Grid>
         </CardContent>
       </Card>
+      <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose}>Image Upload Successfully.. Redirecting to Product Edit Page</Alert>
+      </Snackbar>
     </Paper>
   );
 }
