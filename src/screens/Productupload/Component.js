@@ -279,7 +279,7 @@ export default function Productupload() {
   async function ProductEditPage(productuploadresponse) {
     setTimeout(function () {
       history.push(`product_attributes/${productuploadresponse[0].product_id}`);
-    }, 2500);
+    }, 4000);
   }
 
   return (

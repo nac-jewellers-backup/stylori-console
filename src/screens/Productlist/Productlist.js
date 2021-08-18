@@ -10,7 +10,7 @@ import Link from "@material-ui/core/Link";
 import Product from "../../components/Products";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import FullLoader from "../../components/Loader";
+
 import { ProductFilter } from "../../components";
 import { NetworkContext } from "../../context/NetworkContext";
 
@@ -18,9 +18,7 @@ export const Productlist = withRouter(
   withApollo((props) => {
     const [masters, setMasters] = useState({});
     const [filterparams, setFilterparams] = useState({});
-    const [dataCSV, setDataCSV] = useState({ keyCSV: [], valueCSV: [] });
-    const { sendNetworkRequest } = React.useContext(NetworkContext);
-    let responseCSV;
+
     function onFilter(filterobj) {
       let filtercontent = {};
 
@@ -47,21 +45,6 @@ export const Productlist = withRouter(
       // fetchadminusers()
     }
 
-    async function fetchCSVdata() {
-      responseCSV = await sendNetworkRequest("/productdetails", {}, {});
-      let responseData = responseCSV.res_json;
-
-      if (responseCSV.statuscode === 200) {
-        let keyData = [];
-
-        for (const [key] of Object.entries(responseData[0])) {
-          keyData.push({ label: key, key: key });
-        }
-
-        console.log(keyData);
-        setDataCSV({ ...dataCSV, keyCSV: keyData, valueCSV: responseData });
-      }
-    }
     useEffect(() => {
       const query = props.client.query;
       query({
@@ -82,8 +65,6 @@ export const Productlist = withRouter(
         .catch((error) => {
           console.log("smbcj");
         });
-
-      fetchCSVdata();
     }, []);
 
     return (
@@ -103,7 +84,7 @@ export const Productlist = withRouter(
             </Link>
           </Grid>
         </Grid>
-        <ProductFilter masters={masters} onSearch={onSearch} onFilter={onFilter} dataCSV={dataCSV} />
+        <ProductFilter masters={masters} onSearch={onSearch} onFilter={onFilter} />
         <Product filterparams={filterparams} />
       </Grid>
     );
