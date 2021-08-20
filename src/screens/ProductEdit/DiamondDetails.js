@@ -15,8 +15,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import TableHead from "@material-ui/core/TableHead";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { Typography, Button, Chip, TextField, Input } from "@material-ui/core";
+import { Button, Chip, TextField, Input } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ProductContext } from "../../context";
@@ -24,7 +23,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { NetworkContext } from "../../context/NetworkContext";
 import CancelIcon from "@material-ui/icons/CancelOutlined";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import EditDiamond from "./Components/EditDiamond/EditDiamond";
 
 function Alert(props) {
@@ -71,8 +69,7 @@ function TablePaginationActions(props) {
   }
 
   function handleNextButtonClick(event) {
-    console.log(event , page + 1);
-    debugger;
+    console.log(event, page + 1);
 
     onPageChange(event, page + 1);
   }
@@ -110,10 +107,6 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -133,12 +126,7 @@ const useStyles2 = makeStyles((theme) => ({
       padding: 0,
     },
   },
-  root: {
-    marginTop: theme.spacing(2),
-  },
-  table: {
-    //marginTop: theme.spacing(2)
-  },
+
   button: {
     margin: theme.spacing(0),
   },
@@ -174,9 +162,6 @@ export default function DiamondDetails(props) {
 
   const handleClick = () => {
     setOpen(true);
-  };
-  const handleApplicationOpen = () => {
-    setOpenedit(true);
   };
 
   const handleApplicationClose = () => {
@@ -230,14 +215,9 @@ export default function DiamondDetails(props) {
       diamondcount: diamondData.stoneCount,
       diamondweight: diamondData.stoneWeight,
     });
-    // setBtnEdit({ ...btnEdit, id:diamondData.id, action: true })
     setOpenedit(true);
   }
   async function DiamondSave(diamondobj) {
-    // alert(JSON.stringify(productCtx.diamondsettings))
-    // alert(JSON.stringify(productCtx.diamondshape))
-    // alert(JSON.stringify(productCtx.diamondcount))
-    // alert(JSON.stringify(id))
     var bodydata = {};
     if (diamondobj.diamondsettings && diamondobj.diamondshape && diamondobj.diamondcount && diamondobj.diamondweight) {
       let list_data = props.diamond;
@@ -258,38 +238,12 @@ export default function DiamondDetails(props) {
       });
       let response = await sendNetworkRequest("/editproductdiamond", {}, bodydata);
 
-      // setBtnEdit({ ...btnEdit, id:"", action: false })
-
-      // let editDiamondList = DiamondChangeData && DiamondChangeData.filter((edit_data,index)=>edit_data.id===id)[0];
-      // let editDiamondLists = productCtx.editDiamondLists;
-      // if(JSON.stringify(editDiamondList)!==JSON.stringify(diamondEditObject.edit)){
-      //   let status = editDiamondLists&& editDiamondLists.some((check_edit,index)=>check_edit.id===editDiamondList.id) ?
-      //   editDiamondLists = editDiamondLists && editDiamondLists
-      //   .map((diamond_list,index)=>{
-      //     if(diamond_list.id === editDiamondList.id){
-      //       return editDiamondList;
-      //     }
-      //     return diamond_list;
-      //   })
-      //   : editDiamondLists.push(editDiamondList);
-      // }
-      // // console.log(editDiamondLists,'editDiamondList')
       setSnackMessage({
         ...snackMessage,
         message: "This is successfully saved",
         severity: "success",
       });
-      // handleClick();
-      // setProductCtx({
-      //   ...productCtx,
-      //   diamondlist:DiamondChangeData,
-      //   editDiamondLists,
-      //   diamondsettings:"",
-      //   diamondshape: "",
-      //   diamondcount:"",
-      //   diamondweight:"",
-      // })
-      // setBtnEdit({ ...btnEdit, id:"", action: false })
+
       setEditcontent(null);
       setOpenedit(false);
     } else {
@@ -305,7 +259,6 @@ export default function DiamondDetails(props) {
     setBtnEdit({ ...btnEdit, id: "", action: false });
   }
   function handleChangePage(event, newPage) {
-
     setPage(newPage);
   }
 
@@ -320,9 +273,6 @@ export default function DiamondDetails(props) {
     setProductCtx({ ...productCtx, [type]: e.target.value });
   };
 
-  console.log(props.diamond.length);
-  debugger;
-
   return (
     <Paper className={classes.root}>
       <React.Fragment>
@@ -333,8 +283,6 @@ export default function DiamondDetails(props) {
         </Snackbar>
       </React.Fragment>
       <div className={classes.tableWrapper}>
-        {/* <CircularProgress color="secondary"/> */}
-
         <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
