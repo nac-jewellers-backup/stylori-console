@@ -64,22 +64,22 @@ const useStyles1 = makeStyles((theme) => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const { count, page, rowsPerPage, onPageChange } = props;
 
   function handleFirstPageButtonClick(event) {
-    onChangePage(event, 0);
+    onPageChange(event, 0);
   }
 
   function handleBackButtonClick(event) {
-    onChangePage(event, page - 1);
+    onPageChange(event, page - 1);
   }
 
   function handleNextButtonClick(event) {
-    onChangePage(event, page + 1);
+    onPageChange(event, page + 1);
   }
 
   function handleLastPageButtonClick(event) {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   }
 
   return (
@@ -126,7 +126,7 @@ function TablePaginationActions(props) {
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
@@ -732,7 +732,7 @@ export default function Variants(props) {
                   inputProps: { "aria-label": "rows per page" },
                   native: true,
                 }}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
               />
