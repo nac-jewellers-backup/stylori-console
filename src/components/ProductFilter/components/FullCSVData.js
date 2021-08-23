@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
+  CircularProgress,
 } from "@material-ui/core";
 import Slide from "@material-ui/core/Slide";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -20,6 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const FullCSVData = (props) => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
+  const [loader, setLoader] = React.useState(false);
   const [productType, setProductType] = React.useState(null);
   const client = useApolloClient();
   const snack = React.useContext(AlertContext);
@@ -61,28 +63,27 @@ const FullCSVData = (props) => {
         msg: "Please choose a product type!",
       });
     }
+    setLoader(true);
     sendNetworkRequest("/getcsvdata", {}, { type: productType })
       .then((data) => {
-        // let headers = {};
-        // Object.keys(data[0]).forEach((item) => {
-        //   headers[item] = item.charAt(0).toUpperCase() + item.slice(1);
-        // });
-        // exportCSVFile(headers, data, `${productType}.csv`);
         exportFromJSON({
           data,
           fileName: `${productType}`,
           exportType: "xls",
         });
         setOpen(false);
+        setLoader(false);
+        setProductType(null);
       })
       .catch((err) => {
         console.error(err);
+        setOpen(false);
+        setLoader(false);
         return snack.setSnack({
           open: true,
           severity: "error",
           msg: "Some error occurred while downloading, Please try again!",
         });
-        setOpen(false);
       });
   };
 
@@ -123,6 +124,7 @@ const FullCSVData = (props) => {
           />
         </DialogContent>
         <DialogActions>
+          {loader && <CircularProgress size={28} />}
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
