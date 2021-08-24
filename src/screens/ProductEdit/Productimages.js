@@ -1,30 +1,16 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
+import { makeStyles } from "@material-ui/core/styles";
+
 import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
 import { BASE_IMAGE_URL } from "../../config";
 import { IMAGEDELETE } from "../../graphql/query";
 import { Paper, Card, CardHeader, CardContent, Grid, Snackbar } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import IconButton from "@material-ui/core/IconButton";
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import LastPageIcon from "@material-ui/icons/LastPage";
-import TableHead from "@material-ui/core/TableHead";
-import EditIcon from "@material-ui/icons/Edit";
+import { Alert } from "@material-ui/lab";
+
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Typography, Button, Chip, TextField, Input } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { ProductContext } from "../../context";
-import Switch from "@material-ui/core/Switch";
+import { Typography, Button } from "@material-ui/core";
+
 import { NetworkContext } from "../../context/NetworkContext";
 import "./upload.css";
 import { GRAPHQL_DEV_CLIENT } from "../../config";
@@ -237,7 +223,7 @@ export default function Productimages(props) {
         <CardHeader title={props.color && props.isdefault ? props.color + " (Default Colour)" : props.color} />
         <CardContent>
           <Grid container spacing={2} className={classes.styleFile}>
-            {productimages.map((url) => (
+            {productimages.map((url, index) => (
               <>
                 {props.color === url.productColor ? (
                   <div style={{ position: "relative" }}>
@@ -288,7 +274,7 @@ export default function Productimages(props) {
                     <br />
                     <Typography style={{ textAlign: "center" }} variant="h5">
                       {" "}
-                      {url.imagePosition}{" "}
+                      {index + 1}{" "}
                     </Typography>
 
                     <Typography style={{ textAlign: "center" }} variant="h6">
