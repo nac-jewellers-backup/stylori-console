@@ -163,11 +163,11 @@ export default function Productimages(props) {
     responsecontent.statuscode === 200 && setSuccess(true);
     setTimeout(function () {
       responsecontent.statuscode === 200 && window.location.reload();
-    }, 3000);
+    }, 2500);
 
     image_count = image_count + 1;
     if (!isedit) {
-      setProductimages(productimgs);
+      // setProductimages(productimgs);
     }
   }
   const deleteImage = async (imageData) => {

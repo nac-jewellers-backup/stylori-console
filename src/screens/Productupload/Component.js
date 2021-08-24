@@ -260,6 +260,8 @@ export default function Productupload() {
 
       setLoading(false);
       setSuccess(true);
+      console.log(productuploadresponse);
+
       await ProductEditPage(productuploadresponse);
       // window.location.replace("/productlist");
     } else {
@@ -276,10 +278,10 @@ export default function Productupload() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  async function ProductEditPage(productuploadresponse) {
+  function ProductEditPage(productuploadresponse) {
     setTimeout(function () {
-      history.push(`product_attributes/${productuploadresponse[0].product_id}`);
-    }, 4000);
+    history.push(`product_attributes/${productuploadresponse[0].product_id}`);
+    }, 4500);
   }
 
   return (
