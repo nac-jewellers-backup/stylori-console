@@ -44,36 +44,24 @@ const ProductFilter = (props) => {
   };
 
   return (
-    <Grid
-      {...rest}
-      className={clsx(classes.root, className)}
-      container
-      spacing={3}
-    >
+    <Grid {...rest} className={clsx(classes.root, className)} container spacing={3}>
       <Grid item>
         <Search className={classes.search} onSearch={onSearch} />
       </Grid>
 
       <Grid item>
-        {window.location.pathname === "/productlist" && <DownloadCsv />}
-        {window.location.pathname === "/productlist" && <FullCSVData />}
-        <Button
-          className={classes.filterButton}
-          color="primary"
-          onClick={handleFilterOpen}
-          size="small"
-          variant="outlined"
-        >
-          <FilterListIcon className={classes.filterIcon} /> Filter
-        </Button>
+        <Grid container>
+          <Grid>{window.location.pathname === "/productlist" && <DownloadCsv />}</Grid>
+          <Grid>{window.location.pathname === "/productlist" && <FullCSVData />}</Grid>
+          <Grid>
+            <Button className={classes.filterButton} color="primary" onClick={handleFilterOpen} size="small" variant="outlined">
+              <FilterListIcon className={classes.filterIcon} /> Filter
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
 
-      <Filter
-        onClose={handleFilterClose}
-        onFilter={onFilter}
-        open={openFilter}
-        masters={masters}
-      />
+      <Filter onClose={handleFilterClose} onFilter={onFilter} open={openFilter} masters={masters} />
     </Grid>
   );
 };

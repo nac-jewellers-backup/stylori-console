@@ -7,6 +7,7 @@ import {
   DialogContent,
   TextField,
   CircularProgress,
+  Grid
 } from "@material-ui/core";
 import Slide from "@material-ui/core/Slide";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -88,7 +89,7 @@ const FullCSVData = (props) => {
   };
 
   return (
-    <div>
+    <Grid>
       <Button
         variant="outlined"
         color="primary"
@@ -133,7 +134,7 @@ const FullCSVData = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Grid>
   );
 };
 
