@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import moment from "moment";
 import Page from "../../components/Page";
 import { Header, OrderInfo, OrderItems } from "./components";
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export const OrderManagementDetails = withRouter((props) => {
   const classes = useStyles();
   const [order, setOrder] = useState(null);
+  const [productDetails, setProductDetails] = useState([]);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
   async function fetchorderdetails(order_id) {
     let response = await sendNetworkRequest(
@@ -30,6 +31,7 @@ export const OrderManagementDetails = withRouter((props) => {
     // debugger
     console.log(response);
     setOrder(response.orders);
+    setProductDetails(response.product_detail);
   }
   useEffect(() => {
     let mounted = true;
@@ -91,8 +93,12 @@ export const OrderManagementDetails = withRouter((props) => {
           <OrderInfo order={order} />
         </Grid>
         <Grid item md={8} xl={9} xs={12}>
-          <OrderItems order={order} />
-          <OrderDetails order={order} style={{ marginTop: 30 }} />
+          <OrderItems order={order} productDetails={productDetails} />
+          <OrderDetails
+            order={order}
+            productDetails={productDetails}
+            style={{ marginTop: 30 }}
+          />
         </Grid>
       </Grid>
     </Page>
