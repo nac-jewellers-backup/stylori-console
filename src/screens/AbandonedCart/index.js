@@ -19,16 +19,18 @@ import {
   Button,
   TableSortLabel,
 } from "@material-ui/core";
-import { useQuery } from "react-apollo";
+import { useApolloClient, useQuery } from "react-apollo";
 import { ABANDONEDCART } from "../../graphql/query";
 import { NetworkStatus } from "apollo-client";
 import moment from "moment";
 import EmailIcon from "@material-ui/icons/Email";
 import CallIcon from "@material-ui/icons/Call";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CartDetails from "./cart_details";
 import { green } from "@material-ui/core/colors";
+import exportFromJSON from "export-from-json";
 
 let Headers = {
   "Cart ID": {},
@@ -69,8 +71,14 @@ let Headers = {
 };
 
 let filterVariables = {
+  default: {
+    filter: {
+      ordersByCartIdExist: false,
+    },
+  },
   withoutContact: {
     filter: {
+      ordersByCartIdExist: false,
       userprofileId: {
         isNull: true,
       },
@@ -78,6 +86,7 @@ let filterVariables = {
   },
   withContact: {
     filter: {
+      ordersByCartIdExist: false,
       userprofileId: {
         isNull: false,
       },
@@ -85,6 +94,7 @@ let filterVariables = {
   },
   emptyCart: {
     filter: {
+      ordersByCartIdExist: false,
       shoppingCartItemsByShoppingCartId: {
         every: {
           productSku: {
@@ -134,11 +144,12 @@ export const AbandonedCart = (props) => {
     setPage(0);
   };
 
-  const [filter, setFilter] = React.useState("");
+  const [filter, setFilter] = React.useState("default");
   const [sort, setSort] = React.useState({
     by: "Created On",
     direction: "desc",
   });
+  const client = useApolloClient();
   const { loading, data, error, refetch, networkStatus } = useQuery(
     ABANDONEDCART,
     {
@@ -193,6 +204,59 @@ export const AbandonedCart = (props) => {
     setOpen();
   };
 
+  const downloadAbandonedCart = () => {
+    client
+      .query({
+        query: ABANDONEDCART,
+        variables: {
+          orderBy: ["CREATED_AT_ASC"],
+          condition: { status: "pending" },
+          filter: { ...filterVariables["withContact"]?.filter },
+        },
+        fetchPolicy: "network-only",
+      })
+      .then(
+        ({
+          data: {
+            allShoppingCarts: { nodes: cartDetails },
+          },
+        }) => {
+          exportFromJSON({
+            data: cartDetails.map((item) => {
+              return {
+                cart_id: item.id,
+                created_at: moment(item.createdAt).format("DD/MM/YYYY hh:mm a"),
+                gross_amount: item.grossAmount,
+                discount_amount: item.discountAmount,
+                first_name: item.user?.firstName,
+                last_name: item.user?.lastName,
+                email: item.user?.email,
+                mobile_no: item.user?.mobile,
+                sku_ids: item?.cart_items?.nodes
+                  ?.map((i) => i?.transSkuListByProductSku?.skuId)
+                  ?.join(","),
+                generated_skus: item?.cart_items?.nodes
+                  ?.map((i) => i?.transSkuListByProductSku?.generatedSku)
+                  ?.join(","),
+                product_names: item?.cart_items?.nodes
+                  ?.map(
+                    (i) =>
+                      i?.transSkuListByProductSku?.productListByProductId
+                        ?.productName
+                  )
+                  ?.join(","),
+              };
+            }),
+            fileName: `abandoned_cart_${moment().format("YYYY-MM-DD")}`,
+            exportType: "xls",
+          });
+        }
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid
@@ -235,10 +299,19 @@ export const AbandonedCart = (props) => {
             variant="outlined"
             color={filter == "" ? "primary" : "default"}
             className={classes.button}
-            onClick={() => handleClickFilter("")}
+            onClick={() => handleClickFilter("default")}
           >
             ALL
           </Button>
+          <IconButton
+            aria-label="download abandoned cart"
+            color="primary"
+            className={classes.button}
+            disabled={filter != "withContact"}
+            onClick={() => downloadAbandonedCart()}
+          >
+            <CloudDownloadOutlinedIcon />
+          </IconButton>
         </Grid>
       </Grid>
       <Grid container item xs={12} sm={12} spacing={2}>

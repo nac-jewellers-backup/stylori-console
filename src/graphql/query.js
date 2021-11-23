@@ -1283,6 +1283,8 @@ query MyQuery($productId: String!) {
         id
       }
     }
+    height
+    width
     productId
     productName
     productType
@@ -1340,7 +1342,7 @@ query MyQuery($productId: String!) {
         id
       }
     }
-    productThemesByProductId(condition: {isActive: true}) {
+    productThemesByProductId(condition: { isActive: true }) {
       nodes {
         themeName
         id
@@ -1352,7 +1354,7 @@ query MyQuery($productId: String!) {
         stonecolor
       }
     }
-    productStylesByProductId(condition: {isActive: true}) {
+    productStylesByProductId(condition: { isActive: true }) {
       nodes {
         styleName
         id
@@ -1364,7 +1366,7 @@ query MyQuery($productId: String!) {
         id
       }
     }
-    productOccassionsByProductId(condition: {isActive: true}) {
+    productOccassionsByProductId(condition: { isActive: true }) {
       nodes {
         occassionName
         id
@@ -1404,6 +1406,7 @@ query MyQuery($productId: String!) {
         vendorDeliveryTime
         id
         isActive
+        
         transSkuDescriptionsBySkuId {
           nodes {
             skuDescription
@@ -1422,6 +1425,7 @@ query MyQuery($productId: String!) {
     }
   }
 }
+
 
 `;
 

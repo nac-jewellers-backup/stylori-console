@@ -11,14 +11,8 @@ import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { Grid } from "@material-ui/core";
-import Collapse from "@material-ui/core/Collapse";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import List from "@material-ui/core/List";
-import StarBorder from "@material-ui/icons/StarBorder";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import { Alert, AlertTitle } from "@material-ui/lab";
+
+import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
@@ -260,6 +254,8 @@ export default function Productupload() {
 
       setLoading(false);
       setSuccess(true);
+      console.log(productuploadresponse);
+
       await ProductEditPage(productuploadresponse);
       // window.location.replace("/productlist");
     } else {
@@ -276,10 +272,10 @@ export default function Productupload() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  async function ProductEditPage(productuploadresponse) {
+  function ProductEditPage(productuploadresponse) {
     setTimeout(function () {
       history.push(`product_attributes/${productuploadresponse[0].product_id}`);
-    }, 2500);
+    }, 4500);
   }
 
   return (

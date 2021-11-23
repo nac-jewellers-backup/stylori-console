@@ -4,10 +4,10 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Button } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
-
 import { Search, Filter } from "./components";
+import DownloadCsv from "./components/downloadcsv";
+import FullCSVData from "./components/FullCSVData";
 
-import { CSVLink } from "react-csv";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -50,45 +50,15 @@ const ProductFilter = (props) => {
       </Grid>
 
       <Grid item>
-        {/* {window.location.pathname === "/productlist" ? (
-          <>
-            {" "}
-            <CSVLink
-              header={dataCSV.keyCSV}
-              data={dataCSV.valueCSV}
-              filename={"ProductDetails.csv"}
-              style={{ textDecoration: "none " }}
-            >
-              <Button color="primary" style={{ marginRight: "8px" }} size="small" variant="outlined">
-                All Product CSV
-              </Button>
-            </CSVLink>
-          </>
-        ) : (
-          ""
-        )} */}
-        {window.location.pathname === "/productlist" ? (
-          <>
-            {" "}
-            <CSVLink
-              header={dataCSV.keyCSV}
-              data={dataCSV.valueCSV}
-              filename={"ProductDetails.csv"}
-              style={{ textDecoration: "none " }}
-            >
-              <Button color="primary" style={{ marginRight: "8px" }} size="small" variant="outlined">
-                {/* Recent  */}
-                CSV Download
-              </Button>
-            </CSVLink>
-          </>
-        ) : (
-          ""
-        )}
-
-        <Button className={classes.filterButton} color="primary" onClick={handleFilterOpen} size="small" variant="outlined">
-          <FilterListIcon className={classes.filterIcon} /> Filter
-        </Button>
+        <Grid container>
+          <Grid>{window.location.pathname === "/productlist" && <DownloadCsv />}</Grid>
+          <Grid>{window.location.pathname === "/productlist" && <FullCSVData />}</Grid>
+          <Grid>
+            <Button className={classes.filterButton} color="primary" onClick={handleFilterOpen} size="small" variant="outlined">
+              <FilterListIcon className={classes.filterIcon} /> Filter
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
 
       <Filter onClose={handleFilterClose} onFilter={onFilter} open={openFilter} masters={masters} />

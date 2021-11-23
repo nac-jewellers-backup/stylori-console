@@ -253,7 +253,7 @@ export const HolidayManager = (props) => {
           style={{ color: "#000" }}
           onClick={() => {
             var a = document.createElement("a");
-            a.href = "/sample/holidays.csv";
+            a.href = `${process.env.PUBLIC_URL}/sample/holidays.csv`;
             a.setAttribute("download", "holidays.csv");
             a.click();
           }}

@@ -337,7 +337,7 @@ export const Inventory = (props) => {
           style={{ color: "#000" }}
           onClick={() => {
             var a = document.createElement("a");
-            a.href = "/sample/inventory.csv";
+            a.href = `${process.env.PUBLIC_URL}/sample/inventory.csv`;
             a.setAttribute("download", "inventory.csv");
             a.click();
           }}

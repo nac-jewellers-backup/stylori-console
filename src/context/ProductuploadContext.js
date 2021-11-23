@@ -106,6 +106,8 @@ const productuploadCtxInitial = {
     minOrderQty: "",
     maxOrderQty: "",
     approximateMetalWeight: "",
+    height: "",
+    width: "",
   },
   masterData: {},
   setProductCtx: () => null,
