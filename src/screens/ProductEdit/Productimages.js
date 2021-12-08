@@ -1,11 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
 import { BASE_IMAGE_URL } from "../../config";
 import { IMAGEDELETE } from "../../graphql/query";
-import { Paper, Card, CardHeader, CardContent, Grid, Snackbar } from "@material-ui/core";
+import {
+  Paper,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Snackbar,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -66,7 +73,8 @@ const useStyles2 = makeStyles((theme) => ({
   card: {
     minHeight: "150px",
     textAlign: "left",
-    boxShadow: "0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)",
+    boxShadow:
+      "0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)",
   },
   formContainer: {
     paddingLeft: 40,
@@ -80,6 +88,10 @@ export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
   let product_id = "";
+  const { pathname } = useLocation();
+  if (pathname) {
+    product_id = pathname.split("/")[pathname.split("/").length - 1];
+  }
   const [success, setSuccess] = React.useState(false);
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
@@ -102,7 +114,15 @@ export default function Productimages(props) {
 
     setSuccess(false);
   };
-  async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
+  async function uploadimagetoserver(
+    fileobj,
+    filetype,
+    imagename,
+    prodid,
+    imagecontent,
+    isedit,
+    position
+  ) {
     console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
@@ -130,7 +150,9 @@ export default function Productimages(props) {
         productColor: props.color,
         productId: product_id,
         imageUrl: filepathname.replace("jpeg", "jpg"),
-        url: "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" + filepathname,
+        url:
+          "https://s3.ap-south-1.amazonaws.com/styloribaseimages/" +
+          filepathname,
       };
       imagecontent = imageobj;
     }
@@ -144,7 +166,12 @@ export default function Productimages(props) {
 
     await axios.put(signedRequest, fileobj, options);
 
-    let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
+    let responsecontent = await sendNetworkRequest(
+      "/updateproductimage",
+      {},
+      { imageobj: imagecontent, isedit: isedit },
+      false
+    );
 
     responsecontent.statuscode === 200 && setSuccess(true);
     setTimeout(function () {
@@ -187,7 +214,14 @@ export default function Productimages(props) {
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
 
-      uploadimagetoserver(files[index], fileType, imagename, product_id, {}, false);
+      uploadimagetoserver(
+        files[index],
+        fileType,
+        imagename,
+        product_id,
+        {},
+        false
+      );
     });
   };
   const handleAssetChange = (e, imageposition, category, endPoint) => {
@@ -197,7 +231,10 @@ export default function Productimages(props) {
       alert(imageposition);
       let productimageobj = {};
       productimages.forEach((content) => {
-        if (content.productColor === props.color && imageposition === content.imagePosition) {
+        if (
+          content.productColor === props.color &&
+          imageposition === content.imagePosition
+        ) {
           productimageobj = content;
         }
       });
@@ -208,11 +245,19 @@ export default function Productimages(props) {
       if (productimages) {
         //  imagecount = image_count + 1;
       }
-      let imagename = prodid + "-" + imageposition + randomnum + prodcolor.charAt(0);
+      let imagename =
+        prodid + "-" + imageposition + randomnum + prodcolor.charAt(0);
       const fileParts = files[index].type.split("/");
       const fileType = fileParts[1];
       //alert(imagename)
-      uploadimagetoserver(files[index], fileType, imagename, prodid, productimageobj, true);
+      uploadimagetoserver(
+        files[index],
+        fileType,
+        imagename,
+        prodid,
+        productimageobj,
+        true
+      );
       // alert(imagename)
     });
   };
@@ -220,7 +265,13 @@ export default function Productimages(props) {
   return (
     <Paper className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader title={props.color && props.isdefault ? props.color + " (Default Colour)" : props.color} />
+        <CardHeader
+          title={
+            props.color && props.isdefault
+              ? props.color + " (Default Colour)"
+              : props.color
+          }
+        />
         <CardContent>
           <Grid container spacing={2} className={classes.styleFile}>
             {productimages.map((url, index) => (
@@ -255,11 +306,19 @@ export default function Productimages(props) {
                         type="file"
                         className="custom-file-input"
                         multiple
-                        onChange={(e) => handleAssetChange(e, url.imagePosition, "", "")}
+                        onChange={(e) =>
+                          handleAssetChange(e, url.imagePosition, "", "")
+                        }
                       ></input>
 
                       <img
-                        src={BASE_IMAGE_URL + url.imageUrl.replace(url.productId, url.productId + "/1000X1000")}
+                        src={
+                          BASE_IMAGE_URL +
+                          url.imageUrl.replace(
+                            url.productId,
+                            url.productId + "/1000X1000"
+                          )
+                        }
                         alt="image"
                         style={{
                           width: "100%",
@@ -268,7 +327,11 @@ export default function Productimages(props) {
                         }}
                       />
                     </Grid>
-                    <Button variant="outlined" style={{ margin: "auto", display: "flex" }} onClick={() => deleteImage(url)}>
+                    <Button
+                      variant="outlined"
+                      style={{ margin: "auto", display: "flex" }}
+                      onClick={() => deleteImage(url)}
+                    >
                       <DeleteIcon style={{ color: "grey" }} />
                     </Button>
                     <br />
@@ -300,7 +363,10 @@ export default function Productimages(props) {
               className="container"
             >
               {
-                <label className="custom-file-upload" style={{ display: "flex" }}>
+                <label
+                  className="custom-file-upload"
+                  style={{ display: "flex" }}
+                >
                   <i
                     className="fa fa-plus"
                     aria-hidden="true"
@@ -310,7 +376,12 @@ export default function Productimages(props) {
                       margin: "auto",
                     }}
                   ></i>
-                  <input type="file" className="custom-file-input" multiple onChange={(e) => handlenewAssetChange(e)}></input>
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    multiple
+                    onChange={(e) => handlenewAssetChange(e)}
+                  ></input>
                 </label>
               }
             </Grid>
@@ -318,7 +389,9 @@ export default function Productimages(props) {
         </CardContent>
       </Card>
       <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose}>Image Upload Successfully.. Redirecting to Product Edit Page</Alert>
+        <Alert onClose={handleClose}>
+          Image Upload Successfully.. Redirecting to Product Edit Page
+        </Alert>
       </Snackbar>
     </Paper>
   );
