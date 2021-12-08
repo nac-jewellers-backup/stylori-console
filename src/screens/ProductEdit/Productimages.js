@@ -1,11 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { makeid } from "../../utils/commonmethod";
 import { BASE_IMAGE_URL } from "../../config";
 import { IMAGEDELETE } from "../../graphql/query";
-import { Paper, Card, CardHeader, CardContent, Grid, Snackbar } from "@material-ui/core";
+import {
+  Paper,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Snackbar,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -81,6 +88,10 @@ export default function Productimages(props) {
   const classes = useStyles2();
   let image_count = 0;
   let product_id = "";
+  const { pathname } = useLocation();
+  if (pathname) {
+    product_id = pathname.split("/")[pathname.split("/").length - 1];
+  }
   const [success, setSuccess] = React.useState(false);
   const [title, setTitle] = React.useState(props.color);
   const [productimages, setProductimages] = React.useState(props.prodimages);
@@ -103,7 +114,15 @@ export default function Productimages(props) {
 
     setSuccess(false);
   };
-  async function uploadimagetoserver(fileobj, filetype, imagename, prodid, imagecontent, isedit, position) {
+  async function uploadimagetoserver(
+    fileobj,
+    filetype,
+    imagename,
+    prodid,
+    imagecontent,
+    isedit,
+    position
+  ) {
     console.log(fileobj, filetype, imagename, prodid, imagecontent, isedit);
     let responsedata = await sendNetworkRequest(
       "/uploadimage",
@@ -147,7 +166,12 @@ export default function Productimages(props) {
 
     await axios.put(signedRequest, fileobj, options);
 
-    let responsecontent = await sendNetworkRequest("/updateproductimage", {}, { imageobj: imagecontent, isedit: isedit }, false);
+    let responsecontent = await sendNetworkRequest(
+      "/updateproductimage",
+      {},
+      { imageobj: imagecontent, isedit: isedit },
+      false
+    );
 
     responsecontent.statuscode === 200 && setSuccess(true);
     setTimeout(function () {
@@ -288,7 +312,13 @@ export default function Productimages(props) {
                       ></input>
 
                       <img
-                        src={BASE_IMAGE_URL + url.imageUrl.replace(url.productId, url.productId + "/1000X1000")}
+                        src={
+                          BASE_IMAGE_URL +
+                          url.imageUrl.replace(
+                            url.productId,
+                            url.productId + "/1000X1000"
+                          )
+                        }
                         alt="image"
                         style={{
                           width: "100%",
@@ -297,7 +327,11 @@ export default function Productimages(props) {
                         }}
                       />
                     </Grid>
-                    <Button variant="outlined" style={{ margin: "auto", display: "flex" }} onClick={() => deleteImage(url)}>
+                    <Button
+                      variant="outlined"
+                      style={{ margin: "auto", display: "flex" }}
+                      onClick={() => deleteImage(url)}
+                    >
                       <DeleteIcon style={{ color: "grey" }} />
                     </Button>
                     <br />
@@ -329,7 +363,10 @@ export default function Productimages(props) {
               className="container"
             >
               {
-                <label className="custom-file-upload" style={{ display: "flex" }}>
+                <label
+                  className="custom-file-upload"
+                  style={{ display: "flex" }}
+                >
                   <i
                     className="fa fa-plus"
                     aria-hidden="true"
@@ -352,7 +389,9 @@ export default function Productimages(props) {
         </CardContent>
       </Card>
       <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose}>Image Upload Successfully.. Redirecting to Product Edit Page</Alert>
+        <Alert onClose={handleClose}>
+          Image Upload Successfully.. Redirecting to Product Edit Page
+        </Alert>
       </Snackbar>
     </Paper>
   );
