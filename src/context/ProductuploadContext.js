@@ -25,6 +25,7 @@ const productuploadCtxInitial = {
       value: 1,
       label: "Diamond",
     },
+
     materials: ["Diamond", "Gold", "Gemstone", "Solitaire", "Silver", "Platinum"],
     gemstontypes: "",
     gemstonshapes: "",
