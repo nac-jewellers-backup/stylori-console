@@ -1,11 +1,7 @@
 import {
   Button,
-
   Chip,
-
-
   colors, Dialog,
-
   TextField,
   Typography
 } from '@material-ui/core';
@@ -59,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const EditGemstone = props => {
+
   const { diamond, open, onClose, onApply, className, ...rest } = props;
   const initialValues = {
     id: diamond.id,
@@ -66,7 +63,7 @@ const EditGemstone = props => {
     gemstonecount: diamond.gemstonecount ? diamond.gemstonecount : '',
     gemstoneweight: diamond.gemstoneweight ? diamond.gemstoneweight : null,
     gemstonesize: diamond.gemstonesize ? diamond.gemstonesize : null,
-    gemstoneshape: diamond.gemstoneshape ? diamond.gemstoneshape : null
+    gemstoneshape: diamond?.gemstoneshape
   }
   const [value, setValue] = useState('');
   const { productCtx, setProductCtx } = React.useContext(ProductContext);
@@ -90,7 +87,8 @@ const EditGemstone = props => {
   };
   React.useEffect(() => {
     // alert(JSON.stringify(editcontent.gemstonecount))
-  }, [editcontent])
+
+  })
 
   return (
     <Dialog
@@ -109,7 +107,7 @@ const EditGemstone = props => {
             gutterBottom
             variant="h3"
           >
-            Diamond Details
+            Gemstone Details
           </Typography>
 
         </div>
@@ -147,7 +145,7 @@ const EditGemstone = props => {
             name="size"
             type="number"
             autoComplete="size"
-            onChange={handleInputChange('diamondcount')}
+            onChange={handleInputChange('gemstonecount')}
             value={editcontent.gemstonecount}
           />
           <Autocomplete
@@ -165,7 +163,7 @@ const EditGemstone = props => {
             renderInput={params => (
               <TextField
                 {...params}
-                label="Diamond Setting"
+                label="Gemostones Setting"
                 margin="dense"
                 variant="outlined"
                 fullWidth
@@ -190,7 +188,8 @@ const EditGemstone = props => {
             renderInput={params => (
               <TextField
                 {...params}
-                label="Diamond Shape"
+
+                label="Gemostones Shape"
                 margin="dense"
                 variant="outlined"
                 fullWidth

@@ -205,6 +205,7 @@ export default function GemstoneDetails(props) {
   });
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.gemstone && props.gemstone.length - page * rowsPerPage);
   function GemstoneEdit(gemstoneData) {
+
     setGemstoneEditObject({
       ...gemstoneEditObject,
       edit: JSON.parse(JSON.stringify(gemstoneData))
@@ -220,7 +221,7 @@ export default function GemstoneDetails(props) {
     setEditcontent({
       id: gemstoneData.id,
       gemstonesettings: productCtx.masterData.gemstonesettings.filter((settingData, index) => settingData.name === gemstoneData.gemstoneSetting)[0],
-      gemstoneshape: productCtx.masterData.gemstonshapes.filter((shapeData, index) => shapeData.name === gemstoneData.gemstoneShape)[0],
+      gemstoneshape: gemstoneData.gemstoneShape,
       gemstonecount: gemstoneData.stoneCount,
       gemstoneweight: gemstoneData.stoneWeight,
       gemstonesize: gemstoneData.gemstoneSize
@@ -357,7 +358,7 @@ export default function GemstoneDetails(props) {
                       renderInput={params => (
                         <TextField
                           {...params}
-                          label="Gemstone Shapes"
+                          label="Gemstone Shape"
                           margin="dense"
                           variant="outlined"
                           fullWidth
