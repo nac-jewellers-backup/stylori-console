@@ -1,23 +1,17 @@
-import React,{useState,useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from "react-router-dom";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import { Link as RouterLink } from 'react-router-dom'
-import Link from '@material-ui/core/Link'
-import Vendor from '../../components/Vendor/Vendor'
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { Breadcrumbs } from '../../components';
 import Mastercontent from '../../components/Mastercontent/Mastercontent';
-import { API_URL, GRAPHQL_DEV_CLIENT } from '../../config';
-import { SHIPPINGCHARGES, ACTIVESHIPPINGZONES } from '../../graphql/query';
-import data from "./data.json"
-import Page from '../../components/Page'
+import Page from '../../components/Page';
+import { GRAPHQL_DEV_CLIENT } from '../../config';
 import { NetworkContext } from '../../context/NetworkContext';
-import {Breadcrumbs} from '../../components'
+import { ACTIVESHIPPINGZONES, SHIPPINGCHARGES } from '../../graphql/query';
+import data from "./data.json";
 
 const useStyles = makeStyles(theme => ({
   root: {
-  //  padding: theme.spacing(3)
+    //  padding: theme.spacing(3)
   },
   results: {
     marginTop: theme.spacing(3)
@@ -31,39 +25,37 @@ export const Shipmentsettings = withRouter(props => {
   const [masters, setMasters] = React.useState({})
   const [mastervalue, setMastervalue] = React.useState([])
 
-  
+
   const classes = useStyles();
 
   const [filtervalue, setFiltervalue] = React.useState([])
 
-  
-  async function createtax(taxcontent)
-  {
-    let response =  await sendNetworkRequest('/manageshipmentsettings', {}, taxcontent)
+
+  async function createtax(taxcontent) {
+    let response = await sendNetworkRequest('/manageshipmentsettings', {}, taxcontent)
 
     getmaster()
   }
-  async function getmastervalues()
-  {
+  async function getmastervalues() {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: ACTIVESHIPPINGZONES  })
+      body: JSON.stringify({ query: ACTIVESHIPPINGZONES })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
       .then(res => res.json())
       .then(fatchvalue => {
-      
+
         setMasters({
-          "zones":fatchvalue.data.allShippingZones.nodes,
-          "ranges":[{
-            "id":1,
-            "name":"By Weight"
-          },{
-            "id":2  ,
-            "name":"By Value"
+          "zones": fatchvalue.data.allShippingZones.nodes,
+          "ranges": [{
+            "id": 1,
+            "name": "By Weight"
+          }, {
+            "id": 2,
+            "name": "By Value"
           }]
         })
 
@@ -71,13 +63,12 @@ export const Shipmentsettings = withRouter(props => {
       .catch(console.error)
 
   }
-  async function getmaster()
-  {
+  async function getmaster() {
     const url = GRAPHQL_DEV_CLIENT;
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: SHIPPINGCHARGES  })
+      body: JSON.stringify({ query: SHIPPINGCHARGES })
     };
     // console.log("helo",setProductCtx)
     fetch(url, opts)
@@ -85,8 +76,7 @@ export const Shipmentsettings = withRouter(props => {
       .then(fatchvalue => {
         let shipmentcharges = []
 
-        if(fatchvalue.data.allShippingCharges.nodes)
-        {
+        if (fatchvalue.data.allShippingCharges.nodes) {
 
           fatchvalue.data.allShippingCharges.nodes.forEach(element => {
             let shipobj = {}
@@ -99,30 +89,28 @@ export const Shipmentsettings = withRouter(props => {
             shipobj['isActive'] = element.isActive;
             shipobj['isCart'] = element.isCart;
 
-                if(element.shippingZoneByZoneId)
-                {
-                  let zines_arr = []
-                  zines_arr.push(element.shippingZoneByZoneId)
-                  shipobj['shippingzones'] = element.shippingZoneByZoneId
-                  shipobj['zone'] = element.shippingZoneByZoneId.name
+            if (element.shippingZoneByZoneId) {
+              let zines_arr = []
+              zines_arr.push(element.shippingZoneByZoneId)
+              shipobj['shippingzones'] = element.shippingZoneByZoneId
+              shipobj['zone'] = element.shippingZoneByZoneId.name
 
-                }
+            }
 
-                if(element.chargeType == 1)
-                {
-                  shipobj['rangetype'] = {
-                    "id":1,
-                    "name":"By Weight"
-                  }
-                  shipobj['range'] = "By Weight"
-                }else{
-                  shipobj['rangetype'] = {
-                    "id":2,
-                    "name":"By Value"
-                  }
-                  shipobj['range'] = "By Value"
-                }
-                shipmentcharges.push(shipobj)
+            if (element.chargeType == 1) {
+              shipobj['rangetype'] = {
+                "id": 1,
+                "name": "By Weight"
+              }
+              shipobj['range'] = "By Weight"
+            } else {
+              shipobj['rangetype'] = {
+                "id": 2,
+                "name": "By Value"
+              }
+              shipobj['range'] = "By Value"
+            }
+            shipmentcharges.push(shipobj)
           });
         }
         setMastervalue(shipmentcharges)
@@ -134,47 +122,43 @@ export const Shipmentsettings = withRouter(props => {
     getmastervalues()
     getmaster()
   }, [])
-  function applysearch(searchcontent)
-  {
+  function applysearch(searchcontent) {
     setSearchtext(searchcontent)
   }
-  function addcategory()
-  {
+  function addcategory() {
     setIsadd(true)
   }
-  function cancelcreation()
-  {
+  function cancelcreation() {
     setIsadd(false)
   }
- 
-  async function search(taxcontent)
-  {
-    const filteredHomes = mastervalue.filter( x => 
-      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent+ ".*") : null 
+
+  async function search(taxcontent) {
+    const filteredHomes = mastervalue.filter(x =>
+      x.name.toLowerCase() ? x.name.toLowerCase().match(taxcontent + ".*") : null
     );
     setFiltervalue(filteredHomes)
   }
   return (
     <>
-    <Page
-    className={classes.root}
-    title="Orders Management List"
-  >
+      <Page
+        className={classes.root}
+        title="Orders Management List"
+      >
 
-    {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
-    {/* <Results
+        {/* <Header onSearch={applysearch} onAdd={addcategory}/> */}
+        {/* <Results
        className={classes.results}
       searchtext={searchtext}
       isadd={isadd}
       onCancel={cancelcreation}
     /> */}
-    <Breadcrumbs></Breadcrumbs>
+        <Breadcrumbs></Breadcrumbs>
 
-        <Mastercontent title= {"Shipment Settings"} 
-        masters={masters}
-        button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue}/>
+        <Mastercontent title={"Shipment Settings"}
+          masters={masters}
+          button_title="Add New" onCreate={createtax} onSearch={search} columns={data.columns} values={filtervalue} />
 
-    </Page>
+      </Page>
     </>
   )
 });
