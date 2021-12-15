@@ -85,6 +85,7 @@ const route = {
   holiday_manager: "/holiday-manager",
   inventory: "/inventory",
   abandoned_cart: "/cart-details",
+  price_upload: "/price-upload",
 };
 
 export default route;
