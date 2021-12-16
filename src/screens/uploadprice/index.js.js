@@ -100,7 +100,7 @@ const PriceUpload = (props) => {
     return (
         <div className={classes.roots}
         >
-            <center>  <Button variant="contained" color="primary" onClick={downloadURI}>Downlode Sample File</Button></center>
+            <center>  <Button variant="contained" color="primary" onClick={downloadURI}>Download Sample File</Button></center>
             <br />
 
             <label
