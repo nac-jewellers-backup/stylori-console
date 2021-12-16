@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Typography } from "@material-ui/core";
+import { Box, Button, CircularProgress, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { RiFileUploadFill } from "react-icons/ri";
@@ -88,12 +88,20 @@ const PriceUpload = (props) => {
 
 
     };
+    const downloadURI = () => {
+        var link = document.createElement("a");
+        link.download = "StyloriPriceSampleFile";
+        link.href = "https://styloriimages.s3.ap-south-1.amazonaws.com/samplefiles/stylori+price+sample+file.xlsx";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
+    }
     return (
         <div className={classes.roots}
         >
-
-
+            <center>  <Button variant="contained" color="primary" onClick={downloadURI}>Downlode Sample File</Button></center>
+            <br />
 
             <label
 
