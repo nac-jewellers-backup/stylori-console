@@ -1,31 +1,24 @@
-import React from "react";
-import clsx from "clsx";
-import { useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
+import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Link from "@material-ui/core/Link";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import { withRouter } from "react-router-dom";
-import { useStyles } from "./styles";
-import Collapse from "@material-ui/core/Collapse";
-import StarBorder from "@material-ui/icons/StarBorder";
+import { useTheme } from "@material-ui/core/styles";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { ProductContext } from "../../context";
-import { Link as RouterLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
-import { GlobalContext } from "../../context";
+import clsx from "clsx";
+import React from "react";
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import { GlobalContext, ProductContext } from "../../context";
 import { NetworkContext } from "../../context/NetworkContext";
-// import { ProductList } from "../../assets/index";
-import { Paper, Avatar, Typography } from "@material-ui/core";
 import data from "../menupages.json";
+import { useStyles } from "./styles";
 
 function SideBar() {
   const classes = useStyles();
@@ -134,7 +127,7 @@ function SideBar() {
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
                         {globalCtx.isExpand &&
-                        globalCtx.optionname === menuobj.name ? (
+                          globalCtx.optionname === menuobj.name ? (
                           <ExpandLess />
                         ) : (
                           <ExpandMore />
@@ -152,7 +145,7 @@ function SideBar() {
                           {menuobj.submenu.map((submenuobj, subindex) => (
                             <>
                               {accesspages &&
-                              accesspages.indexOf(submenuobj.url) > -1 ? (
+                                accesspages.indexOf(submenuobj.url) > -1 ? (
                                 <Link
                                   underline="none"
                                   component={RouterLink}
@@ -173,7 +166,9 @@ function SideBar() {
                                         style={{ width: "18px" }}
                                         src={submenuobj.icons}
                                       ></img>
+
                                     </ListItemIcon>
+
                                     <ListItemText primary={submenuobj.name} />
                                   </ListItem>
                                 </Link>
