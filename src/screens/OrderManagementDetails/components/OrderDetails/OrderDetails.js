@@ -36,7 +36,8 @@ const useStyles = makeStyles(() => ({
   },
   voucher_code: {
     textAlign: "right",
-    fontSize: "12px",
+    fontSize: "16px",
+    fontWeight: "normal",
   },
 }));
 const OrderDetails = (props) => {
@@ -176,19 +177,17 @@ const OrderDetails = (props) => {
                 <p className={classes.final_total_text}>Gross Total - &nbsp;</p>
                 {order.shopping_cart.discount && (
                   <p className={classes.final_total_text}>
-                    Voucher Discount - &nbsp;
+                    Voucher Discount &nbsp;
+                    <span className={classes.voucher_code}>
+                      ({order.shopping_cart.voucher_code})
+                    </span>{" "}
+                    - &nbsp;
                   </p>
                 )}
 
                 <p className={classes.final_total_text}>Final Total - &nbsp;</p>
               </Grid>
-              <Grid item>
-                {order.shopping_cart.discount && (
-                  <p className={classes.voucher_code}>
-                    ({order.shopping_cart.voucher_code})
-                  </p>
-                )}
-              </Grid>
+
               <Grid item>
                 <p className={classes.final_total_text}>
                   {Math.round(order.shopping_cart.gross_amount)}&#8377; &nbsp;
