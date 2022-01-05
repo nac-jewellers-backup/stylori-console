@@ -1,12 +1,12 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import {
   Card,
+  CardContent,
   CardHeader,
   Divider,
-  CardContent,
   Grid,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { BASE_IMAGE_URL } from "../../../../config";
 
 const useStyles = makeStyles(() => ({
@@ -37,6 +37,7 @@ const useStyles = makeStyles(() => ({
 }));
 const OrderDetails = (props) => {
   const { order, className, productDetails, ...rest } = props;
+
   console.log(order, "samir");
   const classes = useStyles();
   return (
@@ -167,7 +168,18 @@ const OrderDetails = (props) => {
           ))}
           <Grid>
             <p className={classes.final_total_text}>
-              Final Total - {Math.round(order.shopping_cart.gross_amount)}&nbsp;
+              Gross Total - {Math.round(order.shopping_cart.gross_amount)}&nbsp;
+            </p>
+            {order.shopping_cart.discount && (
+              <p className={classes.final_total_text}>
+                Voucher Discount - {Math.round(order.shopping_cart.discount)}
+                &nbsp;
+              </p>
+            )}
+
+            <p className={classes.final_total_text}>
+              Final Total - {Math.round(order.shopping_cart.discounted_price)}
+              &nbsp;
             </p>
           </Grid>
         </CardContent>
