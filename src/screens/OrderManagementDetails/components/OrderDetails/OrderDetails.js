@@ -34,6 +34,10 @@ const useStyles = makeStyles(() => ({
     fontSize: "16px",
     fontWeight: "bold",
   },
+  voucher_code: {
+    textAlign: "right",
+    fontSize: "12px",
+  },
 }));
 const OrderDetails = (props) => {
   const { order, className, productDetails, ...rest } = props;
@@ -167,20 +171,40 @@ const OrderDetails = (props) => {
             </Card>
           ))}
           <Grid>
-            <p className={classes.final_total_text}>
-              Gross Total - {Math.round(order.shopping_cart.gross_amount)}&nbsp;
-            </p>
-            {order.shopping_cart.discount && (
-              <p className={classes.final_total_text}>
-                Voucher Discount - {Math.round(order.shopping_cart.discount)}
-                &nbsp;
-              </p>
-            )}
+            <Grid container justifyContent="flex-end" alignItems="center">
+              <Grid item>
+                <p className={classes.final_total_text}>Gross Total - &nbsp;</p>
+                {order.shopping_cart.discount && (
+                  <p className={classes.final_total_text}>
+                    Voucher Discount - &nbsp;
+                  </p>
+                )}
 
-            <p className={classes.final_total_text}>
-              Final Total - {Math.round(order.shopping_cart.discounted_price)}
-              &nbsp;
-            </p>
+                <p className={classes.final_total_text}>Final Total - &nbsp;</p>
+              </Grid>
+              <Grid item>
+                {order.shopping_cart.discount && (
+                  <p className={classes.voucher_code}>
+                    ({order.shopping_cart.voucher_code})
+                  </p>
+                )}
+              </Grid>
+              <Grid item>
+                <p className={classes.final_total_text}>
+                  {Math.round(order.shopping_cart.gross_amount)}&#8377; &nbsp;
+                </p>
+                {order.shopping_cart.discount && (
+                  <p className={classes.final_total_text}>
+                    {Math.round(order.shopping_cart.discount)}&#8377; &nbsp;
+                  </p>
+                )}
+
+                <p className={classes.final_total_text}>
+                  {Math.round(order.shopping_cart.discounted_price)}&#8377;
+                  &nbsp;
+                </p>
+              </Grid>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
