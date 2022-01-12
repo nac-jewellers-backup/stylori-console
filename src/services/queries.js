@@ -35,7 +35,7 @@ export const PRODUCTCATEGORY = gql`
 `;
 
 export const USERORDERS = gql`
-  query($userid: UUID!) {
+  query ($userid: UUID!) {
     allOrders(
       filter: { userProfileByUserProfileId: { id: { equalTo: $userid } } }
     ) {
@@ -100,79 +100,86 @@ export const USERORDERS = gql`
     }
   }
 `;
-export const ORDERS = (orderid) => gql`query {
-  allOrders(filter:  ${
-    orderid
-      ? `{userProfileId: {equalTo: "${orderid}"}}`
-      : `{id: {isNull: false}}`
-  },orderBy: CREATED_AT_DESC) {
-    nodes {
-      paymentMode
-      paymentStatus
-      updatedAt
-      createdAt
-      awbNumber
-      cartId
-      orderStatus
-      comments
-      id
-      shoppingCartByCartId {
-        shoppingCartItemsByShoppingCartId {
-          nodes {
-            transSkuListByProductSku {
-              generatedSku
-              productListByProductId {
-                productCategory
-                productType
-                productCollectionsByProductId {
-                  nodes {
-                    collectionName
+export const ORDERS = gql`
+  query (
+    $order_filter: OrderFilter!
+    $limit: Int
+    $offset: Int
+    $order_by: [OrdersOrderBy!]
+  ) {
+    allOrders(
+      filter: $order_filter
+      first: $limit
+      offset: $offset
+      orderBy: $order_by
+    ) {
+      nodes {
+        paymentMode
+        paymentStatus
+        updatedAt
+        createdAt
+        awbNumber
+        cartId
+        orderStatus
+        comments
+        id
+        shoppingCartByCartId {
+          shoppingCartItemsByShoppingCartId {
+            nodes {
+              transSkuListByProductSku {
+                generatedSku
+                productListByProductId {
+                  productCategory
+                  productType
+                  productCollectionsByProductId {
+                    nodes {
+                      collectionName
+                    }
                   }
                 }
               }
             }
           }
-        }
-        giftwrapsByCartId {
-          nodes {
-            message
-            giftFrom
-            giftTo
-          }
-        }
-        
-        cartAddressesByCartId {
-          nodes {
-            firstname
-            contactNumber
-            addressline1
-            addressline2
-            city
-            pincode
-            state
-          }
-        }
-        userProfileByUserprofileId {
-          firstName
-          mobile
-          email
-          userAddressesByUserProfileId {
+          giftwrapsByCartId {
             nodes {
-              contactNumber
+              message
+              giftFrom
+              giftTo
             }
           }
-          
+
+          cartAddressesByCartId {
+            nodes {
+              firstname
+              contactNumber
+              addressline1
+              addressline2
+              city
+              pincode
+              state
+            }
+          }
+          userProfileByUserprofileId {
+            firstName
+            mobile
+            email
+            userAddressesByUserProfileId {
+              nodes {
+                contactNumber
+              }
+            }
+          }
+        }
+        paymentDetailsByOrderId {
+          nodes {
+            paymentResponse
+          }
         }
       }
-      paymentDetailsByOrderId {
-        nodes {
-          paymentResponse
-        }
-      }
+      totalCount
     }
   }
-
-}`;
+`;
 
 export const MATERIALMASTER = gql`
   query {
@@ -487,5 +494,4 @@ export const TAXMASTER = `query {
       id
     }
   }
-}`
-
+}`;

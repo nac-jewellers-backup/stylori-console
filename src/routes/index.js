@@ -4,17 +4,70 @@ import { ApolloProvider } from "react-apollo";
 import { Route, Switch } from "react-router-dom";
 import { GlobalContext } from "../context";
 import { NetworkProvider } from "../context/NetworkContext";
+import { ProductContext } from "../context/ProductuploadContext";
 import {
-  ProductContext
-} from "../context/ProductuploadContext";
-import {
-
-  AbandonedCart, Addshippingattributes, Addtaxattributes, CategoryList, Configuration, Customerdetails, Dashboard, DiscountList, Earringbacking, Goldpriceupdate, HolidayManager, Inventory, Login, Manageadminusers, Manageusers, Markupprice, Masterattribute,
-  Mastercategories, Mastercollections, Masterdesigns, Masterdiamonds,
-  Masterdiamondsettings, Masterdiamondshapes, Mastergemsettings, Mastergemshapes,
-  Mastergemtypes, Mastergenders, Mastermetalcolors, Masteroccassions, Masterorderstatus, Masterpaymentstatus, Masterproducttypes, Masterpurities, Masterroles,
-  Masterscreens, Masterstonecolors, Masterstones, Masterstoneshapes, Masterstyles,
-  Masterthemes, Masterweights, Materialmaster, OrderList, OrderManagementDetails, Priceupdate, Productlist, Productupload, Salediscount, Seopriority, Shipmentsettings, Shippingattributes, Shippingzones, Taxsettings, Taxsetup, Useraddresses, Userconfiguration, Userwishlist, Vendorlist, Vendorprice, Voucherdiscount, VoucherdiscountListing, Warehouse
+  AbandonedCart,
+  Addshippingattributes,
+  Addtaxattributes,
+  CategoryList,
+  Configuration,
+  Customerdetails,
+  Dashboard,
+  DiscountList,
+  Earringbacking,
+  Goldpriceupdate,
+  HolidayManager,
+  Inventory,
+  Login,
+  Manageadminusers,
+  Manageusers,
+  Markupprice,
+  Masterattribute,
+  Mastercategories,
+  Mastercollections,
+  Masterdesigns,
+  Masterdiamonds,
+  Masterdiamondsettings,
+  Masterdiamondshapes,
+  Mastergemsettings,
+  Mastergemshapes,
+  Mastergemtypes,
+  Mastergenders,
+  Mastermetalcolors,
+  Masteroccassions,
+  Masterorderstatus,
+  Masterpaymentstatus,
+  Masterproducttypes,
+  Masterpurities,
+  Masterroles,
+  Masterscreens,
+  Masterstonecolors,
+  Masterstones,
+  Masterstoneshapes,
+  Masterstyles,
+  Masterthemes,
+  Masterweights,
+  Materialmaster,
+  OrderList,
+  OrderManagementDetails,
+  Priceupdate,
+  Productlist,
+  Productupload,
+  Salediscount,
+  Seopriority,
+  Shipmentsettings,
+  Shippingattributes,
+  Shippingzones,
+  Taxsettings,
+  Taxsetup,
+  Useraddresses,
+  Userconfiguration,
+  Userwishlist,
+  Vendorlist,
+  Vendorprice,
+  Voucherdiscount,
+  VoucherdiscountListing,
+  Warehouse,
 } from "../screens";
 import Banners from "../screens/Banners/banners";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
@@ -211,7 +264,10 @@ const MainApp = () => {
           <PrivateRoute path={route.banners} component={Banners} />
           <PrivateRoute path={route.styloribanner} component={Styloribanner} />
           <PrivateRoute path={route.silverbanner} component={Silverbanner} />
-          <PrivateRoute path={route.silverlistingbanner} component={SilverListingbanner} />
+          <PrivateRoute
+            path={route.silverlistingbanner}
+            component={SilverListingbanner}
+          />
           <PrivateRoute
             path={route.holiday_manager}
             component={HolidayManager}
@@ -220,7 +276,6 @@ const MainApp = () => {
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
-
         </Switch>
       </NetworkProvider>
       {/* </ProductProvider> */}
