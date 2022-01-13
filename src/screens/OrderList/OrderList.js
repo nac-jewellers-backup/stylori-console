@@ -3,7 +3,6 @@ import {
   Grid,
   IconButton,
   LinearProgress,
-  makeStyles,
   Paper,
   Table,
   TableBody,
@@ -16,7 +15,10 @@ import {
   TextField,
   InputAdornment,
   Typography,
+  Menu,
   MenuItem,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { ORDERS } from "./../../services/queries";
@@ -33,6 +35,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 
 let getAddress = (data) => {
   if (!data) return "";
@@ -65,7 +68,7 @@ let getPaymentStatus = (data) => {
   }\n${payment_response?.TRANSACTIONPAYMENTSTATUS}`;
 };
 
-let ColumnNames = {
+let defaultColumns = {
   "Order ID": {
     is_active: true,
     is_default: true,
@@ -81,7 +84,7 @@ let ColumnNames = {
     is_default: true,
     identifier: "customer_name",
   },
-  SKUs: { is_active: false },
+  SKUs: { is_active: false, identifier: "SKUs" },
   Email: { is_active: true, identifier: "email" },
   "Phone Number": { is_active: true, identifier: "phone_number" },
   "Shipping Address": { is_active: true, identifier: "shipping_address" },
@@ -122,7 +125,7 @@ export const OrderList = withRouter((props) => {
       },
     };
   }
-  const [columnName, setColumnName] = React.useState(ColumnNames);
+  const [columnName, setColumnName] = React.useState(defaultColumns);
   const [orderFilter, setOrderFilter] = React.useState({
     ...filterData,
     id: { isNull: false },
@@ -140,6 +143,16 @@ export const OrderList = withRouter((props) => {
   });
   const [fromDate, setFromDate] = React.useState(null);
   const [ToDate, setToDate] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleDateChange = (date, value) => {
     let createdAt = orderFilter?.createdAt;
@@ -211,7 +224,10 @@ export const OrderList = withRouter((props) => {
     rowData = rowData.map((item) => {
       return {
         id: item.id,
-        order_date: moment(item.order_date).format("DD MMM YYYY HH:mm:ss"),
+        order_date: moment(item?.createdAt).format("DD MMM YYYY HH:mm:ss"),
+        SKUs: item?.shoppingCartByCartId?.shoppingCartItemsByShoppingCartId?.nodes
+          .map((i) => i?.transSkuListByProductSku?.generatedSku)
+          .join(", "),
         customer_name:
           item?.shoppingCartByCartId?.cartAddressesByCartId?.nodes?.[0]
             ?.firstname,
@@ -418,6 +434,51 @@ export const OrderList = withRouter((props) => {
               onChange={(date) => handleDateChange(date, "to")}
             />
           </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid container item xs={1}>
+          <IconButton onClick={handleClick}>
+            <ViewColumnIcon />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                height:
+                  Object.keys(columnName).filter((item) => !item?.is_default)
+                    .length * 20,
+                width: "50ch",
+              },
+            }}
+          >
+            <Grid container style={{ padding: 10 }}>
+              {Object.keys(columnName).map(
+                (item) =>
+                  !columnName[item]?.is_default && (
+                    <Grid item xs={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            name={item}
+                            color="primary"
+                            checked={columnName[item].is_active}
+                            onClick={(_) => {
+                              columnName[item].is_active =
+                                !columnName[item].is_active;
+                              setColumnName({ ...columnName });
+                            }}
+                          />
+                        }
+                        label={item}
+                      />
+                    </Grid>
+                  )
+              )}
+            </Grid>
+          </Menu>
         </Grid>
       </Grid>
       <Grid container item xs={12} sm={12} spacing={2}>
