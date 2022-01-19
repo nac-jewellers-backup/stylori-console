@@ -1,12 +1,12 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import {
   Card,
+  CardContent,
   CardHeader,
   Divider,
-  CardContent,
   Grid,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { BASE_IMAGE_URL } from "../../../../config";
 
 const useStyles = makeStyles(() => ({
@@ -34,9 +34,15 @@ const useStyles = makeStyles(() => ({
     fontSize: "16px",
     fontWeight: "bold",
   },
+  voucher_code: {
+    textAlign: "right",
+    fontSize: "16px",
+    fontWeight: "normal",
+  },
 }));
 const OrderDetails = (props) => {
   const { order, className, productDetails, ...rest } = props;
+
   console.log(order, "samir");
   const classes = useStyles();
   return (
@@ -166,9 +172,38 @@ const OrderDetails = (props) => {
             </Card>
           ))}
           <Grid>
-            <p className={classes.final_total_text}>
-              Final Total - {Math.round(order.shopping_cart.gross_amount)}&nbsp;
-            </p>
+            <Grid container justifyContent="flex-end" alignItems="center">
+              <Grid item>
+                <p className={classes.final_total_text}>Gross Total - &nbsp;</p>
+                {order.shopping_cart.discount && (
+                  <p className={classes.final_total_text}>
+                    Voucher Discount &nbsp;
+                    <span className={classes.voucher_code}>
+                      ({order.shopping_cart.voucher_code})
+                    </span>{" "}
+                    - &nbsp;
+                  </p>
+                )}
+
+                <p className={classes.final_total_text}>Final Total - &nbsp;</p>
+              </Grid>
+
+              <Grid item>
+                <p className={classes.final_total_text}>
+                  {Math.round(order.shopping_cart.gross_amount)}&#8377; &nbsp;
+                </p>
+                {order.shopping_cart.discount && (
+                  <p className={classes.final_total_text}>
+                    {Math.round(order.shopping_cart.discount)}&#8377; &nbsp;
+                  </p>
+                )}
+
+                <p className={classes.final_total_text}>
+                  {Math.round(order.shopping_cart.discounted_price)}&#8377;
+                  &nbsp;
+                </p>
+              </Grid>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>

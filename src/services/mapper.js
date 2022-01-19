@@ -1,10 +1,12 @@
 import { PRODUCTCATEGORY } from "../graphql/query";
-import { MATERIALMASTER,ORDERS,USERORDERS,VOUCHERMASTER } from "../services/queries";
 import apidata from '../screens/Productupload/data.json';
+import { ORDERS, USERORDERS, VOUCHERMASTER } from "../services/queries";
 
 export const productCategory = {
     query: PRODUCTCATEGORY,
     mapper: (response) => {
+
+        const gemstonecount = "i";
         const category = response.allMasterProductCategories.nodes.map(_ => ({
             ..._,
             value: _.id,
@@ -19,20 +21,20 @@ export const productCategory = {
         const material = response.allMasterMaterials.nodes.map(_ => ({
             ..._,
             value: _.id,
-            label:_.name
+            label: _.name
         }))
         const gender = response.allMasterGenders.nodes.map(_ => ({
             ..._,
             value: _.id,
             label: _.name
         }))
-        const vendorcode  = response.allMasterVendors.nodes.map(_ => ({
+        const vendorcode = response.allMasterVendors.nodes.map(_ => ({
             ..._,
             value: _.id,
             label: _.name,
-            display: _.name +' ('+_.shortCode+' )'
+            display: _.name + ' (' + _.shortCode + ' )'
         }))
-        
+
         const diamondsettings = response.allMasterDiamondsSettings.nodes.map(_ => ({
             ..._,
             value: _.id,
@@ -47,7 +49,7 @@ export const productCategory = {
             ..._,
             value: _.id,
             label: _.name,
-            themeName:_.name
+            themeName: _.name
         }))
         const styles = response.allMasterStyles.nodes.map(_ => ({
             ..._,
@@ -55,7 +57,7 @@ export const productCategory = {
             label: _.name,
             styleName: _.name
         }))
-        
+
         const occasions = response.allMasterOccasions.nodes.map(_ => ({
             ..._,
             value: _.id,
@@ -72,13 +74,13 @@ export const productCategory = {
             ..._,
             value: _.id,
             label: _.name,
-            stonecolor:_.name
+            stonecolor: _.name
         }))
         const stones = response.allMasterStones.nodes.map(_ => ({
             ..._,
             value: _.id,
             label: _.name,
-            stonecount:_.name
+            stonecount: _.name
         }))
         const metalcolour = response.allMasterMetalsColors.nodes.map(_ => ({
             ..._,
@@ -110,29 +112,30 @@ export const productCategory = {
         const gemstontypes = response.allMasterGemstonesTypes.nodes.map(_ => ({
             ..._,
             value: _.shortCode,
-            label:_.name
+            label: _.name
         }))
-        
+
         const gemstonshapes = response.allMasterGemstonesShapes.nodes.map(_ => ({
+
             ..._,
             value: _.alias,
-            label:_.name
+            label: _.name
         }))
         const gemstonesettings = response.allMasterGemstonesSettings.nodes.map(_ => ({
             ..._,
             value: _.alias,
-            label:_.name
+            label: _.name
         }))
         const earringbacking = response.allMasterEarringBackings.nodes.map(_ => ({
             ..._,
             value: _.alias,
-            label:_.name
+            label: _.name
         }))
 
         const diamondtypes = response.allMasterDiamondTypes.nodes.map(_ => ({
             ..._,
-            value: _.diamondColor+_.diamondClarity,
-            label:_.diamondColor+_.diamondClarity
+            value: _.diamondColor + _.diamondClarity,
+            label: _.diamondColor + _.diamondClarity
         }))
         // const metalSizeMinToMax = response.masterRingsSize.nodes.map(_ => ({
         //     ..._,
@@ -140,19 +143,21 @@ export const productCategory = {
         //     size:_.size,
         //     productType : _.productType ,
         // }))
-        
-        
+
+
         const metals = apidata.metals
-        
-        return { category,
-             product_type, 
-             material, 
-             gender,
-             vendorcode, 
-             metalcolour, 
-             metals, 
-             diamondsettings,
-             diamondshapes,
+
+        return {
+
+            category,
+            product_type,
+            material,
+            gender,
+            vendorcode,
+            metalcolour,
+            metals,
+            diamondsettings,
+            diamondshapes,
             themes,
             styles,
             occasions,
@@ -178,8 +183,8 @@ export const orderList = {
     mapper: (response) => {
         const orders = response.allOrders.nodes.map(_ => ({
             ..._
-                }))
-               
+        }))
+
         return {
             orders
         }
@@ -190,8 +195,8 @@ export const userOders = {
     mapper: (response) => {
         const orders = response.allOrders.nodes.map(_ => ({
             ..._
-                }))
-               
+        }))
+
         return {
             orders
         }
@@ -202,9 +207,9 @@ export const materialMaster = {
     mapper: (response) => {
         const materials = response.allMasterMaterials.nodes.map(_ => ({
             ..._
-                }))
+        }))
         const vendors = response.allMasterVendors.nodes.map(_ => ({
-                    ..._
+            ..._
         }))
 
         const product_categories = response.allMasterProductCategories.nodes.map(_ => ({
@@ -221,7 +226,7 @@ export const materialMaster = {
         }))
         const purities = response.allMasterMetalsPurities.nodes.map(_ => ({
             ..._,
-            
+
         }))
         const styles = response.allMasterStyles.nodes.map(_ => ({
             ..._
@@ -236,14 +241,14 @@ export const materialMaster = {
         const diamondtypes = response.allMasterDiamondTypes.nodes.map(_ => ({
             ..._,
             "alias": _.shortCode,
-            "diamondtype":_.diamondColor+_.diamondClarity
+            "diamondtype": _.diamondColor + _.diamondClarity
         }))
-        
+
         // const metalSizeMinToMax = response.masterRingsSize.nodes.map(_ => ({
         //     ..._
         // }))
 
-        
+
         // alert(JSON.stringify(product_types))
         return {
             vendors,

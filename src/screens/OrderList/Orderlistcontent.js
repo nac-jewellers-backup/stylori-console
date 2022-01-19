@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../config";
 import { PAYMENTSTATUSMASTER, PRODUCTDIAMONDTYPES } from "../../graphql/query";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import Page from "../../components/Page";
 import { Header, Results } from "./components";
 import Columns from "./components/columnnames.json";
@@ -40,7 +40,7 @@ export default function Producttypecontent() {
     Columns.defaultcolumnnames
   );
 
-  function columnchanged(columnnames) {  
+  function columnchanged(columnnames) {
     let displycolumns = [];
     columnnames.filter((element) => {
       displycolumns.push(element.name);
@@ -77,46 +77,46 @@ export default function Producttypecontent() {
   function searchOption(searchtext) {
     if (searchtext !== "") {
       var data_filter = orders.filter((element) => {
-         if(element.orderstatus === searchtext){
-            return element
-         }
-          });
+        if (element.orderstatus === searchtext) {
+          return element;
+        }
+      });
       setFilteredorder(data_filter);
     } else {
       setFilteredorder(orders);
     }
   }
-  function onCancel(){
+  function onCancel() {
     setFilteredorder(orders);
   }
 
-  function searchDate(min,max) {
-    let  fromdate = JSON.stringify(min)
-    fromdate = fromdate.slice(1,11)
-    console.log(fromdate)
-    let  todate = JSON.stringify(max)
-    todate = todate.slice(1,11)
-    console.log(todate)
-   if(fromdate && todate !== ""){
-    var date_filter = orders.filter((element)=>{
-    //  console.log(element.orderdate.slice(0,10))
-      if(element.orderdate.slice(0,10) > fromdate && element.orderdate.slice(0,10) <=todate){
-        return element
-      }   
-    });
-    setFilteredorder(date_filter)
+  function searchDate(min, max) {
+    let fromdate = JSON.stringify(min);
+    fromdate = fromdate.slice(1, 11);
+    console.log(fromdate);
+    let todate = JSON.stringify(max);
+    todate = todate.slice(1, 11);
+    console.log(todate);
+    if (fromdate && todate !== "") {
+      var date_filter = orders.filter((element) => {
+        //  console.log(element.orderdate.slice(0,10))
+        if (
+          element.orderdate.slice(0, 10) > fromdate &&
+          element.orderdate.slice(0, 10) <= todate
+        ) {
+          return element;
+        }
+      });
+      setFilteredorder(date_filter);
+    } else {
+      setFilteredorder(orders);
+    }
   }
-  else {
-    setFilteredorder(orders);
-  }
-  }
-
-
 
   async function getorders() {
     var orders_arr = [];
     orderCtx.orderMaster.orders.forEach((element) => {
-      let orderobj = {};   
+      let orderobj = {};
       orderobj["orderid"] = element.id;
       orderobj["orderdate"] = element.createdAt;
       orderobj["paymentmode"] = element.paymentMode;
@@ -232,8 +232,8 @@ export default function Producttypecontent() {
     fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        setpaymentstatus(fatchvalue.data.allOrderStatusMasters.nodes);
-        setorderstatus(fatchvalue.data.allPaymentStatusMasters.nodes);
+        setpaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes);
+        setorderstatus(fatchvalue.data.allOrderStatusMasters.nodes);
       })
       .catch(console.error);
   }
@@ -258,16 +258,14 @@ export default function Producttypecontent() {
       mounted = false;
     };
   }, []);
-//   debugger
-console.log(orders,"main")
+  //   debugger
+  console.log(orders, "main");
   return (
     <Page className={classes.root} title="Orders Management List">
-      
+      <Typography component="h3" variant="h3" style={{ margin: "10px" }}>
+        Orders
+      </Typography>
 
-            <Typography component="h3" variant="h3" style={{margin:"10px"}}>
-            Orders
-           </Typography>
-          
       <Header
         getColumnnames={columnchanged}
         onSearch={searchorder}
@@ -275,13 +273,14 @@ console.log(orders,"main")
         onDate={searchDate}
         onCancel={onCancel}
         columns={columnnames}
-        orderstatus={paymentstatus}
+        orderstatus={orderstatus}
+        payment_master={paymentstatus}
       />
       {filteredorder ? (
         <Results
           className={classes.results}
-          orderstatus={paymentstatus}
-          paymentstatus={orderstatus}
+          orderstatus={orderstatus}
+          paymentstatus={paymentstatus}
           iswrite={iswrite}
           orders={filteredorder}
           onupdate={updateorder}

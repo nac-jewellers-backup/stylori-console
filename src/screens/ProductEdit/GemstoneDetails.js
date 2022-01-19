@@ -1,27 +1,26 @@
-import React from 'react';
+import { Button, Chip, Input, TextField } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
+import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import TableHead from '@material-ui/core/TableHead';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Typography, Button, Chip, TextField, Input } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { ProductContext } from '../../context';
 import MuiAlert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { ProductContext } from '../../context';
 import { NetworkContext } from '../../context/NetworkContext';
 import EditGemstone from './Components/EditGemstone/EditGemstone';
 
@@ -140,7 +139,7 @@ const useStyles2 = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   table: {
-   // marginTop: theme.spacing(2)
+    // marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(0),
@@ -167,9 +166,9 @@ const useStyles2 = makeStyles(theme => ({
 
 export default function GemstoneDetails(props) {
   const [open, setOpen] = React.useState(false);
-  const [snackMessage,setSnackMessage] = React.useState({
-    message:"",
-    severity:""
+  const [snackMessage, setSnackMessage] = React.useState({
+    message: "",
+    severity: ""
   });
   const [openedit, setOpenedit] = React.useState(false);
   const [editcontent, setEditcontent] = React.useState(null);
@@ -201,14 +200,15 @@ export default function GemstoneDetails(props) {
     action: false,
     id: ''
   })
-  let [gemstoneEditObject,setGemstoneEditObject ] = React.useState({
-    edit:''
-  }) ;
+  let [gemstoneEditObject, setGemstoneEditObject] = React.useState({
+    edit: ''
+  });
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.gemstone && props.gemstone.length - page * rowsPerPage);
   function GemstoneEdit(gemstoneData) {
+
     setGemstoneEditObject({
       ...gemstoneEditObject,
-      edit:JSON.parse(JSON.stringify(gemstoneData))
+      edit: JSON.parse(JSON.stringify(gemstoneData))
     })
     setProductCtx({
       ...productCtx,
@@ -219,17 +219,17 @@ export default function GemstoneDetails(props) {
       gemstonesize: gemstoneData.gemstoneSize
     })
     setEditcontent({
-      id : gemstoneData.id,
+      id: gemstoneData.id,
       gemstonesettings: productCtx.masterData.gemstonesettings.filter((settingData, index) => settingData.name === gemstoneData.gemstoneSetting)[0],
-      gemstoneshape: productCtx.masterData.gemstonshapes.filter((shapeData, index) => shapeData.name === gemstoneData.gemstoneShape)[0],
+      gemstoneshape: gemstoneData.gemstoneShape,
       gemstonecount: gemstoneData.stoneCount,
       gemstoneweight: gemstoneData.stoneWeight,
       gemstonesize: gemstoneData.gemstoneSize
     })
-   // setBtnEdit({ ...btnEdit, id: gemstoneData.id, action: true })
-   setOpenedit(true)
+    // setBtnEdit({ ...btnEdit, id: gemstoneData.id, action: true })
+    setOpenedit(true)
   }
- async function GemstoneSave(gemdata) {
+  async function GemstoneSave(gemdata) {
     if (gemdata.gemstonesettings && gemdata.gemstoneshape && gemdata.gemstonecount && gemdata.gemstoneweight && gemdata.gemstonesize) {
       let list_data = props.gemstone;
       var bodydata = {}
@@ -251,24 +251,24 @@ export default function GemstoneDetails(props) {
         return gemstoneListData;
       });
 
-      let response =  await sendNetworkRequest('/editproductgemstone', {}, bodydata)
-      let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data,index)=>edit_data.id===gemdata.id)[0];
+      let response = await sendNetworkRequest('/editproductgemstone', {}, bodydata)
+      let editGemstoneList = gemstoneChangeData && gemstoneChangeData.filter((edit_data, index) => edit_data.id === gemdata.id)[0];
       let editGemstoneLists = productCtx.editGemstoneLists;
-      if(JSON.stringify(editGemstoneList)!==JSON.stringify(gemstoneEditObject.edit)){
-        let status = editGemstoneLists&& editGemstoneLists.some((check_edit,index)=>check_edit.id===editGemstoneList.id) ? 
-        editGemstoneLists = editGemstoneLists && editGemstoneLists
-        .map((gemstone_list,index)=>{
-          if(gemstone_list.id === editGemstoneList.id){
-            return editGemstoneList;
-          }
-          return gemstone_list;
-        }) 
-        : editGemstoneLists.push(editGemstoneList); 
+      if (JSON.stringify(editGemstoneList) !== JSON.stringify(gemstoneEditObject.edit)) {
+        let status = editGemstoneLists && editGemstoneLists.some((check_edit, index) => check_edit.id === editGemstoneList.id) ?
+          editGemstoneLists = editGemstoneLists && editGemstoneLists
+            .map((gemstone_list, index) => {
+              if (gemstone_list.id === editGemstoneList.id) {
+                return editGemstoneList;
+              }
+              return gemstone_list;
+            })
+          : editGemstoneLists.push(editGemstoneList);
       }
       setSnackMessage({
         ...snackMessage,
-        message:"This is successfully saved",
-        severity:"success"
+        message: "This is successfully saved",
+        severity: "success"
       })
       handleClick();
       setProductCtx({
@@ -283,12 +283,12 @@ export default function GemstoneDetails(props) {
       })
       setEditcontent(null)
       setOpenedit(false)
-    //  setBtnEdit({ ...btnEdit, id: "", action: false })
+      //  setBtnEdit({ ...btnEdit, id: "", action: false })
     } else {
       setSnackMessage({
         ...snackMessage,
-        message:"You are not fill all item",
-        severity:"info"
+        message: "You are not fill all item",
+        severity: "info"
       })
       handleClick();
     }
@@ -311,15 +311,15 @@ export default function GemstoneDetails(props) {
   }
   return (
     <Paper className={classes.root}>
-          <React.Fragment>
+      <React.Fragment>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={snackMessage.severity}>
-          {snackMessage.message}
-        </Alert>
-      </Snackbar>
-        </React.Fragment>
+          <Alert onClose={handleClose} severity={snackMessage.severity}>
+            {snackMessage.message}
+          </Alert>
+        </Snackbar>
+      </React.Fragment>
       <div className={classes.tableWrapper}>
-        <Table className={classes.table}  border={1} borderColor={"#ddd"} size="small" stickyHeader>
+        <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -477,7 +477,7 @@ export default function GemstoneDetails(props) {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                
+
                 count={props.gemstone && props.gemstone.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -493,11 +493,11 @@ export default function GemstoneDetails(props) {
           </TableFooter>
         </Table>
         {editcontent && <EditGemstone
-        diamond={editcontent}
-        onApply={GemstoneSave}
-        onClose={handleApplicationClose}
-        open={openedit}
-        />        }
+          diamond={editcontent}
+          onApply={GemstoneSave}
+          onClose={handleApplicationClose}
+          open={openedit}
+        />}
       </div>
     </Paper>
   );

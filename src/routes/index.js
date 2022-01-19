@@ -1,89 +1,85 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ApolloClient from "apollo-boost";
-import route from "./route";
+import React from "react";
+import { ApolloProvider } from "react-apollo";
+import { Route, Switch } from "react-router-dom";
+import { GlobalContext } from "../context";
+import { NetworkProvider } from "../context/NetworkContext";
+import { ProductContext } from "../context/ProductuploadContext";
 import {
-  Dashboard,
-  Login,
-  Productupload,
-  Configuration,
-  Manageusers,
-  Customerdetails,
-  Priceupdate,
-  Vendorprice,
-  Vendorlist,
-  Markupprice,
-  Goldpriceupdate,
-  Userwishlist,
-  Productlist,
-  Materiallist,
-  Masterorderstatus,
-  Shippingzones,
-  Manageadminusers,
-  Shipmentsettings,
+  AbandonedCart,
   Addshippingattributes,
-  Userconfiguration,
-  Masterroles,
-  Masterscreens,
-  Useraddresses,
   Addtaxattributes,
-  OrderManagementDetails,
-  Materialmaster,
   CategoryList,
-  Mastermetalcolors,
-  Masterpurities,
-  Masterdesigns,
-  Shippingattributes,
-  Voucherdiscount,
-  Masterstyles,
-  Masterthemes,
-  Masteroccassions,
-  Masterpaymentstatus,
-  Salediscount,
-  Masterweights,
-  Taxsettings,
-  Masterstones,
-  Masterstonecolors,
-  Masterstoneshapes,
+  Configuration,
+  Customerdetails,
+  Dashboard,
+  DiscountList,
+  Earringbacking,
+  Goldpriceupdate,
+  HolidayManager,
+  Inventory,
+  Login,
+  Manageadminusers,
+  Manageusers,
+  Markupprice,
   Masterattribute,
   Mastercategories,
-  OrderList,
-  Mastergemsettings,
-  Seopriority,
-  Mastergenders,
-  Mastergemshapes,
-  Mastergemtypes,
-  Earringbacking,
-  Masterproducttypes,
-  Masterdiamondshapes,
-  Taxsetup,
+  Mastercollections,
+  Masterdesigns,
   Masterdiamonds,
   Masterdiamondsettings,
-  DiscountList,
+  Masterdiamondshapes,
+  Mastergemsettings,
+  Mastergemshapes,
+  Mastergemtypes,
+  Mastergenders,
+  Mastermetalcolors,
+  Masteroccassions,
+  Masterorderstatus,
+  Masterpaymentstatus,
+  Masterproducttypes,
+  Masterpurities,
+  Masterroles,
+  Masterscreens,
+  Masterstonecolors,
+  Masterstones,
+  Masterstoneshapes,
+  Masterstyles,
+  Masterthemes,
+  Masterweights,
+  Materialmaster,
+  OrderList,
+  OrderManagementDetails,
+  Priceupdate,
+  Productlist,
+  Productupload,
+  Salediscount,
+  Seopriority,
+  Shipmentsettings,
+  Shippingattributes,
+  Shippingzones,
+  Taxsettings,
+  Taxsetup,
+  Useraddresses,
+  Userconfiguration,
+  Userwishlist,
+  Vendorlist,
+  Vendorprice,
+  Voucherdiscount,
   VoucherdiscountListing,
-  Mastercollections,
-  Masterpages,
-  HolidayManager,
   Warehouse,
-  Inventory,
-  AbandonedCart,
 } from "../screens";
 import Banners from "../screens/Banners/banners";
-import Styloribanner from "../screens/Banners/styloribanner/styloribanner";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
-import SilverListingbanner from "../screens/Banners/silverbanner/silverListingBanner/silverListingBanner"
-import PrivateRoute from "./PrivateRoute";
-import { NetworkProvider } from "../context/NetworkContext";
-import { GlobalContext } from "../context";
-import { ApolloProvider } from "react-apollo";
-import { ProductAttributes } from "../screens/ProductEdit/ProductAttributes";
-import { CreateVariant } from "../screens/ProductEdit/CreateVariant";
-import {
-  ProductContext,
-  ProductProvider,
-} from "../context/ProductuploadContext";
-import newmaterial from "../screens/CategoryList/components/newmaterial/newmaterial";
+import SilverListingbanner from "../screens/Banners/silverbanner/silverListingBanner/silverListingBanner";
+import Styloribanner from "../screens/Banners/styloribanner/styloribanner";
 import Editcategory from "../screens/CategoryList/components/editpage/editcategory";
+import newmaterial from "../screens/CategoryList/components/newmaterial/newmaterial";
+import { CreateVariant } from "../screens/ProductEdit/CreateVariant";
+import { ProductAttributes } from "../screens/ProductEdit/ProductAttributes";
+import PriceUpload from "../screens/uploadprice/index.js";
+import PrivateRoute from "./PrivateRoute";
+import route from "./route";
 
 const MainApp = () => {
   const { globalCtx } = React.useContext(GlobalContext);
@@ -268,7 +264,10 @@ const MainApp = () => {
           <PrivateRoute path={route.banners} component={Banners} />
           <PrivateRoute path={route.styloribanner} component={Styloribanner} />
           <PrivateRoute path={route.silverbanner} component={Silverbanner} />
-          <PrivateRoute path={route.silverlistingbanner} component={SilverListingbanner} />
+          <PrivateRoute
+            path={route.silverlistingbanner}
+            component={SilverListingbanner}
+          />
           <PrivateRoute
             path={route.holiday_manager}
             component={HolidayManager}
@@ -276,6 +275,7 @@ const MainApp = () => {
           <PrivateRoute path={route.warehouse} component={Warehouse} />
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
+          <PrivateRoute path={route.price_upload} component={PriceUpload} />
         </Switch>
       </NetworkProvider>
       {/* </ProductProvider> */}

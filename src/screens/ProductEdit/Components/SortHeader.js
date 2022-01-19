@@ -1,12 +1,10 @@
-import React from "react";
 import { Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Columns from "./columns";
 import Popover from "@material-ui/core/Popover";
+import { makeStyles } from "@material-ui/core/styles";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import React from "react";
+import Columns from "./columns";
 import "./table.css";
 
 const useStyles = makeStyles((theme) => ({
