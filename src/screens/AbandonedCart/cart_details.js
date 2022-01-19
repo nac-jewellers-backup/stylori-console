@@ -397,7 +397,8 @@ export default function CartDetails(props) {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button variant="contained" color="primary">Send Email</Button>
+        <Button variant="contained" onClick={handleClose} color="primary">
           Close
         </Button>
       </DialogActions>
