@@ -102,6 +102,8 @@ let defaultColumns = {
   "Payment Status": { is_active: true, identifier: "payment_status" },
   "Waybill No": { is_active: false, identifier: "waybill" },
   Comments: { is_active: false, identifier: "comments" },
+  "Email Delivered": { is_active: true, identifier: "emailMessageId" },
+  "SMS Delivered": { is_active: true, identifier: "smsDeliveredId" },
   Actions: {
     is_active: true,
     is_default: true,
@@ -258,6 +260,8 @@ export const OrderList = withRouter((props) => {
           paymentResponse:
             item?.paymentDetailsByOrderId?.nodes?.[0]?.paymentResponse,
         }),
+        emailMessageId: item?.emailMessageId,
+        smsDeliveredId: item?.smsDeliveredId?.replace("otp-nacjotp-", ""),
         waybill: item?.awbNumber,
         comments: item?.comments,
       };
