@@ -63,9 +63,17 @@ let getPaymentStatus = (data) => {
   }
   if (!data?.paymentResponse) return data.paymentStatus;
   let payment_response = JSON.parse(data?.paymentResponse);
-  return `${payment_response?.APTRANSACTIONID}\n${
-    payment_response?.message || ""
-  }\n${payment_response?.TRANSACTIONPAYMENTSTATUS}`;
+  return (
+    <div>
+      <p style={{ margin: 0, padding: 0 }}>
+        {payment_response?.APTRANSACTIONID}
+      </p>
+      <p style={{ margin: 0, padding: 0 }}>
+        {payment_response?.MESSAGE ||
+          payment_response?.TRANSACTIONPAYMENTSTATUS}
+      </p>
+    </div>
+  );
 };
 
 let defaultColumns = {
@@ -94,6 +102,8 @@ let defaultColumns = {
   "Payment Status": { is_active: true, identifier: "payment_status" },
   "Waybill No": { is_active: false, identifier: "waybill" },
   Comments: { is_active: false, identifier: "comments" },
+  "Email Delivered": { is_active: true, identifier: "emailMessageId" },
+  "SMS Delivered": { is_active: true, identifier: "smsDeliveredId" },
   Actions: {
     is_active: true,
     is_default: true,
@@ -135,7 +145,11 @@ export const OrderList = withRouter((props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [masterData, setMasterData] = React.useState({
     orderMaster: [],
-    paymentMaster: [{ name: "SUCCESS" }, { name: "FAIL" }],
+    paymentMaster: [
+      { name: "SUCCESS" },
+      { name: "FAIL" },
+      { name: "TRANSACTION CANCELLED" },
+    ],
   });
   const [selectedStatus, setSelectedStatus] = React.useState({
     orderStatus: "",
@@ -246,6 +260,8 @@ export const OrderList = withRouter((props) => {
           paymentResponse:
             item?.paymentDetailsByOrderId?.nodes?.[0]?.paymentResponse,
         }),
+        emailMessageId: item?.emailMessageId,
+        smsDeliveredId: item?.smsDeliveredId?.replace("otp-nacjotp-", ""),
         waybill: item?.awbNumber,
         comments: item?.comments,
       };
