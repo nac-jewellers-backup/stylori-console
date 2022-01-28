@@ -86,6 +86,7 @@ const route = {
   inventory: "/inventory",
   abandoned_cart: "/cart-details",
   price_upload: "/price-upload",
+  error_logs: "/error-logs",
 };
 
 export default route;
