@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import moment from "moment";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../../../config";
-import {
-  PAYMENTSTATUSMASTER,
-  PRODUCTDIAMONDTYPES,
-} from "../../../../graphql/query";
+import { PAYMENTSTATUSMASTER } from "../../../../graphql/query";
 import { makeStyles } from "@material-ui/styles";
 import {
   Card,
@@ -22,9 +19,8 @@ import {
   TableCell,
   TextField,
   Link,
+  Grid,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import ReceiptIcon from "@material-ui/icons/ReceiptOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -44,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrderInfo = (props) => {
+  console.log(props);
+  debugger;
   const { order, className, ...rest } = props;
 
   const classes = useStyles();
@@ -54,6 +52,12 @@ const OrderInfo = (props) => {
   const [paymentstatus, setPaymentstatus] = useState([]);
   const [orderstatus, setOrderstatus] = useState([]);
 
+  const [updateOrder, setUpdateOrder] = useState({
+    waybillNum: null,
+    paymentStatus: 0,
+    orderStatus: 0,
+    comments: null,
+  });
   const handleChange = (event) => {
     event.persist();
 
@@ -78,8 +82,7 @@ const OrderInfo = (props) => {
   React.useEffect(() => {
     getmaster();
   }, []);
-  // debugger;
-  console.log(props);
+
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader title="Order info" />
@@ -183,7 +186,7 @@ const OrderInfo = (props) => {
                   name="option"
                   placeholder="Waybill Number"
                   onChange={handleChange}
-                  value={order.awb_number}
+                  value={updateOrder.waybillNum}
                   variant="outlined"
                 />
               </TableCell>
@@ -209,13 +212,13 @@ const OrderInfo = (props) => {
               <TableCell>
                 <TextField
                   fullWidth
-                  name="option"
+                  name="paymentStatus"
                   onChange={handleChange}
                   select
                   margin="dense"
                   // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
-                  value={option}
+                  value={updateOrder.paymentStatus}
                   variant="outlined"
                 >
                   {paymentstatus.map((option) => (
@@ -231,13 +234,13 @@ const OrderInfo = (props) => {
               <TableCell>
                 <TextField
                   fullWidth
-                  name="option"
+                  name="orderStatus"
                   onChange={handleChange}
                   select
                   margin="dense"
                   // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
-                  value={option}
+                  value={updateOrder.orderStatus}
                   variant="outlined"
                 >
                   {orderstatus.map((option) => (
@@ -254,10 +257,10 @@ const OrderInfo = (props) => {
                 <TextField
                   fullWidth
                   margin="dense"
-                  name="option"
+                  name="comments"
                   placeholder="Comments"
                   onChange={handleChange}
-                  value={order.awb_number}
+                  value={updateOrder.comments}
                   variant="outlined"
                 />
               </TableCell>
@@ -266,14 +269,15 @@ const OrderInfo = (props) => {
         </Table>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button variant="contained" color="primary">
-          {/* <EditIcon className={classes.buttonIcon} /> */}
-          Save
-        </Button>
-        {/* <Button>
-          <ReceiptIcon className={classes.buttonIcon} />
-          Resend invoice
-        </Button> */}
+        <Grid>
+          <Button variant="contained" color="primary">
+            Email
+          </Button>
+          <span>&nbsp;&nbsp;&nbsp;</span>
+          <Button variant="contained" color="primary">
+            Save
+          </Button>
+        </Grid>
       </CardActions>
     </Card>
   );
