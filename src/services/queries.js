@@ -123,8 +123,7 @@ export const ORDERS = gql`
         orderStatus
         comments
         id
-        emailMessageId
-        smsDeliveredId
+        
         shoppingCartByCartId {
           shoppingCartItemsByShoppingCartId {
             nodes {

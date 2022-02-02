@@ -459,7 +459,7 @@ query {
 `;
 
 const PAYMENTSTATUSMASTER = `
-query  {
+{
   allOrderStatusMasters {
     nodes {
       createdAt
@@ -468,8 +468,8 @@ query  {
       name
       updatedAt
     }
-  },
-  allPaymentStatusMasters {
+  }
+  allPaymentStatusMasters(condition: {isActive: true}) {
     nodes {
       name
       createdAt
@@ -479,6 +479,7 @@ query  {
     }
   }
 }
+
 `;
 const DIAMONDSETTINGS = `
 query  {
@@ -2050,6 +2051,34 @@ const GETALLERRORLOGS = gql`
   }
 `;
 
+const GETORDERCOMMUNICATIONLOGS = `
+query MyQuery($id: UUID!) {
+  orderById(id: $id) {
+    awbNumber
+    cartId
+    comments
+    createdAt
+    id
+    paymentId
+    paymentMode
+    paymentStatus
+    updatedAt
+    userProfileId
+    communicationLogsByOrderId(orderBy: UPDATED_AT_DESC) {
+      nodes {
+        createdAt
+        id
+        messageType
+        orderId
+        senderResponseId
+        type
+      }
+    }
+  }
+}
+
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2144,5 +2173,6 @@ export {
   CREATESILVERLISTINGBOTTOMBANNER,
   DELETESILVERLISTINGBOTTOMBANNER,
   IMAGEDELETE,
-  GETALLERRORLOGS
+  GETALLERRORLOGS,
+  GETORDERCOMMUNICATIONLOGS
 };

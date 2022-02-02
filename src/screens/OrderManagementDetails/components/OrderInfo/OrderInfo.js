@@ -4,8 +4,15 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import moment from "moment";
 import { API_URL, GRAPHQL_DEV_CLIENT } from "../../../../config";
-import { PAYMENTSTATUSMASTER } from "../../../../graphql/query";
+import {
+  PAYMENTSTATUSMASTER,
+  GETORDERCOMMUNICATIONLOGS,
+} from "../../../../graphql/query";
+import { UPDATE_ORDER } from "../../../../graphql/mutation";
 import { makeStyles } from "@material-ui/styles";
+import { useApolloClient } from "react-apollo";
+import { AlertContext } from "../../../../context";
+
 import {
   Card,
   CardActions,
@@ -40,28 +47,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrderInfo = (props) => {
-  console.log(props);
-  debugger;
   const { order, className, ...rest } = props;
-
+  const client = useApolloClient();
   const classes = useStyles();
+  const snack = React.useContext(AlertContext);
 
-  const options = ["Canceled", "Completed", "Rejected"];
-
-  const [option, setOption] = useState(options[0]);
   const [paymentstatus, setPaymentstatus] = useState([]);
   const [orderstatus, setOrderstatus] = useState([]);
-
+  const [errorMsg, setErrorMsg] = useState("");
   const [updateOrder, setUpdateOrder] = useState({
     waybillNum: null,
-    paymentStatus: 0,
-    orderStatus: 0,
+    paymentStatus: null,
+    orderStatus: null,
     comments: null,
   });
+  const [communicationLogs, setCommunicationLogs] = useState([]);
   const handleChange = (event) => {
-    event.persist();
-
-    setOption(event.target.value);
+    setUpdateOrder({ ...updateOrder, [event.target.name]: event.target.value });
+    if (updateOrder?.comments?.length > 0) {
+      setErrorMsg("");
+    }
   };
   async function getmaster() {
     const url = GRAPHQL_DEV_CLIENT;
@@ -70,18 +75,107 @@ const OrderInfo = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: PAYMENTSTATUSMASTER }),
     };
-    // console.log("helo",setProductCtx)
-    fetch(url, opts)
+    await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
         setPaymentstatus(fatchvalue.data.allPaymentStatusMasters.nodes);
         setOrderstatus(fatchvalue.data.allOrderStatusMasters.nodes);
+
+        setUpdateOrder({
+          waybillNum: order?.awb_number ?? null,
+          paymentStatus: order?.payment_status ?? null,
+          orderStatus: order?.order_status ?? null,
+          comments: order?.comments ?? null,
+        });
       })
       .catch(console.error);
   }
+  const getOrderCommunicationLogs = async () => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: GETORDERCOMMUNICATIONLOGS,
+
+        variables: {
+          id: order?.id,
+        },
+      }),
+    };
+    await fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        setCommunicationLogs(
+          fatchvalue?.data?.orderById?.communicationLogsByOrderId?.nodes ?? []
+        );
+      })
+      .catch(console.error);
+  };
   React.useEffect(() => {
     getmaster();
+    getOrderCommunicationLogs();
   }, []);
+
+  const sendEmail = (order_id, type) => {
+    const url = API_URL + "/trigger_mail";
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_id: order_id, type: type }),
+    };
+    fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+      
+        snack.setSnack({
+          open: true,
+          msg: "Mail Send Successfully!",
+        });
+        console.log(fatchvalue);
+      })
+      .catch((err) => {
+        snack.setSnack({
+          open: true,
+          severity: "error",
+          msg: "Some error occured!",
+        });
+      });
+  };
+  const handleSubmit = () => {
+    if (updateOrder?.comments?.length > 0) {
+      client
+        .mutate({
+          mutation: UPDATE_ORDER,
+          variables: {
+            id: order?.id,
+            awbNumber: updateOrder?.waybillNum ?? "",
+            comments: updateOrder?.comments ?? "",
+            orderStatus: updateOrder?.orderStatus,
+            paymentStatus: updateOrder?.paymentStatus,
+          },
+        })
+        .then((res) => {
+          if (res) {
+            snack.setSnack({
+              open: true,
+              msg: "Successfully Updated!",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+
+          snack.setSnack({
+            open: true,
+            severity: "error",
+            msg: "Some error occured!",
+          });
+        });
+    } else {
+      setErrorMsg("Enter Comments");
+    }
+  };
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -183,7 +277,7 @@ const OrderInfo = (props) => {
                 <TextField
                   fullWidth
                   margin="dense"
-                  name="option"
+                  name="waybillNum"
                   placeholder="Waybill Number"
                   onChange={handleChange}
                   value={updateOrder.waybillNum}
@@ -216,7 +310,6 @@ const OrderInfo = (props) => {
                   onChange={handleChange}
                   select
                   margin="dense"
-                  // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
                   value={updateOrder.paymentStatus}
                   variant="outlined"
@@ -238,7 +331,6 @@ const OrderInfo = (props) => {
                   onChange={handleChange}
                   select
                   margin="dense"
-                  // eslint-disable-next-line react/jsx-sort-props
                   SelectProps={{ native: true }}
                   value={updateOrder.orderStatus}
                   variant="outlined"
@@ -263,18 +355,87 @@ const OrderInfo = (props) => {
                   value={updateOrder.comments}
                   variant="outlined"
                 />
+                <span style={{ color: "red" }}>{errorMsg}</span>
               </TableCell>
             </TableRow>
+            {/* <TableRow>
+              <TableCell>Communication Logs :</TableCell>
+              <TableCell></TableCell>
+            </TableRow> */}
+            {/* {communicationLogs.map((val) => (
+              <TableRow>
+                <TableCell>{val?.type ?? ""}</TableCell>
+                <TableCell>{val?.senderResponseId ?? ""}</TableCell>
+              </TableRow>
+            ))} */}
           </TableBody>
         </Table>
       </CardContent>
       <CardActions className={classes.actions}>
         <Grid>
-          <Button variant="contained" color="primary">
-            Email
-          </Button>
-          <span>&nbsp;&nbsp;&nbsp;</span>
-          <Button variant="contained" color="primary">
+          {updateOrder.paymentStatus === "Paid" ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: "4px 0px" }}
+                onClick={() => sendEmail(order?.id, "order")}
+              >
+                Order Email
+              </Button>
+              <span>&nbsp;&nbsp;&nbsp;</span>{" "}
+            </>
+          ) : (
+            ""
+          )}
+          {updateOrder.paymentStatus === "Paid" &&
+          updateOrder.orderStatus === "Shipped" ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: "4px 0px" }}
+                onClick={() => sendEmail(order?.id, "shipping")}
+              >
+                Shipping Email
+              </Button>
+              <span>&nbsp;&nbsp;&nbsp;</span>{" "}
+            </>
+          ) : (
+            ""
+          )}
+          {updateOrder.paymentStatus === "Paid" &&
+          updateOrder.orderStatus === "Delivered" ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: "4px 0px" }}
+                onClick={() => sendEmail(order?.id, "shipping")}
+              >
+                Shipping Email
+              </Button>
+              <span>&nbsp;&nbsp;&nbsp;</span>{" "}
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: "4px 0px" }}
+                onClick={() => sendEmail(order?.id, "rate")}
+              >
+                Rate Email
+              </Button>
+              <span>&nbsp;&nbsp;&nbsp;</span>{" "}
+            </>
+          ) : (
+            ""
+          )}
+
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ margin: "4px 0px" }}
+            onClick={handleSubmit}
+          >
             Save
           </Button>
         </Grid>
