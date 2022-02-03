@@ -19,6 +19,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  ListItemIcon,
   IconButton,
 } from "@material-ui/core";
 import { useApolloClient } from "react-apollo";
@@ -26,6 +27,12 @@ import { CARTBYID } from "../../graphql/query";
 import Image from "material-ui-image";
 import { green } from "@material-ui/core/colors";
 import CloseIcon from "@material-ui/icons/Close";
+import MailIcon from "@material-ui/icons/Mail";
+import SmsIcon from "@material-ui/icons/Sms";
+import CallIcon from "@material-ui/icons/Call";
+import moment from "moment";
+import { API_URL } from "../../config";
+import { AlertContext } from "../../context";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -71,6 +78,33 @@ export default function CartDetails(props) {
   let { open, handleClose } = props;
   const [state, setState] = React.useState({});
   const client = useApolloClient();
+  const snack = React.useContext(AlertContext);
+
+  const sendEmail = (order_id, type) => {
+    const url = API_URL + "/trigger_mail";
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_id: order_id, type: type }),
+    };
+    fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        snack.setSnack({
+          open: true,
+          msg: "Mail Sent Successfully!",
+        });
+        console.log(fatchvalue);
+      })
+      .catch((err) => {
+        snack.setSnack({
+          open: true,
+          severity: "error",
+          msg: "Some error occured!",
+        });
+      });
+  };
+
   React.useEffect(() => {
     if (props.id) {
       client
@@ -392,12 +426,51 @@ export default function CartDetails(props) {
                   </List>
                 </fieldset>
               </Grid>
+              <Grid item xs={12}>
+                <fieldset className={classes.fieldset}>
+                  <legend className={classes.legend}>Follow ups</legend>
+                  <List className={classes.root} dense={true}>
+                    {state?.data?.cart?.follow_ups?.nodes.map((item) => {
+                      return (
+                        <>
+                          <ListItem
+                            alignItems="flex-start"
+                            key={item.senderResponseId}
+                            disableGutters
+                            divider
+                          >
+                            <ListItemIcon>
+                              {item.type == "email" && <MailIcon />}
+                              {item.type == "sms" && <SmsIcon />}
+                              {item.type == "phone" && <CallIcon />}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={item?.senderResponseId}
+                              secondary={moment(item?.createdAt).format(
+                                "DD/MMM/YYYY HH:mm A"
+                              )}
+                            />
+                          </ListItem>
+                        </>
+                      );
+                    })}
+                  </List>
+                </fieldset>
+              </Grid>
             </Grid>
           </Grid>
         )}
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="primary">Send Email</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            sendEmail(props?.id, "abandoned_cart");
+          }}
+        >
+          Send Follow up Email
+        </Button>
         <Button variant="contained" onClick={handleClose} color="primary">
           Close
         </Button>

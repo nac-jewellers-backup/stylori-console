@@ -2021,6 +2021,14 @@ const CARTBYID = gql`
           }
         }
       }
+      follow_ups: communicationLogsByCartId {
+        nodes {
+          type
+          messageType
+          senderResponseId
+          createdAt
+        }
+      }
     }
   }
 `;
@@ -2174,5 +2182,5 @@ export {
   DELETESILVERLISTINGBOTTOMBANNER,
   IMAGEDELETE,
   GETALLERRORLOGS,
-  GETORDERCOMMUNICATIONLOGS
+  GETORDERCOMMUNICATIONLOGS,
 };
