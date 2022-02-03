@@ -175,7 +175,7 @@ const OrderDetails = (props) => {
             <Grid container justifyContent="flex-end" alignItems="center">
               <Grid item>
                 <p className={classes.final_total_text}>Gross Total - &nbsp;</p>
-                {order.shopping_cart.discount && (
+                {order.shopping_cart.discount > 0 && (
                   <p className={classes.final_total_text}>
                     Voucher Discount &nbsp;
                     <span className={classes.voucher_code}>
@@ -192,7 +192,7 @@ const OrderDetails = (props) => {
                 <p className={classes.final_total_text}>
                   {Math.round(order.shopping_cart.gross_amount)}&#8377; &nbsp;
                 </p>
-                {order.shopping_cart.discount && (
+                {order.shopping_cart.discount > 0 && (
                   <p className={classes.final_total_text}>
                     {Math.round(order.shopping_cart.discount)}&#8377; &nbsp;
                   </p>
