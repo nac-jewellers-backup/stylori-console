@@ -2059,32 +2059,27 @@ const GETALLERRORLOGS = gql`
   }
 `;
 
-const GETORDERCOMMUNICATIONLOGS = `
-query MyQuery($id: UUID!) {
-  orderById(id: $id) {
-    awbNumber
-    cartId
-    comments
-    createdAt
-    id
-    paymentId
-    paymentMode
-    paymentStatus
-    updatedAt
-    userProfileId
-    communicationLogsByOrderId(orderBy: UPDATED_AT_DESC) {
-      nodes {
-        createdAt
-        id
-        messageType
-        orderId
-        senderResponseId
-        type
+const GETORDERCOMMUNICATIONLOGS = gql`
+  query paymentResponseAndCommunicationLogs($id: UUID!) {
+    order: orderById(id: $id) {
+      payment_details: paymentDetailsByOrderId(orderBy: CREATED_AT_DESC) {
+        nodes {
+          id
+          paymentResponse
+        }
+      }
+      communication_logs: communicationLogsByOrderId(orderBy: UPDATED_AT_DESC) {
+        nodes {
+          createdAt
+          id
+          messageType
+          orderId
+          senderResponseId
+          type
+        }
       }
     }
   }
-}
-
 `;
 
 export {

@@ -10,6 +10,7 @@ import {
   TableCell,
   Grid,
   TableHead,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import moment from "moment";
@@ -20,6 +21,52 @@ import { NetworkContext } from "../../context/NetworkContext";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
 import { GRAPHQL_DEV_CLIENT } from "../../config";
 import { GETORDERCOMMUNICATIONLOGS } from "../../graphql/query";
+import { useApolloClient } from "react-apollo";
+
+let CHMOD = {
+  pg: "Payment Gateway",
+  nb: "Netbanking ",
+  ppc: "Prepaid Cards / Wallets",
+  cash: "Cash ",
+  onclick: "Onclick",
+  emi: "Emi",
+  wallet: "Merchant Wallet",
+  pos: "Pos",
+  rtgs: "RTGS",
+  payltr: "Paylater",
+  upi: "UPI",
+  va: "Virtual Account",
+  aloan: "Airloan ",
+  btqr: "Bharat QR ",
+};
+
+let currency_code = {
+  356: "₹",
+};
+
+let transaction_type = {
+  200: "Success",
+  211: "Transaction in Process",
+  310: "Auth",
+  320: "Sale",
+  330: "Capture",
+  340: "Refund",
+  350: "Chargeback",
+  360: "Reversal",
+  370: "SaleComplete",
+  380: "SaleAdjust",
+  390: "TipAdjust",
+  400: "Failed",
+  401: "Dropped",
+  402: "Cancel",
+  403: "Incomplete",
+  405: "Bounced",
+  503: "No Records",
+  410: "Cashback",
+  420: "Void",
+  430: "Release",
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -31,9 +78,26 @@ const useStyles = makeStyles((theme) => ({
 
 export const OrderManagementDetails = withRouter((props) => {
   const classes = useStyles();
+
+  var order_id = props.location.pathname.split("/")[2];
+
   const [order, setOrder] = useState(null);
   const [productDetails, setProductDetails] = useState([]);
+  const [paymentHistory, setPaymentHistory] = useState([]);
   const [communicationLogs, setCommunicationLogs] = useState([]);
+
+  const paymentHeaders = [
+    "TRANSACTIONPAYMENTSTATUS",
+    "mercid",
+    "TRANSACTIONID",
+    "APTRANSACTIONID",
+    "CHMOD",
+    "CURRENCYCODE",
+    "AMOUNT",
+    "TRANSACTIONSTATUS",
+    "MESSAGE",
+    "TRANSACTIONTIME",
+  ];
 
   const { sendNetworkRequest } = React.useContext(NetworkContext);
 
@@ -48,36 +112,33 @@ export const OrderManagementDetails = withRouter((props) => {
     setProductDetails(response.product_detail);
   }
 
-  const getOrderCommunicationLogs = async (order_id) => {
-    const url = GRAPHQL_DEV_CLIENT;
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: GETORDERCOMMUNICATIONLOGS,
+  const client = useApolloClient();
 
-        variables: {
-          id: order_id,
-        },
-      }),
-    };
-    await fetch(url, opts)
-      .then((res) => res.json())
-      .then((fatchvalue) => {
-       
-        setCommunicationLogs(
-          fatchvalue?.data?.orderById?.communicationLogsByOrderId?.nodes ?? []
-        );
+  const loadPaymentAndCommunicationLogs = (order_id) => {
+    client
+      .query({
+        query: GETORDERCOMMUNICATIONLOGS,
+        variables: { id: order_id },
       })
-      .catch(console.error);
+      .then(({ data }) => {
+        let { payment_details, communication_logs } = data.order;
+        setPaymentHistory(
+          payment_details.nodes.map((item) => {
+            return {
+              id: item.id,
+              paymentResponse: JSON.parse(item.paymentResponse),
+            };
+          })
+        );
+        setCommunicationLogs(communication_logs.nodes);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     let mounted = true;
-    var com_id = props.location.pathname.split("/")[2];
-
-    fetchorderdetails(com_id);
-    getOrderCommunicationLogs(com_id);
+    fetchorderdetails(order_id);
+    loadPaymentAndCommunicationLogs(order_id);
     return () => {
       mounted = false;
     };
@@ -86,6 +147,19 @@ export const OrderManagementDetails = withRouter((props) => {
   if (!order) {
     return null;
   }
+
+  const getValue = ({ type, paymentResponse }) => {
+    switch (type) {
+      case "CHMOD":
+        return CHMOD[paymentResponse[type]];
+      case "CURRENCYCODE":
+        return currency_code[paymentResponse[type]];
+      case "TRANSACTIONSTATUS":
+        return transaction_type[paymentResponse[type]];
+      default:
+        return paymentResponse[type];
+    }
+  };
 
   return (
     <Page className={classes.root} title="Order Management Details">
@@ -101,6 +175,43 @@ export const OrderManagementDetails = withRouter((props) => {
             productDetails={productDetails}
             style={{ marginTop: 30 }}
           />
+          <Grid container xs={12} style={{ marginTop: "10px" }}>
+            <Grid item xs={12}>
+              <Card>
+                <CardHeader title={"Payment History"} />
+                <Divider />
+                <CardContent className={classes.content}>
+                  {paymentHistory.length > 0 && (
+                    <Table>
+                      <TableHead>
+                        {paymentHeaders.map((item, index) => (
+                          <TableCell key={index} align="center">
+                            {item.toUpperCase()}
+                          </TableCell>
+                        ))}
+                      </TableHead>
+                      <TableBody>
+                        {paymentHistory.map((item) => (
+                          <TableRow key={item.id}>
+                            {paymentHeaders.map((i, index) => (
+                              <TableCell key={index} align="center">
+                                {getValue({ type: i, ...item })}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                  {paymentHistory.length == 0 && (
+                    <Typography variant="caption">
+                      No Payment Details found
+                    </Typography>
+                  )}
+                </CardContent>                
+              </Card>
+            </Grid>
+          </Grid>
           <Grid container xs={12} style={{ marginTop: "10px" }}>
             <Grid item md={6} xl={6} xs={12} style={{ padding: "14px" }}>
               <Card>

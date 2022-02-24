@@ -173,7 +173,7 @@ export const ORDERS = gql`
             }
           }
         }
-        paymentDetailsByOrderId {
+        paymentDetailsByOrderId(orderBy: CREATED_AT_DESC) {
           nodes {
             paymentResponse
           }
