@@ -11,6 +11,7 @@ import {
   Grid,
   TableHead,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import moment from "moment";
@@ -192,13 +193,23 @@ export const OrderManagementDetails = withRouter((props) => {
                       </TableHead>
                       <TableBody>
                         {paymentHistory.map((item) => (
-                          <TableRow key={item.id}>
-                            {paymentHeaders.map((i, index) => (
-                              <TableCell key={index} align="center">
-                                {getValue({ type: i, ...item })}
-                              </TableCell>
-                            ))}
-                          </TableRow>
+                          <Tooltip
+                            title={
+                              <pre>
+                                {JSON.stringify(item.paymentResponse, null, 2)}
+                              </pre>
+                            }
+                            arrow
+                            placement="left"
+                          >
+                            <TableRow key={item.id}>
+                              {paymentHeaders.map((i, index) => (
+                                <TableCell key={index} align="center">
+                                  {getValue({ type: i, ...item })}
+                                </TableCell>
+                              ))}
+                            </TableRow>
+                          </Tooltip>
                         ))}
                       </TableBody>
                     </Table>
@@ -208,7 +219,7 @@ export const OrderManagementDetails = withRouter((props) => {
                       No Payment Details found
                     </Typography>
                   )}
-                </CardContent>                
+                </CardContent>
               </Card>
             </Grid>
           </Grid>
