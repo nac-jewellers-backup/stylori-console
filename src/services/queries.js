@@ -100,6 +100,8 @@ export const USERORDERS = gql`
     }
   }
 `;
+
+
 export const ORDERS = gql`
   query (
     $order_filter: OrderFilter!
@@ -123,6 +125,7 @@ export const ORDERS = gql`
         orderStatus
         comments
         id
+        
         shoppingCartByCartId {
           shoppingCartItemsByShoppingCartId {
             nodes {
@@ -170,7 +173,7 @@ export const ORDERS = gql`
             }
           }
         }
-        paymentDetailsByOrderId {
+        paymentDetailsByOrderId(orderBy: CREATED_AT_DESC) {
           nodes {
             paymentResponse
           }

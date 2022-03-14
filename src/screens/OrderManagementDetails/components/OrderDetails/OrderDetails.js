@@ -52,7 +52,7 @@ const OrderDetails = (props) => {
         <Divider />
 
         <CardContent>
-          {order.shopping_cart.shopping_cart_items.map((item) => (
+          {order?.shopping_cart?.shopping_cart_items?.map((item) => (
             <Card key={item.id} className={classes.inner_card}>
               <Grid container xs={12}>
                 {/*-------------------------------- Image part-------------------------------- */}
@@ -175,11 +175,11 @@ const OrderDetails = (props) => {
             <Grid container justifyContent="flex-end" alignItems="center">
               <Grid item>
                 <p className={classes.final_total_text}>Gross Total - &nbsp;</p>
-                {order.shopping_cart.discount && (
+                {order?.shopping_cart?.discount > 0 && (
                   <p className={classes.final_total_text}>
                     Voucher Discount &nbsp;
                     <span className={classes.voucher_code}>
-                      ({order.shopping_cart.voucher_code})
+                      ({order?.shopping_cart?.voucher_code})
                     </span>{" "}
                     - &nbsp;
                   </p>
@@ -190,16 +190,16 @@ const OrderDetails = (props) => {
 
               <Grid item>
                 <p className={classes.final_total_text}>
-                  {Math.round(order.shopping_cart.gross_amount)}&#8377; &nbsp;
+                  {Math.round(order?.shopping_cart?.gross_amount)}&#8377; &nbsp;
                 </p>
-                {order.shopping_cart.discount && (
+                {order?.shopping_cart?.discount > 0 && (
                   <p className={classes.final_total_text}>
-                    {Math.round(order.shopping_cart.discount)}&#8377; &nbsp;
+                    {Math.round(order?.shopping_cart?.discount)}&#8377; &nbsp;
                   </p>
                 )}
 
                 <p className={classes.final_total_text}>
-                  {Math.round(order.shopping_cart.discounted_price)}&#8377;
+                  {Math.round(order?.shopping_cart?.discounted_price)}&#8377;
                   &nbsp;
                 </p>
               </Grid>

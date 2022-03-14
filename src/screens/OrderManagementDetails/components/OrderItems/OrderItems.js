@@ -48,7 +48,7 @@ const OrderItems = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {order.shopping_cart.shopping_cart_items.map((item) => (
+                {order?.shopping_cart?.shopping_cart_items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.product_sku}</TableCell>
                     <TableCell>

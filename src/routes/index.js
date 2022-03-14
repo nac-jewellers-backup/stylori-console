@@ -69,6 +69,7 @@ import {
   VoucherdiscountListing,
   Warehouse,
 } from "../screens";
+import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
 import Banners from "../screens/Banners/banners";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
 import SilverListingbanner from "../screens/Banners/silverbanner/silverListingBanner/silverListingBanner";
@@ -272,6 +273,7 @@ const MainApp = () => {
             path={route.holiday_manager}
             component={HolidayManager}
           />
+          <PrivateRoute path={route.error_logs} component={ErrorLogs} />
           <PrivateRoute path={route.warehouse} component={Warehouse} />
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
