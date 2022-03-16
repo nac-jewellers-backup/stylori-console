@@ -12,6 +12,7 @@ import {
   TableHead,
   Typography,
   Tooltip,
+  IconButton,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import moment from "moment";
@@ -23,6 +24,8 @@ import OrderDetails from "./components/OrderDetails/OrderDetails";
 import { GRAPHQL_DEV_CLIENT } from "../../config";
 import { GETORDERCOMMUNICATIONLOGS } from "../../graphql/query";
 import { useApolloClient } from "react-apollo";
+import SyncIcon from "@material-ui/icons/Sync";
+import { AlertContext } from "../../context";
 
 let CHMOD = {
   pg: "Payment Gateway",
@@ -101,6 +104,7 @@ export const OrderManagementDetails = withRouter((props) => {
   ];
 
   const { sendNetworkRequest } = React.useContext(NetworkContext);
+  const snack = React.useContext(AlertContext);
 
   async function fetchorderdetails(order_id) {
     let response = await sendNetworkRequest(
@@ -108,7 +112,6 @@ export const OrderManagementDetails = withRouter((props) => {
       {},
       { order_id }
     );
-    console.log(response);
     setOrder(response.orders);
     setProductDetails(response.product_detail);
   }
@@ -162,6 +165,32 @@ export const OrderManagementDetails = withRouter((props) => {
     }
   };
 
+  const syncPaymentDetails = () => {
+    sendNetworkRequest("/verify_payment", {}, { order_id })
+      .then((res) => {
+        if (res?.message) {
+          snack.setSnack({
+            open: true,
+            severity: "warning",
+            msg: res?.message,
+          });
+        } else {
+          snack.setSnack({
+            open: true,
+            msg: "Updated Successfully!",
+          });
+          loadPaymentAndCommunicationLogs();
+        }
+      })
+      .catch((err) => {
+        snack.setSnack({
+          open: true,
+          severity: "error",
+          msg: err?.message || "Something went wrong, Please try later!",
+        });
+      });
+  };
+
   return (
     <Page className={classes.root} title="Order Management Details">
       <Header order={order} />
@@ -179,7 +208,21 @@ export const OrderManagementDetails = withRouter((props) => {
           <Grid container xs={12} style={{ marginTop: "10px" }}>
             <Grid item xs={12}>
               <Card>
-                <CardHeader title={"Payment History"} />
+                <CardHeader
+                  title={"Payment History"}
+                  action={
+                    <IconButton
+                      aria-label="sync-payment-history"
+                      onClick={() => {
+                        syncPaymentDetails();
+                      }}
+                    >
+                      <Tooltip title="Sync's latest payment details">
+                        <SyncIcon />
+                      </Tooltip>
+                    </IconButton>
+                  }
+                />
                 <Divider />
                 <CardContent className={classes.content}>
                   {paymentHistory.length > 0 && (
