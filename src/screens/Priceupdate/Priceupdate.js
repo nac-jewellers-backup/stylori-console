@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { VoucherProvider } from "../../context";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useQuery } from "react-apollo";
 import { productCategory } from "../../services/mapper";
@@ -25,11 +24,6 @@ export const Priceupdate = withRouter((props) => {
       </div>
     );
   if (error) return <div>error</div>;
-  return (
-    // <VoucherProvider value={{ data, mapper: materialMaster.mapper, mappertype:  "voucherMaster" }} >
-
-    <Component {...props} data={data} />
-    // </VoucherProvider>
-  );
+  return <Component {...props} data={data} />;
 });
 export default Priceupdate;

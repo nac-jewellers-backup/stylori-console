@@ -50,6 +50,7 @@ import {
   Materialmaster,
   OrderList,
   OrderManagementDetails,
+  PriceLogs,
   Priceupdate,
   Productlist,
   Productupload,
@@ -102,6 +103,7 @@ const MainApp = () => {
           <PrivateRoute path={route.materiallist} component={CategoryList} />
           <PrivateRoute path={route.editCategory} component={Editcategory} />
           <PrivateRoute path={route.materiallistpage} component={newmaterial} />
+          <PrivateRoute path={route.pricelogs} component={PriceLogs} />
           <PrivateRoute
             path={route.producttypes}
             component={Masterproducttypes}

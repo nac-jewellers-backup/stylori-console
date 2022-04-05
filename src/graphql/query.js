@@ -2082,6 +2082,32 @@ const GETORDERCOMMUNICATIONLOGS = gql`
   }
 `;
 
+const PRICE_RUN_LOGS = gql`
+  query ($first: Int, $offset: Int) {
+    allPriceRunningHistories(
+      first: $first
+      offset: $offset
+      orderBy: UPDATED_AT_DESC
+    ) {
+      nodes {
+        id
+        completedProductCount
+        pricingComponent
+        logs: pricingLogsByPriceRunningHistoryId {
+          nodes {
+            requestedProducts
+            successfullyExecutedProducts
+            failedProducts
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      totalCount
+    }
+  }
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2178,4 +2204,5 @@ export {
   IMAGEDELETE,
   GETALLERRORLOGS,
   GETORDERCOMMUNICATIONLOGS,
+  PRICE_RUN_LOGS,
 };

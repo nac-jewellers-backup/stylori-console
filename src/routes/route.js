@@ -87,6 +87,7 @@ const route = {
   abandoned_cart: "/cart-details",
   price_upload: "/price-upload",
   error_logs: "/error-logs",
+  pricelogs: "/price-logs",
 };
 
 export default route;

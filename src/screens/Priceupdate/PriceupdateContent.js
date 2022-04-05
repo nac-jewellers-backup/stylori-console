@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { VoucherContext } from "../../context";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import Dialog from "@material-ui/core/Dialog";
-import Grid from "@material-ui/core/Grid";
-import Fullloader from "../../components/Loader";
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { v4 as uuid } from "uuid";
+import { Button, Link } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import Page from "../../components/Page";
-import { Header, Results, AboutVoucher } from "./components";
+import { Results, AboutVoucher } from "./components";
 import { productCategory } from "../../services/mapper";
 import { NetworkContext } from "../../context/NetworkContext";
 import FullLoader from "../../components/Loader";
@@ -21,9 +15,7 @@ const rows = [
   { id: "Markup & Discount price update", label: "updateskuprice" },
 ];
 const useStyles = makeStyles((theme) => ({
-  root: {
-    //  padding: theme.spacing(3)
-  },
+  root: {},
   aboutvoucher: {
     marginTop: theme.spacing(3),
   },
@@ -34,14 +26,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PriceupdateContent(props) {
   const classes = useStyles();
-  const [orders, setOrders] = useState([]);
 
   const [masters, setMasters] = useState([]);
   const { sendNetworkRequest } = React.useContext(NetworkContext);
-  const [sizes, setSizes] = useState([]);
+  const [, setSizes] = useState([]);
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [vendors, setVendors] = useState([]);
+  const [, setCategories] = useState([]);
+  const [, setVendors] = useState([]);
   const [startrun, setStartrun] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -53,16 +44,25 @@ export default function PriceupdateContent(props) {
       req_product_id: products,
     };
     setStartrun(true);
-    let response = await sendNetworkRequest("/productpriceupdate", {}, bodydata, false);
+    let response = await sendNetworkRequest(
+      "/productpriceupdate",
+      {},
+      bodydata,
+      false
+    );
     setOpen(false);
   }
   async function rerun(component) {
     var bodydata = {};
     bodydata = {
       component: component.label,
-      // req_product_id : products
     };
-    let response = await sendNetworkRequest("/getincompletepricerun", {}, bodydata, false);
+    let response = await sendNetworkRequest(
+      "/getincompletepricerun",
+      {},
+      bodydata,
+      false
+    );
     let history_id = response.id;
     let update_products = response.products;
     if (response.products && response.products.length > 0) {
@@ -75,16 +75,27 @@ export default function PriceupdateContent(props) {
         history_id: history_id,
       };
       setStartrun(true);
-      let response1 = await sendNetworkRequest("/productpriceupdate", {}, bodydata, false);
+      let response1 = await sendNetworkRequest(
+        "/productpriceupdate",
+        {},
+        bodydata,
+        false
+      );
       setOpen(false);
     } else {
       alert(" Doesn't have any incomplete products");
     }
   }
 
-  async function filterapllied(filterdata, categories, producttypes, material, purity) {
+  async function filterapllied(
+    filterdata,
+    categories,
+    producttypes,
+    material,
+    purity
+  ) {
     var bodydata = {};
-  
+
     bodydata = {
       vendorid: filterdata && filterdata.length > 0 ? filterdata : "",
       product_category: categories && categories.length > 0 ? categories : "",
@@ -93,17 +104,18 @@ export default function PriceupdateContent(props) {
       purity_list: purity && purity.length > 0 ? purity : "",
     };
 
-    let response = await sendNetworkRequest("/getdistinctproduct", {}, bodydata, false);
+    let response = await sendNetworkRequest(
+      "/getdistinctproduct",
+      {},
+      bodydata,
+      false
+    );
     setProducts(response.products);
     setCategories(response.category);
     setVendors(response.vendorlist);
-    // if(response.status < 400){
-    //   alert(JSON.stringify(products))
-    // }
   }
   async function downloadlog() {
     window.location.href = "https://api-staging.stylori.com/getlogfile";
-    // let response = await sendNetworkRequest('/getlogfile', {}, "", false)
   }
   async function getsizes() {
     let response = await sendNetworkRequest("/getsizes", {}, {}, false);
@@ -115,8 +127,7 @@ export default function PriceupdateContent(props) {
   }
   useEffect(() => {
     let mounted = true;
-    //filterapllied()
-    //getsizes();
+
     setMasters(productCategory.mapper(props.data));
     return () => {
       mounted = false;
@@ -140,7 +151,26 @@ export default function PriceupdateContent(props) {
           puritylist={masters.metalpurity}
           categories={["Fixed Amount", "percentage", "Free Shipping"]}
         />
-        <Results products={products} pricingrows={rows} downloadlog={downloadlog} update={updateprices} resumeupdate={rerun} />
+        <Results
+          products={products}
+          pricingrows={rows}
+          downloadlog={downloadlog}
+          update={updateprices}
+          resumeupdate={rerun}
+        />
+        <div
+          style={{
+            padding: "12px 0px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Link href="/price-logs">
+            <Button color="primary" variant="contained">
+              Price History Logs
+            </Button>
+          </Link>
+        </div>
       </Page>
     </MuiPickersUtilsProvider>
   );

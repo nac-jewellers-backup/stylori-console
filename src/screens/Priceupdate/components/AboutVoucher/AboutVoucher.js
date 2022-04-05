@@ -2,29 +2,16 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
-import { VoucherContext } from "../../../../context";
-import { DateTimePicker } from "@material-ui/pickers";
-import { makeid } from "../../../../utils/commonmethod";
 import { Autocomplete } from "@material-ui/lab";
-import { NetworkContext } from "../../../../context/NetworkContext";
 
 import {
   Card,
   CardHeader,
   CardContent,
-  Typography,
   TextField,
-  Popper,
   Chip,
-  CardActionArea,
-  CardActions,
-  Radio,
-  Button,
   Grid,
-  Checkbox,
-  FormControlLabel,
   Divider,
-  colors,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,11 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   selectedOption: {
     backgroundColor: theme.palette.primary.main,
-    // border: `3px solid ${theme.palette.divider}`,
   },
   selectedOptiondefault: {
     backgroundColor: theme.palette.common.white,
-    // border: `3px solid ${theme.palette.divider}`,
   },
   optionRadio: {
     margin: -10,
@@ -85,32 +70,11 @@ const useStyles = makeStyles((theme) => ({
 const AboutVoucher = (props) => {
   const { className, ...rest } = props;
 
-  console.log(props);
-  const { voucherCtx, setVoucherCtx } = React.useContext(VoucherContext);
-  const { sendNetworkRequest } = React.useContext(NetworkContext);
-  const [vendorlist, setVendorlist] = useState(props.masterData.vendorcode);
-  const [categorylist, setCategorylist] = useState(props.masterData.category);
-  const [producttypelist, setProducttypelist] = useState(props.masterData.product_type);
-  const [productids, setProductids] = useState(props.productids);
+  const [productids] = useState(props.productids);
 
-  const [updatestatus, setUpdatestatus] = useState("");
-
-  const [vouchercode, setVouchercode] = useState("");
-  const [discounttype, setDiscounttype] = useState("");
-  const [minreq, setMinreq] = useState("None");
-  const [usagelimit, setUsagelimit] = useState("once");
   const [formData, setFormData] = useState({});
 
-  const [isonce, setIsonce] = useState(false);
-
   const classes = useStyles();
-
-  const [selected, setSelected] = useState(1);
-  const [selectedDate, handleDateChange] = useState(new Date());
-
-  const handleChange = (event, option) => {
-    setSelected(option);
-  };
 
   const handleproducttypechange = (type) => (event, option) => {
     let vendorsarray = [];
@@ -118,7 +82,13 @@ const AboutVoucher = (props) => {
       vendorsarray.push(element.name);
     });
     setFormData({ ...formData, producttypes: vendorsarray });
-    props.apply(formData.vendorid, formData.categories, vendorsarray, formData.material, formData.purity);
+    props.apply(
+      formData.vendorid,
+      formData.categories,
+      vendorsarray,
+      formData.material,
+      formData.purity
+    );
   };
   const handlecategorychange = (type) => (event, option) => {
     let vendorsarray = [];
@@ -127,7 +97,13 @@ const AboutVoucher = (props) => {
     });
     setFormData({ ...formData, categories: vendorsarray });
 
-    props.apply(formData.vendorid, vendorsarray, formData.producttypes, formData.material, formData.purity);
+    props.apply(
+      formData.vendorid,
+      vendorsarray,
+      formData.producttypes,
+      formData.material,
+      formData.purity
+    );
   };
   const hangeoptionchange = (type) => (event, option) => {
     let vendorsarray = [];
@@ -136,7 +112,13 @@ const AboutVoucher = (props) => {
     });
     setFormData({ ...formData, vendorid: vendorsarray });
 
-    props.apply(vendorsarray, formData.categories, formData.producttypes, formData.material, formData.purity);
+    props.apply(
+      vendorsarray,
+      formData.categories,
+      formData.producttypes,
+      formData.material,
+      formData.purity
+    );
   };
 
   const handlematerialtypechange = (type) => (event, option) => {
@@ -146,7 +128,13 @@ const AboutVoucher = (props) => {
     });
     setFormData({ ...formData, material: vendorsarray });
 
-    props.apply(formData.vendorid, formData.categories, formData.producttypes, vendorsarray, formData.purity);
+    props.apply(
+      formData.vendorid,
+      formData.categories,
+      formData.producttypes,
+      vendorsarray,
+      formData.purity
+    );
   };
   const handlepuritytypechange = (type) => (event, option) => {
     let vendorsarray = [];
@@ -155,37 +143,13 @@ const AboutVoucher = (props) => {
     });
     setFormData({ ...formData, purity: vendorsarray });
 
-    props.apply(formData.vendorid, formData.categories, formData.producttypes, formData.material, vendorsarray);
-  };
-  const handleClick = async (event, option) => {
-    let response = await sendNetworkRequest("/updatepricelist", {}, formData, false);
-    if (response.status < 400) {
-    } else {
-      alert("error");
-    }
-  };
-  const handleuploadstatus = async (event, option) => {
-    let response = await sendNetworkRequest("/getpriceupdatestatus", {}, formData, false);
-    if (response.status < 400) {
-      setUpdatestatus(response.message);
-    } else {
-    }
-  };
-  const handleusagelimit = (event, option) => {
-    setUsagelimit(option);
-  };
-  const handleInputChange = (type) => (e) => {
-    setVouchercode(e.target.value.toUpperCase());
-  };
-  const handleminreq = (event, option) => {
-    setMinreq(option);
-  };
-  const handleonceperorder = (event, option) => {
-    setIsonce(!isonce);
-  };
-  const generateCoupon = (event) => {
-    // alert(JSON.stringify(voucherCtx))
-    setVouchercode(makeid(10));
+    props.apply(
+      formData.vendorid,
+      formData.categories,
+      formData.producttypes,
+      formData.material,
+      vendorsarray
+    );
   };
 
   return (
@@ -199,11 +163,18 @@ const AboutVoucher = (props) => {
               multiple
               id="combo-box-demo"
               disabled={props.isdisabled}
-              options={props.vendorlist}
+              options={props.vendorlist ?? []}
               getOptionLabel={(option) => option.display}
               fullWidth
               onChange={hangeoptionchange("vendorcode")}
-              renderInput={(params) => <TextField {...params} label="Select Vendor" variant="outlined" fullWidth />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Vendor"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -211,11 +182,18 @@ const AboutVoucher = (props) => {
               multiple
               id="combo-box-demo"
               disabled={props.isdisabled}
-              options={props.categorylist}
+              options={props.categorylist ?? []}
               getOptionLabel={(option) => option.name}
               onChange={handlecategorychange("category")}
               fullWidth
-              renderInput={(params) => <TextField {...params} label="Select Product Category" variant="outlined" fullWidth />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Product Category"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -223,12 +201,19 @@ const AboutVoucher = (props) => {
               multiple
               id="combo-box-demo"
               disabled={props.isdisabled}
-              options={props.producttypelist}
+              options={props.producttypelist ?? []}
               getOptionLabel={(option) => option.name}
               onChange={handleproducttypechange("product_type")}
               fullWidth
               margin="dense"
-              renderInput={(params) => <TextField {...params} label="Select Product Type" variant="outlined" fullWidth />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Product Type"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -236,12 +221,19 @@ const AboutVoucher = (props) => {
               multiple
               id="combo-box-demo"
               disabled={props.isdisabled}
-              options={props.material}
+              options={props.material ?? []}
               getOptionLabel={(option) => option.name}
               onChange={handlematerialtypechange("material")}
               fullWidth
               margin="dense"
-              renderInput={(params) => <TextField {...params} label="Select Material Type" variant="outlined" fullWidth />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Material Type"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -249,12 +241,19 @@ const AboutVoucher = (props) => {
               multiple
               id="combo-box-demo"
               disabled={props.isdisabled}
-              options={props.puritylist}
+              options={props.puritylist ?? []}
               getOptionLabel={(option) => option.name}
               onChange={handlepuritytypechange("puritylist")}
               fullWidth
               margin="dense"
-              renderInput={(params) => <TextField {...params} label="Select Purity Type" variant="outlined" fullWidth />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Purity Type"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12}>
@@ -264,15 +263,26 @@ const AboutVoucher = (props) => {
               fullWidth
               disabled={props.isdisabled}
               className={classes.fixedTag}
-              value={props.productids}
+              value={props.productids ?? []}
               options={productids}
               renderTags={(value, getTagProps) =>
-                value.map((option, index) => <Chip variant="outlined" size="small" label={option} {...getTagProps({ index })} />)
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    size="small"
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
+                ))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label={props.productids.length > 0 ? "Products (" + props.productids.length + ") " : "Products"}
+                  label={
+                    props.productids.length > 0
+                      ? "Products (" + props.productids.length + ") "
+                      : "Products"
+                  }
                   margin="dense"
                   variant="outlined"
                   fullWidth
@@ -281,36 +291,6 @@ const AboutVoucher = (props) => {
               )}
             />
           </Grid>
-
-          {/* <Grid item xs={6} sm={3} >
-
-        <Button variant="contained" 
-          onClick={handleClick}
-        color="primary">
-        Update Price
-      </Button>
-      </Grid>
-      
-      <Grid item xs={6} sm={3} >
-
-        <Button variant="contained" 
-          onClick={handleuploadstatus}
-        color="primary">
-        Update Status
-      </Button>
-      <Typography variant="subtitle1">
-                {updatestatus}
-      </Typography>
-
-      </Grid> */}
-          {/* <Grid item xs={6} sm={3} >
-      <Button variant="contained" 
-          onClick={handleuploadstatus}
-        color="primary">
-        Price Update
-      </Button>
-       
-      </Grid> */}
         </Grid>
       </CardContent>
     </Card>

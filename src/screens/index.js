@@ -44,6 +44,7 @@ export * from "./Materialmaster";
 export * from "./OrderList";
 export * from "./OrderManagementDetails";
 export * from "./Priceupdate";
+export * from "./PriceLogs";
 export * from "./Productlist";
 export * from "./Productupload";
 export * from "./Salediscount";
@@ -61,5 +62,3 @@ export * from "./Vendorpricesetup";
 export * from "./Voucherdiscount";
 export * from "./VoucherdiscountListing";
 export * from "./Warehouse";
-
-
