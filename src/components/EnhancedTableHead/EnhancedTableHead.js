@@ -18,8 +18,8 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
- 
-  console.log(props.columns,"column objs")
+
+  console.log(props.columns, "column objs");
   return (
     <TableHead>
       <TableRow>
@@ -55,27 +55,27 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))} */}
-        {props.columns.map((item,index)=>(
-    <TableCell
-    key={index}
-    width={item.type == 9 ? 300 : null}
-    align={item.numeric ? "right" : "left"}
-    padding={item.disablePadding ? "none" : "default"}
-    sortDirection={orderBy === item.id ? order : false}
-    >
-      <TableSortLabel
-       active={orderBy === item.id}
-       direction={orderBy === item.id ? order : "desc"}
-       onClick={createSortHandler(item.id)}
-      >
-      {item.name}
-      {orderBy === item.id ? (
+        {props.columns.map((item, index) => (
+          <TableCell
+            key={index}
+            width={item.type == 9 ? 300 : null}
+            align={item.numeric ? "right" : "left"}
+            padding={item.disablePadding ? "none" : "default"}
+            sortDirection={orderBy === item.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === item.id}
+              direction={orderBy === item.id ? order : "desc"}
+              onClick={createSortHandler(item.id)}
+            >
+              {item.name}
+              {orderBy === item.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === "desc" ? "" : ""}
                 </span>
               ) : null}
-      </TableSortLabel>
-    </TableCell>
+            </TableSortLabel>
+          </TableCell>
         ))}
       </TableRow>
     </TableHead>

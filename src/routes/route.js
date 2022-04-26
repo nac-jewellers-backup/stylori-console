@@ -88,6 +88,7 @@ const route = {
   price_upload: "/price-upload",
   error_logs: "/error-logs",
   pricelogs: "/price-logs",
+  GemstoneMarkupSettings: "gemstone-setting",
 };
 
 export default route;

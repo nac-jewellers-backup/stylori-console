@@ -70,6 +70,7 @@ import {
   VoucherdiscountListing,
   Warehouse,
 } from "../screens";
+import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
 import Banners from "../screens/Banners/banners";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
@@ -280,6 +281,10 @@ const MainApp = () => {
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
+          <PrivateRoute
+            path={route.GemstoneSetting}
+            component={GemstoneSetting}
+          />
         </Switch>
       </NetworkProvider>
       {/* </ProductProvider> */}

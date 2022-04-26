@@ -1,74 +1,69 @@
 {
-
-    "goldpurity":[
-        {
-            "name":"24K",
-            "shortCode":24
-        },
-        {
-            "name":"22K",
-            "shortCode":22
-        },
-        {
-            "name":"18K",
-            "shortCode":18
-        },
-        {
-        "name":"14K",
-        "shortCode":14
-    }
-   
-    
-   
-],
-    
-    "Gold":{
-        
-            "name":"24K",
-            "shortCode":24
-        
+  "goldpurity": [
+    {
+      "name": "24K",
+      "shortCode": 24
     },
-    "pricetype":[
-        {
-            "label": "Flat",
-            "value": 1
-        },
-        {
-            "label": "Percentage",
-            "value": 2
-        }
-    ],
-    "Silver":{
-        "name": "92.5",
-        "shortCode": 925
-      },
-      "Platinum":{
-        "name": "950",
-        "shortCode": 950
-      },
-    "columns": [
-        
-        {
-            "label": "Name",
-            "key":"displayname",
-            "id": "Name"
-        },
-        {
-            "label": "Url",
-            "key":"pagename",
-            "id": "Url"
-        },
-        {
-            "label": "Actions",
-            "key":"action",
-            "id": "Actions"
-        }
-    ],
+    {
+      "name": "22K",
+      "shortCode": 22
+    },
+    {
+      "name": "18K",
+      "shortCode": 18
+    },
+    {
+      "name": "14K",
+      "shortCode": 14
+    }
+  ],
 
-    "values":[{
-        "id":1,
-        "hsn":"iwewuewu",
-        "tax":"6",
-        "action":["edit","delete"]
-    }]
+  "Gold": {
+    "name": "24K",
+    "shortCode": 24
+  },
+  "pricetype": [
+    {
+      "label": "Flat",
+      "value": 1
+    },
+    {
+      "label": "Percentage",
+      "value": 2
+    }
+  ],
+  "Silver": {
+    "name": "92.5",
+    "shortCode": 925
+  },
+  "Platinum": {
+    "name": "950",
+    "shortCode": 950
+  },
+  "columns": [
+    {
+      "label": "Name",
+      "key": "displayname",
+      "id": "Name"
+    },
+    {
+      "label": "Url",
+      "key": "pagename",
+      "id": "Url"
+    },
+    {
+      "label": "Actions",
+      "key": "action",
+      "id": "Actions"
+    }
+  ],
+
+  "values": [
+    {
+      "id": 1,
+      "hsn": "iwewuewu",
+      "tax": "6",
+      "action": ["edit", "delete"]
+    }
+  ]
 }
