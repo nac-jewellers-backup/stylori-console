@@ -45,7 +45,7 @@ export default function PriceupdateContent(props) {
     };
     setStartrun(true);
     let response = await sendNetworkRequest(
-      "/productpriceupdate",
+      "/price_run_new",
       {},
       bodydata,
       false
@@ -76,7 +76,7 @@ export default function PriceupdateContent(props) {
       };
       setStartrun(true);
       let response1 = await sendNetworkRequest(
-        "/productpriceupdate",
+        "/price_run_new",
         {},
         bodydata,
         false
