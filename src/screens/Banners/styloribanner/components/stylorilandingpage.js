@@ -155,7 +155,7 @@ const StyloriLandingPage = (props) => {
       .catch(console.error);
   };
 
-  const handleChange = (file)=>{
+  const handleChange = (file, name)=>{
     UploadImage(
       file
       )
@@ -234,7 +234,7 @@ const StyloriLandingPage = (props) => {
                   id="button-file"
                   multiple
                   type="file"
-                  onChange={(e)=>handleChange(e.target.files[0])}
+                  onChange={(e)=>handleChange(e.target.files[0], "mobile")}
                 />
                 <label htmlFor="button-file">
                   <Button
@@ -255,7 +255,7 @@ const StyloriLandingPage = (props) => {
                   id="button-file"
                   multiple
                   type="file"
-                  onChange={(e)=>handleChange(e.target.files[0])}
+                  onChange={(e)=>handleChange(e.target.files[0], "web")}
                 />
                 <label htmlFor="button-file">
                   <Button

@@ -80,6 +80,7 @@ import Editcategory from "../screens/CategoryList/components/editpage/editcatego
 import newmaterial from "../screens/CategoryList/components/newmaterial/newmaterial";
 import { CreateVariant } from "../screens/ProductEdit/CreateVariant";
 import { ProductAttributes } from "../screens/ProductEdit/ProductAttributes";
+import { ImageUpload } from "../screens/ImageUpload";
 import PriceUpload from "../screens/uploadprice/index.js";
 import PrivateRoute from "./PrivateRoute";
 import route from "./route";
@@ -105,6 +106,7 @@ const MainApp = () => {
           <PrivateRoute path={route.editCategory} component={Editcategory} />
           <PrivateRoute path={route.materiallistpage} component={newmaterial} />
           <PrivateRoute path={route.pricelogs} component={PriceLogs} />
+          <PrivateRoute path={route.imageUpload} component={ImageUpload} />
           <PrivateRoute
             path={route.producttypes}
             component={Masterproducttypes}

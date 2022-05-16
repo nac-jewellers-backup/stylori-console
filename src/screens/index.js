@@ -62,3 +62,4 @@ export * from "./Vendorpricesetup";
 export * from "./Voucherdiscount";
 export * from "./VoucherdiscountListing";
 export * from "./Warehouse";
+export * from "./ImageUpload";
