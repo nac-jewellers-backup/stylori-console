@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -20,6 +20,9 @@ import {
 
 import { ALLSTYLORISILVERLANDINGBANNERS, CREATESILVERLANDINGBANNER, DELETESILVERLANDINGBANNER } from "../../../../graphql/query";
 import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
+import { UploadImage } from "../../../../utils/imageUpload";
+import { AlertContext } from "../../../../context";
+
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -59,6 +62,8 @@ const SilverLandingPage = (props) => {
     mobile: "",
     web: "",
   });
+  const [disable,setDisable] = useState(false)
+  const alert = useContext(AlertContext)
 
   useEffect(() => {
     async function styloribannerfetch() {
@@ -86,7 +91,25 @@ const SilverLandingPage = (props) => {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setDisable(false)
   };
+
+  const handleChange = (file)=>{
+    UploadImage(
+      file
+      )
+      .then((res)=>{
+        alert.setSnack({
+          open: true,
+          severity: "success",
+          msg: "Image Uploaded Successfully",
+        });
+        setDisable(true)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -182,26 +205,50 @@ const SilverLandingPage = (props) => {
               value={createlandingbanner.link}
               name="link"
             />
-            <TextField
-              margin="dense"
-              id="mobile"
-              label="Mobile Image URL"
-              variant="outlined"
-              fullWidth
-              onChange={onChangeData}
-              value={createlandingbanner.mobile}
-              name="mobile"
-            />
-            <TextField
-              margin="dense"
-              id="web"
-              label="Desktop Image URL"
-              variant="outlined"
-              fullWidth
-              onChange={onChangeData}
-              value={createlandingbanner.web}
-              name="web"
-            />
+            <Grid container justifyContent="space-around">
+              <Grid item>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Mobile Image URL
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Desktop Image URL
+                  </Button>
+                </label>
+              </Grid>
+            </Grid>
+
           </DialogContent>
           <DialogActions>
             <Button onClick={onsubmitvalue}>Submit</Button>

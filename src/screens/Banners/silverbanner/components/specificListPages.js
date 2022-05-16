@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -19,6 +19,8 @@ import {
 } from "@material-ui/core";
 import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
 import { CREATESPECIFICLISTINGPAGE, ALLSPECIFICLISTINGPAGE, DELETESILVERLANDINGBANNER } from "../../../../graphql/query";
+import { UploadImage } from "../../../../utils/imageUpload";
+import { AlertContext } from "../../../../context";
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
@@ -60,9 +62,12 @@ function SpecificListPages(props) {
     mobile: "",
     web: "",
   });
+  const [disable,setDisable] = useState(false)
+  const alert = useContext(AlertContext)
 
   const handleClickOpen = () => {
     setOpen(true);
+    setDisable(false)
   };
 
   const handleClose = () => {
@@ -142,6 +147,23 @@ function SpecificListPages(props) {
       .catch(console.error);
   };
 
+  const handleChange = (file)=>{
+    UploadImage(
+      file
+      )
+      .then((res)=>{
+        alert.setSnack({
+          open: true,
+          severity: "success",
+          msg: "Image Uploaded Successfully",
+        });
+        setDisable(true)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+  }
+
   return (
     <>
       <Paper className={classes.root}>
@@ -183,26 +205,48 @@ function SpecificListPages(props) {
               value={createlandingbanner.urlParam}
               name="urlParam"
             />
-            <TextField
-              margin="dense"
-              id="mobile"
-              label="Mobile Image URL"
-              variant="outlined"
-              fullWidth
-              onChange={onChangeData}
-              value={createlandingbanner.mobile}
-              name="mobile"
-            />
-            <TextField
-              margin="dense"
-              id="web"
-              label="Desktop Image URL"
-              variant="outlined"
-              fullWidth
-              onChange={onChangeData}
-              value={createlandingbanner.web}
-              name="web"
-            />
+            <Grid container justifyContent="space-around">
+              <Grid item>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Mobile Image URL
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item style={{marginLeft:"5px"}}>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Desktop Image URL
+                  </Button>
+                </label>
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             <Button onClick={onsubmitvalue}>Submit</Button>

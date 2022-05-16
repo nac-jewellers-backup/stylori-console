@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -18,8 +18,15 @@ import {
   DialogActions,
 } from "@material-ui/core";
 
-import { ALLSTYLORILANDINGBANNERS, CREATESTYLORILANDINGBANNER, DELETESTYLORILANDINGBANNER } from "../../../../graphql/query";
+import {
+  ALLSTYLORILANDINGBANNERS,
+  CREATESTYLORILANDINGBANNER,
+  DELETESTYLORILANDINGBANNER,
+} from "../../../../graphql/query";
 import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
+import { UploadImage } from "../../../../utils/imageUpload";
+import { AlertContext } from "../../../../context";
+
 const useStyles2 = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -59,6 +66,8 @@ const StyloriLandingPage = (props) => {
     mobile: "",
     web: "",
   });
+  const [disable,setDisable] = useState(false)
+  const alert = useContext(AlertContext)
 
   useEffect(() => {
     async function styloribannerfetch() {
@@ -78,7 +87,6 @@ const StyloriLandingPage = (props) => {
           data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
 
           setalllandingbanner(data);
-        
         })
         .catch(console.error);
     }
@@ -87,13 +95,17 @@ const StyloriLandingPage = (props) => {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setDisable(false)
   };
 
   const handleClose = () => {
     setOpen(false);
   };
   const onChangeData = (event) => {
-    setCreatelandingbanner({ ...createlandingbanner, [event.target.name]: event.target.value });
+    setCreatelandingbanner({
+      ...createlandingbanner,
+      [event.target.name]: event.target.value,
+    });
   };
   const handleDelete = async (id) => {
     const url = GRAPHQL_DEV_CLIENT;
@@ -143,10 +155,34 @@ const StyloriLandingPage = (props) => {
       .catch(console.error);
   };
 
+  const handleChange = (file)=>{
+    UploadImage(
+      file
+      )
+      .then((res)=>{
+        alert.setSnack({
+          open: true,
+          severity: "success",
+          msg: "Image Uploaded Successfully",
+        });
+        setDisable(true)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+  }
+
   return (
     <>
       <Paper className={classes.root}>
-        <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{ padding: "16px" }}
+          sm={12}
+          alignItems={"flex-end"}
+        >
           <Grid fullwidth item xs={9} sm={9}>
             <Typography component="h6" variant="h6">
               Stylori - Home Page - Banners
@@ -154,14 +190,20 @@ const StyloriLandingPage = (props) => {
           </Grid>
 
           <Grid fullwidth item xs={3} sm={3} style={{ "text-align": "right" }}>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClickOpen}
+            >
               Add New
             </Button>
           </Grid>
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="form-dialog-title">Stylori Landing Page : </DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            Stylori Landing Page :{" "}
+          </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -184,7 +226,51 @@ const StyloriLandingPage = (props) => {
               value={createlandingbanner.link}
               name="link"
             />
-            <TextField
+            <Grid container justifyContent="space-around">
+              <Grid item>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Mobile Image URL
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: "none" }}
+                  id="button-file"
+                  multiple
+                  type="file"
+                  onChange={(e)=>handleChange(e.target.files[0])}
+                />
+                <label htmlFor="button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="primary"
+                    disabled={disable}
+                  >
+                    Desktop Image URL
+                  </Button>
+                </label>
+              </Grid>
+            </Grid>
+
+            {/* <TextField
               margin="dense"
               id="mobile"
               label="Mobile ImagecURL"
@@ -203,7 +289,7 @@ const StyloriLandingPage = (props) => {
               onChange={onChangeData}
               value={createlandingbanner.web}
               name="web"
-            />
+            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={onsubmitvalue}>Submit</Button>
@@ -212,7 +298,13 @@ const StyloriLandingPage = (props) => {
         </Dialog>
 
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
+          <Table
+            className={classes.table}
+            border={1}
+            borderColor={"#ddd"}
+            size="small"
+            stickyHeader
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Position</TableCell>
@@ -227,22 +319,43 @@ const StyloriLandingPage = (props) => {
                 <TableRow key={val.id}>
                   <TableCell>{val.position}</TableCell>
                   <TableCell>
-                    <Link href={`${APP_URL}`} target="_blank" className={classes.link_style}>
+                    <Link
+                      href={`${APP_URL}`}
+                      target="_blank"
+                      className={classes.link_style}
+                    >
                       {APP_URL}
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={val.mobile} target="_blank" className={classes.link_style}>
-                      <img src={val.mobile} style={{ width: "150px", height: "auto" }} />
+                    <Link
+                      href={val.mobile}
+                      target="_blank"
+                      className={classes.link_style}
+                    >
+                      <img
+                        src={val.mobile}
+                        style={{ width: "150px", height: "auto" }}
+                      />
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={val.web} target="_blank" className={classes.link_style}>
-                      <img src={val.web} style={{ width: "150px", height: "auto" }} />
+                    <Link
+                      href={val.web}
+                      target="_blank"
+                      className={classes.link_style}
+                    >
+                      <img
+                        src={val.web}
+                        style={{ width: "150px", height: "auto" }}
+                      />
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleDelete(val.id)} style={{ color: "#fff", backgroundColor: "red" }}>
+                    <Button
+                      onClick={() => handleDelete(val.id)}
+                      style={{ color: "#fff", backgroundColor: "red" }}
+                    >
                       Delete
                     </Button>
                   </TableCell>
