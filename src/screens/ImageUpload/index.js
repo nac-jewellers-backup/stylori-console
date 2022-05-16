@@ -1,17 +1,45 @@
-import React from "react";
-import { Grid, Card, CardContent, Typography,Button } from "@material-ui/core";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import React, { useState, useContext } from "react";
+import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from "@material-ui/styles";
-
+import { UploadImage } from "../../utils/imageUpload";
+import { AlertContext } from "../../context/AlertContext";
 const useStyles = makeStyles({
   Card: {
-    height:"300px",
-    display:"flex",justifyContent:"center",alignItems:"center"
+    height: "300px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
 export const ImageUpload = () => {
   const classes = useStyles();
+  const alert = useContext(AlertContext);
+
+  const [imgLink, setImgLink] = useState("");
+  const [disableButton, setDisableButton] = useState(false);
+  const handleChange = (file, name) => {
+    UploadImage(file)
+      .then((res) => {
+        if (res?.data?.web) {
+          alert.setSnack({
+            open: true,
+            severity: "success",
+            msg: "Image Uploaded Successfully",
+          });
+        }
+        setDisableButton(true);
+        setImgLink(res?.data?.web ?? "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const ResetFunc = () => {
+    setImgLink("");
+    setDisableButton(false);
+  };
   return (
     <Grid container spacing={3}>
       <Grid container item xs={12} sm={12} spacing={2}>
@@ -23,9 +51,25 @@ export const ImageUpload = () => {
       <Grid item xs={6} sm={4} lg={6}>
         <Card fullwidth className={classes.Card}>
           <CardContent>
-            <Button variant="outlined" startIcon={<CloudUploadIcon />}>
-              Upload Image
-            </Button>
+            <input
+              accept="image/*"
+              className={classes.input}
+              style={{ display: "none" }}
+              id="button-files"
+              multiple
+              type="file"
+              onChange={(e) => handleChange(e.target.files[0])}
+            />
+            <label htmlFor="button-files">
+              <Button
+                variant="outlined"
+                component="span"
+                disabled={disableButton}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload Image
+              </Button>
+            </label>
           </CardContent>
         </Card>
       </Grid>
@@ -33,14 +77,46 @@ export const ImageUpload = () => {
         <Card fullwidth className={classes.Card}>
           <CardContent>
             <Typography
-              style={{ textAlign: "center", marginTop: 8 }}
-              component="h6"
+              style={{ textAlign: "center", marginTop: 2 }}
+              component="h4"
               variant="h5"
             >
-              Stylori Silver
+              Uploaded Image Link
+            </Typography>
+            {imgLink && (
+              <img
+                style={{ cursor: "copy" }}
+                src={imgLink}
+                alt="imag"
+                loading="lazy"
+                onClick={() => {
+                  navigator.clipboard.writeText(imgLink);
+                }}
+              />
+            )}
+            <Typography
+              style={{ textAlign: "center", marginTop: 6, cursor: "copy" }}
+              component="h6"
+              variant="h5"
+              onClick={() => {
+                navigator.clipboard.writeText(imgLink);
+              }}
+            >
+              {imgLink}
             </Typography>
           </CardContent>
         </Card>
+      </Grid>
+      <Grid
+        item
+        style={{
+          margin: "auto",
+          paddingTop: "8px",
+        }}
+      >
+        <Button variant="outlined" onClick={ResetFunc}>
+          Reset
+        </Button>
       </Grid>
     </Grid>
   );

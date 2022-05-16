@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -17,8 +17,13 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
-import { ALLSTYLORISILVERLISTINGPAGE, CREATESILVERLISTINGPAGE, DELETESILVERLANDINGBANNER } from "../../../../graphql/query";
+import {
+  ALLSTYLORISILVERLISTINGPAGE,
+  CREATESILVERLISTINGPAGE,
+  DELETESILVERLANDINGBANNER,
+} from "../../../../graphql/query";
 import { GRAPHQL_DEV_CLIENT, APP_URL } from "../../../../config";
 import { UploadImage } from "../../../../utils/imageUpload";
 import { AlertContext } from "../../../../context";
@@ -62,59 +67,83 @@ const SilverListingPage = (props) => {
     mobile: "",
     web: "",
   });
-  const [disable,setDisable] = useState(false)
-  const alert = useContext(AlertContext)
+  const [disableButton, setDisable] = useState({
+    web: false,
+    mobile: false,
+  });
+  const alert = useContext(AlertContext);
 
   useEffect(() => {
-    async function styloribannerfetch() {
-      const url = GRAPHQL_DEV_CLIENT;
-      const opts = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: ALLSTYLORISILVERLISTINGPAGE,
-        }),
-      };
-
-      await fetch(url, opts)
-        .then((res) => res.json())
-        .then((fatchvalue) => {
-          let data = fatchvalue.data.allStyloriSilverBanners.nodes;
-          data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
-
-          setalllandingbanner(data);
-        })
-        .catch(console.error);
-    }
     styloribannerfetch();
   }, []);
+  const styloribannerfetch = async () => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: ALLSTYLORISILVERLISTINGPAGE,
+      }),
+    };
 
+    await fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        let data = fatchvalue.data.allStyloriSilverBanners.nodes;
+        data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+
+        setalllandingbanner(data);
+      })
+      .catch(console.error);
+  };
   const handleClickOpen = () => {
     setOpen(true);
-    setDisable(false)
+    setDisable(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-  const handleChange = (file)=>{
-    UploadImage(
-      file
-      )
-      .then((res)=>{
-        alert.setSnack({
-          open: true,
-          severity: "success",
-          msg: "Image Uploaded Successfully",
-        });
-        setDisable(true)
+  const handleChange = (file, name) => {
+    UploadImage(file)
+      .then((res) => {
+        if (res?.data?.web) {
+          setCreatelandingbanner({
+            ...createlandingbanner,
+            mobile: res?.data?.web,
+            web: res?.data?.web,
+          });
+          setDisable({ ...disableButton, mobile: true, web: true });
+
+          alert.setSnack({
+            open: true,
+            severity: "success",
+            msg: "Image Uploaded Successfully",
+          });
+        }
       })
-      .catch((err)=>{
-        console.log(err)
-      })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const ClearState = () => {
+    setCreatelandingbanner({
+      position: "",
+      link: "",
+      mobile: "",
+      web: "",
+    });
+    setDisable({
+      web: false,
+      mobile: false,
+    });
+  };
   const onChangeData = (event) => {
-    setCreatelandingbanner({ ...createlandingbanner, [event.target.name]: event.target.value });
+    setCreatelandingbanner({
+      ...createlandingbanner,
+      [event.target.name]: event.target.value,
+    });
   };
   const handleDelete = async (id) => {
     const url = GRAPHQL_DEV_CLIENT;
@@ -130,58 +159,89 @@ const SilverListingPage = (props) => {
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        window.location.reload();
+        styloribannerfetch();
       })
       .catch(console.error);
   };
 
   const onsubmitvalue = async () => {
-    let create_banner_data = {
-      position: createlandingbanner.position,
-      url: createlandingbanner.link,
-      mobile: createlandingbanner.mobile,
-      web: createlandingbanner.web,
-      now: new Date().toISOString(),
-    };
+    if (
+      createlandingbanner.position &&
+      createlandingbanner.link &&
+      createlandingbanner.mobile &&
+      createlandingbanner.web
+    ) {
+      let create_banner_data = {
+        position: createlandingbanner.position,
+        url: createlandingbanner.link,
+        mobile: createlandingbanner.mobile,
+        web: createlandingbanner.web,
+        now: new Date().toISOString(),
+      };
 
-    const url = GRAPHQL_DEV_CLIENT;
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: CREATESILVERLISTINGPAGE,
-        variables: create_banner_data,
-      }),
-    };
+      const url = GRAPHQL_DEV_CLIENT;
+      const opts = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: CREATESILVERLISTINGPAGE,
+          variables: create_banner_data,
+        }),
+      };
 
-    await fetch(url, opts)
-      .then((res) => res.json())
-      .then((fatchvalue) => {
-        setOpen(false);
-        window.location.reload();
-      })
-      .catch(console.error);
+      await fetch(url, opts)
+        .then((res) => res.json())
+        .then((fatchvalue) => {
+          ClearState();
+          styloribannerfetch();
+          setOpen(false);
+        })
+        .catch(console.error);
+    } else {
+      alert.setSnack({
+        open: true,
+        severity: "warning",
+        msg: "Data is Missing!",
+      });
+    }
   };
 
   return (
     <>
       <Paper className={classes.root}>
-        <Grid container item xs={12} style={{ padding: "16px" }} sm={12} alignItems={"flex-end"}>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{ padding: "16px" }}
+          sm={12}
+          alignItems={"flex-end"}
+        >
           <Grid fullwidth item xs={9} sm={9}>
-            <Typography component="h6" variant="h6" style={{ fontWeight: "bold" }}>
+            <Typography
+              component="h6"
+              variant="h6"
+              style={{ fontWeight: "bold" }}
+            >
               Silver - Listing Page - Banners
             </Typography>
           </Grid>
 
           <Grid fullwidth item xs={3} sm={3} style={{ "text-align": "right" }}>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClickOpen}
+            >
               Add New
             </Button>
           </Grid>
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="form-dialog-title">Silver - Listing Page - Banners : </DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            Silver - Listing Page - Banners :{" "}
+          </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -204,7 +264,11 @@ const SilverListingPage = (props) => {
               value={createlandingbanner.link}
               name="link"
             />
-           <Grid container justifyContent="space-around">
+            <Grid
+              container
+              justifyContent="space-around"
+              style={{ padding: "16px 0px" }}
+            >
               <Grid item>
                 <input
                   accept="image/*"
@@ -212,37 +276,16 @@ const SilverListingPage = (props) => {
                   id="button-file"
                   multiple
                   type="file"
-                  onChange={(e)=>handleChange(e.target.files[0])}
+                  onChange={(e) => handleChange(e.target.files[0], "mobile")}
                 />
                 <label htmlFor="button-file">
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     component="span"
-                    color="primary"
-                    disabled={disable}
+                    startIcon={<CloudUploadIcon />}
+                    disabled={disableButton.mobile}
                   >
-                    Mobile Image URL
-                  </Button>
-                </label>
-              </Grid>
-              <Grid item>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  style={{ display: "none" }}
-                  id="button-file"
-                  multiple
-                  type="file"
-                  onChange={(e)=>handleChange(e.target.files[0])}
-                />
-                <label htmlFor="button-file">
-                  <Button
-                    variant="contained"
-                    component="span"
-                    color="primary"
-                    disabled={disable}
-                  >
-                    Desktop Image URL
+                 Upload Banner
                   </Button>
                 </label>
               </Grid>
@@ -255,7 +298,13 @@ const SilverListingPage = (props) => {
         </Dialog>
 
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} border={1} borderColor={"#ddd"} size="small" stickyHeader>
+          <Table
+            className={classes.table}
+            border={1}
+            borderColor={"#ddd"}
+            size="small"
+            stickyHeader
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Position</TableCell>
@@ -270,7 +319,11 @@ const SilverListingPage = (props) => {
                 <TableRow key={val.id}>
                   <TableCell>{val.position}</TableCell>
                   <TableCell>
-                    <Link href={`${APP_URL}/silver-jewellery`} target="_blank" className={classes.link_style}>
+                    <Link
+                      href={`${APP_URL}/silver-jewellery`}
+                      target="_blank"
+                      className={classes.link_style}
+                    >
                       {`${APP_URL}/silver-jewellery`}
                     </Link>
                   </TableCell>
@@ -281,13 +334,24 @@ const SilverListingPage = (props) => {
                     </Link>
                   </TableCell> */}
                   <TableCell>
-                    <Link href={val.web} target="_blank" className={classes.link_style}>
+                    <Link
+                      href={val.web}
+                      target="_blank"
+                      className={classes.link_style}
+                    >
                       {/* {val.web} */}
-                      <img src={val.web} style={{ width: "150px", height: "auto" }} />
+                      <img
+                        src={val.web}
+                        style={{ width: "150px", height: "auto" }}
+                        alt="images"
+                      />
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleDelete(val.id)} style={{ color: "#fff", backgroundColor: "red" }}>
+                    <Button
+                      onClick={() => handleDelete(val.id)}
+                      style={{ color: "#fff", backgroundColor: "red" }}
+                    >
                       Delete
                     </Button>
                   </TableCell>

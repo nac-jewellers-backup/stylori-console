@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import {
   ALLSTYLORILANDINGBANNERS,
@@ -66,36 +67,38 @@ const StyloriLandingPage = (props) => {
     mobile: "",
     web: "",
   });
-  const [disable,setDisable] = useState(false)
-  const alert = useContext(AlertContext)
+  const [disableButton, setDisable] = useState({
+    web: false,
+    mobile: false,
+  });
+  const alert = useContext(AlertContext);
 
   useEffect(() => {
-    async function styloribannerfetch() {
-      const url = GRAPHQL_DEV_CLIENT;
-      const opts = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: ALLSTYLORILANDINGBANNERS,
-        }),
-      };
-
-      await fetch(url, opts)
-        .then((res) => res.json())
-        .then((fatchvalue) => {
-          let data = fatchvalue.data.allStyloriBanners.nodes;
-          data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
-
-          setalllandingbanner(data);
-        })
-        .catch(console.error);
-    }
     styloribannerfetch();
   }, []);
+  const styloribannerfetch = async () => {
+    const url = GRAPHQL_DEV_CLIENT;
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: ALLSTYLORILANDINGBANNERS,
+      }),
+    };
 
+    await fetch(url, opts)
+      .then((res) => res.json())
+      .then((fatchvalue) => {
+        let data = fatchvalue.data.allStyloriBanners.nodes;
+        data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+
+        setalllandingbanner(data);
+      })
+      .catch(console.error);
+  };
   const handleClickOpen = () => {
     setOpen(true);
-    setDisable(false)
+    setDisable(false);
   };
 
   const handleClose = () => {
@@ -121,57 +124,87 @@ const StyloriLandingPage = (props) => {
     await fetch(url, opts)
       .then((res) => res.json())
       .then((fatchvalue) => {
-        window.location.reload();
+        styloribannerfetch();
       })
       .catch(console.error);
   };
 
   const onsubmitvalue = async () => {
-    let create_banner_data = {
-      position: Number(createlandingbanner.position),
-      url: createlandingbanner.link,
-      mobile: createlandingbanner.mobile,
-      web: createlandingbanner.web,
-      now: new Date().toISOString(),
-    };
+    if (
+      createlandingbanner.position &&
+      createlandingbanner.link &&
+      createlandingbanner.mobile &&
+      createlandingbanner.web
+    ) {
+      let create_banner_data = {
+        position: Number(createlandingbanner.position),
+        url: createlandingbanner.link,
+        mobile: createlandingbanner.mobile,
+        web: createlandingbanner.web,
+        now: new Date().toISOString(),
+      };
 
-    const url = GRAPHQL_DEV_CLIENT;
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: CREATESTYLORILANDINGBANNER,
-        variables: create_banner_data,
-      }),
-    };
+      const url = GRAPHQL_DEV_CLIENT;
+      const opts = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: CREATESTYLORILANDINGBANNER,
+          variables: create_banner_data,
+        }),
+      };
 
-    await fetch(url, opts)
-      .then((res) => res.json())
-      .then((fatchvalue) => {
-        setOpen(false);
-
-        window.location.reload();
-      })
-      .catch(console.error);
+      await fetch(url, opts)
+        .then((res) => res.json())
+        .then((fatchvalue) => {
+          ClearState();
+          styloribannerfetch();
+          setOpen(false);
+        })
+        .catch(console.error);
+    } else {
+      alert.setSnack({
+        open: true,
+        severity: "warning",
+        msg: "Data is Missing!",
+      });
+    }
   };
 
-  const handleChange = (file, name)=>{
-    UploadImage(
-      file
-      )
-      .then((res)=>{
-        alert.setSnack({
-          open: true,
-          severity: "success",
-          msg: "Image Uploaded Successfully",
-        });
-        setDisable(true)
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
-  }
+  const handleChange = (file, name) => {
+    UploadImage(file)
+      .then((res) => {
+        if (res?.data?.web) {
+          setCreatelandingbanner({
+            ...createlandingbanner,
+            [name]: res?.data?.web,
+          });
+          setDisable({ ...disableButton, [name]: true });
 
+          alert.setSnack({
+            open: true,
+            severity: "success",
+            msg: "Image Uploaded Successfully",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const ClearState = () => {
+    setCreatelandingbanner({
+      position: "",
+      link: "",
+      mobile: "",
+      web: "",
+    });
+    setDisable({
+      web: false,
+      mobile: false,
+    });
+  };
   return (
     <>
       <Paper className={classes.root}>
@@ -226,7 +259,11 @@ const StyloriLandingPage = (props) => {
               value={createlandingbanner.link}
               name="link"
             />
-            <Grid container justifyContent="space-around">
+            <Grid
+              container
+              justifyContent="space-around"
+              style={{ padding: "16px 0px" }}
+            >
               <Grid item>
                 <input
                   accept="image/*"
@@ -234,16 +271,16 @@ const StyloriLandingPage = (props) => {
                   id="button-file"
                   multiple
                   type="file"
-                  onChange={(e)=>handleChange(e.target.files[0], "mobile")}
+                  onChange={(e) => handleChange(e.target.files[0], "mobile")}
                 />
                 <label htmlFor="button-file">
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     component="span"
-                    color="primary"
-                    disabled={disable}
+                    startIcon={<CloudUploadIcon />}
+                    disabled={disableButton.mobile}
                   >
-                    Mobile Image URL
+                    Mobile Image
                   </Button>
                 </label>
               </Grid>
@@ -252,19 +289,19 @@ const StyloriLandingPage = (props) => {
                   accept="image/*"
                   className={classes.input}
                   style={{ display: "none" }}
-                  id="button-file"
+                  id="button-files"
                   multiple
                   type="file"
-                  onChange={(e)=>handleChange(e.target.files[0], "web")}
+                  onChange={(e) => handleChange(e.target.files[0], "web")}
                 />
-                <label htmlFor="button-file">
+                <label htmlFor="button-files">
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     component="span"
-                    color="primary"
-                    disabled={disable}
+                    disabled={disableButton.web}
+                    startIcon={<CloudUploadIcon />}
                   >
-                    Desktop Image URL
+                    Desktop Image
                   </Button>
                 </label>
               </Grid>
@@ -336,6 +373,7 @@ const StyloriLandingPage = (props) => {
                       <img
                         src={val.mobile}
                         style={{ width: "150px", height: "auto" }}
+                        alt="images"
                       />
                     </Link>
                   </TableCell>
@@ -348,6 +386,7 @@ const StyloriLandingPage = (props) => {
                       <img
                         src={val.web}
                         style={{ width: "150px", height: "auto" }}
+                        alt="images"
                       />
                     </Link>
                   </TableCell>
