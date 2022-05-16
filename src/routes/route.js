@@ -76,7 +76,7 @@ const route = {
   customerdetails: "/customerdetails/:id",
 
   category: "/categories",
-
+  imageUpload:"/imageUpload",
   banners: "/banners",
   styloribanner: "/styloribanner",
   silverbanner: "/silverbanner",
