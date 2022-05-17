@@ -113,9 +113,9 @@ function SpecificListPages(props) {
       .catch(console.error);
   };
   const onsubmitvalue = async () => {
+    debugger;
     if (
-      createlandingbanner.position &&
-      createlandingbanner.link &&
+      createlandingbanner.urlParam &&
       createlandingbanner.mobile &&
       createlandingbanner.web
     ) {
@@ -276,7 +276,7 @@ function SpecificListPages(props) {
                   id="button-file"
                   multiple
                   type="file"
-                  onChange={(e) => handleChange(e.target.files[0], "mobile")}
+                  onChange={(e) => handleChange(e.target.files[0], "web")}
                 />
                 <label htmlFor="button-file">
                   <Button

@@ -1,12 +1,19 @@
 import React, { useState, useContext } from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Tooltip,
+} from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from "@material-ui/styles";
 import { UploadImage } from "../../utils/imageUpload";
 import { AlertContext } from "../../context/AlertContext";
 const useStyles = makeStyles({
   Card: {
-    height: "300px",
+    height: "500px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -79,31 +86,50 @@ export const ImageUpload = () => {
             <Typography
               style={{ textAlign: "center", marginTop: 2 }}
               component="h4"
-              variant="h5"
+              variant="h4"
             >
-              Uploaded Image Link
+              {imgLink
+                ? "Click image to copy link :"
+                : "Upload image to get link here"}
             </Typography>
+
             {imgLink && (
-              <img
-                style={{ cursor: "copy" }}
-                src={imgLink}
-                alt="imag"
-                loading="lazy"
+              <div
                 onClick={() => {
-                  navigator.clipboard.writeText(imgLink);
+                  alert.setSnack({
+                    open: true,
+                    severity: "success",
+                    msg: "Link Copied Successfully",
+                  });
                 }}
-              />
+              >
+                {/* <Tooltip title="Click to Copy Link"> */}
+                <img
+                  style={{ cursor: "copy", width: "100%", height: "auto" }}
+                  src={imgLink}
+                  alt="imag"
+                  loading="lazy"
+                  onClick={() => {
+                    navigator.clipboard.writeText(imgLink);
+                  }}
+                />
+                <Typography
+                  style={{
+                    textAlign: "center",
+                    marginTop: 6,
+                    cursor: "copy",
+                  }}
+                  component="h6"
+                  variant="h5"
+                  onClick={() => {
+                    navigator.clipboard.writeText(imgLink);
+                  }}
+                >
+                  {imgLink}
+                </Typography>
+                {/* </Tooltip> */}
+              </div>
             )}
-            <Typography
-              style={{ textAlign: "center", marginTop: 6, cursor: "copy" }}
-              component="h6"
-              variant="h5"
-              onClick={() => {
-                navigator.clipboard.writeText(imgLink);
-              }}
-            >
-              {imgLink}
-            </Typography>
           </CardContent>
         </Card>
       </Grid>
