@@ -69,6 +69,7 @@ import {
   Voucherdiscount,
   VoucherdiscountListing,
   Warehouse,
+  MasterCountry
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -218,6 +219,10 @@ const MainApp = () => {
           <PrivateRoute
             path={route.gemsettings}
             component={Mastergemsettings}
+          />
+          <PrivateRoute
+            path={route.countriesFx}
+            component={MasterCountry}
           />
           <PrivateRoute path={route.gemshapes} component={Mastergemshapes} />
           <PrivateRoute

@@ -344,7 +344,7 @@ const Vendor = (props) => {
     id: "",
   });
   function addnewvendor() {
-    let sort_id = masterlist.length > 0 ? masterlist[0].filterOrder + 1 : 1;
+    let sort_id = masterlist?.length > 0 ? masterlist[0].filterOrder + 1 : 1;
     setaliasName(props.prefix + sort_id);
 
     setEditcontent({
@@ -596,7 +596,7 @@ const Vendor = (props) => {
               onRequestSort={handleRequestSort}
             /> */}
             <TableBody>
-              {masterlist.map((row, index) => (
+              {masterlist?.map((row, index) => (
                 <>
                   <TableRow>
                     {props.columns.map((columnname, index) => (
@@ -853,7 +853,7 @@ const Vendor = (props) => {
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[50, 100, 200, 500]}
-                  count={[props.values.length]}
+                  count={[props?.values?.length]}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
