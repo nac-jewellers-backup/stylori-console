@@ -76,7 +76,8 @@ const route = {
   customerdetails: "/customerdetails/:id",
 
   category: "/categories",
-
+  countriesFx:"/countriesFx",
+  imageUpload:"/imageUpload",
   banners: "/banners",
   styloribanner: "/styloribanner",
   silverbanner: "/silverbanner",
@@ -87,6 +88,8 @@ const route = {
   abandoned_cart: "/cart-details",
   price_upload: "/price-upload",
   error_logs: "/error-logs",
+  pricelogs: "/price-logs",
+  GemstoneMarkupSettings: "gemstone-setting",
 };
 
 export default route;

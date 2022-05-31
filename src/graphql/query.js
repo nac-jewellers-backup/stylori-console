@@ -538,6 +538,27 @@ query{
 }
 `;
 
+const GEMSTONE_MARKUP_SETTING = `
+
+query{
+  allMaterialMarkups(orderBy: UPDATED_AT_DESC) {
+    nodes {
+      createdAt
+      id
+      markupType
+      markupValue
+      materialName
+      nodeId
+      priceMax
+      priceMin
+      updatedAt
+    }
+  }
+}
+
+
+`;
+
 const MASTERPAGES = `
 query  {
   allUniquepages(orderBy: UPDATED_AT_DESC) {
@@ -2082,6 +2103,105 @@ const GETORDERCOMMUNICATIONLOGS = gql`
   }
 `;
 
+const PRICE_RUN_LOGS = gql`
+  query ($first: Int, $offset: Int) {
+    allPriceRunningHistories(
+      first: $first
+      offset: $offset
+      orderBy: UPDATED_AT_DESC
+    ) {
+      nodes {
+        id
+        completedProductCount
+        pricingComponent
+        logs: pricingLogsByPriceRunningHistoryId {
+          nodes {
+            requestedProducts
+            successfullyExecutedProducts
+            failedProducts
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      totalCount
+    }
+  }
+`;
+
+const CREATE_GEMSTONE_MARKUP = `
+
+mutation MyMutation($markupType: Int, $markupValue: Float, $materialName: String, $priceMax: Float, $priceMin: Float, $updatedAt: Datetime!, $createdAt: Datetime!, $id: UUID!) {
+  createMaterialMarkup(
+    input: {materialMarkup: {createdAt: $createdAt, updatedAt: $updatedAt, markupType: $markupType, markupValue: $markupValue, materialName: $materialName, priceMax: $priceMax, priceMin: $priceMin, id: $id}}
+  ) {
+    materialMarkup {
+      markupType
+      id
+      markupValue
+      materialName
+      priceMax
+      priceMin
+    }
+  }
+}
+
+`;
+const DELETE_MATERIAL_MARKUP = `
+mutation MyMutation($id: UUID!) {
+  deleteMaterialMarkupById(input: {id: $id}) {
+    materialMarkup {
+      markupType
+      markupValue
+      materialName
+      nodeId
+      priceMax
+    }
+  }
+}`;
+
+const UPDATE_MATERIAL_MARKUP = `
+mutation MyMutation(
+  $id: UUID!
+  $createdAt: Datetime
+  $markupType: Int
+  $markupValue: Float
+  $materialName: String
+  $priceMax: Float
+  $priceMin: Float
+  $updatedAt: Datetime
+
+) {
+  updateMaterialMarkupById(
+    input: {
+      materialMarkupPatch: {
+        createdAt: $createdAt
+        markupType: $markupType
+        markupValue: $markupValue
+        materialName: $materialName
+        priceMax: $priceMax
+        priceMin: $priceMin
+        updatedAt: $updatedAt
+      }
+      id: $id
+    }
+  ) {
+    materialMarkup {
+      createdAt
+      id
+      markupType
+      markupValue
+      materialName
+      nodeId
+      priceMax
+      priceMin
+      updatedAt
+    }
+  }
+}
+
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2178,4 +2298,9 @@ export {
   IMAGEDELETE,
   GETALLERRORLOGS,
   GETORDERCOMMUNICATIONLOGS,
+  PRICE_RUN_LOGS,
+  GEMSTONE_MARKUP_SETTING,
+  CREATE_GEMSTONE_MARKUP,
+  DELETE_MATERIAL_MARKUP,
+  UPDATE_MATERIAL_MARKUP,
 };

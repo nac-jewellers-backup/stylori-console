@@ -50,6 +50,7 @@ import {
   Materialmaster,
   OrderList,
   OrderManagementDetails,
+  PriceLogs,
   Priceupdate,
   Productlist,
   Productupload,
@@ -68,7 +69,9 @@ import {
   Voucherdiscount,
   VoucherdiscountListing,
   Warehouse,
+  MasterCountry
 } from "../screens";
+import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
 import Banners from "../screens/Banners/banners";
 import Silverbanner from "../screens/Banners/silverbanner/silverbanner";
@@ -78,6 +81,7 @@ import Editcategory from "../screens/CategoryList/components/editpage/editcatego
 import newmaterial from "../screens/CategoryList/components/newmaterial/newmaterial";
 import { CreateVariant } from "../screens/ProductEdit/CreateVariant";
 import { ProductAttributes } from "../screens/ProductEdit/ProductAttributes";
+import { ImageUpload } from "../screens/ImageUpload";
 import PriceUpload from "../screens/uploadprice/index.js";
 import PrivateRoute from "./PrivateRoute";
 import route from "./route";
@@ -102,6 +106,8 @@ const MainApp = () => {
           <PrivateRoute path={route.materiallist} component={CategoryList} />
           <PrivateRoute path={route.editCategory} component={Editcategory} />
           <PrivateRoute path={route.materiallistpage} component={newmaterial} />
+          <PrivateRoute path={route.pricelogs} component={PriceLogs} />
+          <PrivateRoute path={route.imageUpload} component={ImageUpload} />
           <PrivateRoute
             path={route.producttypes}
             component={Masterproducttypes}
@@ -214,6 +220,10 @@ const MainApp = () => {
             path={route.gemsettings}
             component={Mastergemsettings}
           />
+          <PrivateRoute
+            path={route.countriesFx}
+            component={MasterCountry}
+          />
           <PrivateRoute path={route.gemshapes} component={Mastergemshapes} />
           <PrivateRoute
             path={route.masterpaymentstatus}
@@ -278,6 +288,10 @@ const MainApp = () => {
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
+          <PrivateRoute
+            path={route.GemstoneSetting}
+            component={GemstoneSetting}
+          />
         </Switch>
       </NetworkProvider>
       {/* </ProductProvider> */}
