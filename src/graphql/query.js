@@ -2202,6 +2202,24 @@ mutation MyMutation(
 
 `;
 
+export const dynamicFilterAttributes = gql`
+  query {
+    master: allAttributeMasters(
+      orderBy: NAME_ASC
+      filter: { name: { notIn: ["Weights", "Category", "Product Type"] } }
+    ) {
+      nodes {
+        name
+        attributes: attributesByMasterId {
+          nodes {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,

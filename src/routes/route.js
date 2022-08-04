@@ -68,6 +68,7 @@ const route = {
   seo: "/seopriority",
   taxsettings: "/taxsettings",
   masterattributes: "/masterattributes",
+  dynamicFilter: "/filters",
 
   masterstones: "/masterstones",
   masterstonecolors: "/masterstonecolors",
@@ -76,8 +77,8 @@ const route = {
   customerdetails: "/customerdetails/:id",
 
   category: "/categories",
-  countriesFx:"/countriesFx",
-  imageUpload:"/imageUpload",
+  countriesFx: "/countriesFx",
+  imageUpload: "/imageUpload",
   banners: "/banners",
   styloribanner: "/styloribanner",
   silverbanner: "/silverbanner",

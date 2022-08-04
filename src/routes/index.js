@@ -69,7 +69,8 @@ import {
   Voucherdiscount,
   VoucherdiscountListing,
   Warehouse,
-  MasterCountry
+  MasterCountry,  
+  DynamicFilters
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -131,6 +132,7 @@ const MainApp = () => {
             path={route.masterattributes}
             component={Masterattribute}
           />
+          <PrivateRoute path={route.dynamicFilter} component={DynamicFilters} />
           <PrivateRoute path={route.masterstones} component={Masterstones} />
           <PrivateRoute
             path={route.masterstonecolors}
@@ -220,10 +222,7 @@ const MainApp = () => {
             path={route.gemsettings}
             component={Mastergemsettings}
           />
-          <PrivateRoute
-            path={route.countriesFx}
-            component={MasterCountry}
-          />
+          <PrivateRoute path={route.countriesFx} component={MasterCountry} />
           <PrivateRoute path={route.gemshapes} component={Mastergemshapes} />
           <PrivateRoute
             path={route.masterpaymentstatus}
