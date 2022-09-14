@@ -89,32 +89,52 @@ let DELETE_INVENTORY = gql`
 `;
 
 let UPDATE_ORDER = gql`
-mutation MyMutation(
-  $id: UUID!
-  $awbNumber: String
-  $comments: String
-  $orderStatus: String
-  $paymentStatus: String
-) {
-  updateOrderById(
-    input: {
-      orderPatch: {
-        awbNumber: $awbNumber
-        comments: $comments
-        orderStatus: $orderStatus
-        paymentStatus: $paymentStatus
-      }
-      id: $id
-    }
+  mutation MyMutation(
+    $id: UUID!
+    $awbNumber: String
+    $comments: String
+    $orderStatus: String
+    $paymentStatus: String
   ) {
-    order {
-      id
-      paymentStatus
-      awbNumber
-      paymentMode
+    updateOrderById(
+      input: {
+        orderPatch: {
+          awbNumber: $awbNumber
+          comments: $comments
+          orderStatus: $orderStatus
+          paymentStatus: $paymentStatus
+        }
+        id: $id
+      }
+    ) {
+      order {
+        id
+        paymentStatus
+        awbNumber
+        paymentMode
+      }
     }
   }
-}
+`;
+
+export const CREATE_ATTRIBUTE = gql`
+  mutation ($attribute: AttributeInput!) {
+    createAttribute(input: { attribute: $attribute }) {
+      attribute {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_ATTRIBUTE_BY_ID = gql`
+  mutation ($id: Int!, $attribute: AttributePatch!) {
+    updateAttributeById(input: { id: $id, attributePatch: $attribute }) {
+      attribute {
+        id
+      }
+    }
+  }
 `;
 
 export {
@@ -127,5 +147,5 @@ export {
   CREATE_INVENTORY,
   UPDATE_INVENTORY,
   DELETE_INVENTORY,
-  UPDATE_ORDER
+  UPDATE_ORDER,
 };

@@ -13,6 +13,7 @@ import {
   Typography,
   Button,
   Grid,
+  IconButton,
 } from "@material-ui/core";
 import { NetworkContext, AlertContext } from "../../context";
 import exportFromJSON from "export-from-json";
@@ -25,11 +26,13 @@ import axios from "axios";
 import { API_URL } from "../../config";
 import socketIOClient from "socket.io-client";
 import CircularProgressWithLabel from "../../components/CircularProgress";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { FilterAttributeSettings } from "./filter_attribute_settings";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
-    padding: theme.spacing(1),    
-  },  
+    padding: theme.spacing(1),
+  },
   chipCell: {
     "& > *": {
       margin: theme.spacing(0.1),
@@ -46,6 +49,19 @@ export const DynamicFilters = (props) => {
   const snack = React.useContext(AlertContext);
 
   const [progress, setProgress] = React.useState(0);
+
+  const [open, setOpen] = React.useState(false);
+  const [masterData, setMasterData] = React.useState({});
+
+  const handleClickOpen = (item) => {
+    setMasterData(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    refetch();
+    setOpen(false);
+  };
 
   React.useEffect(() => {
     const socket = socketIOClient(API_URL);
@@ -109,12 +125,12 @@ export const DynamicFilters = (props) => {
       });
   };
 
-  let { loading, data, error } = useQuery(dynamicFilterAttributes);
+  let { loading, data, error, refetch } = useQuery(dynamicFilterAttributes);
   return (
     <>
       <Grid
         container
-        spacing={1}        
+        spacing={1}
         justifyContent="flex-start"
         alignItems="flex-start"
         className={classes.grid}
@@ -162,7 +178,7 @@ export const DynamicFilters = (props) => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {["Name", "Attribute Value"].map((item, index) => (
+              {["Name", "Attribute Value", ""].map((item, index) => (
                 <TableCell
                   key={index}
                   style={index == 0 ? { width: 130 } : {}}
@@ -197,6 +213,15 @@ export const DynamicFilters = (props) => {
                       />
                     ))}
                   </TableCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => {
+                        handleClickOpen(item);
+                      }}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             {error && (
@@ -209,6 +234,12 @@ export const DynamicFilters = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <FilterAttributeSettings
+        open={open}
+        onClose={handleClose}
+        masterData={masterData}
+        refetchMasterData={refetch}
+      />
     </>
   );
 };
