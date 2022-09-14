@@ -60,7 +60,7 @@ const PRODUCTCATEGORY = gql`
         alias
       }
     }
-    allMasterThemes {
+    allMasterThemes: allAttributes(condition: { masterId: 4 }) {
       nodes {
         alias
         id
@@ -68,21 +68,21 @@ const PRODUCTCATEGORY = gql`
       }
     }
 
-    allMasterStyles {
+    allMasterStyles: allAttributes(condition: { masterId: 3 }) {
       nodes {
         alias
         id
         name
       }
     }
-    allMasterOccasions {
+    allMasterOccasions: allAttributes(condition: { masterId: 9 }) {
       nodes {
         alias
         id
         name
       }
     }
-    allMasterCollections {
+    allMasterCollections: allAttributes(condition: { masterId: 6 }) {
       nodes {
         id
         alias
