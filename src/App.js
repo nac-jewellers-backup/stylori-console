@@ -5,23 +5,9 @@ import MainApp from "./routes";
 import { GlobalProvider } from "./context";
 import { CssBaseline } from "@material-ui/core";
 import theme from "./theme";
-
-import {
-  MuiThemeProvider,
-  createMuiTheme,
-  makeStyles,
-} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import AppAlert from "./App.Alert";
-// const theme = createMuiTheme({
-//   typography: {
-//     fontFamily: [
 
-//       'Roboto'
-
-//     ].join(','),
-//   },
-// });
 function App() {
   return (
     <GlobalProvider>

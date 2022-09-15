@@ -2209,12 +2209,35 @@ export const dynamicFilterAttributes = gql`
       filter: { name: { notIn: ["Weights", "Category", "Product Type"] } }
     ) {
       nodes {
+        id
         name
-        attributes: attributesByMasterId {
+        attributes: attributesByMasterId(condition: { isActive: true }) {
           nodes {
             name
           }
         }
+      }
+    }
+  }
+`;
+
+export const attributesByMasterID = gql`
+  query ($masterId: Int!, $search: String) {
+    attributes: allAttributes(
+      condition: { masterId: $masterId }
+      filter: { name: { includesInsensitive: $search } }
+    ) {
+      nodes {
+        id
+        name
+        filterPosition
+        isActive
+        isSearch
+        isFilter
+        shortCode
+        alias
+        aliasId
+        last_updated_at: updatedAt
       }
     }
   }
