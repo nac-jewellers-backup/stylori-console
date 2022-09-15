@@ -38,7 +38,7 @@ const PRODUCTCATEGORY = gql`
         id
       }
     }
-    allMasterMetalsColors {
+    allMasterMetalsColor: allAttributes(condition: { masterId: 7 }) {
       nodes {
         alias
         id

@@ -82,7 +82,7 @@ export const productCategory = {
             label: _.name,
             stonecount: _.name
         }))
-        const metalcolour = response.allMasterMetalsColors.nodes.map(_ => ({
+        const metalcolour = response.allMasterMetalsColor.nodes.map(_ => ({
             ..._,
             productColor: _.name,
             value: _.id,
