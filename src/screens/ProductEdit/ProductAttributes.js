@@ -934,65 +934,7 @@ export function Component(props) {
                 }}
               />
             )}
-          />
-          <Autocomplete
-            multiple
-            id="free-solo-2-demo"
-            disabled
-            className={classes.fixedTag}
-            value={productCtx.productMetalColor}
-            options={productCtx.masterData.metalcolour}
-            getOptionLabel={(option) => option.name}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  size="small"
-                  label={option.productColor}
-                  {...getTagProps({ index })}
-                />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Metal Colour"
-                margin="dense"
-                variant="outlined"
-                fullWidth
-                InputProps={{ ...params.InputProps, type: "search" }}
-              />
-            )}
-          />
-          <Autocomplete
-            multiple
-            id="free-solo-2-demo"
-            disabled
-            className={classes.fixedTag}
-            value={productCtx.productMetalPurity}
-            options={productCtx.masterData.metalpurity}
-            getOptionLabel={(option) => option.name}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  size="small"
-                  label={option.purity}
-                  {...getTagProps({ index })}
-                />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Metal Purity"
-                margin="dense"
-                variant="outlined"
-                fullWidth
-                InputProps={{ ...params.InputProps, type: "search" }}
-              />
-            )}
-          />
+          />                    
           {Object.keys(filters).length > 0 && (
             <>
               {Object.keys(filters)
@@ -1000,9 +942,8 @@ export function Component(props) {
                   (i) =>
                     ![
                       "product_id",
-                      "Material",
-                      "Metal Purity",
-                      "Metal Colour",
+                      "product_name",
+                      "Material",                                           
                       "Product Type",
                     ].includes(i)
                 )
