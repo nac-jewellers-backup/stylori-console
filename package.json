@@ -14,6 +14,7 @@
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.4",
     "date-fns": "^2.23.0",
+    "env-cmd": "^10.1.0",
     "export-from-json": "^1.4.0",
     "filepond": "^4.29.0",
     "filepond-plugin-file-rename": "^1.1.8",
@@ -52,7 +53,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "env-cmd -f .env.development npm run start",
+    "start:staging": "env-cmd -f .env.staging npm run start",
+    "start:production": "env-cmd -f .env.production npm run start",
     "build": "react-scripts build",
+    "build:dev": "rm -rf build/ && env-cmd -f .env.development npm run build",
+    "build:staging": "rm -rf build/ && env-cmd -f .env.staging npm run build",
+    "build:production": "rm -rf build/ && env-cmd -f .env.production npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
