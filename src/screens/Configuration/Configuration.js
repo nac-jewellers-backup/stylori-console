@@ -113,31 +113,30 @@ export const Configuration = withRouter((props) => {
         </Typography>
       </Grid>
 
-      {master_options.map((text, index) => (
-        <Grid item xs={6} sm={4} lg={3}>
-          <Link
-            underline="none"
-            component={RouterLink}
-            to={master_options_url[index]}
-          >
-            <Card fullwidth className="card2">
-              <CardContent>
-                <Typography
-                  style={{ textAlign: "center", marginTop: 8 }}
-                  component="h6"
-                  variant="h5"
-                >
-                  {text}
-                </Typography>
-
-                {/* <Typography variant="body2" style={{textAlign: "center",marginTop:8}} color="textSecondary">
-            Lorem Ipsum
-          </Typography> */}
-              </CardContent>
-            </Card>
-          </Link>
-        </Grid>
-      ))}
+      {master_options.map((text, index) => {
+        debugger
+        return (
+          <Grid item xs={6} sm={4} lg={3}>
+            <Link
+              underline="none"
+              component={RouterLink}
+              to={master_options_url[index]}
+            >
+              <Card fullwidth className="card2">
+                <CardContent>
+                  <Typography
+                    style={{ textAlign: "center", marginTop: 8 }}
+                    component="h6"
+                    variant="h5"
+                  >
+                    {text}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
+          </Grid>
+        )
+      })}
     </Grid>
   );
 });

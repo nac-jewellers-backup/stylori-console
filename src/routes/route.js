@@ -91,7 +91,9 @@ const route = {
   error_logs: "/error-logs",
   pricelogs: "/price-logs",
   GemstoneMarkupSettings: "gemstone-setting",
-  CmsHome: "/cmsHome"
+  CmsHome: "/cmsHome",
+  CompenentOne: "/compenentOne"
+
 };
 
 export default route;
