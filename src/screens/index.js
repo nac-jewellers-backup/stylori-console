@@ -65,3 +65,7 @@ export * from "./Warehouse";
 export * from "./ImageUpload";
 export * from "./MasterCountries";
 export * from "./DynamicFilters";
+export * from "./cmsHome";
+export * from "./cmsHome/CMSComponent/CompOne";
+
+

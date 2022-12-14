@@ -69,8 +69,10 @@ import {
   Voucherdiscount,
   VoucherdiscountListing,
   Warehouse,
-  MasterCountry,  
-  DynamicFilters
+  MasterCountry,
+  DynamicFilters,
+  CmsHome,
+  CompOne
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -287,6 +289,9 @@ const MainApp = () => {
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
+          <PrivateRoute path={route.CmsHome} component={CmsHome} />
+          <PrivateRoute path={route.CompenentOne} component={CompOne} />
+
           <PrivateRoute
             path={route.GemstoneSetting}
             component={GemstoneSetting}
