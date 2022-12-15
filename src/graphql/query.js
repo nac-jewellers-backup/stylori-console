@@ -2243,6 +2243,28 @@ export const attributesByMasterID = gql`
   }
 `;
 
+const ALLPAGESCMS = `query MyQuery {
+  allCdns {
+    nodes {
+      id
+      isActive
+      data
+      page
+    }
+  }
+}`
+;
+
+export const ALLCMS = gql`
+query MyQuery {
+  allCdns {
+    nodes {
+      isActive
+    }
+  }
+}
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2344,4 +2366,5 @@ export {
   CREATE_GEMSTONE_MARKUP,
   DELETE_MATERIAL_MARKUP,
   UPDATE_MATERIAL_MARKUP,
+  ALLPAGESCMS
 };
