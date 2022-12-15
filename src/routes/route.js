@@ -92,7 +92,7 @@ const route = {
   pricelogs: "/price-logs",
   GemstoneMarkupSettings: "gemstone-setting",
   CmsHome: "/cmsHome",
-  CompenentOne: "/compenentOne"
+  BannerCMS: "/bannerCMS"
 
 };
 

@@ -1,25 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { CmsCard } from "../../components/cmsCard";
+import { homePageData } from "./CMSComponent/homePageData";
+import BannerCMS from "./CMSComponent/bannerCMS";
 
 const useStyles = makeStyles(() => ({
-    root: {},
-    contantview: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-    },
+  root: {},
+  contantview: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
 }));
+
 export const CmsHome = withRouter((props) => {
-    return (
-        <Grid container spacing={3}>
-            <Grid container item xs={12} sm={12} spacing={2}>
-                <CmsCard to={"compenentOne"} text={'Component 1'} />
-            </Grid>
-        </Grid>
-    );
+  const [state, setState] = useState(homePageData);
+
+  const getTheTable = (val) => {
+    switch (val?.component) {
+      case "HomePageBanner": {
+        return <BannerCMS data={val} />;
+      }
+    }
+  };
+
+  return (
+    <div>
+      {state.map((val, i) => {
+        return getTheTable(val);
+      })}
+    </div>
+  );
 });
 
 export default CmsHome;

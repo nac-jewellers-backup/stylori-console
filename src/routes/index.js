@@ -72,7 +72,6 @@ import {
   MasterCountry,
   DynamicFilters,
   CmsHome,
-  CompOne
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -88,6 +87,7 @@ import { ImageUpload } from "../screens/ImageUpload";
 import PriceUpload from "../screens/uploadprice/index.js";
 import PrivateRoute from "./PrivateRoute";
 import route from "./route";
+import BannerCMS from "../screens/cmsHome/CMSComponent/bannerCMS";
 
 const MainApp = () => {
   const { globalCtx } = React.useContext(GlobalContext);
@@ -290,7 +290,7 @@ const MainApp = () => {
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
           <PrivateRoute path={route.CmsHome} component={CmsHome} />
-          <PrivateRoute path={route.CompenentOne} component={CompOne} />
+          <PrivateRoute path={route.BannerCMS} component={BannerCMS} />
 
           <PrivateRoute
             path={route.GemstoneSetting}
