@@ -2281,6 +2281,31 @@ const CMS_UPDATE = `
   }
 `;
 
+const UPDATE_STATUS_CMS = `
+mutation updateStatus($isActive: Boolean!, $page: String!){
+  updateCdnByPage(input: {cdnPatch: {isActive: $isActive}, page: $page}){
+    cdn {
+      createdAt
+      data
+      id
+      isActive
+      nodeId
+      page
+      updatedAt
+    }
+  }
+}`;
+
+const CREATE_CMS = `
+mutation createNew($cloneData: JSON!, $page: String!){
+  createCdn(input: {cdn: {data: $cloneData, page: $page}}) {
+    cdn {
+      data
+      page
+    }
+  }
+}`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2384,5 +2409,7 @@ export {
   UPDATE_MATERIAL_MARKUP,
   ALLPAGESCMS,
   CMSBYPAGES,
-  CMS_UPDATE
+  CMS_UPDATE,
+  UPDATE_STATUS_CMS,
+  CREATE_CMS
 };
