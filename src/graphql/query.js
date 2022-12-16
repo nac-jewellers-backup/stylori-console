@@ -2243,6 +2243,44 @@ export const attributesByMasterID = gql`
   }
 `;
 
+const ALLPAGESCMS = `query MyQuery {
+  allCdns {
+    nodes {
+      id
+      isActive
+      data
+      page
+    }
+  }
+}`
+;
+
+const CMSBYPAGES = `
+    query ($page: String!){
+        cdnByPage(page: $page) {
+          data
+          id
+          page
+        }
+      }
+    `;
+
+const CMS_UPDATE = `
+  mutation updateStore( $stringifyState: JSON!,$page: String!) {
+    updateCdnByPage(input: { cdnPatch: { data: $stringifyState }, page: $page }) {
+      cdn {
+        createdAt
+        data
+        id
+        isActive
+        nodeId
+        page
+        updatedAt
+      }
+    }
+  }
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2344,4 +2382,7 @@ export {
   CREATE_GEMSTONE_MARKUP,
   DELETE_MATERIAL_MARKUP,
   UPDATE_MATERIAL_MARKUP,
+  ALLPAGESCMS,
+  CMSBYPAGES,
+  CMS_UPDATE
 };
