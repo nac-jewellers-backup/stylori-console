@@ -4,6 +4,11 @@ import { API_URL } from "../../../config";
 import { AlertContext } from "../../../context";
 import { CMSBYPAGES, CMS_UPDATE } from "../../../graphql/query";
 import BannerCMS from "./bannerCMS";
+import CollectionCardCMS from "./collectionCardCMS";
+import HomePageIconsCMS from "./homePageIcons";
+import CollectionJewelleryCardCMS from "./collectionJewelleryCardCMS";
+import StoriesCardCMS from "./storiesCardCMS";
+import TestimonialCollectionCardCMS from "./testimonialCardCMS";
 
 function CmsComponent(props) {
   const [state, setState] = useState([]);
@@ -36,7 +41,6 @@ function CmsComponent(props) {
       });
   };
 
-
   // on submitting each component (for Add, Edit and Delete) same Update call
   const handleSubmit = async (data, component, propsKey) => {
     const replaceIndex = state.findIndex((val) => val.component === component);
@@ -68,11 +72,31 @@ function CmsComponent(props) {
       });
   };
 
-  // Rendering the Tables based on the type of the component 
+  // Rendering the Tables based on the type of the component
   const getTheTable = (val) => {
     switch (val?.component) {
       case "HomePageBanner": {
         return <BannerCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "CollectionCardData": {
+        return <CollectionCardCMS data={val} />;
+      }
+
+      case "HomePageIconsList": {
+        return <HomePageIconsCMS data={val} />;
+      }
+
+      case "CollectionJewelleryData": {
+        return <CollectionJewelleryCardCMS data={val} />;
+      }
+
+      case "TestimonialCard": {
+        return <TestimonialCollectionCardCMS data={val} />;
+      }
+
+      case "StoriesCard": {
+        return <StoriesCardCMS data={val} />;
       }
     }
   };

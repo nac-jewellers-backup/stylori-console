@@ -65,44 +65,34 @@ export const homePageData = [
   {
     component: "CollectionCardData",
     props: {
-      collectionGrid: {
-        monsoonCollection: [
-          {
-            image:
-              "https://assets.stylori.com/banners/web/Stylori-Monsoon-tile.webp",
-            navigateUrl: "/jewellery-from+monsoon+collection",
-          },
-        ],
-        mangoCollection: [
-          {
-            image:
-              "https://assets.stylori.com/banners/web/mangocollection.webp",
-            navigateUrl: "/jewellery-from+the+summer+collection?sort=latest",
-          },
-        ],
-        butterflyCollection: [
-          {
-            image:
-              "https://assets.stylori.com/banners/web/Stylori-Butterfly-tile-image.webp",
-            navigateUrl:
-              "/jewellery-butterfly?sort=latest&amp;startprice=0&amp;endprice=0",
-          },
-        ],
-        daisyCollection: [
-          {
-            image:
-              "https://assets.stylori.com/banners/web/Stylori_-Daisy-Days.webp",
-            navigateUrl:
-              "/jewellery-from+daisy+days+collection?sort=latest&page=4",
-          },
-        ],
-        blushCollection: [
-          {
-            image: "https://assets.stylori.com/banners/web/blush-3.webp",
-            navigateUrl: "/jewellery-blush",
-          },
-        ],
-      },
+      collectionGrid: [
+        {
+          image_1:
+            "https://assets.stylori.com/banners/web/Stylori-Monsoon-tile.webp",
+          navigateUrl: "/jewellery-from+monsoon+collection",
+        },
+        {
+          image_2:
+            "https://assets.stylori.com/banners/web/mangocollection.webp",
+          navigateUrl: "/jewellery-from+the+summer+collection?sort=latest",
+        },
+        {
+          image_3:
+            "https://assets.stylori.com/banners/web/Stylori-Butterfly-tile-image.webp",
+          navigateUrl:
+            "/jewellery-butterfly?sort=latest&amp;startprice=0&amp;endprice=0",
+        },
+        {
+          image_4:
+            "https://assets.stylori.com/banners/web/Stylori_-Daisy-Days.webp",
+          navigateUrl:
+            "/jewellery-from+daisy+days+collection?sort=latest&page=4",
+        },
+        {
+          image_5: "https://assets.stylori.com/banners/web/blush-3.webp",
+          navigateUrl: "/jewellery-blush",
+        },
+      ],
     },
   },
   {
