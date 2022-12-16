@@ -2255,14 +2255,30 @@ const ALLPAGESCMS = `query MyQuery {
 }`
 ;
 
-export const ALLCMS = gql`
-query MyQuery {
-  allCdns {
-    nodes {
-      isActive
+const CMSBYPAGES = `
+    query ($page: String!){
+        cdnByPage(page: $page) {
+          data
+          id
+          page
+        }
+      }
+    `;
+
+const CMS_UPDATE = `
+  mutation updateStore( $stringifyState: JSON!,$page: String!) {
+    updateCdnByPage(input: { cdnPatch: { data: $stringifyState }, page: $page }) {
+      cdn {
+        createdAt
+        data
+        id
+        isActive
+        nodeId
+        page
+        updatedAt
+      }
     }
   }
-}
 `;
 
 export {
@@ -2366,5 +2382,7 @@ export {
   CREATE_GEMSTONE_MARKUP,
   DELETE_MATERIAL_MARKUP,
   UPDATE_MATERIAL_MARKUP,
-  ALLPAGESCMS
+  ALLPAGESCMS,
+  CMSBYPAGES,
+  CMS_UPDATE
 };

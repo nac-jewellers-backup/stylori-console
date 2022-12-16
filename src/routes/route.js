@@ -92,8 +92,8 @@ const route = {
   pricelogs: "/price-logs",
   GemstoneMarkupSettings: "gemstone-setting",
   CmsHome: "/cmsHome",
-  BannerCMS: "/bannerCMS"
-
+  BannerCMS: "/bannerCMS",
+  CmsComponent:"/cmsComponent"
 };
 
 export default route;

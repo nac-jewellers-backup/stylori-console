@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { homePageData } from "./CMSComponent/homePageData";
-import BannerCMS from "./CMSComponent/bannerCMS";
-import { API_URL, GRAPHQL_DEV_CLIENT, URL } from "../../config";
+import { API_URL } from "../../config";
+import { ALLPAGESCMS } from "../../graphql/query";
 import {
-  ALLCMS,
-  allCms,
-  ALLPAGESCMS,
-  attributesByMasterID,
-  COLLECTIONMASTER,
-  GETALLERRORLOGS,
-} from "../../graphql/query";
-import { useApolloClient, useQuery } from "react-apollo";
+  Card,
+  CardContent,
+  FormControlLabel,
+  Grid,
+  Switch,
+  Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -24,12 +22,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const CmsHome = withRouter((props) => {
-  const [state, setState] = useState(homePageData);
-  const [state2, setState2] = useState([]);
-  console.log("state2", state2);
+  const [state, setState] = useState([]);
+  let history = useHistory();
 
   useEffect(() => {
-
     fetch(`${API_URL}/graphql`, {
       method: "post",
       headers: {
@@ -43,27 +39,72 @@ export const CmsHome = withRouter((props) => {
       .then((data) => {
         // debugg(er;
         const dataRecieved = data.data.allCdns.nodes;
-        setState2(dataRecieved);
+        setState(dataRecieved);
       });
   }, []);
 
-  // const { loading, data, error, refetch, networkStatus } = useQuery(ALLCMS);
-  // console.log("loading",loading);
-  // console.log("dataasdas",data);
+  const getThePageTitle = (name) => {
+    let createdName = name.replace(
+      /[A-Z]/g,
+      (val) => " " + `${val.toLowerCase()}`
+    );
+    return createdName;
+  };
 
-  const getTheTable = (val) => {
-    switch (val?.component) {
-      case "HomePageBanner": {
-        return <BannerCMS data={val} />;
-      }
-    }
+  const handleClick = (name) => {
+    history.push({
+      pathname: "/cmsComponent",
+      state: {
+        name: name,
+      },
+    });
   };
 
   return (
     <div>
-      {state.map((val, i) => {
-        return getTheTable(val);
-      })}
+      {state.map((val) => (
+        <Grid item xs={6} sm={4} lg={3}>
+          <div>
+            <Card fullwidth className="card2">
+              <CardContent>
+                <Typography
+                  style={{
+                    textAlign: "center",
+                    margin: "8px 0px",
+                    textTransform: "capitalize",
+                    cursor: "pointer",
+                    borderRadius: "8px",
+                    backgroundColor: "#3f51b5",
+                    padding: "8px",
+                    color: "#fff",
+                  }}
+                  component="h6"
+                  variant="h5"
+                  onClick={() => handleClick(val.page)}
+                >
+                  {getThePageTitle(val.page)}
+                </Typography>
+                <FormControlLabel
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  control={
+                    <Switch
+                      // checked={val.isActive}
+                      // onChange={() => handleChangeActive(val.page,val.isActive)}
+                      name="checkedB"
+                      color="primary"
+                    />
+                  }
+                  label="Is Page Active?"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </Grid>
+      ))}
     </div>
   );
 });
