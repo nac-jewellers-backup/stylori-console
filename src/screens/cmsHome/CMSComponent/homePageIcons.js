@@ -26,7 +26,6 @@ const tableData = [
 ];
 
 const HomePageIconsCMS = (props) => {
-  console.log("11-11", props);
   const classes = consolePagesStyles();
   const alert = useContext(AlertContext);
   const [open, setOpen] = React.useState(false);
@@ -71,7 +70,7 @@ const HomePageIconsCMS = (props) => {
         getData = {
           component: props?.data?.component,
           props: {
-            banners: editContent,
+            cardContent: editContent,
           },
         };
         setOpen(false);

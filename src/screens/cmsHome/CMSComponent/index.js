@@ -80,23 +80,30 @@ function CmsComponent(props) {
       }
 
       case "CollectionCardData": {
-        return <CollectionCardCMS data={val} />;
+        return <CollectionCardCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "HomePageIconsList": {
-        return <HomePageIconsCMS data={val} />;
+        return <HomePageIconsCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "CollectionJewelleryData": {
-        return <CollectionJewelleryCardCMS data={val} />;
+        return (
+          <CollectionJewelleryCardCMS data={val} handleSubmit={handleSubmit} />
+        );
       }
 
       case "TestimonialCard": {
-        return <TestimonialCollectionCardCMS data={val} />;
+        return (
+          <TestimonialCollectionCardCMS
+            data={val}
+            handleSubmit={handleSubmit}
+          />
+        );
       }
 
       case "StoriesCard": {
-        return <StoriesCardCMS data={val} />;
+        return <StoriesCardCMS data={val} handleSubmit={handleSubmit} />;
       }
     }
   };

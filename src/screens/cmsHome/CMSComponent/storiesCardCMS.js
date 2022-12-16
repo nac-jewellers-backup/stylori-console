@@ -34,7 +34,6 @@ const tableData = [
 ];
 
 const StoriesCardCMS = (props) => {
-  console.log("44-44", props);
   const classes = consolePagesStyles();
   const alert = useContext(AlertContext);
   const [open, setOpen] = React.useState(false);
