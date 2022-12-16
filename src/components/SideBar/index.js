@@ -80,7 +80,6 @@ function SideBar() {
   function handleListItemClick(event, index) {
     setGlobalCtx({ ...globalCtx, selectedIndex: index });
   }
-  console.log(data);
   return (
     <>
       <Drawer
@@ -110,7 +109,7 @@ function SideBar() {
 
         <List>
           {data.menus.map((menuobj, index) => (
-
+            
             <>
               {menuobj.submenu ? (
                 <>

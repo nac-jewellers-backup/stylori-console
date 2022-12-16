@@ -3,6 +3,11 @@ import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { homePageData } from "./CMSComponent/homePageData";
 import BannerCMS from "./CMSComponent/bannerCMS";
+import CollectionCardCMS from "./CMSComponent/collectionCardCMS";
+import HomePageIconsCMS from "./CMSComponent/homePageIcons";
+import CollectionJewelleryCardCMS from "./CMSComponent/collectionJewelleryCardCMS";
+import TestimonialCollectionCardCMS from "./CMSComponent/testimonialCardCMS";
+import StoriesCardCMS from "./CMSComponent/storiesCardCMS";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -20,6 +25,26 @@ export const CmsHome = withRouter((props) => {
     switch (val?.component) {
       case "HomePageBanner": {
         return <BannerCMS data={val} />;
+      }
+
+      case "CollectionCardData": {
+        return <CollectionCardCMS data={val} />;
+      }
+
+      case "HomePageIconsList": {
+        return <HomePageIconsCMS data={val} />;
+      }
+
+      case "CollectionJewelleryData": {
+        return <CollectionJewelleryCardCMS data={val} />;
+      }
+
+      case "TestimonialCard": {
+        return <TestimonialCollectionCardCMS data={val} />;
+      }
+
+      case "StoriesCard": {
+        return <StoriesCardCMS data={val} />;
       }
     }
   };
