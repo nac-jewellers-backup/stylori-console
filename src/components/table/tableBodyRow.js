@@ -27,6 +27,22 @@ const getComponent = (data) => {
     case "TOTAL_STORES": {
       return <div>{data?.rowData?.length}</div>;
     }
+    case "DETAILED_ARR": {
+      return (
+        data?.rowData?.map((_) => {
+          return <Typography>
+            <div>{_?.title}</div>
+            <img
+              alt="nacimages"
+              src={_?.img}
+              style={{ width: "150px", height: "auto" }}
+            />
+            <div style={{ color: "blue" }}>{_?.imageTitle}</div>
+
+          </Typography>
+        })
+      )
+    }
     case "VIEW_STORES": {
       return (
         <div
@@ -94,6 +110,14 @@ const getComponent = (data) => {
           ))}
         </div>
       );
+    }
+    case "IMG_ARRAY": {
+      return (
+        <div style={{ paddingBottom: "4px" }}>
+          <img style={{ width: "150px", height: "auto" }} src={data?.rowData?.img}></img>
+        </div>
+      )
+
     }
     case "ARRAYTEXT": {
       return data?.rowData?.map((_) => {

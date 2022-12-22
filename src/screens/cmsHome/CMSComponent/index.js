@@ -19,6 +19,7 @@ import CollectionJewelleryCardCMS from "./collectionJewelleryCardCMS";
 import StoriesCardCMS from "./storiesCardCMS";
 import TestimonialCollectionCardCMS from "./testimonialCardCMS";
 import { consolePagesStyles } from "./style";
+import CollectionCarouselCMS from "./collectionCarouselCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -39,7 +40,7 @@ function CmsComponent(props) {
 
   // Initial fetch call by the page
   const fetchCall = () => {
-    const pageName = location.state.name;
+    const pageName = location?.state?.name;
     fetch(`${API_URL}/graphql`, {
       method: "post",
       headers: {
@@ -52,7 +53,7 @@ function CmsComponent(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        const dataRecieved = JSON.parse(data.data.cdnByPage.data);
+        const dataRecieved = JSON.parse(data?.data?.cdnByPage?.data);
         setState(dataRecieved);
       });
   };
@@ -167,6 +168,11 @@ function CmsComponent(props) {
       case "StoriesCard": {
         return <StoriesCardCMS data={val} />;
       }
+
+
+      case "collectionCarouselCardComponent": {
+        return <CollectionCarouselCMS data={val} handleSubmit={handleSubmit} />;
+      }
     }
   };
 
@@ -198,7 +204,7 @@ function CmsComponent(props) {
         open={cloneDialog}
         onClose={handleCloneDialogClose}
       >
-        <DialogTitle id="form-dialog-title">Clone the {location.state.name} page</DialogTitle>
+        <DialogTitle id="form-dialog-title">Clone the {location?.state?.name} page</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
