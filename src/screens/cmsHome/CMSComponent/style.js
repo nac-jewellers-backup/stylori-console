@@ -97,6 +97,12 @@ export const consolePagesStyles = makeStyles((theme) => ({
         background: "#b8d2df",
         borderRadius: "6px",
         margin: "12px 0"
+    },
+    editCarouselImage: {
+        margin: "7px 0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
     }
 }));
 

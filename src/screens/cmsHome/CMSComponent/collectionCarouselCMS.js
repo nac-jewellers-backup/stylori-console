@@ -70,14 +70,14 @@ const initialPrimary = {
     imageTitle: "",
     price: "",
     navigateUrl: "",
-    primaryCarouselitem: "",
+    img: "",
 }
 
 const initialSecondary = {
     imageTitle: "",
     price: "",
     navigateUrl: "",
-    primaryCarouselitem: "",
+    img: "",
 }
 
 
@@ -103,11 +103,15 @@ const CollectionCarouselCMS = (props) => {
     const [secondary, setSecondary] = React.useState({ ...initialSecondary })
 
 
-    const handleViewStores = () => {
+    const handleViewStores = (e, rowData, rowIndex) => {
         debugger
         setOpen(true);
-        setEditData({ ...editData, isEdit: false, isView: true });
-        // setEditData(initialEdit);
+        setEditData({ ...editData, isEdit: false, editIndex: rowIndex, isView: true });
+        setState({
+            ...rowData,
+            primaryCarouselDetails: rowData.primaryCarouselDetails,
+            secondaryCarouselDetails: rowData.secondaryCarouselDetails
+        });
 
     }
 
@@ -126,7 +130,8 @@ const CollectionCarouselCMS = (props) => {
         setHidden({ ...hidden, [key]: value })
     }
 
-    const handleChange = (file, name) => {
+    const handleChange = (file, name, parentKey, index) => {
+        debugger
         if (name === "containerImage") {
             UploadImage(file)
                 .then((res) => {
@@ -153,7 +158,7 @@ const CollectionCarouselCMS = (props) => {
                 .then((res) => {
                     if (res?.data?.web) {
                         debugger
-                        updatePrimary("primaryCarouselitem", res?.data?.web)
+                        updatePrimary("img", res?.data?.web)
 
                         alert.setSnack({
                             open: true,
@@ -170,7 +175,7 @@ const CollectionCarouselCMS = (props) => {
                 .then((res) => {
                     if (res?.data?.web) {
                         debugger
-                        updateSecondary("primaryCarouselitem", res?.data?.web)
+                        updateSecondary("img", res?.data?.web)
 
                         alert.setSnack({
                             open: true,
@@ -182,7 +187,8 @@ const CollectionCarouselCMS = (props) => {
                 .catch((err) => {
                     console.log(err);
                 });
-        } else {
+        }
+        else {
             UploadImage(file)
                 .then((res) => {
                     if (res?.data?.web) {
@@ -204,6 +210,34 @@ const CollectionCarouselCMS = (props) => {
         }
 
     };
+
+    const handleSecondaryChange = (file, name, parentKey, index) => {
+        UploadImage(file)
+            .then((res) => {
+                if (res?.data?.web) {
+                    debugger
+                    const data = [...state?.secondaryCarouselDetails]
+                    data[index]["img"] = res?.data?.web
+                    console.log(data, "lllll")
+                    setState({ ...state, [parentKey]: data })
+                }
+            }
+            )
+    }
+
+    const handlePrimaryChange = (file, name, parentKey, index) => {
+        UploadImage(file)
+            .then((res) => {
+                if (res?.data?.web) {
+                    debugger
+                    const data = [...state?.primaryCarouselDetails]
+                    data[index]["img"] = res?.data?.web
+                    console.log(data, "lllll")
+                    setState({ ...state, [parentKey]: data })
+                }
+            }
+            )
+    }
 
     const onChangeData = (key, name) => {
         debugger
@@ -242,6 +276,7 @@ const CollectionCarouselCMS = (props) => {
 
     const handleAddNew = () => {
         setOpen(true);
+        setEditData({ ...editData, isEdit: false, isView: false });
         setState(initialState)
     }
 
@@ -262,7 +297,7 @@ const CollectionCarouselCMS = (props) => {
         updateState("primary", true)
         const payload = {
             imageTitle: primary?.imageTitle ?? "",
-            img: primary?.primaryCarouselitem ?? "",
+            img: primary?.img ?? "",
             navigateUrl: primary?.navigateUrl ?? "",
             price: primary?.price ?? ""
         }
@@ -275,7 +310,7 @@ const CollectionCarouselCMS = (props) => {
         debugger
         const payload = {
             imageTitle: secondary?.imageTitle ?? "",
-            img: secondary?.primaryCarouselitem ?? "",
+            img: secondary?.img ?? "",
             navigateUrl: secondary?.navigateUrl ?? "",
             price: secondary?.price ?? ""
         }
@@ -288,7 +323,6 @@ const CollectionCarouselCMS = (props) => {
     }
 
     const handleEdit = (e, rowData, rowIndex) => {
-        debugger
         setOpen(true);
         setHidden({ ...hidden, primary: "true" })
         setEditData({ ...editData, isEdit: true, editIndex: rowIndex, isView: false });
@@ -427,7 +461,7 @@ const CollectionCarouselCMS = (props) => {
                         <DialogContent>
                             <Grid container className={classes.addContainer}>
                                 {
-                                    data?.props?.Testimony?.carousel?.data?.map((val => {
+                                    [state]?.map((val => {
                                         debugger
                                         return (
                                             <>
@@ -546,7 +580,7 @@ const CollectionCarouselCMS = (props) => {
                             </Grid>
                         </DialogContent>
                         : <DialogContent>
-                            <Grid item style={{ margin: "7px 0" }}>
+                            <Grid item style={{ margin: "7px 0", display: "flex", justifyContent: "center" }}>
                                 <input
                                     accept="image/*"
                                     className={classes.input}
@@ -570,11 +604,11 @@ const CollectionCarouselCMS = (props) => {
                                     <img
                                         alt="nacimages"
                                         src={state?.containerImage?.img}
-                                        style={{ width: "100px", height: "auto" }}
+                                        style={{ width: "100%", height: "auto" }}
                                     />
                                 </Grid>
                             )}
-                            <Typography className={classes.headerName}>Primary Carousel Item</Typography>
+                            <Typography className={classes.headerName}>Primary  Item</Typography>
                             <TextField
                                 autoFocus
                                 margin="dense"
@@ -589,128 +623,176 @@ const CollectionCarouselCMS = (props) => {
                                 style={{ margin: "7px 0" }}
                             />
 
-                            <Grid container className={classes.addContainer} style={{ alignItems: "center" }}>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="Image Title"
-                                        label="Image Title"
-                                        variant="outlined"
-                                        fullWidth
-                                        onChange={(val) =>
-                                            updatePrimary("imageTitle", val.target.value, "primaryCarouselDetails")}
-                                        value={primary.imageTitle}
-                                        name="Image Title"
-                                        required
-                                        style={{ margin: "7px 7px 7px 0", }}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="price"
-                                        label="price"
-                                        variant="outlined"
-                                        fullWidth
-                                        onChange={(val) =>
-                                            updatePrimary("price", val.target.value, "primaryCarouselDetails")}
-                                        value={primary.price}
-                                        name="price"
-                                        required
-                                        style={{ margin: "7px 0" }}
-                                    />
-                                </Grid>
-                                <Grid item xs={5} >
-                                    <input
-                                        accept="image/*"
-                                        className={classes.input}
-                                        style={{ display: "none" }}
-                                        id="Primary carousel item"
-                                        multiple
-                                        type="file"
-                                        onChange={(e) => {
-                                            handleChange(e.target.files[0], "primaryCarouselImage")
-                                        }}
-                                    />
-                                    <label htmlFor="Primary carousel item">
-                                        <Button
-                                            variant="outlined"
-                                            component="span"
-                                            startIcon={<CloudUploadIcon />}
-                                        >Primary carousel item
-                                        </Button>
-                                    </label>
-                                    {
-                                        primary?.primaryCarouselitem &&
-                                        <Grid item style={{ margin: "7px 0" }}>
-                                            <img
-                                                alt="nacimages"
-                                                src={primary?.primaryCarouselitem ?? ""}
-                                                style={{ width: "100px", height: "auto" }}
+                            {
+                                editData?.isEdit ?
+                                    <Button>Add New</Button>
+                                    :
+                                    <Grid container className={classes.addContainer} style={{ alignItems: "center" }}>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="Image Title"
+                                                label="Image Title"
+                                                variant="outlined"
+                                                fullWidth
+                                                onChange={(val) =>
+                                                    updatePrimary("imageTitle", val.target.value, "primaryCarouselDetails")}
+                                                value={primary.imageTitle}
+                                                name="Image Title"
+                                                required
+                                                style={{ margin: "7px 7px 7px 0", }}
                                             />
                                         </Grid>
-                                    }
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="price"
+                                                label="price"
+                                                variant="outlined"
+                                                fullWidth
+                                                onChange={(val) =>
+                                                    updatePrimary("price", val.target.value, "primaryCarouselDetails")}
+                                                value={primary.price}
+                                                name="price"
+                                                required
+                                                style={{ margin: "7px 0" }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={4} >
+                                            <input
+                                                accept="image/*"
+                                                className={classes.input}
+                                                style={{ display: "none" }}
+                                                id="Primary carousel item"
+                                                multiple
+                                                type="file"
+                                                onChange={(e) => {
+                                                    handleChange(e.target.files[0], "primaryCarouselImage")
+                                                }}
+                                            />
+                                            <label htmlFor="Primary carousel item">
+                                                <Button
+                                                    variant="outlined"
+                                                    component="span"
+                                                    style={{ width: "100%" }}
+                                                    startIcon={<CloudUploadIcon />}
+                                                >Primary item
+                                                </Button>
+                                            </label>
+                                            {
+                                                primary?.img &&
+                                                <Grid item style={{ margin: "7px 0" }}>
+                                                    <img
+                                                        alt="nacimages"
+                                                        src={primary?.img ?? ""}
+                                                        style={{ width: "100px", height: "auto" }}
+                                                    />
+                                                </Grid>
+                                            }
 
-                                </Grid>
-                                <Grid item xs={5}>
-                                    <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="navigateUrl"
-                                        label="Navigate Url"
-                                        variant="outlined"
-                                        fullWidth
-                                        onChange={(val) =>
-                                            updatePrimary("navigateUrl", val.target.value, "primaryCarouselDetails")}
-                                        value={primary.navigateUrl}
-                                        name="navigateUrl"
-                                        required
-                                        style={{ margin: "7px 0" }}
-                                    />
-                                </Grid>
-                                <Grid Item xs={1} className={classes.addBtn}>
-                                    <Button variant="contained" color="primary" onClick={addPrimaryItems}>
-                                        Add
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                                        </Grid>
+                                        <Grid item xs={5}>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="navigateUrl"
+                                                label="Navigate Url"
+                                                variant="outlined"
+                                                fullWidth
+                                                onChange={(val) =>
+                                                    updatePrimary("navigateUrl", val.target.value, "primaryCarouselDetails")}
+                                                value={primary.navigateUrl}
+                                                name="navigateUrl"
+                                                required
+                                                style={{ margin: "7px 0" }}
+                                            />
+                                        </Grid>
+                                        <Grid Item xs={2} className={classes.addBtn}>
+                                            <Button variant="contained" color="primary" onClick={addPrimaryItems}>
+                                                Add New
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                            }
 
-                            <Grid
-                                container
-                                style={{ padding: "16px 0px" }}
-                            >
-                                <Grid item>
-                                    <input
-                                        accept="image/*"
-                                        className={classes.input}
-                                        style={{ display: "none" }}
-                                        id="Primary collection Image"
-                                        multiple
-                                        type="file"
-                                        onChange={(e) => handleChange(e.target.files[0], "primaryImage")}
-                                    />
-                                    <label htmlFor="Primary collection Image">
-                                        <Button
-                                            variant="outlined"
-                                            component="span"
-                                            startIcon={<CloudUploadIcon />}
-                                        >Primary collection Image
-                                        </Button>
-                                    </label>
-                                </Grid>
-                            </Grid>
-                            {state.primaryImage && (
+                            {
+                                editData?.isEdit ?
+                                    <Grid
+                                        container
+                                        style={{ padding: "16px 0px", background: " #dfd8d8", justifyContent: "center" }}
+                                    >
+                                        {state.primaryImage && (
+                                            <>
+                                                <Grid item>
+                                                    <input
+                                                        accept="image/*"
+                                                        className={classes.input}
+                                                        style={{ display: "none" }}
+                                                        id="Primary collection Image"
+                                                        multiple
+                                                        type="file"
+                                                        onChange={(e) => handleChange(e.target.files[0], "primaryImage")}
+                                                    />
+                                                    <label htmlFor="Primary collection Image">
+                                                        <Button
+                                                            variant="outlined"
+                                                            component="span"
+                                                            startIcon={<CloudUploadIcon />}
+                                                        >Edit
+                                                        </Button>
+                                                    </label>
+                                                </Grid>
+                                                <Grid item xs={12} className={classes.carouselParentImg}>
+                                                    <img
+                                                        alt="nacimages"
+                                                        src={state.primaryImage}
+                                                        className={classes.carouselImage}
+                                                    />
+                                                </Grid>
+                                            </>
+                                        )}
+                                    </Grid> :
+                                    <>
+                                        <Grid
+                                            container
+                                            style={{ padding: "16px 0px" }}
+                                        >
+                                            <Grid item>
+                                                <input
+                                                    accept="image/*"
+                                                    className={classes.input}
+                                                    style={{ display: "none" }}
+                                                    id="Primary collection Image"
+                                                    multiple
+                                                    type="file"
+                                                    onChange={(e) => handleChange(e.target.files[0], "primaryImage")}
+                                                />
+                                                <label htmlFor="Primary collection Image">
+                                                    <Button
+                                                        variant="outlined"
+                                                        component="span"
+                                                        startIcon={<CloudUploadIcon />}
+                                                    >Primary collection Image
+                                                    </Button>
+                                                </label>
+                                            </Grid>
+                                        </Grid>
+                                        {state.primaryImage && (
 
-                                <Grid item xs={12} className={classes.carouselParentImg}>
-                                    <img
-                                        alt="nacimages"
-                                        src={state.primaryImage}
-                                        className={classes.carouselImage}
-                                    />
-                                </Grid>
-                            )}
+                                            <Grid item xs={12} className={classes.carouselParentImg}>
+                                                <img
+                                                    alt="nacimages"
+                                                    src={state.primaryImage}
+                                                    className={classes.carouselImage}
+                                                />
+                                            </Grid>
+                                        )}
+                                    </>
+                            }
+
+
                             {
                                 state?.primaryCarouselDetails?.length > 0 &&
                                 hidden?.primary &&
@@ -737,26 +819,26 @@ const CollectionCarouselCMS = (props) => {
                                                 />
 
                                             </Grid>
-                                            <Grid item xs={6} style={{ margin: "7px 0" }}>
+                                            <Grid item xs={6} className={classes.editCarouselImage}>
                                                 <input
                                                     accept="image/*"
                                                     className={classes.input}
                                                     style={{ display: "none" }}
-                                                    id={`button-files_${i}`}
+                                                    id={`pri-files_${i}`}
                                                     multiple
                                                     type="file"
-                                                    onChange={(e) => handleChange(e.target.files[0], "primaryDetailImage")}
+                                                    onChange={(e) => handlePrimaryChange(e.target.files[0], "primaryDetailImage", "primaryCarouselDetails", i)}
                                                 />
-                                                <label htmlFor={`button-files_${i}`}>
+                                                <label htmlFor={`pri-files_${i}`}>
                                                     <Button
                                                         variant="outlined"
                                                         component="span"
                                                         startIcon={<CloudUploadIcon />}
-                                                    >Primary carousel item
+                                                    >Edit
                                                     </Button>
                                                 </label>
                                                 {e.img && (
-                                                    <Grid item style={{ margin: "7px 0" }}>
+                                                    <Grid item style={{ margin: "7px 0", display: "flex", justifyContent: "center" }}>
                                                         <img
                                                             alt="nacimages"
                                                             src={e.img}
@@ -766,7 +848,7 @@ const CollectionCarouselCMS = (props) => {
                                                 )}
                                             </Grid>
 
-                                            <Grid Item xs={5}>
+                                            <Grid Item xs={4}>
                                                 <TextField
                                                     autoFocus
                                                     margin="dense"
@@ -794,7 +876,7 @@ const CollectionCarouselCMS = (props) => {
                                                     required
                                                 />
                                             </Grid>
-                                            <Grid Item xs={1}
+                                            <Grid Item xs={2}
                                                 style={{ display: "flex", justifyContent: "center" }}>
                                                 <DeleteIcon onClick={(val) => delPrimaryItems(val, i, state)}
                                                     style={{ color: "red", cursor: "pointer" }} />
@@ -865,16 +947,17 @@ const CollectionCarouselCMS = (props) => {
                                         <Button
                                             variant="outlined"
                                             component="span"
+                                            style={{ width: "100%" }}
                                             startIcon={<CloudUploadIcon />}
-                                        >Secondary carousel item
+                                        >Secondary item
                                         </Button>
                                     </label>
                                     {
-                                        secondary?.primaryCarouselitem &&
+                                        secondary?.img &&
                                         <Grid item style={{ margin: "7px 0" }}>
                                             <img
                                                 alt="nacimages"
-                                                src={secondary?.primaryCarouselitem ?? ""}
+                                                src={secondary?.img ?? ""}
                                                 style={{ width: "100px", height: "auto" }}
                                             />
                                         </Grid>
@@ -902,7 +985,82 @@ const CollectionCarouselCMS = (props) => {
                                     </Button>
                                 </Grid>
                             </Grid>
-                            <Grid item style={{ margin: "7px 0" }}>
+
+                            {
+                                editData?.isEdit ?
+                                    <Grid
+                                        container
+                                        style={{ padding: "16px 0px", background: " #dfd8d8", justifyContent: "center" }}
+                                    >
+                                        {state.secondaryImage && (
+                                            <>
+                                                <Grid item>
+                                                    <input
+                                                        accept="image/*"
+                                                        className={classes.input}
+                                                        style={{ display: "none" }}
+                                                        id="Secondary collection Image"
+                                                        multiple
+                                                        type="file"
+                                                        onChange={(e) => handleChange(e.target.files[0], "secondaryImage")}
+                                                    />
+                                                    <label htmlFor="Secondary collection Image">
+                                                        <Button
+                                                            variant="outlined"
+                                                            component="span"
+                                                            startIcon={<CloudUploadIcon />}
+                                                        >Edit
+                                                        </Button>
+                                                    </label>
+                                                </Grid>
+                                                <Grid item xs={12} className={classes.carouselParentImg}>
+                                                    <img
+                                                        alt="nacimages"
+                                                        src={state.secondaryImage}
+                                                        className={classes.carouselImage}
+                                                    />
+                                                </Grid>
+                                            </>
+                                        )}
+                                    </Grid> :
+                                    <>
+                                        <Grid
+                                            container
+                                            style={{ padding: "16px 0px" }}
+                                        >
+                                            <Grid item>
+                                                <input
+                                                    accept="image/*"
+                                                    className={classes.input}
+                                                    style={{ display: "none" }}
+                                                    id="Secondary collection Image"
+                                                    multiple
+                                                    type="file"
+                                                    onChange={(e) => handleChange(e.target.files[0], "secondaryImage")}
+                                                />
+                                                <label htmlFor="Secondary collection Image">
+                                                    <Button
+                                                        variant="outlined"
+                                                        component="span"
+                                                        startIcon={<CloudUploadIcon />}
+                                                    >Secondary collection Image
+                                                    </Button>
+                                                </label>
+                                            </Grid>
+                                        </Grid>
+                                        {state.secondaryImage && (
+
+                                            <Grid item xs={12} className={classes.carouselParentImg}>
+                                                <img
+                                                    alt="nacimages"
+                                                    src={state.secondaryImage}
+                                                    className={classes.carouselImage}
+                                                />
+                                            </Grid>
+                                        )}
+                                    </>
+                            }
+                            {/* <Grid item style={{ margin: "7px 0" }}>
                                 <input
                                     accept="image/*"
                                     className={classes.input}
@@ -929,7 +1087,7 @@ const CollectionCarouselCMS = (props) => {
                                         className={classes.carouselImage}
                                     />
                                 </Grid>
-                            )}
+                            )} */}
                             {
                                 state?.secondaryCarouselDetails?.length > 0 &&
                                 hidden?.primary &&
@@ -947,7 +1105,6 @@ const CollectionCarouselCMS = (props) => {
                                                     label="Item image title"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(val) => handleChange("imagetitle", val.target.value, i, "secondaryCarouselDetails")}
                                                     onChange={(event) => handleSecondaryContentChange("imageTitle", event.target.value, i)}
                                                     value={e?.imageTitle}
                                                     name="imageTitle"
@@ -957,26 +1114,27 @@ const CollectionCarouselCMS = (props) => {
                                                 />
 
                                             </Grid>
-                                            <Grid item xs={6} style={{ margin: "7px 0" }}>
+                                            <Grid item xs={6} className={classes.editCarouselImage} >
                                                 <input
                                                     accept="image/*"
                                                     className={classes.input}
                                                     style={{ display: "none" }}
-                                                    id={`button-files_${i}`}
+                                                    id={`sec-files_${i}`}
                                                     multiple
                                                     type="file"
-                                                    onChange={(e) => handleChange(e.target.files[0], "secondary")}
+
+                                                    onChange={(e) => handleSecondaryChange(e.target.files[0], "secondaryDetailImage", "secondaryCarouselDetails", i)}
                                                 />
-                                                <label htmlFor={`button-files_${i}`}>
+                                                <label htmlFor={`sec-files_${i}`}>
                                                     <Button
                                                         variant="outlined"
                                                         component="span"
                                                         startIcon={<CloudUploadIcon />}
-                                                    >Secondary carousel item
+                                                    >Edit
                                                     </Button>
                                                 </label>
                                                 {e.img && (
-                                                    <Grid item style={{ margin: "7px 0" }}>
+                                                    <Grid item style={{ margin: "7px 0", display: "flex", justifyContent: "center" }}>
                                                         <img
                                                             alt="nacimages"
                                                             src={e.img}
