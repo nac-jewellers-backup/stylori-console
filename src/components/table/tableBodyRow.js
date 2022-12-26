@@ -43,7 +43,7 @@ const getComponent = (data) => {
         })
       )
     }
-    case "VIEW_STORES": {
+    case "VIEW_DETAILS": {
       return (
         <div
           style={{
@@ -53,7 +53,7 @@ const getComponent = (data) => {
           }}
           onClick={data?.handleViewStores}
         >
-          View Stores
+          View Details
         </div>
       );
     }

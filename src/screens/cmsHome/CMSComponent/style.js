@@ -103,6 +103,54 @@ export const consolePagesStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
+    },
+    careerColor: {
+        color: "#ED1165",
+        fontSize: "20px",
+        fontWeight: "600",
+        margin: "10px 0"
+    },
+    careerdescr: {
+        color: "#666",
+        fontSize: "14px",
+        lineHeight: "22px",
+        margin: "10px 0"
+
+    },
+    positionHead: {
+        color: "#ED1165",
+        fontSize: "20px",
+        fontWeight: "600",
+        display: "flex",
+        justifyContent: "center",
+        margin: "10px 0"
+
+    },
+    role: {
+        fontSize: "16px",
+        display: "flex",
+        justifyContent: "center",
+        margin: "10px 0"
+
+    },
+    jobHead: {
+        fontSize: "16px",
+        fontWeight: "700",
+        color: "#394578",
+        margin: "10px 0"
+
+    },
+    keyRoleDiv: {
+        background: "#b8d2df",
+        borderRadius: "6px",
+        margin: "5px 0",
+        padding: "12px 12px"
+    },
+    requirementsDiv: {
+        background: "#ccc",
+        borderRadius: "6px",
+        margin: "5px 0",
+        padding: "12px 12px"
     }
 }));
 

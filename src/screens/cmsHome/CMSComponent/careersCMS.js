@@ -13,25 +13,21 @@ import {
 import { AlertContext } from "../../../context";
 import TableComp from "../../../components/table/tableComp";
 import { consolePagesStyles } from "./style";
-import EditorConvertToHTML from "./richTextEditor";
+// import EditorConvertToHTML from "./richTextEditor";
 
 
 
 const header = [
     "S.No",
     "Heading",
-    // "Role",
-    // "Mobile Image",
     "View",
     "Action",
 ];
 const tableData = [
     { type: "INCREMENT", name: "" },
     { type: "TEXT", name: "role" },
-    // { type: "TEXT", name: "url" },
-    // { type: "MBL_IMAGE", name: "mobile" },
     { type: "VIEW_DETAILS", name: "" },
-    { type: "ACTION", name: "" },
+    { type: "EDIT", name: "" },
 ];
 
 const initialState = {
@@ -47,7 +43,10 @@ const initialState = {
         "title": "",
         "listingPoints": []
     },
-    "requirements": [],
+    "requirements": {
+        "title": "",
+        "listingPoints": []
+    },
     "note": {
         "title": "",
         "txt": ""
@@ -69,6 +68,13 @@ const CareersCMS = (props) => {
     const [state, setState] = React.useState({ ...initialState });
     const [editData, setEditData] = React.useState({ ...initialEdit });
 
+    const handleViewStores = (e, rowData, rowIndex) => {
+        setState(rowData)
+        setOpen(true);
+        setEditData({ ...editData, isEdit: false, editIndex: rowIndex });
+    }
+
+
 
     const handleClose = () => {
         setOpen(false);
@@ -88,10 +94,9 @@ const CareersCMS = (props) => {
                 header={header}
                 tableData={tableData}
                 data={data?.props}
-                // handleDelete={handleDelete}
                 handleEdit={handleEdit}
+                handleViewStores={handleViewStores}
                 name={"Careers Component"}
-                // handleAddNew={handleClickOpen}
                 noAddNew
             />
             <Dialog open={open} onClose={handleClose}>
@@ -99,172 +104,270 @@ const CareersCMS = (props) => {
                 <DialogContent>
                     <Grid container>
                         {
-                            [state]?.map((val, index) => {
-                                return (
-                                    <>
-                                        <Grid item xs={12}>
-                                            <Typography>{val?.heading}</Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="descriptionOne"
-                                                label="Description"
-                                                variant="outlined"
-                                                fullWidth
-                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                value={val.descriptionOne}
-                                                name="descriptionOne"
-                                                required
-                                                style={{ margin: "7px 0" }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography>{val?.heading}</Typography>
-
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="role"
-                                                label="Role"
-                                                variant="outlined"
-                                                fullWidth
-                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                value={val?.role}
-                                                name="role"
-                                                required
-                                                style={{ margin: "7px 0" }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <EditorConvertToHTML
+                            editData?.isEdit ?
+                                [state]?.map((val, index) => {
+                                    return (
+                                        <>
+                                            <Grid item xs={12}>
+                                                <Typography>{val?.heading}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="descriptionOne"
+                                                    label="Description"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.descriptionOne}
+                                                    name="descriptionOne"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="descriptionTwo"
+                                                    label="Description"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.descriptionTwo}
+                                                    name="descriptionTwo"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="finalDescription"
+                                                    label="Description"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.finalDescription}
+                                                    name="finalDescription"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="role"
+                                                    label="Role"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.role}
+                                                    name="role"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
                                                 parentState={val?.JobDescriptions}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            {/* Years or Experience: */}
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="jobExperience"
-                                                label="Job Experience"
-                                                variant="outlined"
-                                                fullWidth
-                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                value={val?.jobExperience}
-                                                name="jobExperience"
-                                                required
-                                                style={{ margin: "7px 0" }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
+                                            /> */}
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                {/* Years or Experience: */}
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="jobExperience"
+                                                    label="Job Experience"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.jobExperience}
+                                                    name="jobExperience"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} className={classes.keyRoleDiv}>
 
-                                            <EditorConvertToHTML
+                                                {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
                                                 parentState={val?.KeyRole?.title}
-                                            />
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="descr"
-                                                label="Description"
-                                                variant="outlined"
-                                                fullWidth
-                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                value={val?.KeyRole?.descr}
-                                                name="descr"
-                                                required
-                                                style={{ margin: "7px 0" }}
-                                            />
-                                            {
-                                                val?.KeyRole?.listingPoints?.map((points) => {
-                                                    return (
-                                                        <TextField
-                                                            autoFocus
-                                                            margin="dense"
-                                                            id="points"
-                                                            label="Points"
-                                                            variant="outlined"
-                                                            fullWidth
-                                                            // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                            value={points?.points}
-                                                            name="points"
-                                                            required
-                                                            style={{ margin: "7px 0" }}
-                                                        />
-                                                    )
-                                                })
-                                            }
+                                            /> */}
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="descr"
+                                                    label="Description"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.KeyRole?.descr}
+                                                    name="descr"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                                {
+                                                    val?.KeyRole?.listingPoints?.map((points) => {
+                                                        return (
+                                                            <TextField
+                                                                autoFocus
+                                                                margin="dense"
+                                                                id="points"
+                                                                label="KeyRole Points"
+                                                                variant="outlined"
+                                                                fullWidth
+                                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                                value={points?.points}
+                                                                name="points"
+                                                                required
+                                                                style={{ margin: "7px 0" }}
+                                                            />
+                                                        )
+                                                    })
+                                                }
 
 
 
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <EditorConvertToHTML
+                                            </Grid>
+                                            <Grid item xs={12} className={classes.requirementsDiv}>
+                                                {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
                                                 parentState={val?.requirements?.title}
-                                            />
-                                            {
-                                                val?.requirements?.listingPoints?.map((points) => {
-                                                    return (
-                                                        <TextField
-                                                            autoFocus
-                                                            margin="dense"
-                                                            id="role"
-                                                            label="Role"
-                                                            variant="outlined"
-                                                            fullWidth
-                                                            // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                            value={points?.points}
-                                                            name="role"
-                                                            required
-                                                            style={{ margin: "7px 0" }}
-                                                        />
-                                                    )
-                                                })
-                                            }
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <EditorConvertToHTML
+                                            /> */}
+                                                {
+                                                    val?.requirements?.listingPoints?.map((points) => {
+                                                        return (
+                                                            <TextField
+                                                                autoFocus
+                                                                margin="dense"
+                                                                id="requirements"
+                                                                label="Requirements Points"
+                                                                variant="outlined"
+                                                                fullWidth
+                                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                                value={points?.points}
+                                                                name="requirements"
+                                                                required
+                                                                style={{ margin: "7px 0" }}
+                                                            />
+                                                        )
+                                                    })
+                                                }
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
                                                 parentState={val?.note?.title}
-                                            />
-                                        </Grid>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="note"
-                                            label="Note"
-                                            variant="outlined"
-                                            fullWidth
-                                            // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                            value={val?.note?.txt}
-                                            name="note"
-                                            required
-                                            style={{ margin: "7px 0" }}
-                                        />
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                autoFocus
-                                                margin="dense"
-                                                id="contactUs"
-                                                label="Contact Us"
-                                                variant="outlined"
-                                                fullWidth
-                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                name="contactUs"
-                                                value={val?.contactUs}
-                                                required
-                                                style={{ margin: "7px 0" }}
-                                            />
-                                        </Grid>
-                                    </>
-                                )
-                            })
+                                            /> */}
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="note"
+                                                    label="Note"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    value={val?.note?.txt}
+                                                    name="note"
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    id="contactUs"
+                                                    label="Contact Us"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    name="contactUs"
+                                                    value={val?.contactUs}
+                                                    required
+                                                    style={{ margin: "7px 0" }}
+                                                />
+                                            </Grid>
+                                        </>
+                                    )
+                                })
+                                :
+                                [state]?.map((val, index) => {
+                                    return (
+                                        <>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.careerColor}>{val?.heading}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.careerdescr}>{val.descriptionOne}
+                                                </Typography>
+                                                <Typography className={classes.careerdescr}>{val.descriptionTwo}
+                                                </Typography>
+                                                <Typography className={classes.careerdescr}>{val.finalDescription}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.positionHead}>{val?.postion}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.role}>{val?.role}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.jobHead}>{val?.JobDescription}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                Years or Experience:
+                                                <span className={classes.experience}>{val?.jobExperience}</span>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.jobHead}>{val?.KeyRole?.title} :
+                                                    <span className={classes.careerdescr}> {val?.KeyRole?.descr}
+                                                    </span></Typography>
+                                                <ul>
+                                                    {
+                                                        val?.KeyRole?.listingPoints?.map((points) => {
+                                                            return (
+                                                                <li>{points?.points}</li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+
+
+
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.jobHead}>
+                                                    {val?.requirements?.title} : </Typography>
+                                                <ul>
+                                                    {
+                                                        val?.requirements?.listingPoints?.map((points) => {
+                                                            return (
+                                                                <li>{points?.points}</li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.jobHead}>{val?.note?.title} :
+                                                    <span className={classes.careerdescr}> {val?.note?.txt}</span>
+                                                </Typography>
+                                                {/* <EditorConvertToHTML
+                                                // handleChangeState={handleChangeTitle}
+                                                parentState={}
+                                            /> */}
+                                            </Grid>
+
+                                            <Grid item xs={12}>
+                                                <Typography>{val?.contactUs}</Typography>
+                                            </Grid>
+                                        </>
+                                    )
+                                })
                         }
                     </Grid>
                 </DialogContent>
