@@ -20,6 +20,7 @@ import StoriesCardCMS from "./storiesCardCMS";
 import TestimonialCollectionCardCMS from "./testimonialCardCMS";
 import { consolePagesStyles } from "./style";
 import CollectionCarouselCMS from "./collectionCarouselCMS";
+import CareersCMS from "./careersCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -172,6 +173,10 @@ function CmsComponent(props) {
 
       case "collectionCarouselCardComponent": {
         return <CollectionCarouselCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "careersComponent": {
+        return <CareersCMS data={val} handleSubmit={handleSubmit} />;
       }
     }
   };
