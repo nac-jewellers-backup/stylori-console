@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -13,6 +14,7 @@ import {
 import { AlertContext } from "../../../context";
 import TableComp from "../../../components/table/tableComp";
 import { consolePagesStyles } from "./style";
+import update from 'immutability-helper';
 // import EditorConvertToHTML from "./richTextEditor";
 
 
@@ -41,6 +43,7 @@ const initialState = {
     "jobExperience": "",
     "KeyRole": {
         "title": "",
+        "descr": "",
         "listingPoints": []
     },
     "requirements": {
@@ -59,6 +62,13 @@ const initialEdit = {
     editIndex: null,
     isView: false
 };
+const initialKeyPoints = {
+    points: ""
+}
+
+const initialRequirementPoints = {
+    points: ""
+}
 
 const CareersCMS = (props) => {
     const { data } = props
@@ -67,6 +77,9 @@ const CareersCMS = (props) => {
     const [open, setOpen] = useState(false)
     const [state, setState] = React.useState({ ...initialState });
     const [editData, setEditData] = React.useState({ ...initialEdit });
+    const [keyrolePoint, setKeyRolePoint] = React.useState({ ...initialKeyPoints })
+    const [requirementPoint, setRequirementPoint] = React.useState({ ...initialRequirementPoints })
+
 
     const handleViewStores = (e, rowData, rowIndex) => {
         setState(rowData)
@@ -81,13 +94,120 @@ const CareersCMS = (props) => {
         setState(initialState);
     };
 
+    const onChangeData = (key, value) => {
+        // debugger
+        setState({ ...state, [key]: value })
+    }
+
+    const handleChangeKeyRoleData = (key, value, i, parentKey) => {
+        const data = [...state?.KeyRole?.listingPoints]
+        data[i]["points"] = value
+        setState({ ...state, ["keyRole"]: data })
+    }
+
+
+    const handleChangeRequirementData = (key, value, i, parentKey) => {
+        debugger
+        const data = [...state?.requirements?.listingPoints]
+        data[i]["points"] = value
+        setState({
+            ...state, ["requirements"]: {
+                ...state.requirements, listingPoints: data
+            }
+        })
+        console.log("points", data)
+    }
+
+    const handlekeyRoleAdd = (key, value) => {
+        setKeyRolePoint({ ...keyrolePoint, [key]: value })
+    }
+
+    const handleReqAdd = (key, value) => {
+        setRequirementPoint({ ...requirementPoint, [key]: value })
+    }
+
+    const addKeyRolePoint = () => {
+        const constructedData = {
+            points: keyrolePoint.points
+        }
+        const data = [...state?.KeyRole?.listingPoints, constructedData]
+        setState({
+            ...state, KeyRole: {
+                ...state.KeyRole, listingPoints: data
+            }
+        })
+        setKeyRolePoint({ ...initialKeyPoints })
+    }
+    const addReqPoint = () => {
+        const constructedData = {
+            points: requirementPoint.points
+        }
+        const data = [...state?.requirements?.listingPoints, constructedData]
+        setState({
+            ...state, requirements: {
+                ...state.requirements, listingPoints: data
+            }
+        })
+        setRequirementPoint({ ...initialRequirementPoints })
+    }
+
+
     const handleEdit = (e, rowData, rowIndex) => {
         setOpen(true);
         setEditData({ ...editData, isEdit: true, editIndex: rowIndex })
         setState(rowData)
     }
 
+    const validate = () => {
+        if (
+            state.heading &&
+            state.descriptionOne &&
+            state.descriptionTwo &&
+            state.finalDescription &&
+            state.postion &&
+            state.role &&
+            state.JobDescription &&
+            state.jobExperience &&
+            state.KeyRole &&
+            state.requirements &&
+            state.note &&
+            state.contactUs
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const onsubmitvalue = async () => {
+
+        if (validate) {
+            const values = data?.props;
+            values.splice(editData.editIndex, 1, state);
+            let getData = [];
+            getData = {
+                component: props?.data?.component,
+                props: values
+            };
+
+            setOpen(false);
+            setState(initialState);
+            setEditData(initialEdit);
+
+            props.handleSubmit(getData, "careersComponent", "props");
+        }
+        else {
+            alert.setSnack({
+                open: true,
+                severity: "error",
+                msg: "Please fill all the fields in the form ",
+            });
+        }
+
+    };
+
     console.log(data?.props, "data?.props");
+    console.log(state, "state ===>");
     return (
         <Paper className={classes.root}>
             <TableComp
@@ -119,7 +239,7 @@ const CareersCMS = (props) => {
                                                     label="Description"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('descriptionOne', e.target.value)}
                                                     value={val?.descriptionOne}
                                                     name="descriptionOne"
                                                     required
@@ -132,7 +252,7 @@ const CareersCMS = (props) => {
                                                     label="Description"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('descriptionTwo', e.target.value)}
                                                     value={val?.descriptionTwo}
                                                     name="descriptionTwo"
                                                     required
@@ -145,7 +265,7 @@ const CareersCMS = (props) => {
                                                     label="Description"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('finalDescription', e.target.value)}
                                                     value={val?.finalDescription}
                                                     name="finalDescription"
                                                     required
@@ -160,7 +280,7 @@ const CareersCMS = (props) => {
                                                     label="Role"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('role', e.target.value)}
                                                     value={val?.role}
                                                     name="role"
                                                     required
@@ -182,14 +302,14 @@ const CareersCMS = (props) => {
                                                     label="Job Experience"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('jobExperience', e.target.value)}
                                                     value={val?.jobExperience}
                                                     name="jobExperience"
                                                     required
                                                     style={{ margin: "7px 0" }}
                                                 />
                                             </Grid>
-                                            <Grid item xs={12} className={classes.keyRoleDiv}>
+                                            <Grid item xs={12} >
 
                                                 {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
@@ -208,53 +328,98 @@ const CareersCMS = (props) => {
                                                     required
                                                     style={{ margin: "7px 0" }}
                                                 />
-                                                {
-                                                    val?.KeyRole?.listingPoints?.map((points) => {
-                                                        return (
-                                                            <TextField
-                                                                autoFocus
-                                                                margin="dense"
-                                                                id="points"
-                                                                label="KeyRole Points"
-                                                                variant="outlined"
-                                                                fullWidth
-                                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                                value={points?.points}
-                                                                name="points"
-                                                                required
-                                                                style={{ margin: "7px 0" }}
-                                                            />
-                                                        )
-                                                    })
-                                                }
+                                                <Box className={classes.addpoints}>
+                                                    <TextField
+                                                        autoFocus
+                                                        margin="dense"
+                                                        id="points"
+                                                        label="KeyRole Point"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        onChange={(e) => handlekeyRoleAdd('points', e.target.value)}
+                                                        value={keyrolePoint?.points}
+                                                        name="points"
+                                                        required
+                                                        style={{ margin: "7px 0" }}
+                                                    />
+                                                    <Button
+                                                        onClick={addKeyRolePoint}
+                                                        style={{ marginLeft: "10px" }} variant="contained" color="primary">ADD
+                                                    </Button>
+                                                </Box>
+                                                <div className={classes.keyRoleDiv}>
+
+                                                    {
+                                                        val?.KeyRole?.listingPoints?.map((points, i) => {
+                                                            return (
+                                                                <TextField
+                                                                    autoFocus
+                                                                    margin="dense"
+                                                                    id="points"
+                                                                    label="Key Role Points"
+                                                                    variant="outlined"
+                                                                    fullWidth
+                                                                    onChange={(e) => handleChangeKeyRoleData('points', e.target.value, i, "KeyRole")}
+                                                                    value={points?.points}
+                                                                    name="points"
+                                                                    required
+                                                                    style={{ margin: "7px 0" }}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
 
 
 
                                             </Grid>
-                                            <Grid item xs={12} className={classes.requirementsDiv}>
+                                            <Grid item xs={12} >
                                                 {/* <EditorConvertToHTML
                                                 // handleChangeState={handleChangeTitle}
                                                 parentState={val?.requirements?.title}
                                             /> */}
-                                                {
-                                                    val?.requirements?.listingPoints?.map((points) => {
-                                                        return (
-                                                            <TextField
-                                                                autoFocus
-                                                                margin="dense"
-                                                                id="requirements"
-                                                                label="Requirements Points"
-                                                                variant="outlined"
-                                                                fullWidth
-                                                                // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
-                                                                value={points?.points}
-                                                                name="requirements"
-                                                                required
-                                                                style={{ margin: "7px 0" }}
-                                                            />
-                                                        )
-                                                    })
-                                                }
+                                                <Box className={classes.addpoints}>
+                                                    <TextField
+                                                        autoFocus
+                                                        margin="dense"
+                                                        id="points"
+                                                        label="Requirement Point"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        onChange={(e) => handleReqAdd('points', e.target.value)}
+                                                        value={requirementPoint?.points}
+                                                        name="points"
+                                                        required
+                                                        style={{ margin: "7px 0" }}
+                                                    />
+                                                    <Button
+                                                        onClick={addReqPoint}
+                                                        style={{ marginLeft: "10px" }}
+                                                        variant="contained" color="primary">ADD</Button>
+                                                </Box>
+                                                <div className={classes.requirementsDiv}>
+
+                                                    {
+                                                        val?.requirements?.listingPoints?.map((points, i) => {
+                                                            return (
+                                                                <TextField
+                                                                    autoFocus
+                                                                    margin="dense"
+                                                                    id="requirements"
+                                                                    label="Requirements Points"
+                                                                    variant="outlined"
+                                                                    fullWidth
+                                                                    onChange={(e) => handleChangeRequirementData('points', e.target.value, i, "requirements")}
+                                                                    value={points?.points}
+                                                                    name="requirements"
+                                                                    required
+                                                                    style={{ margin: "7px 0" }}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+
                                             </Grid>
                                             <Grid item xs={12}>
                                                 {/* <EditorConvertToHTML
@@ -285,7 +450,7 @@ const CareersCMS = (props) => {
                                                     label="Contact Us"
                                                     variant="outlined"
                                                     fullWidth
-                                                    // onChange={(e) => onChangeData('primaryContantName', e.target.value)}
+                                                    onChange={(e) => onChangeData('contactUs', e.target.value)}
                                                     name="contactUs"
                                                     value={val?.contactUs}
                                                     required
@@ -372,7 +537,7 @@ const CareersCMS = (props) => {
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button onClick={onsubmitvalue}>Add</Button> */}
+                    <Button onClick={onsubmitvalue}>Add</Button>
                     <Button onClick={handleClose}>Cancel</Button>
                 </DialogActions>
             </Dialog>

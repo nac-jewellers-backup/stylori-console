@@ -21,6 +21,7 @@ import TestimonialCollectionCardCMS from "./testimonialCardCMS";
 import { consolePagesStyles } from "./style";
 import CollectionCarouselCMS from "./collectionCarouselCMS";
 import CareersCMS from "./careersCMS";
+import CareerBannerCMS from "./careerBannerCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -173,6 +174,10 @@ function CmsComponent(props) {
 
       case "collectionCarouselCardComponent": {
         return <CollectionCarouselCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "bannerComponent": {
+        return <CareerBannerCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "careersComponent": {

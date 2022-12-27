@@ -91,6 +91,7 @@ const CollectionCarouselCMS = (props) => {
 
     const classes = consolePagesStyles()
     const [open, setOpen] = useState(false)
+    const [openDetails, setOpenDetails] = useState(false)
     const [state, setState] = React.useState({ ...initialState });
     const [editData, setEditData] = React.useState(initialEdit);
     const [formState, setFormState] = React.useState({
@@ -102,9 +103,13 @@ const CollectionCarouselCMS = (props) => {
     const [primary, setPrimary] = React.useState({ ...initialPrimary })
     const [secondary, setSecondary] = React.useState({ ...initialSecondary })
 
+    const handleAddCarouselDetails = () => {
+        setOpenDetails(true)
+    }
+
 
     const handleViewStores = (e, rowData, rowIndex) => {
-        debugger
+
         setOpen(true);
         setEditData({ ...editData, isEdit: false, editIndex: rowIndex, isView: true });
         setState({
@@ -117,12 +122,10 @@ const CollectionCarouselCMS = (props) => {
 
 
     const updatePrimary = (key, name) => {
-        debugger
         setPrimary({ ...primary, [key]: name })
     }
 
     const updateSecondary = (key, name) => {
-        debugger
         setSecondary({ ...secondary, [key]: name })
     }
 
@@ -131,12 +134,10 @@ const CollectionCarouselCMS = (props) => {
     }
 
     const handleChange = (file, name, parentKey, index) => {
-        debugger
         if (name === "containerImage") {
             UploadImage(file)
                 .then((res) => {
                     if (res?.data?.web) {
-                        debugger
                         setState({
                             ...state,
                             containerImage: {
@@ -157,7 +158,6 @@ const CollectionCarouselCMS = (props) => {
             UploadImage(file)
                 .then((res) => {
                     if (res?.data?.web) {
-                        debugger
                         updatePrimary("img", res?.data?.web)
 
                         alert.setSnack({
@@ -174,7 +174,6 @@ const CollectionCarouselCMS = (props) => {
             UploadImage(file)
                 .then((res) => {
                     if (res?.data?.web) {
-                        debugger
                         updateSecondary("img", res?.data?.web)
 
                         alert.setSnack({
@@ -215,7 +214,6 @@ const CollectionCarouselCMS = (props) => {
         UploadImage(file)
             .then((res) => {
                 if (res?.data?.web) {
-                    debugger
                     const data = [...state?.secondaryCarouselDetails]
                     data[index]["img"] = res?.data?.web
                     console.log(data, "lllll")
@@ -229,7 +227,6 @@ const CollectionCarouselCMS = (props) => {
         UploadImage(file)
             .then((res) => {
                 if (res?.data?.web) {
-                    debugger
                     const data = [...state?.primaryCarouselDetails]
                     data[index]["img"] = res?.data?.web
                     console.log(data, "lllll")
@@ -240,7 +237,6 @@ const CollectionCarouselCMS = (props) => {
     }
 
     const onChangeData = (key, name) => {
-        debugger
         setState(prevState => ({
             ...prevState,
             [key]: name,
@@ -250,10 +246,10 @@ const CollectionCarouselCMS = (props) => {
     const handleClose = () => {
         setOpen(false);
         setState(initialState);
+        setOpenDetails(false)
     };
 
     const handleDelete = (e, rowData, rowIndex) => {
-        debugger
         let getData = [];
         const content = data?.props?.Testimony?.carousel?.data;
         content.splice(rowIndex, 1);
@@ -293,21 +289,19 @@ const CollectionCarouselCMS = (props) => {
     }
 
     const addPrimaryItems = () => {
-        debugger
         updateState("primary", true)
-        const payload = {
+        const constructedData = {
             imageTitle: primary?.imageTitle ?? "",
             img: primary?.img ?? "",
             navigateUrl: primary?.navigateUrl ?? "",
             price: primary?.price ?? ""
         }
-        const data = [...state?.primaryCarouselDetails, payload]
+        const data = [...state?.primaryCarouselDetails, constructedData]
         onChangeData("primaryCarouselDetails", data)
         setPrimary({ ...initialPrimary })
     }
 
     const addSecondaryItems = () => {
-        debugger
         const payload = {
             imageTitle: secondary?.imageTitle ?? "",
             img: secondary?.img ?? "",
@@ -382,7 +376,6 @@ const CollectionCarouselCMS = (props) => {
 
                 props.handleSubmit(getData, "collectionCarouselCardComponent", "data");
             } else {
-                debugger
                 let getData = [];
                 getData = {
                     component: props?.data?.component,
@@ -419,7 +412,6 @@ const CollectionCarouselCMS = (props) => {
 
 
     const handlePrimaryContentChange = (key, value, index) => {
-        debugger
         const newState = update(state, {
             primaryCarouselDetails: {
                 [index]: {
@@ -431,7 +423,6 @@ const CollectionCarouselCMS = (props) => {
     }
 
     const handleSecondaryContentChange = (key, value, index) => {
-        debugger
         const newState = update(state, {
             secondaryCarouselDetails: {
                 [index]: {
@@ -462,7 +453,6 @@ const CollectionCarouselCMS = (props) => {
                             <Grid container className={classes.addContainer}>
                                 {
                                     [state]?.map((val => {
-                                        debugger
                                         return (
                                             <>
                                                 <Grid item xs={12}>
@@ -625,7 +615,9 @@ const CollectionCarouselCMS = (props) => {
 
                             {
                                 editData?.isEdit ?
-                                    <Button>Add New</Button>
+                                    <Button variant="contained" color="primary"
+                                        style={{ margin: "12px 0" }}
+                                        onClick={handleAddCarouselDetails}>Add New</Button>
                                     :
                                     <Grid container className={classes.addContainer} style={{ alignItems: "center" }}>
                                         <Grid item xs={6}>
@@ -711,12 +703,101 @@ const CollectionCarouselCMS = (props) => {
                                         </Grid>
                                         <Grid Item xs={2} className={classes.addBtn}>
                                             <Button variant="contained" color="primary" onClick={addPrimaryItems}>
-                                                Add New
+                                                Add
                                             </Button>
                                         </Grid>
                                     </Grid>
                             }
+                            {
+                                openDetails && <Grid container className={classes.addContainer} style={{ alignItems: "center" }}>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="Image Title"
+                                            label="Image Title"
+                                            variant="outlined"
+                                            fullWidth
+                                            onChange={(val) =>
+                                                updatePrimary("imageTitle", val.target.value, "primaryCarouselDetails")}
+                                            value={primary.imageTitle}
+                                            name="Image Title"
+                                            required
+                                            style={{ margin: "7px 7px 7px 0", }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="price"
+                                            label="price"
+                                            variant="outlined"
+                                            fullWidth
+                                            onChange={(val) =>
+                                                updatePrimary("price", val.target.value, "primaryCarouselDetails")}
+                                            value={primary.price}
+                                            name="price"
+                                            required
+                                            style={{ margin: "7px 0" }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={4} >
+                                        <input
+                                            accept="image/*"
+                                            className={classes.input}
+                                            style={{ display: "none" }}
+                                            id="Primary carousel item"
+                                            multiple
+                                            type="file"
+                                            onChange={(e) => {
+                                                handleChange(e.target.files[0], "primaryCarouselImage")
+                                            }}
+                                        />
+                                        <label htmlFor="Primary carousel item">
+                                            <Button
+                                                variant="outlined"
+                                                component="span"
+                                                style={{ width: "100%" }}
+                                                startIcon={<CloudUploadIcon />}
+                                            >Primary item
+                                            </Button>
+                                        </label>
+                                        {
+                                            primary?.img &&
+                                            <Grid item style={{ margin: "7px 0" }}>
+                                                <img
+                                                    alt="nacimages"
+                                                    src={primary?.img ?? ""}
+                                                    style={{ width: "100px", height: "auto" }}
+                                                />
+                                            </Grid>
+                                        }
 
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="navigateUrl"
+                                            label="Navigate Url"
+                                            variant="outlined"
+                                            fullWidth
+                                            onChange={(val) =>
+                                                updatePrimary("navigateUrl", val.target.value, "primaryCarouselDetails")}
+                                            value={primary.navigateUrl}
+                                            name="navigateUrl"
+                                            required
+                                            style={{ margin: "7px 0" }}
+                                        />
+                                    </Grid>
+                                    <Grid Item xs={2} className={classes.addBtn}>
+                                        <Button variant="contained" color="primary" onClick={addPrimaryItems}>
+                                            Add New
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            }
                             {
                                 editData?.isEdit ?
                                     <Grid
@@ -1060,34 +1141,6 @@ const CollectionCarouselCMS = (props) => {
                                         )}
                                     </>
                             }
-                            {/* <Grid item style={{ margin: "7px 0" }}>
-                                <input
-                                    accept="image/*"
-                                    className={classes.input}
-                                    style={{ display: "none" }}
-                                    id="Secondary collection Image"
-                                    multiple
-                                    type="file"
-                                    onChange={(e) => handleChange(e.target.files[0], "secondaryImage")}
-                                />
-                                <label htmlFor="Secondary collection Image">
-                                    <Button
-                                        variant="outlined"
-                                        component="span"
-                                        startIcon={<CloudUploadIcon />}
-                                    >Secondary collection Image
-                                    </Button>
-                                </label>
-                            </Grid>
-                            {state.secondaryImage && (
-                                <Grid item xs={12} className={classes.carouselParentImg}>
-                                    <img
-                                        alt="nacimages"
-                                        src={state.secondaryImage}
-                                        className={classes.carouselImage}
-                                    />
-                                </Grid>
-                            )} */}
                             {
                                 state?.secondaryCarouselDetails?.length > 0 &&
                                 hidden?.primary &&

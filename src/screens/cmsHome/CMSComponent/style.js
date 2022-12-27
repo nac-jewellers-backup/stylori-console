@@ -151,6 +151,11 @@ export const consolePagesStyles = makeStyles((theme) => ({
         borderRadius: "6px",
         margin: "5px 0",
         padding: "12px 12px"
+    },
+    addpoints: {
+        display: 'flex',
+        alignItems: "center",
+        justifyContent: "center"
     }
 }));
 

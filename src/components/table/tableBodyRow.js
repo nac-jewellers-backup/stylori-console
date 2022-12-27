@@ -75,6 +75,15 @@ const getComponent = (data) => {
         />
       );
     }
+    case "IMAGE": {
+      return (
+        <img
+          alt="nacimages"
+          src={data.rowData.img}
+          style={{ width: "150px", height: "auto" }}
+        />
+      );
+    }
     case "ACTION": {
       return (
         <div
