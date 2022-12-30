@@ -34,7 +34,6 @@ const tableData = [
 ];
 
 const BannerCMS = (props) => {
-  console.log("hfjdskalSDJBSK", props);
   const classes = consolePagesStyles();
   const alert = useContext(AlertContext);
   const [open, setOpen] = React.useState(false);

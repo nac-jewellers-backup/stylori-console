@@ -22,6 +22,13 @@ import { consolePagesStyles } from "./style";
 import CollectionCarouselCMS from "./collectionCarouselCMS";
 import CareersCMS from "./careersCMS";
 import CareerBannerCMS from "./careerBannerCMS";
+import StyloriSilverCMS from "./styloriSilverCMS";
+import { StylesCard } from "./StyleCardCMS";
+import { SilverYarnsCMS } from "./silverYarnsCMS";
+import { StyloriSilverTitleCMS } from "./styloriSilverTitleCMS";
+import { TestimonialCMS } from "./testimonialCMS";
+import { StylesCardPrice } from "./stylesCardPrice";
+import { InstaCardCMS } from "./instaCardCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -182,6 +189,38 @@ function CmsComponent(props) {
 
       case "careersComponent": {
         return <CareersCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriSilver": {
+        return <StyloriSilverCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "TestimonialSlider": {
+        return <TestimonialCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriCard": {
+        return <StylesCard data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriCardPrice": {
+        return <StylesCardPrice data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriTitle": {
+        return <StyloriSilverTitleCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriCard": {
+        return <StylesCard data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "StyloriStore": {
+        return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "InstagramPost": {
+        return <InstaCardCMS data={val} handleSubmit={handleSubmit} />;
       }
     }
   };

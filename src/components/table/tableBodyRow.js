@@ -18,6 +18,7 @@ const getComponent = (data) => {
         </div>
       );
     }
+
     case "HTMLTEXT": {
       return <div>{parse(data.rowData)}</div>;
     }

@@ -14,7 +14,6 @@ import {
 import { AlertContext } from "../../../context";
 import TableComp from "../../../components/table/tableComp";
 import { consolePagesStyles } from "./style";
-import update from 'immutability-helper';
 // import EditorConvertToHTML from "./richTextEditor";
 
 
