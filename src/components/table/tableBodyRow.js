@@ -18,6 +18,7 @@ const getComponent = (data) => {
         </div>
       );
     }
+
     case "HTMLTEXT": {
       return <div>{parse(data.rowData)}</div>;
     }
@@ -27,7 +28,23 @@ const getComponent = (data) => {
     case "TOTAL_STORES": {
       return <div>{data?.rowData?.length}</div>;
     }
-    case "VIEW_STORES": {
+    case "DETAILED_ARR": {
+      return (
+        data?.rowData?.map((_) => {
+          return <Typography>
+            <div>{_?.title}</div>
+            <img
+              alt="nacimages"
+              src={_?.img}
+              style={{ width: "150px", height: "auto" }}
+            />
+            <div style={{ color: "blue" }}>{_?.imageTitle}</div>
+
+          </Typography>
+        })
+      )
+    }
+    case "VIEW_DETAILS": {
       return (
         <div
           style={{
@@ -37,7 +54,7 @@ const getComponent = (data) => {
           }}
           onClick={data?.handleViewStores}
         >
-          View Stores
+          View Details
         </div>
       );
     }
@@ -55,6 +72,15 @@ const getComponent = (data) => {
         <img
           alt="nacimages"
           src={data.rowData}
+          style={{ width: "150px", height: "auto" }}
+        />
+      );
+    }
+    case "IMAGE": {
+      return (
+        <img
+          alt="nacimages"
+          src={data.rowData.img}
           style={{ width: "150px", height: "auto" }}
         />
       );
@@ -94,6 +120,14 @@ const getComponent = (data) => {
           ))}
         </div>
       );
+    }
+    case "IMG_ARRAY": {
+      return (
+        <div style={{ paddingBottom: "4px" }}>
+          <img style={{ width: "150px", height: "auto" }} src={data?.rowData?.img}></img>
+        </div>
+      )
+
     }
     case "ARRAYTEXT": {
       return data?.rowData?.map((_) => {
