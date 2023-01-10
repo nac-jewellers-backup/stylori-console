@@ -17,17 +17,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import parse from "html-react-parser";
 import { AlertContext } from "../../../context";
 
-const header = ["S.No", "Heading", "View", "Action"];
+const header = ["S.No", "Title", "View", "Action"];
 const tableData = [
   { type: "INCREMENT", name: "" },
-  { type: "TEXT", name: "role" },
+  { type: "TEXT", name: "title" },
   { type: "VIEW_DETAILS", name: "" },
   { type: "ACTION", name: "" },
 ];
 
 const initialState = {
-  role: "",
-  JobDescription: "",
+  title: "",
+  description: "",
 };
 
 const initialEdit = {
@@ -35,15 +35,9 @@ const initialEdit = {
   editIndex: null,
   isView: false,
 };
-// const initialKeyPoints = {
-//   points: "",
-// };
 
-// const initialRequirementPoints = {
-//   points: "",
-// };
-
-const CareersCMS = (props) => {
+const CareerHeaderCMS = (props) => {
+  console.log("headerrrrrrrrrrrrrrrr", props);
   const { data } = props;
 
   const alert = useContext(AlertContext);
@@ -54,18 +48,6 @@ const CareersCMS = (props) => {
   const [blog, setBlog] = useState([]);
   const [state, setState] = React.useState(initialState);
   const [editData, setEditData] = React.useState({ ...initialEdit });
-  //   const [keyrolePoint, setKeyRolePoint] = React.useState({
-  //     ...initialKeyPoints,
-  //   });
-  //   const [requirementPoint, setRequirementPoint] = React.useState({
-  //     ...initialRequirementPoints,
-  //   });
-
-  //   const handleViewStores = (e, rowData, rowIndex) => {
-  //     setState(rowData);
-  //     setOpen(true);
-  //     setEditData({ ...editData, isEdit: false, editIndex: rowIndex });
-  //   };
 
   const handleViewMore = (e, rowData, rowIndex) => {
     setOpenBlog(true);
@@ -84,63 +66,6 @@ const CareersCMS = (props) => {
     });
   };
 
-  //   const handleChangeKeyRoleData = (key, value, i, parentKey) => {
-  //     const data = [...state?.KeyRole?.listingPoints];
-  //     data[i]["points"] = value;
-  //     setState({ ...state, ["keyRole"]: data });
-  //   };
-
-  //   const handleChangeRequirementData = (key, value, i, parentKey) => {
-  //     debugger;
-  //     const data = [...state?.requirements?.listingPoints];
-  //     data[i]["points"] = value;
-  //     setState({
-  //       ...state,
-  //       ["requirements"]: {
-  //         ...state.requirements,
-  //         listingPoints: data,
-  //       },
-  //     });
-  //     console.log("points", data);
-  //   };
-
-  //   const handlekeyRoleAdd = (key, value) => {
-  //     setKeyRolePoint({ ...keyrolePoint, [key]: value });
-  //   };
-
-  //   const handleReqAdd = (key, value) => {
-  //     setRequirementPoint({ ...requirementPoint, [key]: value });
-  //   };
-
-  //   const addKeyRolePoint = () => {
-  //     const constructedData = {
-  //       points: keyrolePoint.points,
-  //     };
-  //     const data = [...state?.KeyRole?.listingPoints, constructedData];
-  //     setState({
-  //       ...state,
-  //       KeyRole: {
-  //         ...state.KeyRole,
-  //         listingPoints: data,
-  //       },
-  //     });
-  //     setKeyRolePoint({ ...initialKeyPoints });
-  //   };
-  //   const addReqPoint = () => {
-  //     const constructedData = {
-  //       points: requirementPoint.points,
-  //     };
-  //     const data = [...state?.requirements?.listingPoints, constructedData];
-  //     setState({
-  //       ...state,
-  //       requirements: {
-  //         ...state.requirements,
-  //         listingPoints: data,
-  //       },
-  //     });
-  //     setRequirementPoint({ ...initialRequirementPoints });
-  //   };
-
   const handleEdit = (e, rowData, rowIndex) => {
     setOpen(true);
     setEditData({ ...editData, isEdit: true, editIndex: rowIndex });
@@ -148,19 +73,22 @@ const CareersCMS = (props) => {
   };
 
   const onsubmitvalue = async () => {
-    if (state?.role && state?.JobDescription) {
+    if (state?.title && state?.description) {
       if (editData.isEdit) {
         const storeDataEdit = props?.data?.props;
         storeDataEdit.splice(editData.editIndex, 1, {
-          role: state?.role,
-          JobDescription: state?.JobDescription,
+          title: state?.title,
+          description: state?.description,
         });
         const getData = {
           component: props?.data?.component,
           props: storeDataEdit,
         };
         setOpen(false);
-        props.handleSubmit(getData, "careersComponent", "props");
+        setState(initialState);
+        setEditData(initialEdit);
+
+        props.handleSubmit(getData, "careerHeader", "props");
       } else {
         let getData = [];
         getData = {
@@ -168,10 +96,7 @@ const CareersCMS = (props) => {
           props: [...props?.data?.props, state],
         };
         setOpen(false);
-        setState(initialState);
-        setEditData(initialEdit);
-
-        props.handleSubmit(getData, "careersComponent", "props");
+        props.handleSubmit(getData, "careerHeader", "props");
       }
     } else {
       alert.setSnack({
@@ -189,7 +114,7 @@ const CareersCMS = (props) => {
   const handleChangeState = (data) => {
     setState({
       ...state,
-      JobDescription: data,
+      description: data,
     });
   };
 
@@ -205,7 +130,7 @@ const CareersCMS = (props) => {
       component: props?.data?.component,
       props: content,
     };
-    props.handleSubmit(getData, "careersComponent", "props");
+    props.handleSubmit(getData, "careerHeader", "props");
   };
 
   return (
@@ -218,19 +143,14 @@ const CareersCMS = (props) => {
         handleDelete={handleDelete}
         handleViewStores={handleViewMore}
         handleAddNew={handleClickOpen}
-        name={"Careers Component"}
+        name={"Careers Header Component"}
       />
 
       {/* View More */}
-      <Dialog
-        // classes={{ paper: classes.dialogPaper }}
-        fullWidth
-        open={openBlog}
-        onClose={handleCloseStores}
-      >
+      <Dialog fullWidth open={openBlog} onClose={handleCloseStores}>
         <DialogTitle id="form-dialog-title">
           <div className={classes.dialogHeader}>
-            <div>Careers Inner Page</div>
+            <div>Careers Header Inner Page</div>
             <div style={{ cursor: "pointer" }} onClick={handleCloseStores}>
               <CloseIcon />
             </div>
@@ -241,23 +161,23 @@ const CareersCMS = (props) => {
             <Typography>Role :</Typography>
           </div>
           <div className={classes.innerDialog}>
-            <Typography>{blog?.role}</Typography>
+            <Typography>{blog?.title}</Typography>
           </div>
           <div className={classes.innerDialog}>
             <Typography>Job Description :</Typography>
           </div>
           <div className={classes.innerDialog}>
             <Typography>
-              {blog?.JobDescription
-                ? parse(blog?.JobDescription)
-                : blog?.JobDescription}
+              {blog?.description ? parse(blog?.description) : blog?.description}
             </Typography>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle id="form-dialog-title">View Career Details</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          View Career Header Details
+        </DialogTitle>
         <DialogContent>
           {[state].map((val) => {
             return (
@@ -265,21 +185,21 @@ const CareersCMS = (props) => {
                 <TextField
                   autoFocus
                   margin="dense"
-                  id="role"
-                  label="Role"
+                  id="title"
+                  label="Title"
                   variant="outlined"
                   fullWidth
-                  value={val?.role}
+                  value={val?.title}
                   onChange={onChangeData}
-                  name="role"
+                  name="title"
                   required
                 />
                 <div className={classes.headerBottom}>
-                  <Typography>Job Description :</Typography>
+                  <Typography>Description :</Typography>
                 </div>
                 <EditorConvertToHTML
                   handleChangeState={handleChangeState}
-                  parentState={val?.JobDescription}
+                  parentState={val?.description}
                 />
               </>
             );
@@ -293,4 +213,4 @@ const CareersCMS = (props) => {
     </Paper>
   );
 };
-export default CareersCMS;
+export default CareerHeaderCMS;

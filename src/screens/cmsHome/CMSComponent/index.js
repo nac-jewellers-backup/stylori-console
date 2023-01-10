@@ -29,6 +29,7 @@ import { StyloriSilverTitleCMS } from "./styloriSilverTitleCMS";
 import { TestimonialCMS } from "./testimonialCMS";
 import { StylesCardPrice } from "./stylesCardPrice";
 import { InstaCardCMS } from "./instaCardCMS";
+import CareerHeaderCMS from "./careerHeaderCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -185,13 +186,16 @@ function CmsComponent(props) {
         return <StoriesCardCMS data={val} handleSubmit={handleSubmit} />;
       }
 
-
       case "collectionCarouselCardComponent": {
         return <CollectionCarouselCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "bannerComponent": {
         return <CareerBannerCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "careerHeader": {
+        return <CareerHeaderCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "careersComponent": {
@@ -260,7 +264,9 @@ function CmsComponent(props) {
         open={cloneDialog}
         onClose={handleCloneDialogClose}
       >
-        <DialogTitle id="form-dialog-title">Clone the {location?.state?.name} page</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          Clone the {location?.state?.name} page
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

@@ -157,7 +157,6 @@ const StoriesCardCMS = (props) => {
         handleEdit={handleEdit}
         name={"Stories Card Component"}
         handleAddNew={handleClickOpen}
-        noAddNew
       />
 
       <Dialog open={open} onClose={handleClose}>

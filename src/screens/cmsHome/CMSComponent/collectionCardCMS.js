@@ -150,6 +150,7 @@ const CollectionCardCMS = (props) => {
           handleDelete={handleDelete}
           handleEdit={handleEdit}
           handleAddNew={handleClickOpen}
+          noAddNew
         />
 
         {/* Dialog */}

@@ -313,17 +313,17 @@ const TestimonialCollectionCardCMS = (props) => {
                 </label>
               </Grid>
             </Grid>
-            {state.imageUrl.length > 0 && (
+            {state?.imageUrl?.length > 0 && (
               <Grid
                 container
                 justifyContent="flex-start"
                 style={{ padding: "16px 0px" }}
               >
-                {state.imageUrl.length > 0 && (
+                {state?.imageUrl?.length > 0 && (
                   <Grid style={{ textAlign: "center" }} xs={6} md={6} item>
                     <img
                       alt="nacimages"
-                      src={state.imageUrl}
+                      src={state?.imageUrl}
                       style={{ width: "100px", height: "auto" }}
                     />
                   </Grid>

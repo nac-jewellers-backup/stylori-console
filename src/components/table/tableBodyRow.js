@@ -29,9 +29,9 @@ const getComponent = (data) => {
       return <div>{data?.rowData?.length}</div>;
     }
     case "DETAILED_ARR": {
-      return (
-        data?.rowData?.map((_) => {
-          return <Typography>
+      return data?.rowData?.map((_) => {
+        return (
+          <Typography>
             <div>{_?.title}</div>
             <img
               alt="nacimages"
@@ -39,10 +39,9 @@ const getComponent = (data) => {
               style={{ width: "150px", height: "auto" }}
             />
             <div style={{ color: "blue" }}>{_?.imageTitle}</div>
-
           </Typography>
-        })
-      )
+        );
+      });
     }
     case "VIEW_DETAILS": {
       return (
@@ -61,7 +60,7 @@ const getComponent = (data) => {
     case "MBL_IMAGE": {
       return (
         <img
-          alt="nacimages"
+          alt={data.rowData ? data.rowData : ""}
           src={data.rowData}
           style={{ width: "150px", height: "auto" }}
         />
@@ -70,7 +69,7 @@ const getComponent = (data) => {
     case "WEB_IMAGE": {
       return (
         <img
-          alt="nacimages"
+          alt={data.rowData ? data.rowData : ""}
           src={data.rowData}
           style={{ width: "150px", height: "auto" }}
         />
@@ -124,10 +123,12 @@ const getComponent = (data) => {
     case "IMG_ARRAY": {
       return (
         <div style={{ paddingBottom: "4px" }}>
-          <img style={{ width: "150px", height: "auto" }} src={data?.rowData?.img}></img>
+          <img
+            style={{ width: "150px", height: "auto" }}
+            src={data?.rowData?.img}
+          ></img>
         </div>
-      )
-
+      );
     }
     case "ARRAYTEXT": {
       return data?.rowData?.map((_) => {
