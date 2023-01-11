@@ -2306,6 +2306,17 @@ mutation createNew($cloneData: JSON!, $page: String!){
   }
 }`;
 
+const UPDATE_URL = `
+mutation updateStatus($changePage: String!, $page: String!){
+  updateCdnByPage(input: {cdnPatch: {page: $changePage}, page: $page}){
+    cdn {
+      data
+      isActive
+      page
+    }
+  }
+}`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2411,5 +2422,6 @@ export {
   CMSBYPAGES,
   CMS_UPDATE,
   UPDATE_STATUS_CMS,
-  CREATE_CMS
+  CREATE_CMS,
+  UPDATE_URL
 };

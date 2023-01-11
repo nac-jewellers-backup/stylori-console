@@ -256,7 +256,7 @@ const CareersCMS = (props) => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} classes={{ paper: classes.dialogPaperMid }}>
         <DialogTitle id="form-dialog-title">View Career Details</DialogTitle>
         <DialogContent>
           {[state].map((val) => {

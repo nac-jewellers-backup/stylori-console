@@ -37,7 +37,6 @@ const initialEdit = {
 };
 
 const CareerHeaderCMS = (props) => {
-  console.log("headerrrrrrrrrrrrrrrr", props);
   const { data } = props;
 
   const alert = useContext(AlertContext);
@@ -174,7 +173,7 @@ const CareerHeaderCMS = (props) => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} classes={{ paper: classes.dialogPaperMid }}>
         <DialogTitle id="form-dialog-title">
           View Career Header Details
         </DialogTitle>
