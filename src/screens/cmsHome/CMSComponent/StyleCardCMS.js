@@ -16,6 +16,7 @@ import TableComp from "../../../components/table/tableComp";
 import { consolePagesStyles } from "./style";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { UploadImage } from "../../../utils/imageUpload";
+import { useEffect } from "react";
 
 
 
@@ -46,11 +47,17 @@ const initialEdit = {
 export const StylesCard = (props) => {
     const { data } = props
 
-
+ 
     const classes = consolePagesStyles()
     const [open, setOpen] = useState(false)
     const [state, setState] = useState({ ...initialState })
     const [editData, setEditData] = useState({ ...initialEdit })
+    const [index,setIndex] = useState()
+
+    useEffect(() => {
+        const index = props?.state?.indexOf(data);
+        setIndex(index)
+    },[])
 
     const onChangeData = (key, value) => {
         debugger
@@ -95,7 +102,7 @@ export const StylesCard = (props) => {
             }
         };
         console.log(getData, "getDatagetData")
-        props.handleSubmit(getData, "StylesCard", "cardContent");
+        props.handleSubmit(getData, "StylesCard", "cardContent",index);
     }
 
     const handleAddNew = () => {
@@ -137,7 +144,7 @@ export const StylesCard = (props) => {
                 setState(initialState);
                 setEditData(initialEdit);
                 console.log(getData, "EDITgetDatagetData")
-                props.handleSubmit(getData, "StylesCard", "cardContent");
+                props.handleSubmit(getData, "StylesCard", "cardContent",index);
             } else {
                 debugger
                 let getData = [];
@@ -152,7 +159,7 @@ export const StylesCard = (props) => {
                 setEditData(initialEdit);
                 console.log(getData, "ADDgetDatagetData")
 
-                props.handleSubmit(getData, "StylesCard", "data");
+                props.handleSubmit(getData, "StylesCard", "data",index);
 
             }
         } else {

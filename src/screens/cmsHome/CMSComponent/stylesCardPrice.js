@@ -16,6 +16,7 @@ import TableComp from "../../../components/table/tableComp";
 import { consolePagesStyles } from "./style";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { UploadImage } from "../../../utils/imageUpload";
+import { useEffect } from "react";
 
 
 
@@ -55,6 +56,12 @@ export const StylesCardPrice = (props) => {
     const [open, setOpen] = useState(false)
     const [state, setState] = useState({ ...initialState })
     const [editData, setEditData] = useState({ ...initialEdit })
+    const [index, setIndex] = React.useState();
+
+    useEffect(() => {
+      const index = props?.state?.indexOf(props?.data);
+      setIndex(index);
+    },[]);
 
     const onChangeData = (key, value) => {
         debugger
@@ -99,7 +106,7 @@ export const StylesCardPrice = (props) => {
             }
         };
         console.log(getData, "getDatagetData")
-        props.handleSubmit(getData, "StyloriCardPrice", "cardContent");
+        props.handleSubmit(getData, "StyloriCardPrice", "cardContent",index);
     }
 
     const handleAddNew = () => {
@@ -140,7 +147,7 @@ export const StylesCardPrice = (props) => {
                 setOpen(false);
                 setState(initialState);
                 setEditData(initialEdit);
-                props.handleSubmit(getData, "StyloriCardPrice", "cardContent");
+                props.handleSubmit(getData, "StyloriCardPrice", "cardContent",index);
             } else {
                 debugger
                 let getData = [];
@@ -154,7 +161,7 @@ export const StylesCardPrice = (props) => {
                 setState(initialState);
                 setEditData(initialEdit);
 
-                props.handleSubmit(getData, "StyloriCardPrice", "data");
+                props.handleSubmit(getData, "StyloriCardPrice", "data",index);
 
             }
         } else {

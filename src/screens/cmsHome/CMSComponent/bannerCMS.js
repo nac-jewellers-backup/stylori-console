@@ -8,7 +8,7 @@ import {
   Paper,
   TextField,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { UploadImage } from "../../../utils/imageUpload";
 import { AlertContext } from "../../../context";
@@ -53,6 +53,12 @@ const BannerCMS = (props) => {
     web: false,
     mobile: false,
   });
+  const [index, setIndex] = React.useState();
+
+  useEffect(() => {
+    const index = props?.state?.indexOf(props?.data);
+    setIndex(index);
+  },[]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,7 +90,7 @@ const BannerCMS = (props) => {
           },
         };
         setOpen(false);
-        props.handleSubmit(getData, "HomePageBanner", "banners");
+        props.handleSubmit(getData, "HomePageBanner", "banners",index);
       } else {
         let getData = [];
         getData = {
@@ -94,7 +100,7 @@ const BannerCMS = (props) => {
           },
         };
         setOpen(false);
-        props.handleSubmit(getData, "HomePageBanner", "banners");
+        props.handleSubmit(getData, "HomePageBanner", "banners",index);
       }
       setEditData(initialEdit);
       setState(initialState);
@@ -139,7 +145,7 @@ const BannerCMS = (props) => {
         banners: banners,
       },
     };
-    props.handleSubmit(getData, "HomePageBanner", "banners");
+    props.handleSubmit(getData, "HomePageBanner", "banners",index);
   };
 
   const handleEdit = (e, rowData, rowIndex) => {

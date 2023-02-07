@@ -43,11 +43,14 @@ export const StyloriSilverTitleCMS = (props) => {
         title_Text: "",
         sub_Text: "",
     })
+    const [index,setIndex] = useState()
     const [arrData, setArrData] = useState()
     const [editData, setEditData] = useState({ ...initialEdit })
 
     useEffect(() => {
-        setArrData([data?.props])
+        setArrData([data?.props]);
+        const index = props?.state?.indexOf(data);
+        setIndex(index)
     }, [])
 
 
@@ -91,7 +94,7 @@ export const StyloriSilverTitleCMS = (props) => {
             };
             setOpen(false);
             setEditData(initialEdit);
-            props.handleSubmit(getData, "StyloriTitle", "props");
+            props.handleSubmit(getData, "StyloriTitle", "props",index);
         }
         else {
             alert.setSnack({

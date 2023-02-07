@@ -122,8 +122,8 @@ function CmsComponent(props) {
   };
 
   // on submitting each component (for Add, Edit and Delete) same Update call
-  const handleSubmit = async (data, component, propsKey) => {
-    const replaceIndex = state.findIndex((val) => val.component === component);
+  const handleSubmit = async (data, component, propsKey,editIndex) => {
+    const replaceIndex = editIndex ?? state.findIndex((val) => val.component === component);
     const newState = state;
     newState.splice(replaceIndex, 1, data);
     const stringifyState = JSON.stringify(newState);
@@ -156,7 +156,7 @@ function CmsComponent(props) {
   const getTheTable = (val) => {
     switch (val?.component) {
       case "HomePageBanner": {
-        return <BannerCMS data={val} handleSubmit={handleSubmit} />;
+        return <BannerCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
       case "CollectionCardData": {
@@ -211,23 +211,19 @@ function CmsComponent(props) {
       }
 
       case "StyloriCard": {
-        return <StylesCard data={val} handleSubmit={handleSubmit} />;
+        return <StylesCard data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
       case "StyloriCardPrice": {
-        return <StylesCardPrice data={val} handleSubmit={handleSubmit} />;
+        return <StylesCardPrice data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
       case "StyloriTitle": {
-        return <StyloriSilverTitleCMS data={val} handleSubmit={handleSubmit} />;
-      }
-
-      case "StyloriCard": {
-        return <StylesCard data={val} handleSubmit={handleSubmit} />;
+        return <StyloriSilverTitleCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
       case "StyloriStore": {
-        return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} />;
+        return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
       case "InstagramPost": {

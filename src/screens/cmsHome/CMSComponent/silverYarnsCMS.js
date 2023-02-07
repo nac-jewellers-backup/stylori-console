@@ -55,10 +55,12 @@ export const SilverYarnsCMS = (props) => {
     const [state, setState] = useState({ ...initialState })
     const [arrData, setArrData] = useState()
     const [editData, setEditData] = useState({ ...initialEdit })
-
+    const [index,setIndex] = useState()
 
     useEffect(() => {
-        setArrData([data?.props])
+        setArrData([data?.props]);
+        const index = props?.state?.indexOf(data);
+        setIndex(index)
     }, [])
 
 
@@ -104,7 +106,7 @@ export const SilverYarnsCMS = (props) => {
             }
         };
         console.log(getData, "getDatagetData")
-        props.handleSubmit(getData, "StyloriCard", "cardContent");
+        props.handleSubmit(getData, "StyloriCard", "cardContent",index);
     }
 
     const handleClose = () => {
@@ -130,16 +132,15 @@ export const SilverYarnsCMS = (props) => {
 
             const values = arrData;
             values.splice(editData.editIndex, 1, state);
-            let getData = [];
-            getData = {
+            const getData = {
                 component: data?.component,
-                props: values
+                props: values[0]
             };
             setOpen(false);
             setState(initialState);
             setEditData(initialEdit);
             console.log(getData, "EDITgetDatagetData")
-            props.handleSubmit(getData, "StyloriCard", "props");
+            props.handleSubmit(getData, "StyloriCard", "props",index);
         }
         else {
             alert.setSnack({

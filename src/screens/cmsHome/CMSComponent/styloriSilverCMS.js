@@ -84,12 +84,10 @@ const StyloriSilverCMS = (props) => {
         if (validate) {
             const values = arrData;
             values.splice(editData.editIndex, 1, state);
-            let getData = [];
-            getData = {
+            const getData = {
                 component: props?.data?.component,
-                props: values
+                props: values[0]
             };
-
             setOpen(false);
             setState(initialState);
             setEditData(initialEdit);

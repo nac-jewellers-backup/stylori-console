@@ -22,13 +22,11 @@ import { UploadImage } from "../../../utils/imageUpload";
 const header = [
     "S.No",
     "Image Card",
-    "Text",
     "Action",
 ];
 const tableData = [
     { type: "INCREMENT", name: "" },
     { type: "WEB_IMAGE", name: "image" },
-    { type: "TEXT", name: "text" },
     { type: "ACTION", name: "" },
 ];
 
