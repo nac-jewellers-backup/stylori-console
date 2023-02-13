@@ -30,6 +30,9 @@ import { TestimonialCMS } from "./testimonialCMS";
 import { StylesCardPrice } from "./stylesCardPrice";
 import { InstaCardCMS } from "./instaCardCMS";
 import CareerHeaderCMS from "./careerHeaderCMS";
+import FaqCMS from "./faqCMS";
+import { FaqTitleCMS } from "./faqTitleCMS";
+import { HomeNotificationCMS } from "./homeNotificationCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -159,6 +162,10 @@ function CmsComponent(props) {
         return <BannerCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
+      case "HomeNotifiaction":{
+        return <HomeNotificationCMS data={val} handleSubmit={handleSubmit} />
+      }
+
       case "CollectionCardData": {
         return <CollectionCardCMS data={val} handleSubmit={handleSubmit} />;
       }
@@ -228,6 +235,14 @@ function CmsComponent(props) {
 
       case "InstagramPost": {
         return <InstaCardCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "faqComponent": {
+        return <FaqCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
+      case "faqTitle":{
+        return <FaqTitleCMS data={val} handleSubmit={handleSubmit}  />
       }
     }
   };
