@@ -72,6 +72,7 @@ import {
   MasterCountry,
   DynamicFilters,
   CmsHome,
+  ElasticSearch,
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -293,6 +294,7 @@ const MainApp = () => {
           <PrivateRoute path={route.CmsHome} component={CmsHome} />
           <PrivateRoute path={route.BannerCMS} component={BannerCMS} />
           <PrivateRoute path={route.CmsComponent} component={CmsComponent} />
+          <PrivateRoute path={route.SearchSettings} component={ElasticSearch} />
           <PrivateRoute
             path={route.GemstoneSetting}
             component={GemstoneSetting}

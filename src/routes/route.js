@@ -93,7 +93,8 @@ const route = {
   GemstoneMarkupSettings: "gemstone-setting",
   CmsHome: "/cmsHome",
   BannerCMS: "/bannerCMS",
-  CmsComponent:"/cmsComponent"
+  CmsComponent: "/cmsComponent",
+  SearchSettings: "/search_settings",
 };
 
 export default route;

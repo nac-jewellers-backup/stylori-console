@@ -55,6 +55,7 @@ export const Configuration = withRouter((props) => {
     "Shipping Zones",
     "Shipment Setting I",
     "Shipment Setting II",
+    "Search"
   ];
   const master_options_url = [
     "masterattributes",
@@ -90,6 +91,7 @@ export const Configuration = withRouter((props) => {
     "zones",
     "shipmensettings",
     "shippingattributes",
+    "search_settings"
   ];
 
   const [raised, setRaised] = React.useState(false);
