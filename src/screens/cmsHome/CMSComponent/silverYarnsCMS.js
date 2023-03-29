@@ -94,7 +94,6 @@ export const SilverYarnsCMS = (props) => {
     }
 
     const handleDelete = (e, rowData, rowIndex) => {
-        debugger
         let getData = []
         let card = data?.props?.cardContent
         card.splice(rowIndex, 1)
@@ -151,7 +150,6 @@ export const SilverYarnsCMS = (props) => {
         }
 
     };
-
     return (
         <Paper>
 
@@ -162,10 +160,10 @@ export const SilverYarnsCMS = (props) => {
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
                 noAddNew
-                name={"Silver Yarns Component"}
+                name={`${data?.component} Component`}
             />
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle id="form-dialog-title">Edit Silver Yarns Details</DialogTitle>
+                <DialogTitle id="form-dialog-title">{`Edit ${data?.component} Details`}</DialogTitle>
                 <DialogContent>
                     {
                         <Grid container>

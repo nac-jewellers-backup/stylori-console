@@ -234,6 +234,10 @@ function CmsComponent(props) {
         return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
+      case "StyloriYarns":{
+        return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} state={state} />;
+      }
+
       case "InstagramPost": {
         return <InstaCardCMS data={val} handleSubmit={handleSubmit} />;
       }

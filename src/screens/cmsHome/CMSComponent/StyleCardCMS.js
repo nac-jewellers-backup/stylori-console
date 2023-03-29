@@ -99,7 +99,8 @@ export const StylesCard = (props) => {
             component: data?.component,
             props: {
                 cardContent: card
-            }
+            },
+            type:"styles"
         };
         console.log(getData, "getDatagetData")
         props.handleSubmit(getData, "StylesCard", "cardContent",index);
@@ -138,7 +139,8 @@ export const StylesCard = (props) => {
                     component: data?.component,
                     props: {
                         cardContent: values
-                    }
+                    },
+                    type:"styles"
                 };
                 setOpen(false);
                 setState(initialState);
@@ -146,19 +148,17 @@ export const StylesCard = (props) => {
                 console.log(getData, "EDITgetDatagetData")
                 props.handleSubmit(getData, "StylesCard", "cardContent",index);
             } else {
-                debugger
                 let getData = [];
                 getData = {
                     component: data?.component,
                     props: {
                         cardContent: [...data?.props?.cardContent, state]
-                    }
+                    },
+                    type:"styles"
                 };
                 setOpen(false);
                 setState(initialState);
                 setEditData(initialEdit);
-                console.log(getData, "ADDgetDatagetData")
-
                 props.handleSubmit(getData, "StylesCard", "data",index);
 
             }
@@ -182,7 +182,7 @@ export const StylesCard = (props) => {
                 handleDelete={handleDelete}
 
                 name={"Styles Card Component"}
-                handleAddNew={handleAddNew}
+                handleAddNew={handleAddNew} 
             />
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle id="form-dialog-title">Edit Styles Card Details</DialogTitle>
