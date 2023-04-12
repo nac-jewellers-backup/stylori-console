@@ -24,12 +24,14 @@ const header = [
     "S.No",
     "Image Card",
     "Text",
+    "Url",
     "Action",
 ];
 const tableData = [
     { type: "INCREMENT", name: "" },
     { type: "WEB_IMAGE", name: "image" },
     { type: "TEXT", name: "text" },
+    { type: "TEXT", name: "url" },
     { type: "ACTION", name: "" },
 ];
 

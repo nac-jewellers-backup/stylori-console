@@ -19,12 +19,14 @@ const header = [
     "S.No",
     "Title",
     "Subtitle",
+    "URL",
     "Action",
 ];
 const tableData = [
     { type: "INCREMENT", name: "" },
     { type: "TEXT", name: "title_Text" },
     { type: "TEXT", name: "sub_Text" },
+    { type: "TEXT", name: "url" },
     { type: "EDIT", name: "" },
 ];
 
@@ -42,6 +44,7 @@ export const StyloriSilverTitleCMS = (props) => {
     const [state, setState] = useState({
         title_Text: "",
         sub_Text: "",
+        url:""
     })
     const [index,setIndex] = useState()
     const [arrData, setArrData] = useState()
@@ -89,7 +92,8 @@ export const StyloriSilverTitleCMS = (props) => {
                 component: data?.component,
                 props: {
                     title_Text: state.title_Text,
-                    sub_Text: state.sub_Text
+                    sub_Text: state.sub_Text,
+                    url: state.url
                 }
             };
             setOpen(false);
@@ -148,6 +152,21 @@ export const StyloriSilverTitleCMS = (props) => {
                                     onChange={(e) => onChangeData('sub_Text', e.target.value)}
                                     value={state?.sub_Text}
                                     name="sub_Text"
+                                    required
+                                    style={{ margin: "7px 0" }}
+                                />
+                            </Grid>
+                            <Grid Item xs={12}>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="url"
+                                    label="URL"
+                                    variant="outlined"
+                                    fullWidth
+                                    onChange={(e) => onChangeData('url', e.target.value)}
+                                    value={state?.url}
+                                    name="url"
                                     required
                                     style={{ margin: "7px 0" }}
                                 />

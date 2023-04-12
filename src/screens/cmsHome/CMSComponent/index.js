@@ -34,6 +34,7 @@ import FaqCMS from "./faqCMS";
 import { FaqTitleCMS } from "./faqTitleCMS";
 import { HomeNotificationCMS } from "./homeNotificationCMS";
 import FaqSCMS from "./faqSCMS";
+import BlogPageCMS from "./blogsPageCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -188,6 +189,10 @@ function CmsComponent(props) {
             handleSubmit={handleSubmit}
           />
         );
+      }
+
+      case "blogPageCard": {
+        return <BlogPageCMS data={val} handleSubmit={handleSubmit} />;
       }
 
       case "StoriesCard": {
