@@ -26,7 +26,7 @@ const header = [
 ];
 const tableData = [
     { type: "INCREMENT", name: "" },
-    { type: "WEB_IMAGE", name: "image" },
+    { type: "TEXT", name: "url" },
     { type: "ACTION", name: "" },
 ];
 
@@ -194,7 +194,7 @@ export const InstaCardCMS = (props) => {
                                     style={{ margin: "7px 0" }}
                                 />
                             </Grid>
-                            <Grid item
+                            {/* <Grid item
                                 style={{
                                     margin: "7px 0", display: "flex",
                                     justifyContent: "center", width: "100%"
@@ -225,7 +225,7 @@ export const InstaCardCMS = (props) => {
                                         style={{ width: "100%", height: "auto" }}
                                     />
                                 </Grid>
-                            )}
+                            )} */}
                         </Grid>
 
                     }
