@@ -67,3 +67,4 @@ export * from "./MasterCountries";
 export * from "./DynamicFilters";
 export * from "./cmsHome";
 export * from "./ElasticSearch";
+export * from "./ComboOfferConfig"

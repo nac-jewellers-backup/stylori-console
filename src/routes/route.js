@@ -95,6 +95,7 @@ const route = {
   BannerCMS: "/bannerCMS",
   CmsComponent: "/cmsComponent",
   SearchSettings: "/search_settings",
+  ComboOfferConfig:"/combo_offer_config"
 };
 
 export default route;

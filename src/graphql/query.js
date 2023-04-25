@@ -2252,9 +2252,7 @@ const ALLPAGESCMS = `query MyQuery {
       page
     }
   }
-}`
-;
-
+}`;
 const CMSBYPAGES = `
     query ($page: String!){
         cdnByPage(page: $page) {
@@ -2316,6 +2314,61 @@ mutation updateStatus($changePage: String!, $page: String!){
     }
   }
 }`;
+
+const LIST_COMBO_PRODUCTS = gql`
+  query ($after: Cursor, $first: Int) {
+    allProductComboOffers(after: $after, first: $first) {
+      nodes {
+        id
+        mainProduct
+        offeredProducts
+        productListByMainProduct {
+          id
+          productName
+          productImagesByProductId(condition: { imagePosition: 1 }) {
+            nodes {
+              imageUrl
+            }
+          }
+          transSkuListsByProductId(condition: { isdefault: true }) {
+            nodes {
+              markupPrice
+            }
+          }
+        }
+      }
+      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+`;
+
+const FETCH_COMBO_OFFERED_PRODUCTS = gql`
+  query ($offeredProducts: [String!]) {
+    allProductLists(filter: { productId: { in: $offeredProducts } }) {
+      nodes {
+        productId
+        productName
+        productImagesByProductId(condition: { imagePosition: 1 }) {
+          nodes {
+            imageUrl
+          }
+        }
+        transSkuListsByProductId(condition: { isdefault: true }) {
+          nodes {
+            sellingPrice
+            markupPrice
+          }
+        }
+      }
+    }
+  }
+`;
 
 export {
   PRODUCTCATEGORY,
@@ -2423,5 +2476,7 @@ export {
   CMS_UPDATE,
   UPDATE_STATUS_CMS,
   CREATE_CMS,
-  UPDATE_URL
+  UPDATE_URL,
+  LIST_COMBO_PRODUCTS,
+  FETCH_COMBO_OFFERED_PRODUCTS,
 };
