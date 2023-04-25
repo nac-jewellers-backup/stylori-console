@@ -25,6 +25,7 @@ const header = [
     "Image",
     "Text",
     "Price",
+    "URL",
     "Action",
 ];
 const tableData = [
@@ -32,6 +33,7 @@ const tableData = [
     { type: "WEB_IMAGE", name: "image" },
     { type: "TEXT", name: "bottomText" },
     { type: "TEXT", name: "price" },
+    { type: "TEXT", name: "url" },
     { type: "ACTION", name: "" },
 ];
 

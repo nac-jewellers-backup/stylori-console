@@ -1454,6 +1454,8 @@ query MyQuery($productId: String!) {
         }
         minOrderQty
         maxOrderQty
+        isOrderable
+        orderShippingDays
       }
     }
     productCategory

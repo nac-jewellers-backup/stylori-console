@@ -34,6 +34,7 @@ import FaqCMS from "./faqCMS";
 import { FaqTitleCMS } from "./faqTitleCMS";
 import { HomeNotificationCMS } from "./homeNotificationCMS";
 import FaqSCMS from "./faqSCMS";
+import BlogPageCMS from "./blogsPageCMS";
 
 function CmsComponent(props) {
   const location = useLocation();
@@ -190,6 +191,10 @@ function CmsComponent(props) {
         );
       }
 
+      case "blogPageCard": {
+        return <BlogPageCMS data={val} handleSubmit={handleSubmit} />;
+      }
+
       case "StoriesCard": {
         return <StoriesCardCMS data={val} handleSubmit={handleSubmit} />;
       }
@@ -231,6 +236,10 @@ function CmsComponent(props) {
       }
 
       case "StyloriStore": {
+        return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} state={state} />;
+      }
+
+      case "StyloriYarns":{
         return <SilverYarnsCMS data={val} handleSubmit={handleSubmit} state={state} />;
       }
 
