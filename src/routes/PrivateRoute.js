@@ -1,6 +1,5 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-
 import route from "./route";
 import { withAppBar } from "../components/PrimaryAppBar";
 

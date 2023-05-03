@@ -63,6 +63,8 @@ const productuploadCtxInitial = {
     editreadytoship: false,
     editisdefault: false,
     editisactive: false,
+    editisOrderable: false,
+    editorderShippingDays:0,
 
     editcostprice: 0,
     editsellingprice: 0,
@@ -109,6 +111,8 @@ const productuploadCtxInitial = {
     approximateMetalWeight: "",
     height: "",
     width: "",
+    isOrderable:false,
+    orderShippingDays:0
   },
   masterData: {},
   setProductCtx: () => null,

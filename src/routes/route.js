@@ -91,6 +91,11 @@ const route = {
   error_logs: "/error-logs",
   pricelogs: "/price-logs",
   GemstoneMarkupSettings: "gemstone-setting",
+  CmsHome: "/cmsHome",
+  BannerCMS: "/bannerCMS",
+  CmsComponent: "/cmsComponent",
+  SearchSettings: "/search_settings",
+  ComboOfferConfig:"/combo_offer_config"
 };
 
 export default route;

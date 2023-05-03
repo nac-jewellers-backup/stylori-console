@@ -69,8 +69,11 @@ import {
   Voucherdiscount,
   VoucherdiscountListing,
   Warehouse,
-  MasterCountry,  
-  DynamicFilters
+  MasterCountry,
+  DynamicFilters,
+  CmsHome,
+  ElasticSearch,
+  ComboOfferConfig,
 } from "../screens";
 import GemstoneSetting from "../screens/GemstoneSetting/GemstoneSetting";
 import ErrorLogs from "../screens/ErrorLogs/ErrorLogs";
@@ -86,6 +89,8 @@ import { ImageUpload } from "../screens/ImageUpload";
 import PriceUpload from "../screens/uploadprice/index.js";
 import PrivateRoute from "./PrivateRoute";
 import route from "./route";
+import BannerCMS from "../screens/cmsHome/CMSComponent/bannerCMS";
+import CmsComponent from "../screens/cmsHome/CMSComponent";
 
 const MainApp = () => {
   const { globalCtx } = React.useContext(GlobalContext);
@@ -287,6 +292,14 @@ const MainApp = () => {
           <PrivateRoute path={route.inventory} component={Inventory} />
           <PrivateRoute path={route.abandoned_cart} component={AbandonedCart} />
           <PrivateRoute path={route.price_upload} component={PriceUpload} />
+          <PrivateRoute path={route.CmsHome} component={CmsHome} />
+          <PrivateRoute path={route.BannerCMS} component={BannerCMS} />
+          <PrivateRoute path={route.CmsComponent} component={CmsComponent} />
+          <PrivateRoute path={route.SearchSettings} component={ElasticSearch} />
+          <PrivateRoute
+            path={route.ComboOfferConfig}
+            component={ComboOfferConfig}
+          />
           <PrivateRoute
             path={route.GemstoneSetting}
             component={GemstoneSetting}

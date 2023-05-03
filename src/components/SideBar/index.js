@@ -80,7 +80,6 @@ function SideBar() {
   function handleListItemClick(event, index) {
     setGlobalCtx({ ...globalCtx, selectedIndex: index });
   }
-  console.log(data);
   return (
     <>
       <Drawer
@@ -110,6 +109,7 @@ function SideBar() {
 
         <List>
           {data.menus.map((menuobj, index) => (
+            
             <>
               {menuobj.submenu ? (
                 <>
@@ -125,7 +125,7 @@ function SideBar() {
                         </ListItemIcon>
                         <ListItemText primary={menuobj.name} />
                         {globalCtx.isExpand &&
-                        globalCtx.optionname === menuobj.name ? (
+                          globalCtx.optionname === menuobj.name ? (
                           <ExpandLess />
                         ) : (
                           <ExpandMore />
@@ -143,7 +143,7 @@ function SideBar() {
                           {menuobj.submenu.map((submenuobj, subindex) => (
                             <>
                               {accesspages &&
-                              accesspages.indexOf(submenuobj.url) > -1 ? (
+                                accesspages.indexOf(submenuobj.url) > -1 ? (
                                 <Link
                                   underline="none"
                                   component={RouterLink}

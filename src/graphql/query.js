@@ -1454,6 +1454,8 @@ query MyQuery($productId: String!) {
         }
         minOrderQty
         maxOrderQty
+        isOrderable
+        orderShippingDays
       }
     }
     productCategory
@@ -2243,6 +2245,133 @@ export const attributesByMasterID = gql`
   }
 `;
 
+const ALLPAGESCMS = `query MyQuery {
+  allCdns {
+    nodes {
+      id
+      isActive
+      data
+      page
+    }
+  }
+}`;
+const CMSBYPAGES = `
+    query ($page: String!){
+        cdnByPage(page: $page) {
+          data
+          id
+          page
+        }
+      }
+    `;
+
+const CMS_UPDATE = `
+  mutation updateStore( $stringifyState: JSON!,$page: String!) {
+    updateCdnByPage(input: { cdnPatch: { data: $stringifyState }, page: $page }) {
+      cdn {
+        createdAt
+        data
+        id
+        isActive
+        nodeId
+        page
+        updatedAt
+      }
+    }
+  }
+`;
+
+const UPDATE_STATUS_CMS = `
+mutation updateStatus($isActive: Boolean!, $page: String!){
+  updateCdnByPage(input: {cdnPatch: {isActive: $isActive}, page: $page}){
+    cdn {
+      createdAt
+      data
+      id
+      isActive
+      nodeId
+      page
+      updatedAt
+    }
+  }
+}`;
+
+const CREATE_CMS = `
+mutation createNew($cloneData: JSON!, $page: String!){
+  createCdn(input: {cdn: {data: $cloneData, page: $page}}) {
+    cdn {
+      data
+      page
+    }
+  }
+}`;
+
+const UPDATE_URL = `
+mutation updateStatus($changePage: String!, $page: String!){
+  updateCdnByPage(input: {cdnPatch: {page: $changePage}, page: $page}){
+    cdn {
+      data
+      isActive
+      page
+    }
+  }
+}`;
+
+const LIST_COMBO_PRODUCTS = gql`
+  query ($after: Cursor, $first: Int) {
+    allProductComboOffers(after: $after, first: $first) {
+      nodes {
+        id
+        mainProduct
+        offeredProducts
+        productListByMainProduct {
+          id
+          productName
+          productImagesByProductId(condition: { imagePosition: 1 }) {
+            nodes {
+              imageUrl
+            }
+          }
+          transSkuListsByProductId(condition: { isdefault: true }) {
+            nodes {
+              markupPrice
+            }
+          }
+        }
+      }
+      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+`;
+
+const FETCH_COMBO_OFFERED_PRODUCTS = gql`
+  query ($offeredProducts: [String!]) {
+    allProductLists(filter: { productId: { in: $offeredProducts } }) {
+      nodes {
+        productId
+        productName
+        productImagesByProductId(condition: { imagePosition: 1 }) {
+          nodes {
+            imageUrl
+          }
+        }
+        transSkuListsByProductId(condition: { isdefault: true }) {
+          nodes {
+            sellingPrice
+            markupPrice
+          }
+        }
+      }
+    }
+  }
+`;
+
 export {
   PRODUCTCATEGORY,
   PRODUCTLIST,
@@ -2344,4 +2473,12 @@ export {
   CREATE_GEMSTONE_MARKUP,
   DELETE_MATERIAL_MARKUP,
   UPDATE_MATERIAL_MARKUP,
+  ALLPAGESCMS,
+  CMSBYPAGES,
+  CMS_UPDATE,
+  UPDATE_STATUS_CMS,
+  CREATE_CMS,
+  UPDATE_URL,
+  LIST_COMBO_PRODUCTS,
+  FETCH_COMBO_OFFERED_PRODUCTS,
 };
