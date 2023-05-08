@@ -117,6 +117,11 @@
       ]
     },
     {
+      "name": "CMS Home",
+      "url": "/cmsHome",
+      "icon": "https://styloriimages-staging.s3.ap-south-1.amazonaws.com/menu_icons/Styroli+Menu+Icons/VendorListNSS.svg"
+    },
+    {
       "name": "Image Upload",
       "url": "/imageUpload",
       "icon": "https://styloriimages-staging.s3.ap-south-1.amazonaws.com/menu_icons/Styroli+Menu+Icons/Inventory+and+shipping+icons/Warehouse+-++OutlineNSS.png"

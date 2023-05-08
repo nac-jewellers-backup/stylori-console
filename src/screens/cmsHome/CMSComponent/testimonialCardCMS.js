@@ -38,7 +38,7 @@ const tableData = [
   { type: "TEXT", name: "customerName" },
   { type: "TEXT", name: "productColor" },
   { type: "TEXT", name: "productId" },
-  { type: "TEXT", name: "skuUrl" },
+  { type: "TEXT", name: "skuUrl",width:"80px" },
   { type: "TEXT", name: "markupPrice" },
   { type: "TEXT", name: "message" },
   { type: "ACTION", name: "" },
