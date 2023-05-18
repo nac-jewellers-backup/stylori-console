@@ -159,7 +159,6 @@ export const ComboOfferConfig = (props) => {
   const [openForm, setOpenForm] = useState(false);
   const [progress, setProgress] = React.useState(0);
   const [editState,setEditState] = useState(initialState);
-  console.log("editState",editState);
   React.useEffect(() => {
     const socket = socketIOClient(API_URL);
     socket.on("combo_sync", (data) => {
@@ -177,7 +176,10 @@ export const ComboOfferConfig = (props) => {
   }, []);
 
   const handleComboForm = (product) => {
-    const offeredProduct = JSON.parse(product?.offeredProducts)
+    const offeredProduct = (product?.offeredProducts)
+    if(offeredProduct?.length < 2){
+      offeredProduct = JSON.parse(product?.offeredProducts)
+    }
     setEditState({
       ...editState,
       combo1:offeredProduct?.[0],
@@ -200,32 +202,56 @@ export const ComboOfferConfig = (props) => {
     setOpenForm(false)
   }
 
-  const handleSubmit = () => {
-    const offeredProducts = [editState?.combo1,editState?.combo2]
-    fetch(`${API_URL}/graphql`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: UPDATE_COMBO_BY_MAIN_PRODUCT,
-        variables: {
-          offeredProducts: offeredProducts,
-          discountValue: Number(editState.discountValue),
-          discountType: editState.discountType,
-          mainProduct: editState.mainProduct
-        },
-      }),
+  const validate = () => {
+    const validationField = ["combo1","combo2","discountType","discountValue","mainProduct"];
+    let error = [];
+    validationField.forEach((val) => {
+      if(editState[val] !== null && editState[val]?.length > 0){
+        error.push(true)
+      }else{
+        error.push(false)
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        
+    if(error.includes(false)){
+      return false
+    }else{
+      return true
+    }
+  }
+
+  const handleSubmit = () => {
+    if(validate()){
+      const offeredProducts = [editState?.combo1,editState?.combo2]
+      fetch(`${API_URL}/graphql`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: UPDATE_COMBO_BY_MAIN_PRODUCT,
+          variables: {
+            offeredProducts: offeredProducts,
+            discountValue: Number(editState.discountValue),
+            discountType: editState.discountType,
+            mainProduct: editState.mainProduct
+          },
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          window.location.reload();
+        });
+    }else{
+      snack.setSnack({
+        open: true,
+        severity: "error",
+        msg: `Please fill all the fields`,
       });
+    }
   }
 
   const { loading, data, error, refetch, networkStatus } =
     useQuery(LIST_COMBO_PRODUCTS);
-  console.log("daatatatata", data);
 
   const handleUpload = (file) => {
     var bodyFormData = new FormData();
