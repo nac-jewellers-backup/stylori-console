@@ -2296,6 +2296,21 @@ mutation updateStatus($isActive: Boolean!, $page: String!){
   }
 }`;
 
+const UPDATE_COMBO_BY_MAIN_PRODUCT = `
+  mutation updateCombo($offeredProducts: [String], $discountType: String!, $discountValue: Int!,$mainProduct: String!){
+    updateProductComboOfferByMainProduct(
+      input: {mainProduct: $mainProduct, productComboOfferPatch: {offeredProducts: $offeredProducts,discountValue:$discountValue,discountType:$discountType}}
+    ) {
+      productComboOffer {
+        mainProduct
+        discountValue
+        discountType
+        offeredProducts
+      }
+    }
+  }
+`;
+
 const CREATE_CMS = `
 mutation createNew($cloneData: JSON!, $page: String!){
   createCdn(input: {cdn: {data: $cloneData, page: $page}}) {
@@ -2324,6 +2339,8 @@ const LIST_COMBO_PRODUCTS = gql`
         id
         mainProduct
         offeredProducts
+        discountType
+        discountValue
         productListByMainProduct {
           id
           productName
@@ -2481,4 +2498,5 @@ export {
   UPDATE_URL,
   LIST_COMBO_PRODUCTS,
   FETCH_COMBO_OFFERED_PRODUCTS,
+  UPDATE_COMBO_BY_MAIN_PRODUCT
 };
