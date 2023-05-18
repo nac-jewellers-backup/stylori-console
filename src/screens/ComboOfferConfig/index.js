@@ -205,8 +205,10 @@ export const ComboOfferConfig = (props) => {
   const validate = () => {
     const validationField = ["combo1","combo2","discountType","discountValue","mainProduct"];
     let error = [];
+    debugger;
     validationField.forEach((val) => {
-      if(editState[val] !== null && editState[val]?.length > 0){
+      debugger;
+      if(editState[val] !== null && editState[val] !== ""){
         error.push(true)
       }else{
         error.push(false)
