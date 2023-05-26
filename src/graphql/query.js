@@ -2296,10 +2296,22 @@ mutation updateStatus($isActive: Boolean!, $page: String!){
   }
 }`;
 
-const UPDATE_COMBO_BY_MAIN_PRODUCT = `
-  mutation updateCombo($offeredProducts: [String], $discountType: String!, $discountValue: Int!,$mainProduct: String!){
+const UPDATE_COMBO_BY_MAIN_PRODUCT = gql`
+  mutation updateCombo(
+    $offeredProducts: [String]
+    $discountType: String!
+    $discountValue: Int!
+    $mainProduct: String!
+  ) {
     updateProductComboOfferByMainProduct(
-      input: {mainProduct: $mainProduct, productComboOfferPatch: {offeredProducts: $offeredProducts,discountValue:$discountValue,discountType:$discountType}}
+      input: {
+        mainProduct: $mainProduct
+        productComboOfferPatch: {
+          offeredProducts: $offeredProducts
+          discountValue: $discountValue
+          discountType: $discountType
+        }
+      }
     ) {
       productComboOffer {
         mainProduct
@@ -2385,6 +2397,14 @@ const FETCH_COMBO_OFFERED_PRODUCTS = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const GET_UNIQUE_PRODUCT = gql`
+  query ($productId: String!) {
+    product: productListByProductId(productId: $productId) {
+      id
     }
   }
 `;
@@ -2498,5 +2518,5 @@ export {
   UPDATE_URL,
   LIST_COMBO_PRODUCTS,
   FETCH_COMBO_OFFERED_PRODUCTS,
-  UPDATE_COMBO_BY_MAIN_PRODUCT
+  UPDATE_COMBO_BY_MAIN_PRODUCT,
 };

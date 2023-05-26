@@ -17,9 +17,10 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { useQuery } from "react-apollo";
+import { useApolloClient, useQuery } from "react-apollo";
 import {
   FETCH_COMBO_OFFERED_PRODUCTS,
+  GET_UNIQUE_PRODUCT,
   LIST_COMBO_PRODUCTS,
   UPDATE_COMBO_BY_MAIN_PRODUCT,
 } from "../../graphql/query";
@@ -31,6 +32,7 @@ import axios from "axios";
 import CircularProgressWithLabel from "../../components/CircularProgress";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { Autocomplete } from "@material-ui/lab";
+import ChipInput from "material-ui-chip-input";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,10 +65,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#3f51b5",
     fontWeight: 600,
   },
-  alignItems:{
-    display:'flex',
-    alignItems:"center",
-  }
+  alignItems: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
 
 const InduvidualProductCard = (props) => {
@@ -99,14 +101,13 @@ const InduvidualProductCard = (props) => {
 const ComboCard = (props) => {
   const classes = useStyles();
   let { offeredProducts } = props;
-  if(offeredProducts.length < 2){
-    offeredProducts = JSON.parse(offeredProducts);
+  if (offeredProducts.length < 2) {
+    offeredProducts = offeredProducts;
   }
   const { loading, data, error, refetch, networkStatus } = useQuery(
     FETCH_COMBO_OFFERED_PRODUCTS,
     { variables: { offeredProducts } }
   );
-  console.log("AllProductdata", data);
   return (
     <Grid
       container
@@ -116,7 +117,7 @@ const ComboCard = (props) => {
       spacing={2}
     >
       <Grid item>
-        <Typography style={{fontWeight:600}}>Main Product</Typography>
+        <Typography style={{ fontWeight: 600 }}>Main Product</Typography>
         <InduvidualProductCard {...props} />
         <Typography className={classes.alignCardTypo}>
           Product Id :{" "}
@@ -147,18 +148,21 @@ const ComboCard = (props) => {
 
 export const ComboOfferConfig = (props) => {
   const initialState = {
-    combo1:"",
-    combo2:"",
-    discountType:"",
-    discountValue:"",
-    mainProduct:""
-  }
+    offeredProducts: [],
+    discountType: "",
+    discountValue: 0,
+    mainProduct: "",
+  };
 
   const classes = useStyles();
   const snack = React.useContext(AlertContext);
   const [openForm, setOpenForm] = useState(false);
   const [progress, setProgress] = React.useState(0);
-  const [editState,setEditState] = useState(initialState);
+  const [editState, setEditState] = useState(initialState);
+  const [offerError, setOfferError] = React.useState({});
+
+  const client = useApolloClient();
+
   React.useEffect(() => {
     const socket = socketIOClient(API_URL);
     socket.on("combo_sync", (data) => {
@@ -176,81 +180,102 @@ export const ComboOfferConfig = (props) => {
   }, []);
 
   const handleComboForm = (product) => {
-    const offeredProduct = (product?.offeredProducts)
-    if(offeredProduct?.length < 2){
-      offeredProduct = JSON.parse(product?.offeredProducts)
-    }
     setEditState({
       ...editState,
-      combo1:offeredProduct?.[0],
-      combo2:offeredProduct?.[1],
-      discountType:product?.discountType,
-      discountValue:product?.discountValue,
-      mainProduct:product?.mainProduct
+      offeredProducts: product?.offeredProducts,
+      discountType: product?.discountType,
+      discountValue: product?.discountValue,
+      mainProduct: product?.mainProduct,
     });
-    setOpenForm(true)
-  }
+    setOpenForm(true);
+  };
 
-  const handleChange = (name,value) => {
+  const chipAdd = (chipValue) => {
+    client
+      .query({ query: GET_UNIQUE_PRODUCT, variables: { productId: chipValue } })
+      .then(({ data }) => {
+        if (data?.product) {
+          setEditState({
+            ...editState,
+            offeredProducts: [...editState.offeredProducts, chipValue],
+          });
+        } else {
+          setOfferError({
+            ...offerError,
+            offeredProducts: `${chipValue} is not a valid product!`,
+          });
+        }
+      })
+      .catch(console.log);
+  };
+
+  const chipDelete = (_chip, index) => {
+    let { offeredProducts } = editState;
+    offeredProducts.splice(index, 1);
     setEditState({
-      ...editState,[name]:value
-    })
-  }
+      ...editState,
+      offeredProducts,
+    });
+  };
+
+  const handleChange = (name, value) => {
+    if (name == "discountValue") value = Number(value);
+    setEditState({
+      ...editState,
+      [name]: value,
+    });
+  };
 
   const handleClose = () => {
-    setEditState(initialState)
-    setOpenForm(false)
-  }
+    setEditState(initialState);
+    setOpenForm(false);
+  };
 
   const validate = () => {
-    const validationField = ["combo1","combo2","discountType","discountValue","mainProduct"];
+    const validationField = [
+      "offeredProducts",
+      "discountType",
+      "discountValue",
+      "mainProduct",
+    ];
     let error = [];
-    debugger;
     validationField.forEach((val) => {
-      debugger;
-      if(editState[val] !== null && editState[val] !== ""){
-        error.push(true)
-      }else{
-        error.push(false)
+      if (Array.isArray(editState[val]) && editState[val].length <= 1) {
+        error.push(true);
       }
-    })
-    if(error.includes(false)){
-      return false
-    }else{
-      return true
+      if (editState[val] !== null && editState[val] !== "") {
+        error.push(true);
+      } else {
+        error.push(false);
+      }
+    });
+    if (error.includes(false)) {
+      return false;
+    } else {
+      return true;
     }
-  }
+  };
 
   const handleSubmit = () => {
-    if(validate()){
-      const offeredProducts = [editState?.combo1,editState?.combo2]
-      fetch(`${API_URL}/graphql`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: UPDATE_COMBO_BY_MAIN_PRODUCT,
-          variables: {
-            offeredProducts: offeredProducts,
-            discountValue: Number(editState.discountValue),
-            discountType: editState.discountType,
-            mainProduct: editState.mainProduct
-          },
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          window.location.reload();
-        });
-    }else{
+    if (validate()) {
+      client
+        .mutate({
+          mutation: UPDATE_COMBO_BY_MAIN_PRODUCT,
+          variables: editState,
+        })
+        .then(() => {
+          refetch();
+          setOpenForm(false);
+        })
+        .catch(console.log);
+    } else {
       snack.setSnack({
         open: true,
         severity: "error",
         msg: `Please fill all the fields`,
       });
     }
-  }
+  };
 
   const { loading, data, error, refetch, networkStatus } =
     useQuery(LIST_COMBO_PRODUCTS);
@@ -300,7 +325,7 @@ export const ComboOfferConfig = (props) => {
           style={{ color: "#000" }}
           onClick={() => {
             var a = document.createElement("a");
-            a.href = `${process.env.PUBLIC_URL}/sample/sample_combo.csv`;
+            a.href = `https://s3.ap-southeast-1.amazonaws.com/media.nacjewellers.com/resources/assets/sample_combo.csv`;
             a.setAttribute("download", "sample_combo.csv");
             a.click();
           }}
@@ -347,7 +372,10 @@ export const ComboOfferConfig = (props) => {
             <div className={classes.comboCard}>
               <ComboCard {...products} />
             </div>
-            <div className={classes.alignItems} style={{ padding: "0px 10px",justifyContent:"space-between" }}>
+            <div
+              className={classes.alignItems}
+              style={{ padding: "0px 10px", justifyContent: "space-between" }}
+            >
               <div>
                 <Typography>
                   Discount Type :{" "}
@@ -355,15 +383,23 @@ export const ComboOfferConfig = (props) => {
                     {products?.discountType}
                   </span>
                 </Typography>
-                <Typography>Discount Value : <span className={classes.details}>{products?.discountValue}</span></Typography>
+                <Typography>
+                  Discount Value :{" "}
+                  <span className={classes.details}>
+                    {products?.discountValue}
+                  </span>
+                </Typography>
               </div>
-              <Button onClick={()=>handleComboForm(products)} variant="contained" color="primary">
+              <Button
+                onClick={() => handleComboForm(products)}
+                variant="contained"
+                color="primary"
+              >
                 Edit
               </Button>
             </div>
           </Grid>
-        ))
-      }
+        ))}
       <Dialog
         open={openForm}
         onClose={() => handleClose()}
@@ -373,7 +409,10 @@ export const ComboOfferConfig = (props) => {
         <DialogTitle id="alert-dialog-title">Edit Combo Offer</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <div className={classes.alignItems} style={{marginBottom:"18px"}}>
+            <div
+              className={classes.alignItems}
+              style={{ marginBottom: "18px" }}
+            >
               <TextField
                 required
                 id="outlined-required"
@@ -381,70 +420,63 @@ export const ComboOfferConfig = (props) => {
                 size="small"
                 defaultValue="Hello World"
                 variant="outlined"
-                disabled={true}  
+                disabled={true}
                 name="mainProduct"
-                value={editState?.mainProduct}       
-              >
-              </TextField>
+                value={editState?.mainProduct}
+              ></TextField>
             </div>
-            <Grid container spacing={2} style={{marginBottom:"18px"}}>
-              <Grid item xs={6}>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    label="Combo Product 1"
-                    size="small"
-                    defaultValue="Hello World"
-                    variant="outlined"
-                    name="combo1"
-                    onChange={(e)=>handleChange("combo1",e.target.value)}
-                    value={editState?.combo1}         
-                  >
-                  </TextField>
-              </Grid>
-              <Grid item xs={6}>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    size="small"
-                    label="Combo Product 2"
-                    defaultValue="Hello World"
-                    variant="outlined"
-                    name="combo2"
-                    onChange={(e)=>handleChange("combo2",e.target.value)}
-                    value={editState?.combo2}         
-                  >
-                  </TextField>
+            <Grid container spacing={2} style={{ marginBottom: "18px" }}>
+              <Grid item xs={12}>
+                <ChipInput
+                  value={editState?.offeredProducts}
+                  onAdd={chipAdd}
+                  onDelete={chipDelete}
+                  fullWidth
+                  variant="outlined"
+                  label={"Offered Products"}
+                  error={Boolean(offerError?.offeredProducts)}
+                  helperText={offerError?.offeredProducts}
+                />
               </Grid>
             </Grid>
-            <Grid container spacing={2} style={{marginBottom:"18px"}}>
+            <Grid container spacing={2} style={{ marginBottom: "18px" }}>
               <Grid item xs={6}>
-              <Autocomplete
-                id="combo-box-demo"
-                options={["FLAT","PERCENTAGE"]}
-                getOptionLabel={(option) => option}
-                // style={{ width: 300 }}
-                value={editState?.discountType}
-                // onChange={(event, newValue) => {
-                //   setValue(newValue);
-                // }}
-                size="small"
-                renderInput={(params) => <TextField size="small" {...params} label="Combo box" variant="outlined" />}
-              />
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={["FLAT", "PERCENTAGE"]}
+                  getOptionLabel={(option) => option}
+                  value={editState?.discountType}
+                  onChange={(event, newValue) => {
+                    setEditState({
+                      ...editState,
+                      discountType: newValue,
+                    });
+                  }}
+                  size="small"
+                  renderInput={(params) => (
+                    <TextField
+                      size="small"
+                      {...params}
+                      label="Combo box"
+                      variant="outlined"
+                    />
+                  )}
+                />
               </Grid>
               <Grid item xs={6}>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    size="small"
-                    label="Discount Value"
-                    defaultValue="Hello World"
-                    variant="outlined"
-                    name="discountValue"
-                    onChange={(e)=>handleChange("discountValue",e.target.value)}
-                    value={editState?.discountValue}         
-                  >
-                  </TextField>
+                <TextField
+                  required
+                  id="outlined-required"
+                  size="small"
+                  label="Discount Value"
+                  defaultValue="Hello World"
+                  variant="outlined"
+                  name="discountValue"
+                  onChange={(e) =>
+                    handleChange("discountValue", e.target.value)
+                  }
+                  value={editState?.discountValue}
+                ></TextField>
               </Grid>
             </Grid>
           </DialogContentText>
