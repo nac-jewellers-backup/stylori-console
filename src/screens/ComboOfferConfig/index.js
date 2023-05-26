@@ -15,6 +15,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Switch,
+  FormControlLabel,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useApolloClient, useQuery } from "react-apollo";
@@ -152,6 +154,7 @@ export const ComboOfferConfig = (props) => {
     discountType: "",
     discountValue: 0,
     mainProduct: "",
+    isActive: true,
   };
 
   const classes = useStyles();
@@ -186,6 +189,7 @@ export const ComboOfferConfig = (props) => {
       discountType: product?.discountType,
       discountValue: product?.discountValue,
       mainProduct: product?.mainProduct,
+      isActive: product?.isActive,
     });
     setOpenForm(true);
   };
@@ -389,6 +393,12 @@ export const ComboOfferConfig = (props) => {
                     {products?.discountValue}
                   </span>
                 </Typography>
+                <Typography>
+                  Combo Status :{" "}
+                  <span className={classes.details}>
+                    {products?.isActive ? "Active" : "In-Active"}
+                  </span>
+                </Typography>
               </div>
               <Button
                 onClick={() => handleComboForm(products)}
@@ -424,6 +434,21 @@ export const ComboOfferConfig = (props) => {
                 name="mainProduct"
                 value={editState?.mainProduct}
               ></TextField>
+              <FormControlLabel
+                style={{ margin: "5px" }}
+                control={
+                  <Switch
+                    checked={editState.isActive}
+                    onChange={({ target }) => {
+                      setEditState({
+                        ...editState,
+                        isActive: target.checked,
+                      });
+                    }}
+                  />
+                }
+                label={"Active"}
+              />
             </div>
             <Grid container spacing={2} style={{ marginBottom: "18px" }}>
               <Grid item xs={12}>

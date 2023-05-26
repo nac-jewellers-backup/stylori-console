@@ -2302,6 +2302,7 @@ const UPDATE_COMBO_BY_MAIN_PRODUCT = gql`
     $discountType: String!
     $discountValue: Int!
     $mainProduct: String!
+    $isActive: Boolean!
   ) {
     updateProductComboOfferByMainProduct(
       input: {
@@ -2310,6 +2311,7 @@ const UPDATE_COMBO_BY_MAIN_PRODUCT = gql`
           offeredProducts: $offeredProducts
           discountValue: $discountValue
           discountType: $discountType
+          isActive: $isActive
         }
       }
     ) {
@@ -2318,6 +2320,7 @@ const UPDATE_COMBO_BY_MAIN_PRODUCT = gql`
         discountValue
         discountType
         offeredProducts
+        isActive
       }
     }
   }
@@ -2367,6 +2370,7 @@ const LIST_COMBO_PRODUCTS = gql`
             }
           }
         }
+        isActive
       }
       totalCount
       pageInfo {
