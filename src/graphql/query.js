@@ -2296,6 +2296,36 @@ mutation updateStatus($isActive: Boolean!, $page: String!){
   }
 }`;
 
+const UPDATE_COMBO_BY_MAIN_PRODUCT = gql`
+  mutation updateCombo(
+    $offeredProducts: [String]
+    $discountType: String!
+    $discountValue: Int!
+    $mainProduct: String!
+    $isActive: Boolean!
+  ) {
+    updateProductComboOfferByMainProduct(
+      input: {
+        mainProduct: $mainProduct
+        productComboOfferPatch: {
+          offeredProducts: $offeredProducts
+          discountValue: $discountValue
+          discountType: $discountType
+          isActive: $isActive
+        }
+      }
+    ) {
+      productComboOffer {
+        mainProduct
+        discountValue
+        discountType
+        offeredProducts
+        isActive
+      }
+    }
+  }
+`;
+
 const CREATE_CMS = `
 mutation createNew($cloneData: JSON!, $page: String!){
   createCdn(input: {cdn: {data: $cloneData, page: $page}}) {
@@ -2324,6 +2354,8 @@ const LIST_COMBO_PRODUCTS = gql`
         id
         mainProduct
         offeredProducts
+        discountType
+        discountValue
         productListByMainProduct {
           id
           productName
@@ -2338,6 +2370,7 @@ const LIST_COMBO_PRODUCTS = gql`
             }
           }
         }
+        isActive
       }
       totalCount
       pageInfo {
@@ -2368,6 +2401,14 @@ const FETCH_COMBO_OFFERED_PRODUCTS = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const GET_UNIQUE_PRODUCT = gql`
+  query ($productId: String!) {
+    product: productListByProductId(productId: $productId) {
+      id
     }
   }
 `;
@@ -2481,4 +2522,5 @@ export {
   UPDATE_URL,
   LIST_COMBO_PRODUCTS,
   FETCH_COMBO_OFFERED_PRODUCTS,
+  UPDATE_COMBO_BY_MAIN_PRODUCT,
 };
